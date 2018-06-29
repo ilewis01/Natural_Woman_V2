@@ -1,5 +1,5 @@
 
-from . import db
+from . import db, bcrypt
 from datetime import datetime
 
 class User(db.Model):
@@ -8,7 +8,7 @@ class User(db.Model):
 	fname 				= db.Column('fname', db.String(120), nullable=False)
 	lname 				= db.Column('lname', db.String(120), nullable=False)
 	email 				= db.Column('email', db.String(120), nullable=False, unique=True)
-	password 			= db.Column('password', db.String(60), nullable=False)
+	password 			= db.Column('password', db.Binary(60), nullable=False)
 	authenticated 		= db.Column('authenticated', db.Boolean, default=False)
 	is_admin 			= db.Column('is_admin', db.Boolean, default=False)
 	product_permission 	= db.Column('product_permission', db.Boolean, default=False)
@@ -16,11 +16,11 @@ class User(db.Model):
 	blog_permission 	= db.Column('blog_permission', db.Boolean, default=False)
 	gallery_permission 	= db.Column('gallery_permission', db.Boolean, default=False)
 
-	def __init__(self, fname, lname, email, password):
+	def __init__(self, fname, lname, email, plaintext_password):
 		self.fname = fname
 		self.lname = lname
 		self.email = email
-		self.password = password
+		self.password = bcrypt.generate_password_hash(plaintext_password)
 		# self.set_permissions()
 
 	def save(self):
@@ -39,8 +39,12 @@ class User(db.Model):
 		self.blog_permission 	= p.blog_permission
 		self.gallery_permission = p.gallery_permission
 
-	def password_validated(self, password):
-		return str(self.password) == str(password)
+	def password_validated(self, plaintext_password):
+		return bcrypt.check_password_hash(self.password, plaintext_password)
+
+	def set_password(self, plaintext_password):
+		self.password = bcrypt.generate_password_hash(plaintext_password)
+		self.save()
 
 	def is_authenticated(self):
 		return self.authenticated

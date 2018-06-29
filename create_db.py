@@ -17,6 +17,18 @@ c0 = Company()
 a2.active = False
 a3.active = False
 
+u1 = User("Deez", "Nutz", "mynutz@gmail.com", "1234" )
+u2 = User("Nasty", "Whore", "hotmess@gmail.com", "password")
+u3 = User("Fake", "Bitch", "fake@fake.com", "work")
+u1.is_admin = True
+u2.product_permission = True
+u3.about_permission = True
+u3.blog_permission = True
+u3.gallery_permission = True
+
+u1.save()
+u2.save()
+u3.save()
 a1.save()
 a2.save()
 a3.save()

@@ -45,12 +45,11 @@ def auth():
 @login_required
 def logout():
 	content = {}
-	user = current_user
-	name = str(user.fname) + " " + str(user.lname)
+	name = str(current_user.fname) + " " + str(current_user.lname)
 	content["title"] = "Natural Woman Salon | Logout"
 	content['name'] = name
-	user.authenticated = False
-	user.save()
+	current_user.authenticated = False
+	current_user.save()
 	logout_user()
 	return render_template("admin/logout.html", **content)
 
