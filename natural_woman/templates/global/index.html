@@ -1,0 +1,19 @@
+<body style="text-align:center; font-family:Arial;">
+	<h1>{{title}}</h1>
+
+	<br><br>
+
+	<div>
+		<h3>Login</h3>
+		<form action="/auth" method="POST" name="login_form">
+			<input type="email" name="email" id="email" placeholder="Email" required> <br>
+			<input type="password" name="password" id="password" placeholder="Password" required> <br>
+			<input type="submit" value="subnit">
+		</form>
+	</div>
+
+	<br><br>
+	<a href="/sign_up">Register</a>
+
+	<h4 style="color:red;">Button Index: {{btn_index}}</h4>
+</body>
