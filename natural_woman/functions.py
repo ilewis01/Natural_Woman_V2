@@ -28,6 +28,12 @@ def index_content():
 	content['btn_index'] = -1
 	return content
 
+def home_content():
+	content = {}
+	content['title'] = "Natural Woman Salon | Home"
+	content['btn_index'] = 0
+	return content
+
 def register_user(fname, lname, email, password):
 	content = {}
 	if not user_exist(email):

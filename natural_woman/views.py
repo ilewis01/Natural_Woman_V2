@@ -8,6 +8,11 @@ def index():
 	content = index_content()
 	return render_template("global/index.html", **content)
 
+@app.route('/')
+def home():
+	content = home_comtent()
+	return render_template("global/index.html", **content)
+
 @app.route('/sign_up')
 def sign_up():
 	title = "Natural Woman Salon | Registration"
