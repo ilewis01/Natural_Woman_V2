@@ -166,7 +166,7 @@ class Blog(db.Model):
 
 	def getDate(self):
 		date = {}
-		date["date"] = salf.date.strftime("%B %d, %Y")
+		date["date"] = self.date.strftime("%B %d, %Y")
 		date["time"] = self.date.strftime("%I %m %p")
 		return date
 

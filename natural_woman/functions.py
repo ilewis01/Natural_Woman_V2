@@ -2,6 +2,7 @@ from flask_mail import Message
 from threading import Thread
 from natural_woman.models import *
 from . import mail, app
+from flask import request
 
 def user_exist(email):
 	exist = False
@@ -21,6 +22,16 @@ def fetch_user_by_email(email):
 			user = u
 			break
 	return user
+
+def get_blog_by_id(bid):
+	bid = int(bid)
+	blogs = Blog.query.all()
+	q = -1
+	for b in blogs:
+		if b.id == bid:
+			q = b
+			break
+	return q
 
 def index_content():
 	content = {}
@@ -69,6 +80,65 @@ def send_email(subject, sender, recipients, text_body, html_body):
 # 	msg.html = html_body
 # 	thr = Thread(target=send_async_email, args=[msg])
 # 	thr.start()
+
+def get_blog_list():
+	data = []
+	blogs = Blog.query.all()
+	count = 0
+	for b in blogs:
+		d = {}
+		d['blog'] = b
+		d['date'] = b.getDate()
+		d['index'] = count
+		count += 1
+		data.append(d)
+	return data
+
+def get_product_list():
+	return Product.query.all()
+
+def get_about_list():
+	data = {}
+	abouts = About.query.all()
+	a_list = []
+	for a in abouts:
+		if a.active == False:
+			a_list.append(a)
+		else:
+			data['current'] = a
+	data['inactive'] = a_list
+	return data
+
+def fetch_target_fields():
+	data 	= {}
+	target 	= str(request.form['target_model'])
+	model 	= None
+	message = None
+
+	if target == "new_blog":
+		subject = str(request.form['subject'])
+		content = str(request.form['blog_content'])
+		model 	= Blog(subject, content)
+		message = "A New Blog Has Been Successfully Added"
+		model.save()
+	elif target == "blog":
+		action = str(request.form['target_action'])
+		model_id = str(request.form['target_id'])
+		model = get_blog_by_id(model_id)
+		if action == "delete":
+			model.delete()
+			message = "Blog Post Successfully Deleted"
+		elif action == "update":
+			model.subject = str(request.form["subject"])
+			model.content = str(request.form["content"])
+			model.save()
+			message = "Blog Post Successfully Updated"
+
+
+	data['message'] 	= message
+	data['title'] 		= "Natural Woman Salon | Administration"
+	data['btn_index'] 	= 14
+	return data
 
 
 

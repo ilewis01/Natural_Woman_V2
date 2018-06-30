@@ -33,21 +33,222 @@
     </head>
 
     <body class="global-style">
-        <input type="hidden" id="btn_index" value="{{btn_index}}">
+        <form action="#" method="POST" id="main_admin_form">
+            <input type="hidden" id="btn_index" value="{{btn_index}}">
+            <input type="hidden" id="frame_active" value="0">
+            <input type="hidden" id="blog_active" value="0">
+            <input type="hidden" id="selected_e" value="init_val">
+        </form>
+
         <div class="alert1 hidden" id="msg1">
-            <div class="login-wrapper">
+            <div class="blog-post-wrapper">
                 <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>Login</h3>
-                <form action="/auth" method="POST" id="login_form">
-                    <input type="email" name="email" id="email" placeholder="Email" required>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
-                    <div class="space"><a href="#">Forgot Password?</a></div>
+                <h3>New Blog Post</h3>
+                <form action="/auth" method="POST" id="new_blog_form">
+                    <input type="hidden" name="target_model" id="target1" value="new_blog">
+                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                    <div class="blog_content_wrapper">
+                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body" required></textarea>
+                    </div>
                 </form>
 
-                <button id="login-btn">Submit</button>
-                <button id="close-this-1">Cancel</button>
+                <div class="blog-btn-wrapper">
+                    <button id="target_new_blog">Post</button>
+                    <button id="close-this-1">Cancel</button>
+                </div>
             </div>
         </div>
+
+        <div class="alert2 hidden" id="msg2">
+            <div class="blog-manager-container center_v_mode">
+                <div class="frame_general">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>Manage Blogs</h3>
+
+                    <form action="/edit_success" method="POST" id="blog_editor_form">
+                        <input type="hidden" name="target_model" id="target_model2" value="blog">
+                        <input type="hidden" name="target_action" id="target_action2" value="">
+                        <input type="hidden" name="target_id" id="target_id2" value="">
+                    </form>
+
+                    <div class="editor-cont">
+                        <div class="select-editor">
+                            <ul>
+                                {% for b in blogs %}
+                                <a href="javascript: load_selected_editor('{{b.index}}');" id="at_{{b.index}}">
+                                    <input type="hidden" id="id_{{b.index}}" value="{{b.blog.id}}">
+                                    <input type="hidden" id="subject_{{b.index}}" value="{{b.blog.subject}}">
+                                    <input type="hidden" id="content_{{b.index}}" value="{{b.blog.content}}">
+                                    <input type="hidden" id="date_{{b.index}}" value="{{b.date}}">
+                                    <input type="hidden" id="time_{{b.index}}" value="{{b.time}}">
+                                    <li id="li_{{b.index}}">
+                                        <div><span>Subject: </span>{{b.blog.subject}}</div>
+                                        <div><span>Posted on: </span>{{b.date.date}} at <em>{{b.date.time}}</em></div>
+                                    </li>
+                                </a>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="frame-btn-wrapper-3">
+                        <button id="launch_blog_editor">Edit</button>
+                        <button id="request_blog_delete">Delete</button>
+                        <button id="close-this-2">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert3 hidden" id="msg3">
+            <div class="blog-manager-container center_v_mode">
+                <div class="frame_general">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>Product manager</h3>
+
+                    <div class="editor-cont">
+                    </div>
+
+                    <div class="frame-btn-wrapper-3">
+                        <button id="close-this-1">Edit</button>
+                        <button id="target_new_blog">Delete</button>
+                        <button id="close-this-3">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert4 hidden" id="msg4">
+            <div class="blog-manager-container center_v_mode">
+                <div class="frame_general">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>Manage Gallery Images</h3>
+
+                    <div class="editor-cont">
+                    </div>
+
+                    <div class="frame-btn-wrapper-3">
+                        <button id="close-this-1">Edit</button>
+                        <button id="target_new_blog">Delete</button>
+                        <button id="close-this-4">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert5 hidden" id="msg5">
+            <div class="blog-manager-container center_v_mode">
+                <div class="frame_general">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>About Us Statement</h3>
+
+                    <div class="editor-cont">
+                        <div class="select-editor">
+                        </div>
+                    </div>
+
+                    <div class="frame-btn-wrapper-3">
+                        <button id="close-this-1">Edit</button>
+                        <button id="target_new_blog">Delete</button>
+                        <button id="close-this-5">Exit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert6 hidden" id="msg6">
+            <div class="blog-manager-container">
+                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                <h3>Company Profile</h3>
+                <form action="/auth" method="POST" id="product_manager_form">
+                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                    <div class="blog_content_wrapper">
+                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body"></textarea>
+                    </div>
+                </form>
+                <div class="blog-btn-wrapper">
+                    <button id="login-btn">Post</button>
+                    <button id="close-this-6">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert7 hidden" id="msg7">
+            <div class="blog-manager-container">
+                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                <h3>User Management</h3>
+                <form action="/auth" method="POST" id="product_manager_form">
+                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                    <div class="blog_content_wrapper">
+                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body"></textarea>
+                    </div>
+                </form>
+                <div class="blog-btn-wrapper">
+                    <button id="login-btn">Post</button>
+                    <button id="close-this-7">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert8 hidden" id="msg8">
+            <div class="blog-manager-container">
+                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                <h3>Authorize New User</h3>
+                <form action="/auth" method="POST" id="product_manager_form">
+                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                    <div class="blog_content_wrapper">
+                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body"></textarea>
+                    </div>
+                </form>
+                <div class="blog-btn-wrapper">
+                    <button id="login-btn">Post</button>
+                    <button id="close-this-8">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert9 hidden" id="msg9">
+            <div class="blog-manager-container">
+                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                <h3>{{message}}</h3>
+                
+                <div class="blog-btn-wrapper">
+                    <button id="close-this-9">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert10 hidden" id="editor_builder">
+        </div>
+
+        <div class="alert15 hidden" id="err">
+            <div class="error_wrapper center_v_mode">
+                <div class="error_frame">
+                    <div>
+                        <h3 id="error_header"></h3>
+
+                        <div>
+                            <span id="label1"></span>
+                            <em id="obj1"></em><br>
+                            <span id="label2"></span>
+                            <em id="obj2"></em><br>
+                            <span id="label3"></span>
+                            <em id="obj3"></em>
+                        </div>
+
+                        <div id="error_msg_m1"></div>
+                        <span id="error_msg_m2"></span>
+                    </div>
+                    
+                    <div class="blog-btn-wrapper">
+                        <button id="obj_action"></button>
+                        <button id="close-this-15">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <nav class="navbar navbar-expand-sm" role="navigation">
             <div class="navbar-header">
@@ -66,15 +267,83 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" id="btn0"><a id="a0" href="/admin_home">Tools</a></li>
+                    <li class="nav-item" id="btn0"><a id="a0" href="/blog_editor">Management Tools</a></li>
                     <li class="nav-item" id="btn1"><a id="a1" href="#">My Account</a></li>
-                    <li class="nav-item" id="btn2"><a id="a2" href="/logout">Logout</a></li>
+                    <li class="nav-item" id="btn1"><a id="a2" href="#">Email</a></li>
+                    <li class="nav-item" id="btn2"><a id="a3" href="/logout">Logout</a></li>
                 </ul>
             </div>
         </nav>
 
         <div class="content-wrapper btn_background">
             <div class="content-a">
+                <div class="admin-content-wrapper">
+                    <div class="v-split-top">
+                        <div class="admin-h-split">
+                        </div>
+
+                        <div class="admin-h-split" id="ab1">
+                            <div class="admin-item">
+                                <div class="admin-h">New Blog Post<br><span>empty</span></div>
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                            <div class="admin-item" id="ab2">
+                                <div class="admin-h">Manage Blogs<br><span>empty</span></div>
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                            <div class="admin-item" id="ab3">
+                                <div class="admin-h">Manage Products<br><span>empty</span></div>
+
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split" id="ab4">
+                            <div class="admin-item">
+                                <div class="admin-h">Manage Gallery<br>Images</div>
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                        </div>
+                    </div>
+
+                    <div class="v-split-bottom">
+                        <div class="admin-h-split">
+                        </div>
+
+                        <div class="admin-h-split">
+                            <div class="admin-item"  id="ab5">
+                                <div class="admin-h">About Statement<br><span>empty</span></div>
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                            <div class="admin-item" id="ab6">
+                                <div class="admin-h">Company Profile<br><span>empty</span></div>
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                            <div class="admin-item" id="ab7">
+                                <div class="admin-h">User Management<br><span>empty</span></div>
+
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                            <div class="admin-item" id="ab8">
+                                <div class="admin-h">Authorize New User<br><span>empty</span></div>
+                            </div>
+                        </div>
+
+                        <div class="admin-h-split">
+                        </div>
+                    </div>
+                </div> <!--END BUTTONS -->
                 {% block content %}
                 {% endblock %}
             </div>

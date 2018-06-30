@@ -67,6 +67,83 @@ def admin_home():
 	content['btn_index'] = 6
 	return render_template("admin/home.html", **content)
 
+@app.route('/blog_editor')
+@login_required
+def blog_editor():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | Blog Management"
+	content['btn_index'] = 7
+	content['blogs'] = get_blog_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/product_editor')
+@login_required
+def product_editor():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | Product Management"
+	content['btn_index'] = 8
+	content["product"] = get_product_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/about_editor')
+@login_required
+def about_editor():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | About Us"
+	content['btn_index'] = 9
+	content["statements"] = get_about_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/gallery_editor')
+@login_required
+def gallery_editor():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | Image Manager"
+	content['btn_index'] = 10
+	content["statements"] = get_about_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/company_editor')
+@login_required
+def company_editor():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | Company Profile"
+	content['btn_index'] = 11
+	content["product"] = get_product_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/user_editor')
+@login_required
+def user_editor():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | Manage Users"
+	content['btn_index'] = 12
+	content["statements"] = get_about_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/user_access')
+@login_required
+def user_access():
+	content = {}
+	content['user'] = current_user
+	content['title'] = "Natural Woman Salon | User Access"
+	content['btn_index'] = 13
+	content["statements"] = get_about_list()
+	return render_template("admin/editor.html", **content)
+
+@app.route('/edit_success', methods=["POST"])
+@login_required
+def edit_success():
+	if request.method == "POST":
+		content = fetch_target_fields()
+		return render_template("admin/editor.html", **content)
+
 
 
 
