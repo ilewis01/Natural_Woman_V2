@@ -84,7 +84,7 @@ def product_editor():
 	content['user'] = current_user
 	content['title'] = "Natural Woman Salon | Product Management"
 	content['btn_index'] = 8
-	content["product"] = get_product_list()
+	content["products"] = get_product_list()
 	return render_template("admin/editor.html", **content)
 
 @app.route('/about_editor')

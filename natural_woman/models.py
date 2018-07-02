@@ -95,11 +95,11 @@ class Product(db.Model):
 	description 	= db.Column('description', db.String, nullable=False)
 	price 			= db.Column('price', db.Integer, nullable=False)
 
-	def __init__(self, name, description, price, position):
+	def __init__(self, name, description, price):
 		self.name 			= name
 		self.description 	= description
 		self.price 			= price
-		self.position 		= position
+		self.position 		= 0
 
 	def save(self):
 		db.session.add(self)

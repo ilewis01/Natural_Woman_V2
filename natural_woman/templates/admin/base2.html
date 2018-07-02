@@ -38,6 +38,7 @@
             <input type="hidden" id="frame_active" value="0">
             <input type="hidden" id="blog_active" value="0">
             <input type="hidden" id="selected_e" value="init_val">
+            <input type="hidden" id="load_meta_model" value="{{model}}">
         </form>
 
         <div class="alert1 hidden" id="msg1">
@@ -101,17 +102,41 @@
         </div>
 
         <div class="alert3 hidden" id="msg3">
-            <div class="blog-manager-container center_v_mode">
+            <div class="pop_editor_wrap center_v_mode">
                 <div class="frame_general">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>Product manager</h3>
 
+                    <form action="/edit_success" method="POST" id="product_delete_form">
+                        <input type="hidden" name="target_model" id="target_modelproddel" value="product">
+                        <input type="hidden" name="target_action" id="target_action_proddel" value="delete">
+                        <input type="hidden" name="target_id" id="target_id_proddel" value="">
+                    </form>
+
                     <div class="editor-cont">
+                        <div class="select-editor">
+                            <ul>
+                                {% for p in products %}
+                                <a href="javascript: load_selected_editor('{{p.index}}');" id="at_{{p.index}}">
+                                    <input type="hidden" id="id_{{p.index}}" value="{{p.product.id}}">
+                                    <input type="hidden" id="name_{{p.index}}" value="{{p.product.name}}">
+                                    <input type="hidden" id="description_{{p.index}}" value="{{p.product.description}}">
+                                    <input type="hidden" id="price_{{p.index}}" value="{{p.product.price}}">
+                                    <li id="li_{{p.index}}">
+                                        <div><span>Product: </span>{{p.product.name}}</div>
+                                        <div><em><span>Description: </span>{{p.product.description}}</em></div>
+                                        <div><span>Price: </span>${{p.product.price}}</em></div>
+                                    </li>
+                                </a>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="frame-btn-wrapper-3">
-                        <button id="close-this-1">Edit</button>
-                        <button id="target_new_blog">Delete</button>
+                    <div class="frame-btn-wrapper-4">
+                        <button id="prod_btn1" onClick="javascript: open_product_editor('0');">New Product</button>
+                        <button id="prod_btn2" onClick="javascript: open_product_editor('1');">Edit Selected</button>
+                        <button id="prod_btn3">Delete Selected</button>
                         <button id="close-this-3">Exit</button>
                     </div>
                 </div>
@@ -190,59 +215,84 @@
             </div>
         </div>
 
-        <div class="alert8 hidden" id="msg8">
-            <div class="blog-manager-container">
-                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>Authorize New User</h3>
-                <form action="/auth" method="POST" id="product_manager_form">
-                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
-                    <div class="blog_content_wrapper">
-                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body"></textarea>
+        <!-- THIS IS THE AREA WHERE THE USER AUTHORIZE WILL GO -->
+        <div class="alert8 hidden" id="msg8"></div>
+
+
+        <!--THIS WILL BE THE DYNAMIC DIV TO BUILD THE EDITORS REMEMBER TO UNQUOTE WHEN FINISHED -->
+        <div class="alert10 hidden" id="editor_builder"></div>
+
+        <div class="alert11 hidden" id="msg11">
+            <div class="product_form_wrapper center_v_mode">
+                <div class="dark_frame">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3 id="product_form_header">Product Editor</h3>
+
+                    <form action="/edit_success" method="POST" id="product_edit_form">
+                        <input type="hidden" name="target_model" id="target_model_prod" value="product">
+                        <input type="hidden" name="target_action" id="target_action_prod" value="">
+                        <input type="hidden" name="target_id" id="target_id_prod" value="">
+
+                        <input type="text" name="name" id="product_name" placeholder="Product Name" required>
+                        <div class="product_description_textarea">
+                            <textarea name="description" id="product_description" placeholder="Product Description" required></textarea>
+                        </div>
+                        <div class="price_input">
+                            <input type="number" name="price" id="product_price" min="0" value="0">
+                        </div>
+                    </form>
+
+                    <div class="blog-btn-wrapper">
+                        <button id="product_editor_btn"></button>
+                        <button id="close-this-11" onClick="javascript: clear_product_fields();">Cancel</button>
                     </div>
-                </form>
-                <div class="blog-btn-wrapper">
-                    <button id="login-btn">Post</button>
-                    <button id="close-this-8">Cancel</button>
                 </div>
             </div>
         </div>
 
-        <div class="alert9 hidden" id="msg9">
+        <div class="alert14 hidden" id="msg14">
             <div class="blog-manager-container">
                 <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                 <h3>{{message}}</h3>
                 
                 <div class="blog-btn-wrapper">
-                    <button id="close-this-9">Close</button>
+                    <button id="close-this-14">Close</button>
                 </div>
             </div>
         </div>
 
-        <div class="alert10 hidden" id="editor_builder">
-        </div>
 
         <div class="alert15 hidden" id="err">
-            <div class="error_wrapper center_v_mode">
-                <div class="error_frame">
-                    <div>
-                        <h3 id="error_header"></h3>
+            <div class="error_style center_v_mode">
+                <div class="warning_nav">
+                    <table>
+                        <tr>
+                            <td class="td_left">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>warning</span>
+                            </td>
+                            <td class="td_right">
+                                <a href="#" id="close_error_window">
+                                    <i class="far fa-window-close"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="warning_body">
+                        <h1 id="error_header"></h1>
 
-                        <div>
-                            <span id="label1"></span>
-                            <em id="obj1"></em><br>
-                            <span id="label2"></span>
-                            <em id="obj2"></em><br>
-                            <span id="label3"></span>
-                            <em id="obj3"></em>
+                        <div class="warning_msg_1" id="error_msg_m1"></div>
+                        <div class="warning_msg_2"  id="error_msg_m2"></div>
+
+                        <div class="warn_details">Details:</div>
+                        <div class="warning_items" id="label1"></div>
+                        <div class="warning_items" id="label2"></div>
+                        <div class="warning_items" id="label3"></div>
+
+                        <div class="warning_buttons">
+                            <button id="obj_action"></button>
+                            <button id="close-this-15">Cancel</button>
                         </div>
-
-                        <div id="error_msg_m1"></div>
-                        <span id="error_msg_m2"></span>
-                    </div>
-                    
-                    <div class="blog-btn-wrapper">
-                        <button id="obj_action"></button>
-                        <button id="close-this-15">Close</button>
                     </div>
                 </div>
             </div>
