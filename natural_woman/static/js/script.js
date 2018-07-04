@@ -393,6 +393,36 @@ function build_about_editor()
     $("#editor_builder").html(html);
 }
 
+function load_helper(subject)
+{
+    var message = null;
+    var title = null;
+    subject = String(subject);
+    if (subject === "about_active")
+    {
+        title = "Active \"About Us\" Statement";
+        message = "This is the \"About Us\" statement that is currently displayed on the site. Active about ";
+        message += "statements cannot not be deleted. However, they can be edited. If you would like to delete this statement, ";
+        message += "You must select a statement from the inactive statements below and set it as active. Then select the desired statement ";
+        message += "from the inactive list click the delete button."
+    }
+    else if (subject === "about_inactive")
+    {
+        title = "Inactive Statement";
+        message = "This statements can be saved and used any time as the \"About Us\" statement that is displayed on the site."
+    }
+    $("#helper_title").html(title);
+    $("#content_message").html(message);
+    $("#helper_element").hide();
+    $("#helper_element").removeClass("hidden");
+    $("#helper_element").fadeIn(500);
+}
+
+function close_helper_frame()
+{
+    $("#helper_element").fadeOut(500);
+}
+
 function save_about_object()
 {
     $( "#msg5" ).fadeOut(500, function() {
