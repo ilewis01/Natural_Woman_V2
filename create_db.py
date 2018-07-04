@@ -20,15 +20,22 @@ a2.is_active = False
 u1 = User("Deez", "Nutz", "mynutz@gmail.com", "1234" )
 u2 = User("Nasty", "Whore", "hotmess@gmail.com", "password")
 u3 = User("Fake", "Bitch", "fake@fake.com", "work")
-u1.is_admin = True
-u2.product_permission = True
-u3.about_permission = True
-u3.blog_permission = True
-u3.gallery_permission = True
+u4 = User("Admin", "User", "redd.app.dev@gmail.com", "1234")
+u1.is_admin 			= True
+u2.product_permission 	= True
+u3.about_permission 	= True
+u3.blog_permission 		= True
+u3.gallery_permission 	= True
+u4.is_admin 			= True
+u4.product_permission 	= True
+u4.about_permission 	= True
+u4.blog_permission 		= True
+u4.gallery_permission 	= True
 
 u1.save()
 u2.save()
 u3.save()
+u4.save()
 a1.save()
 a2.save()
 a3.save()

@@ -145,6 +145,7 @@ def user_access():
 def edit_success():
 	if request.method == "POST":
 		content = fetch_target_fields()
+		content['json_data'] = None
 		return render_template("admin/editor.html", **content)
 
 

@@ -238,6 +238,31 @@ def get_product_list():
 		index += 1
 	return data
 
+def set_active(about):
+	abouts = About.query.all()
+	for a in abouts:
+		if str(about.id) != str(a.id) and a.is_active == True:
+			a.is_active = False
+			about.active = True
+			a.save()
+			about.save()
+
+def set_active_exclusive(model):
+	abouts = About.query.all()
+	model.is_active = True
+	model.save()
+	for a in abouts:
+		if a.is_active == True:
+			a.is_active = False
+			a.save()
+
+def decode_checkbox(value):
+	result = False
+	value = str(value)
+	if value == "1":
+		result = True
+	return result
+
 def get_about_list():
 	data 		= {}
 	a_list 		= []
@@ -248,9 +273,7 @@ def get_about_list():
 			a_list.append(a)
 		else:
 			current = a
-	# data['inactive'] 		= a_list
 	data['inactive'] 	= json.dumps(a_list)
-	# data['current'] 		= current
 	data['current'] 	= json.dumps(current)
 	return data
 
@@ -287,6 +310,7 @@ def fetch_target_fields():
 		if action == "delete":
 			model_id 	= str(request.form['target_id'])
 			model 		= get_product_by_id(model_id)
+			message 	= "Blog Post Successfully Deleted"
 			model.delete()
 		elif action == "edit":
 			model_id 	= str(request.form['target_id'])
@@ -307,6 +331,42 @@ def fetch_target_fields():
 			price 		= str(request.form['price'])
 			model 		= Product(name, description, price)
 			model.save()
+	elif target == "about":
+		data['model'] = "about"
+		action = str(request.form['target_action'])
+		if action == "new":
+			statement 		= str(request.form['statement'])
+			is_active 		= str(request.form['m_is_active'])
+			model 			= About(statement)
+			model.is_active = decode_checkbox(is_active)
+			message 		= "A New About Us Statement Has Been Created"
+			if is_active == "1":
+				set_active(model)
+			model.save()
+		elif action == "update":
+			statement 	= str(request.form['statement'])
+			is_active 	= str(request.form['m_is_active'])
+			model_id 	= str(request.form['target_id'])
+			model 		= get_about_by_id(model_id)
+			if len(statement) != 0:
+				model.statement = statement
+				model.is_active = decode_checkbox(is_active)
+				if is_active == "1":
+					set_active(model)
+			message = "About Us Statement Successfully Updated"
+			model.save()
+		elif action == "swap":
+			model_id 	= str(request.form['target_id'])
+			model 		= get_about_by_id(model_id)
+			message = "The About Us Statement Has Been Successfully Changed"
+			set_active_exclusive(model)
+			model.is_active = True
+			model.save()
+		elif action == "delete":
+			model_id 	= str(request.form['target_id'])
+			model 		= get_about_by_id(model_id)
+			message 	= "The Selected Statement Has Been Deleted"
+			model.delete()
 
 	data['message'] 	= message
 	data['title'] 		= "Natural Woman Salon | Administration"

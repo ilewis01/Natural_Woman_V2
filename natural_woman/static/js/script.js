@@ -213,6 +213,37 @@ function load_error_heads(head, msg1, msg2, button)
     $("#obj_action").html(button);
 }
 
+function select_frame_builder(json_data)
+{
+    var btn_index = $("#btn_index").val();
+    btn_index = String(btn_index);
+
+    if (btn_index === "7") 
+    {
+        //Place the function here for blog manager
+    }
+    else if (btn_index === "8")
+    {
+        // Place the function here for the Product Manager
+    }
+    else if (btn_index === "9")
+    {
+        build_about_manager(json_data['inactive'], json_data['current']);
+    }
+    else if (btn_index === "10")
+    {
+        //Gallery Manager
+    }
+    else if (btn_index === "11")
+    {
+        // Comapny Editor
+    }
+    else if (btn_index === "12")
+    {
+        // User Editor
+    }
+}
+
 function build_blog_editor()
 {
     var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general\">";
@@ -309,37 +340,31 @@ function build_product_editor()
     html += "<button id=\"close-this-11\" onClick=\"javascript: clear_product_fields();\">Cancel</button></div></div></div>";
 }
 
-function build_about_manager(json_inactive, json_current)
+function build_about_manager(inactive, current)
 {
     var html = "<form action=\"/edit_success\" method=\"POST\" id=\"about_delete_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutManager\" value=\"about\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutManager\" value=\"delete\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutManager\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"current_id\" id=\"current_id\" value=\"" + json_current['id'] + "\">";
-    html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + json_current['statement'] + "\">";
+    html += "<input type=\"hidden\" name=\"current_id\" id=\"current_id\" value=\"" + current['id'] + "\">";
+    html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + current['statement'] + "\">";
     html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>About Us Statement</h3>";
     html += "<div class=\"active_about_wrapper\"><h4>Active <em>\"About Us\"</em> Statement";
     html += "<a href=\"javascript: load_helper('about_active');\"><i class=\"far fa-question-circle\"></i></a></h4> ";
-    html += "<em>" + json_current['statement'] + "</em><div class=\"s_edit_btn\">";
+    html += "<em>" + current['statement'] + "</em><div class=\"s_edit_btn\">";
     html += "<button id=\"new_about\" onClick=\"javascript: build_about_editor(); display_about_editor('0', 'active');\">New</button>";
     html += "<button id=\"edit_active_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'active');\">Edit</button>";
     html += "</div></div><div class=\"inactive_abouts\"><h4> Inactive Statements";
     html += "<a href=\"javascript: load_helper('about_inactive');\"><i class=\"far fa-question-circle\"></i></a></h4>";
     html += "<div class=\"inactive_list_wrapper\"><div class=\"inactive_list\"><ul>";
-    // the for loop will start here
-    for (var i = 0; i < json_inactive.length; i++)
+    for (var i = 0; i < inactive.length; i++)
     {
-        html += "<div class=\"\" id=\"div_" + json_inactive[i]['index'] + "\"><a href=\"javascript: about_selector('" + json_inactive[i]['index'] + "');\"><li>";
-        html += "<input type=\"hidden\" id=\"id_" + json_inactive[i]['index'] + "\" value=\"" + json_inactive[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"statement_" + json_inactive[i]['index'] + "\" value=\"" + json_inactive[i]['statement'] + "\">";
-        html += "<span>Statement: </span><em>" + json_inactive[i]['statement'] + "</em></li></a></div>";
+        html += "<div class=\"\" id=\"div_" + inactive[i]['index'] + "\"><a href=\"javascript: about_selector('" + inactive[i]['index'] + "');\"><li>";
+        html += "<input type=\"hidden\" id=\"id_" + inactive[i]['index'] + "\" value=\"" + inactive[i]['id'] + "\">";
+        html += "<input type=\"hidden\" id=\"statement_" + inactive[i]['index'] + "\" value=\"" + inactive[i]['statement'] + "\">";
+        html += "<span>Statement: </span><em>" + inactive[i]['statement'] + "</em></li></a></div>";
     }
-    // html += "<div class=\"\" id=\"div_{{i.index}}\"><a href=\"javascript: about_selector('{{i.index}}');\"><li>";
-    // html += "<input type=\"hidden\" id=\"id_{{i.index}}\" value=\"{{i.about.id}}\">";
-    // html += "<input type=\"hidden\" id=\"statement_{{i.index}}\" value=\"{{i.about.statement}}\">";
-    // html += "<span>Statement: </span><em>{{i.about.statement}}</em></li></a></div>{% endfor %}";
-    // the for loop will end here
     html += "</ul></div></div>";
     html += "<div class=\"s_edit_btn\">";
     html += "<button id=\"set_about_active\" onClick=\"javascript: set_about_active();\">Set Active</button>";
@@ -357,14 +382,22 @@ function build_about_editor()
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"about_us_editor\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutEditor\" value=\"about\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutEditor\" value=\"delete\">";
+    html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutEditor\" value=\"\"><div class=\"about_editor_textarea\">";
     html += "<textarea name=\"statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" required></textarea>";
     html += "</div><div class=\"active_setter\">";
-    html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#active_check');\">";
+    html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#m_is_active');\" checked>";
     html += "<label>Set As Current Statement</label></div></form>";
-    html += "<div class=\"blog-btn-wrapper\"><button id=\"target_new_blog\">Save</button>";
+    html += "<div class=\"blog-btn-wrapper\"><button onClick=\"javascript: save_about_object();\">Save</button>";
     html += "<button id=\"needless\" onClick=\"javascript: close_about_editor();\">Cancel</button></div></div></div>";
     $("#editor_builder").html(html);
+}
+
+function save_about_object()
+{
+    $( "#msg5" ).fadeOut(500, function() {
+        $("#about_us_editor").submit();
+    });
 }
 
 function load_helper(subject)
@@ -409,17 +442,18 @@ function about_selector(index)
 
 function set_about_active()
 {
-    var selected_element    = $("#selected_e").val();
-    selected_element        = String(selected_element);
-    var selector_id         = "#id_" + selected_element;
-    var selector_statement  = "#statement_" + selected_element;
-    var a_id                = $(selector_id).val();
+    var index               = $("#selected_e").val();
+    index                   = String(index);
+    var selector_statement  = "#statement_" + index;
+    var selector_id         = "#id_" + index;
     var statement           = $(selector_statement).val();
+    var a_id                = $(selector_id).val();
 
-    load_error_heads("Set Statement As Active", "Are You Sure You Want To Proceed?", "This will make the following statement the active \"About Us\" statement", "Proceed");
+    load_error_heads("Change About Statement", "Are You Sure You Want To Proceed?", "This action  will set the statement below as active", "Proceed");
     load_error_message("\"About Us\" Statement: ", "", "", statement, "", "");
+    
     $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
-    $("#target_action_aboutManager").val("swap");
+    $("#target_action_aboutManager").val('swap');
     $("#target_id_aboutManager").val(a_id);
     $("#err").hide();
     $("#err").removeClass("hidden");
@@ -446,6 +480,8 @@ function delete_about()
 
 function display_about_editor(load_data, query)
 {
+    var statement = null;
+    var a_id = null;
     load_data = String(load_data);
     query = String(query);
     if (load_data === "0")
@@ -454,18 +490,15 @@ function display_about_editor(load_data, query)
     }
     else if (load_data === "1")
     {
-        var statement = null;
-        var a_id = null;
         $("#target_action_aboutEditor").val("update");
         if (query === "active")
         {
             a_id        = $("#current_id").val();
             statement   = $("#current_statement_v2").val();
-            a_id        = String(current_id);
+            a_id        = String(a_id);
             statement   = String(statement);
             $("#active_check").prop('checked', true);
             $("#active_check").prop("disabled", true);
-
         }
         else if (query === "inactive")
         {
@@ -475,6 +508,8 @@ function display_about_editor(load_data, query)
             var selector_statement  = "#statement_" + selected_element;
             var a_id                = $(selector_id).val();
             var statement           = $(selector_statement).val();
+            a_id                    = String(a_id);
+            statement               = String(statement);
         }
     }
     $("#target_id_aboutEditor").val(a_id);
