@@ -400,19 +400,6 @@ function save_about_object()
     });
 }
 
-function load_helper(subject)
-{
-    subject = String(subject);
-    if (subject === "about_active")
-    {
-        //load the active statement into a div and display it
-    }
-    else if (subject === "about_inactive")
-    {
-
-    }
-}
-
 function submit_delbg()
 {
     $("#blog_editor_form").submit();
@@ -662,6 +649,10 @@ $(document).ready(function() {
     });
     $("#close-this-15").click(function() {
         $("#err").fadeOut(500);
+        $("#frame_active").val("0");
+    });
+    $("#close-this-15").click(function() {
+        $("#helper_element").fadeOut(500);
         $("#frame_active").val("0");
     });
 

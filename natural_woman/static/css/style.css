@@ -43,7 +43,7 @@ body {
 	color:#f2f3e5;
 }
 
-.alert1, .alert2, .alert3, .alert4, .alert5, .alert6, .alert7, .alert8, .alert10, .alert11, .alert14, .alert15 {
+.alert1, .alert2, .alert3, .alert4, .alert5, .alert6, .alert7, .alert8, .alert10, .alert11, .alert14, .alert15, .alert16 {
 	position: absolute;
 	width:100%;
 	height:100%;
@@ -99,6 +99,10 @@ body {
 
 .alert15 {
 	z-index: 15;
+}
+
+.alert16 {
+	z-index: 16;
 }
 
 .login-wrapper {
