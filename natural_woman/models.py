@@ -117,10 +117,11 @@ class About(db.Model):
 	__tablename__ 	= "about"
 	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	statement 		= db.Column('statement', db.String, nullable=False)
-	active 			= db.Column('active', db.Boolean, default=True, nullable=False)
+	is_active 		= db.Column('active', db.Boolean, default=True, nullable=False)
 
 	def __init__(self, statement):
 		self.statement = statement
+		self.is_active = True
 
 	def save(self):
 		db.session.add(self)
@@ -131,12 +132,12 @@ class About(db.Model):
 		db.session.commit()
 
 	def get_current_about():
-		return About.query.filter_by(active=True).one()
+		return About.query.filter_by(is_active=True).one()
 
 	def active(self):
-		current 		= get_current_about()
-		current.active 	= False;
-		self.active 	= True
+		current 			= get_current_about()
+		current.is_active 	= False;
+		self.is_active 		= True
 		db.session.add(self)
 		db.session.add(current)
 		db.session.commit()

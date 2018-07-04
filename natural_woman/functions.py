@@ -3,6 +3,8 @@ from threading import Thread
 from natural_woman.models import *
 from . import mail, app
 from flask import request
+import json
+import json as simplejson
 
 def user_exist(email):
 	exist = False
@@ -111,6 +113,96 @@ def send_email(subject, sender, recipients, text_body, html_body):
 # 	thr = Thread(target=send_async_email, args=[msg])
 # 	thr.start()
 
+def json_serialize_blogs():
+	data 	= []
+	index 	= 0
+	blogs 	= Blog.query.all()
+	for b in blogs:
+		d 				= {}
+		date 			= b.getDate()
+		d['subject'] 	= b.subject
+		d['content'] 	= b.content
+		d['date'] 		= date['date']
+		d['time'] 		= date['time']
+		d['date_obj'] 	= b.date
+		d['id'] 		= b.id
+		d['index'] 		= index
+		data.append(d)
+		index += 1
+	return data
+
+def json_serialize_products():
+	data 		= []
+	index 		= 0
+	products 	= Product.query.all()
+	for p in products:
+		d 					= {}
+		d['id'] 			= p.id
+		d['name'] 			= p.name
+		d['price'] 			= p.price
+		d['index'] 			= index
+		d['description'] 	= p.description
+		data.append(d)
+		index += 1
+	return data
+
+def json_serialize_abouts():
+	data 	= []
+	index 	= 0
+	abouts 	= About.query.all()
+	for a in abouts:
+		d 				= {}
+		d['id'] 		= a.id
+		d['statement'] 	= a.statement
+		d['is_active'] 	= a.is_active
+		d['index'] 		= index
+		data.append(d)
+		index += 1
+	return data
+
+def json_serialize_users():
+	data 	= []
+	index 	= 0
+	users 	= User.query.all()
+	for u in users:
+		d 						= {}
+		d['id'] 				= u.id
+		d['fname'] 				= u.fname
+		d['lname'] 				= u.lname
+		d['email'] 				= u.email
+		d['is_admin'] 			= u.is_admin
+		d['product_permission'] = u.product_permission
+		d['about_permission'] 	= u.about_permission
+		d['blog_permission'] 	= u.blog_permission
+		d['gallery_permission'] = u.gallery_permission
+		d['index'] 				= index
+		data.append(d)
+		index += 1
+	return data
+
+def json_serialize_company():
+	data = []
+	company = Company.query.all()
+	for c in company:
+		d 					= {}
+		d['code'] 			= c.code
+		d['address1'] 		= c.address1
+		d['address2'] 		= c.address2
+		d['address3'] 		= c.address3
+		d['city'] 			= c.city
+		d['state'] 			= c.state
+		d['zip_code'] 		= c.zip_code
+		d['phone'] 			= c.phone
+		d['hours_m_f'] 		= c.hours_m_f
+		d['hours_sat'] 		= c.hours_sat
+		d['hours_sun'] 		= c.hours_sun
+		d['facebook_url'] 	= c.facebook_url
+		d['twitter_url'] 	= c.twitter_url
+		d['instagram_url'] 	= c.instagram_url
+		data.append(d)
+	return data
+
+
 def get_blog_list():
 	data = []
 	blogs = Blog.query.all()
@@ -147,15 +239,19 @@ def get_product_list():
 	return data
 
 def get_about_list():
-	data = {}
-	abouts = About.query.all()
-	a_list = []
+	data 		= {}
+	a_list 		= []
+	current 	= None
+	abouts 		= json_serialize_abouts()
 	for a in abouts:
-		if a.active == False:
+		if a['is_active'] == False:
 			a_list.append(a)
 		else:
-			data['current'] = a
-	data['inactive'] = a_list
+			current = a
+	# data['inactive'] 		= a_list
+	data['inactive'] 	= json.dumps(a_list)
+	# data['current'] 		= current
+	data['current'] 	= json.dumps(current)
 	return data
 
 def fetch_target_fields():

@@ -61,6 +61,7 @@ function initialize_admin_forms()
     }
 
     if (btn_index === "7") { build_blog_editor(); }
+    // if (btn_index === "9") { build_about_manager(); }
     // if (btn_index === "14")
     // {
     //     var model_meta = $("#load_meta_model").val();
@@ -111,9 +112,14 @@ function initialize(jQuery) {
 function choose_selector_editor(btn_index)
 {
     var b = btn_index;
-    if (b==="7" || b==="8" || b==="9" || b==="10" || b==="12")
+    if (b==="7" || b==="8" || b==="10" || b==="12")
     {
         load_selected_editor("0");
+    }
+    if (b === "9")
+    {
+        $("#selected_e").val("0");
+        $("#div_0").addClass("super_select");
     }
 }
 
@@ -141,6 +147,8 @@ function load_selected_editor(index)
         $("#selected_e").val(index);
     }
 }
+
+
 
 function open_product_editor(load_data)
 {
@@ -257,7 +265,119 @@ function build_blog_manager()
     html += "<button id=\"launch_blog_editor\">Edit</button>";
     html += "<button id=\"request_blog_delete\">Delete</button>";
     html += "<button id=\"close-this-2\">Exit</button></div></div></div>";
-    html += "";
+}
+
+function build_product_manager()
+{
+    var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>Product manager</h3>";
+    html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"delete\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\"></form>";
+    html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>{% for p in products %}";
+    html += "<a href=\"javascript: load_selected_editor('{{p.index}}');\" id=\"at_{{p.index}}\">";
+    html += "<input type=\"hidden\" id=\"id_{{p.index}}\" value=\"{{p.product.id}}\">";
+    html += "<input type=\"hidden\" id=\"name_{{p.index}}\" value=\"{{p.product.name}}\">";
+    html += "<input type=\"hidden\" id=\"description_{{p.index}}\" value=\"{{p.product.description}}\">";
+    html += "<input type=\"hidden\" id=\"price_{{p.index}}\" value=\"{{p.product.price}}\">";
+    html += "<li id=\"li_{{p.index}}\"><div><span>Product: </span>{{p.product.name}}</div>";
+    html += "<div><em><span>Description: </span>{{p.product.description}}</em></div>";
+    html += "<div><span>Price: </span>${{p.product.price}}</em></div></li></a>{% endfor %}";
+    html += "</ul></div></div><div class=\"frame-btn-wrapper-4\">";
+    html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
+    html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
+    html += "<button id=\"prod_btn3\">Delete Selected</button>";
+    html += "<button id=\"close-this-3\">Exit</button></div></div></div>";
+}
+
+function build_product_editor()
+{
+    var html = "<div class=\"product_form_wrapper center_v_mode\"><div class=\"dark_frame\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3 id=\"product_form_header\">Product Editor</h3>";
+    html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_edit_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_prod\" value=\"product\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_prod\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_prod\" value=\"\">";
+    html += "<input type=\"text\" name=\"name\" id=\"product_name\" placeholder=\"Product Name\" required>";
+    html += "<div class=\"product_description_textarea\">";
+    html += "<textarea name=\"description\" id=\"product_description\" placeholder=\"Product Description\" required></textarea>";
+    html += "</div><div class=\"price_input\">";
+    html += "<input type=\"number\" name=\"price\" id=\"product_price\" min=\"0\" value=\"0\"></div></form>";
+    html += "<div class=\"blog-btn-wrapper\"><button id=\"product_editor_btn\"></button>";
+    html += "<button id=\"close-this-11\" onClick=\"javascript: clear_product_fields();\">Cancel</button></div></div></div>";
+}
+
+function build_about_manager(json_inactive, json_current)
+{
+    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"about_delete_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutManager\" value=\"about\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutManager\" value=\"delete\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutManager\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"current_id\" id=\"current_id\" value=\"" + json_current['id'] + "\">";
+    html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + json_current['statement'] + "\">";
+    html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general steel_back\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>About Us Statement</h3>";
+    html += "<div class=\"active_about_wrapper\"><h4>Active <em>\"About Us\"</em> Statement";
+    html += "<a href=\"javascript: load_helper('about_active');\"><i class=\"far fa-question-circle\"></i></a></h4> ";
+    html += "<em>" + json_current['statement'] + "</em><div class=\"s_edit_btn\">";
+    html += "<button id=\"new_about\" onClick=\"javascript: build_about_editor(); display_about_editor('0', 'active');\">New</button>";
+    html += "<button id=\"edit_active_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'active');\">Edit</button>";
+    html += "</div></div><div class=\"inactive_abouts\"><h4> Inactive Statements";
+    html += "<a href=\"javascript: load_helper('about_inactive');\"><i class=\"far fa-question-circle\"></i></a></h4>";
+    html += "<div class=\"inactive_list_wrapper\"><div class=\"inactive_list\"><ul>";
+    // the for loop will start here
+    for (var i = 0; i < json_inactive.length; i++)
+    {
+        html += "<div class=\"\" id=\"div_" + json_inactive[i]['index'] + "\"><a href=\"javascript: about_selector('" + json_inactive[i]['index'] + "');\"><li>";
+        html += "<input type=\"hidden\" id=\"id_" + json_inactive[i]['index'] + "\" value=\"" + json_inactive[i]['id'] + "\">";
+        html += "<input type=\"hidden\" id=\"statement_" + json_inactive[i]['index'] + "\" value=\"" + json_inactive[i]['statement'] + "\">";
+        html += "<span>Statement: </span><em>" + json_inactive[i]['statement'] + "</em></li></a></div>";
+    }
+    // html += "<div class=\"\" id=\"div_{{i.index}}\"><a href=\"javascript: about_selector('{{i.index}}');\"><li>";
+    // html += "<input type=\"hidden\" id=\"id_{{i.index}}\" value=\"{{i.about.id}}\">";
+    // html += "<input type=\"hidden\" id=\"statement_{{i.index}}\" value=\"{{i.about.statement}}\">";
+    // html += "<span>Statement: </span><em>{{i.about.statement}}</em></li></a></div>{% endfor %}";
+    // the for loop will end here
+    html += "</ul></div></div>";
+    html += "<div class=\"s_edit_btn\">";
+    html += "<button id=\"set_about_active\" onClick=\"javascript: set_about_active();\">Set Active</button>";
+    html += "<button id=\"edit_inactive_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
+    html += "<button id=\"delete_about\" onClick=\"javascript: delete_about();\">Delete</button></div></div>";
+    html += "<div class=\"about-btn-wrapper\"><button id=\"close-this-5\">Exit</button></div></div></div>";
+    $("#msg5").html(html);
+}
+
+function build_about_editor()
+{
+    var html = "<div class=\"about_editor_container center_v_mode\"><div class=\"frame_general\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3 id=\"product_form_header\">About Us Editor</h3>";
+    html += "<form action=\"/edit_success\" method=\"POST\" id=\"about_us_editor\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutEditor\" value=\"about\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutEditor\" value=\"delete\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutEditor\" value=\"\"><div class=\"about_editor_textarea\">";
+    html += "<textarea name=\"statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" required></textarea>";
+    html += "</div><div class=\"active_setter\">";
+    html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#active_check');\">";
+    html += "<label>Set As Current Statement</label></div></form>";
+    html += "<div class=\"blog-btn-wrapper\"><button id=\"target_new_blog\">Save</button>";
+    html += "<button id=\"needless\" onClick=\"javascript: close_about_editor();\">Cancel</button></div></div></div>";
+    $("#editor_builder").html(html);
+}
+
+function load_helper(subject)
+{
+    subject = String(subject);
+    if (subject === "about_active")
+    {
+        //load the active statement into a div and display it
+    }
+    else if (subject === "about_inactive")
+    {
+
+    }
 }
 
 function submit_delbg()
@@ -268,6 +388,117 @@ function submit_delbg()
 function submit_delpd()
 {
     $("#product_delete_form").submit();
+}
+
+function submit_delabt()
+{
+    $("#about_delete_form").submit();
+}
+
+function about_selector(index)
+{
+    index           = String(index);
+    var prev_index  = $("#selected_e").val();
+    prev_index      = String(prev_index);
+    var pre_id          = "#div_" + prev_index;
+    var new_id          = "#div_" + index;
+    $(pre_id).removeClass("super_select");
+    $(new_id).addClass("super_select");
+    $("#selected_e").val(index);
+}
+
+function set_about_active()
+{
+    var selected_element    = $("#selected_e").val();
+    selected_element        = String(selected_element);
+    var selector_id         = "#id_" + selected_element;
+    var selector_statement  = "#statement_" + selected_element;
+    var a_id                = $(selector_id).val();
+    var statement           = $(selector_statement).val();
+
+    load_error_heads("Set Statement As Active", "Are You Sure You Want To Proceed?", "This will make the following statement the active \"About Us\" statement", "Proceed");
+    load_error_message("\"About Us\" Statement: ", "", "", statement, "", "");
+    $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
+    $("#target_action_aboutManager").val("swap");
+    $("#target_id_aboutManager").val(a_id);
+    $("#err").hide();
+    $("#err").removeClass("hidden");
+    $("#err").fadeIn(500);
+}
+
+function delete_about()
+{
+    var selected_element    = $("#selected_e").val();
+    selected_element        = String(selected_element);
+    var selector_id         = "#id_" + selected_element;
+    var selector_statement  = "#statement_" + selected_element;
+    var a_id                = $(selector_id).val();
+    var statement           = $(selector_statement).val();
+
+    load_error_heads("Delete About Statement", "Are You Sure You Want To Proceed?", "This action cannot be undone!", "Delete");
+    load_error_message("\"About Us\" Statement: ", "", "", statement, "", "");
+    $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
+    $("#target_id_aboutManager").val(a_id);
+    $("#err").hide();
+    $("#err").removeClass("hidden");
+    $("#err").fadeIn(500);
+}
+
+function display_about_editor(load_data, query)
+{
+    load_data = String(load_data);
+    query = String(query);
+    if (load_data === "0")
+    {
+        $("#target_action_aboutEditor").val("new");
+    }
+    else if (load_data === "1")
+    {
+        var statement = null;
+        var a_id = null;
+        $("#target_action_aboutEditor").val("update");
+        if (query === "active")
+        {
+            a_id        = $("#current_id").val();
+            statement   = $("#current_statement_v2").val();
+            a_id        = String(current_id);
+            statement   = String(statement);
+            $("#active_check").prop('checked', true);
+            $("#active_check").prop("disabled", true);
+
+        }
+        else if (query === "inactive")
+        {
+            var selected_element    = $("#selected_e").val();
+            selected_element        = String(selected_element);
+            var selector_id         = "#id_" + selected_element;
+            var selector_statement  = "#statement_" + selected_element;
+            var a_id                = $(selector_id).val();
+            var statement           = $(selector_statement).val();
+        }
+    }
+    $("#target_id_aboutEditor").val(a_id);
+    $("#editor_statement").val(statement);
+    $("#editor_builder").hide();
+    $("#editor_builder").removeClass("hidden");
+    $("#editor_builder").fadeIn(500);
+}
+
+function close_about_editor()
+{
+    $("#editor_builder").fadeOut(500);
+    $("#editor_statement").val("");
+    $("#active_check").prop('checked', false);
+    $("#active_check").prop("disabled", false);
+}
+
+function mod_checkbox(check_id)
+{
+    check_id = String(check_id);
+    var value = $(check_id).val();
+    value = String(value);
+    if (value === "0") { $(check_id).val("1"); }
+    else if (value === "1") { $(check_id).val("0"); }
 }
 
 
@@ -323,7 +554,11 @@ $(document).ready(function() {
     });
     $("#ab5").click(function() {
         if (frame_active === "1")
-        { $( "#msg5" ).fadeOut(500, function() { window.location.href = "/about_editor" }); }
+        {
+            $( "#msg5" ).fadeOut(500, function() { 
+                window.location.href = "/about_editor" 
+            }); 
+        }
         else { window.location.href = "/about_editor"; }
     });
     $("#ab6").click(function() {

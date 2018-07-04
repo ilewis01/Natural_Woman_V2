@@ -8,7 +8,7 @@ def index():
 	content = index_content()
 	return render_template("global/index.html", **content)
 
-@app.route('/')
+@app.route('/home')
 def home():
 	content = home_comtent()
 	return render_template("global/index.html", **content)
@@ -42,7 +42,7 @@ def auth():
 			login_user(user)
 			return redirect("/admin_home")
 		else:
-			return render_template("global/user_exist.html")
+			return render_template("global/login_failure.html")
 	else:
 		return render_template("global/index.html")
 
@@ -65,6 +65,7 @@ def admin_home():
 	content['user'] = current_user
 	content['title'] = "Natural Woman Salon | Administration"
 	content['btn_index'] = 6
+	content['json_data'] = None
 	return render_template("admin/home.html", **content)
 
 @app.route('/blog_editor')
@@ -75,6 +76,7 @@ def blog_editor():
 	content['title'] = "Natural Woman Salon | Blog Management"
 	content['btn_index'] = 7
 	content['blogs'] = get_blog_list()
+	content['json_data'] = None
 	return render_template("admin/editor.html", **content)
 
 @app.route('/product_editor')
@@ -85,6 +87,7 @@ def product_editor():
 	content['title'] = "Natural Woman Salon | Product Management"
 	content['btn_index'] = 8
 	content["products"] = get_product_list()
+	content['json_data'] = None
 	return render_template("admin/editor.html", **content)
 
 @app.route('/about_editor')
@@ -94,7 +97,7 @@ def about_editor():
 	content['user'] = current_user
 	content['title'] = "Natural Woman Salon | About Us"
 	content['btn_index'] = 9
-	content["statements"] = get_about_list()
+	content["json_data"] = get_about_list()
 	return render_template("admin/editor.html", **content)
 
 @app.route('/gallery_editor')

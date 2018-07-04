@@ -734,7 +734,8 @@ body {
 
 .warning_nav {
     width:100%;
-    background: linear-gradient(rgba(254, 227, 181, 1), rgba(253, 176, 7, 1));
+    background: linear-gradient(rgba(221, 221, 221, 1), rgba(125, 125, 125, 1));
+    /*background: linear-gradient(rgba(254, 227, 181, 1), rgba(253, 176, 7, 1));*/
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -794,13 +795,15 @@ body {
 .warning_body {
     width: 100%;
     padding: 5%;
-    background-image: url('static/images/iml_bkgnd.png');
+    background-image: url('../images/iml_bkgnd.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     border-top: 1px solid #444444;
     overflow: hidden;
+    position: relative;
+    z-index: 16;
 }
 
 .warning_items {
@@ -851,7 +854,7 @@ body {
 
 .warning_buttons button {
     width: 49%;
-    background: linear-gradient(rgba(250, 250, 250, 0.3), rgba(150, 150, 150, 1));
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
     font-size: 13px;
     border-color: #444444;
     border-top-color: #888888;
@@ -859,6 +862,183 @@ body {
 
 .warning_buttons button:hover {
     background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(100, 100, 100, 1));
+}
+
+.about_management_container {
+	width: 45%;
+	margin: auto;
+}
+
+.active_about_wrapper, .inactive_abouts, .about-btn-wrapper {
+    width: 100%;
+    border:1px solid black;
+    border-radius: 7px;
+    text-align: left;
+    font-size: 13px;
+    padding:3%;
+    background-image: url('../images/iml_bkgnd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #000000;
+    opacity: 0.9;
+}
+
+.active_about_wrapper h4, .inactive_abouts h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444444;
+    width: 100%;
+    border-bottom: 1.5px solid #444444;
+    padding-bottom: 1%;
+}
+
+.active_about_wrapper a, .inactive_abouts a {
+    font-size: 13px;
+    vertical-align: super;
+}
+
+.s_edit_btn {
+    width: 100%;
+    margin-top: 3%;
+    padding: 1%;
+    border: 1px solid #444444;
+    text-align: right;
+    border-radius: 7px
+}
+
+.s_edit_btn button {
+    width: 20%;
+    margin-left: 1%;
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    font-size: 11px;
+    border-color: #444444;
+    border-top-color: #888888;
+}
+
+.inactive_abouts {
+    margin-top: 4%;
+}
+
+.inactive_list_wrapper {
+    width:100%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    height: 30vh;
+    background-color: #dbdbdb;
+    border-radius: 7px;
+    border: 1px solid #444444;
+}
+
+.inactive_list {
+    width: 100%;
+    border-top: 2px solid #222222;
+    height: 100%;
+    color: #000000;
+    overflow-y: scroll;
+}
+
+.inactive_list span {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.inactive_list ul {
+    padding: 0;
+    margin: 0;
+}
+
+.inactive_list li {
+    list-style: none;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-bottom: 1px solid #444444;
+    background-color: #eeeeee;
+    text-align: left;
+}
+
+.inactive_list li:hover {
+    background-color: #f9fdec;
+}
+
+.inactive_list a {
+    color: #000000;
+}
+
+.inactive_list a:hover {
+    color: #5b6219;
+    text-decoration: none;
+}
+
+.super_select li{
+    background-color: #eff9ca;
+}
+
+.super_select li:hover {
+    background-color: #eff9ca;
+}
+
+.super_select a {
+    color: #5b6219;
+}
+
+.super_select a:hover {
+    color: #5b6219;
+}
+
+.about-btn-wrapper {
+    width: 100%;
+    text-align: right;
+    /*margin-top: 3%;*/
+}
+
+.about-btn-wrapper button {
+    border-radius: 5px;
+    width: 100%;
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    font-size: 11px;
+    border-color: #444444;
+    border-top-color: #888888;
+}
+
+.steel_back {
+    background-color: rgba(136, 136, 136, 0.7);
+}
+
+.about_editor_container {
+    width: 60%;
+    margin: auto;
+}
+
+.about_editor_textarea {
+    width: 100%;
+    height: 30vh;
+    color: #000000;
+}
+
+.about_editor_textarea textarea {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+}
+
+.active_setter {
+    width:100%;
+    font-size: 12px;
+    text-align: right;
+    padding:3px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #999999;
+    margin-bottom: 10px;
+}
+
+.active_setter input {
+    width:10px;
 }
 
 
