@@ -117,6 +117,7 @@ def json_serialize_blogs():
 	data 	= []
 	index 	= 0
 	blogs 	= Blog.query.all()
+	blogs.reverse()
 	for b in blogs:
 		d 				= {}
 		date 			= b.getDate()
@@ -124,7 +125,7 @@ def json_serialize_blogs():
 		d['content'] 	= b.content
 		d['date'] 		= date['date']
 		d['time'] 		= date['time']
-		d['date_obj'] 	= b.date
+		d['date_obj'] 	= str(b.date)
 		d['id'] 		= b.id
 		d['index'] 		= index
 		data.append(d)
@@ -202,6 +203,33 @@ def json_serialize_company():
 		data.append(d)
 	return data
 
+def get_about_list():
+	data 		= {}
+	a_list 		= []
+	current 	= None
+	abouts 		= json_serialize_abouts()
+	for a in abouts:
+		if a['is_active'] == False:
+			a_list.append(a)
+		else:
+			current = a
+	data['inactive'] 	= json.dumps(a_list)
+	data['active'] 	= json.dumps(current)
+	return data
+
+def get_blog_content():
+	data 				= {}
+	blogs 				= json_serialize_blogs()
+	data['active'] 		= json.dumps(blogs)
+	data['inactive'] 	= []
+	return data
+
+def get_product_content():
+	data 				= {}
+	products 			= json_serialize_products()
+	data['active'] 		= json.dumps(products)
+	data['inactive'] 	= []
+	return data
 
 def get_blog_list():
 	data = []
@@ -217,15 +245,6 @@ def get_blog_list():
 		data.append(d)
 	return data
 
-def get_sorted_products():
-	products 	= Product.query.all()
-	length 		= len(products)
-	p_list 		= [None] * length
-	for p in products:
-		p_index = p.position - 1
-		p_list.insert(p_index, p)
-	return p_list
-
 def get_product_list():
 	data 		= []
 	products 	= Product.query.all()
@@ -237,6 +256,15 @@ def get_product_list():
 		data.append(d)
 		index += 1
 	return data
+
+def get_sorted_products():
+	products 	= Product.query.all()
+	length 		= len(products)
+	p_list 		= [None] * length
+	for p in products:
+		p_index = p.position - 1
+		p_list.insert(p_index, p)
+	return p_list
 
 def set_active(about):
 	abouts = About.query.all()
@@ -263,19 +291,6 @@ def decode_checkbox(value):
 		result = True
 	return result
 
-def get_about_list():
-	data 		= {}
-	a_list 		= []
-	current 	= None
-	abouts 		= json_serialize_abouts()
-	for a in abouts:
-		if a['is_active'] == False:
-			a_list.append(a)
-		else:
-			current = a
-	data['inactive'] 	= json.dumps(a_list)
-	data['current'] 	= json.dumps(current)
-	return data
 
 def fetch_target_fields():
 	data 	= {}

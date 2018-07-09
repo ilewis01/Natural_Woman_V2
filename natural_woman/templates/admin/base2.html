@@ -41,6 +41,7 @@
             <input type="hidden" id="load_meta_model" value="{{model}}">
         </form>
 
+        <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
         <div class="alert1 hidden" id="msg1">
             <div class="blog-post-wrapper">
                 <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
@@ -60,50 +61,59 @@
             </div>
         </div>
 
-        <div class="alert2 hidden" id="msg2">
-            <div class="blog-manager-container center_v_mode">
-                <div class="frame_general">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>Manage Blogs</h3>
+        <!-- MANAGER BUILDER -->
+        <body onLoad="javascript: build_url_frame({{json_data.inactive}}, {{json_data.active}}, '{{btn_index}}');" id="frame_builder">
+            <div class="alert2 hidden" id="msg2"></div> 
+        </body>
 
-                    <form action="/edit_success" method="POST" id="blog_editor_form">
-                        <input type="hidden" name="target_model" id="target_model2" value="blog">
-                        <input type="hidden" name="target_action" id="target_action2" value="">
-                        <input type="hidden" name="target_id" id="target_id2" value="">
-                    </form>
+        <!--EDITOR BUILDER -->
+        <div class="alert3 hidden" id="msg3"></div> 
 
-                    <div class="editor-cont">
-                        <div class="select-editor">
-                            <ul>
-                                {% for b in blogs %}
-                                <a href="javascript: load_selected_editor('{{b.index}}');" id="at_{{b.index}}">
-                                    <input type="hidden" id="id_{{b.index}}" value="{{b.blog.id}}">
-                                    <input type="hidden" id="subject_{{b.index}}" value="{{b.blog.subject}}">
-                                    <input type="hidden" id="content_{{b.index}}" value="{{b.blog.content}}">
-                                    <input type="hidden" id="date_{{b.index}}" value="{{b.date}}">
-                                    <input type="hidden" id="time_{{b.index}}" value="{{b.time}}">
-                                    <li id="li_{{b.index}}">
-                                        <div><span>Subject: </span>{{b.blog.subject}}</div>
-                                        <div><span>Posted on: </span>{{b.date.date}} at <em>{{b.date.time}}</em></div>
-                                    </li>
-                                </a>
-                                {% endfor %}
-                            </ul>
+
+            <!--<div class="alert2 hidden" id="msg5">
+                <div class="blog-manager-container center_v_mode">
+                    <div class="frame_general steel_back">
+                        <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                        <h3>Manage Blogs</h3>
+
+                        <form action="/edit_success" method="POST" id="blog_editor_form">
+                            <input type="hidden" name="target_model" id="target_model2" value="blog">
+                            <input type="hidden" name="target_action" id="target_action2" value="">
+                            <input type="hidden" name="target_id" id="target_id2" value="">
+                        </form>
+
+                        <div class="editor-cont">
+                            <div class="select-editor">
+                                <ul>
+                                    {% for b in blogs %}
+                                    <a href="javascript: load_selected_editor('{{b.index}}');" id="at_{{b.index}}">
+                                        <input type="hidden" id="id_{{b.index}}" value="{{b.blog.id}}">
+                                        <input type="hidden" id="subject_{{b.index}}" value="{{b.blog.subject}}">
+                                        <input type="hidden" id="content_{{b.index}}" value="{{b.blog.content}}">
+                                        <input type="hidden" id="date_{{b.index}}" value="{{b.date}}">
+                                        <input type="hidden" id="time_{{b.index}}" value="{{b.time}}">
+                                        <li id="li_{{b.index}}">
+                                            <div><span>Subject: </span>{{b.blog.subject}}</div>
+                                            <div><span>Posted on: </span>{{b.date.date}} at <em>{{b.date.time}}</em></div>
+                                        </li>
+                                    </a>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="frame-btn-wrapper-3">
-                        <button id="launch_blog_editor">Edit</button>
-                        <button id="request_blog_delete">Delete</button>
-                        <button id="close-this-2">Exit</button>
+                        <div class="frame-btn-wrapper-3">
+                            <button id="launch_blog_editor">Edit</button>
+                            <button id="request_blog_delete">Delete</button>
+                            <button id="close-this-5">Exit</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <div class="alert3 hidden" id="msg3">
             <div class="pop_editor_wrap center_v_mode">
-                <div class="frame_general">
+                <div class="frame_general steel_back">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>Product manager</h3>
 
@@ -141,7 +151,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <div class="alert4 hidden" id="msg4">
             <div class="blog-manager-container center_v_mode">
@@ -160,12 +170,6 @@
                 </div>
             </div>
         </div>
-
-    <body onLoad="javascript: build_about_manager({{json_data.inactive}}, {{json_data.current}});" id="frame_builder">
-        <div class="alert5 hidden" id="msg5">
-            
-        </div>
-    </body>
 
         <div class="alert6 hidden" id="msg6">
             <div class="blog-manager-container">
@@ -206,7 +210,7 @@
 
 
         <!--THIS WILL BE THE DYNAMIC DIV TO BUILD THE EDITORS REMEMBER TO UNQUOTE WHEN FINISHED -->
-        <div class="alert10 hidden" id="editor_builder"></div>
+        <div class="alert10 hidden" id=""></div>
 
         <div class="alert11 hidden" id="msg11">
             <div class="product_form_wrapper center_v_mode">
@@ -344,6 +348,7 @@
                                 <div class="admin-h">New Blog Post<br><span>empty</span></div>
                             </div>
                         </div>
+
 
                         <div class="admin-h-split">
                             <div class="admin-item" id="ab2">

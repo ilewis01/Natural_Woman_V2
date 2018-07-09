@@ -76,7 +76,7 @@ def blog_editor():
 	content['title'] = "Natural Woman Salon | Blog Management"
 	content['btn_index'] = 7
 	content['blogs'] = get_blog_list()
-	content['json_data'] = None
+	content['json_data'] = get_blog_content()
 	return render_template("admin/editor.html", **content)
 
 @app.route('/product_editor')
@@ -87,7 +87,7 @@ def product_editor():
 	content['title'] = "Natural Woman Salon | Product Management"
 	content['btn_index'] = 8
 	content["products"] = get_product_list()
-	content['json_data'] = None
+	content['json_data'] = get_product_content()
 	return render_template("admin/editor.html", **content)
 
 @app.route('/about_editor')

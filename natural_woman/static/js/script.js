@@ -25,20 +25,65 @@ function initialize_index(jQuery) {
     $("#i7").delay(3500).fadeIn(700);
 }
 
-function get_load_id(btn_index)
-{
-    var loader = "";
-    btn_index = Number(btn_index);
-    if (btn_index == 7) {loader = "2";}
-    else if (btn_index == 8) {loader = "3";}
-    else if (btn_index == 10) {loader = "4";}
-    else if (btn_index == 9) {loader = "5";}
-    else if (btn_index == 11) {loader = "6";}
-    else if (btn_index == 12) {loader = "7";}
-    else if (btn_index == 13) {loader = "8";}
-    else if (btn_index == 14) {loader = "14";}
-    return loader;
-}
+// function get_load_id(btn_index)
+// {
+//     var loader = "";
+//     btn_index = Number(btn_index);
+//     if (btn_index == 7) {loader = "2";}
+//     else if (btn_index == 8) {loader = "3";}
+//     else if (btn_index == 10) {loader = "4";}
+//     else if (btn_index == 9) {loader = "5";}
+//     else if (btn_index == 11) {loader = "6";}
+//     else if (btn_index == 12) {loader = "7";}
+//     else if (btn_index == 13) {loader = "8";}
+//     else if (btn_index == 14) {loader = "14";}
+//     return loader;
+// }
+
+
+// function initialize_admin_forms()
+// {
+//     var btn_index = String(document.getElementById("btn_index").value);
+
+//     if (btn_index !== "6")
+//     {
+//         var index = get_load_id(btn_index);
+//         var trigger = "#msg" + index;
+
+//         $(trigger).hide();
+//         $(trigger).removeClass("hidden");
+//         $(trigger).fadeIn(600);
+//         $("#frame_active").val("1");
+//     }
+//     else
+//     {
+//         $("#frame_active").val("0");
+//         $("#blog_active").val("0");
+//     }
+
+//     if (btn_index === "7") { build_blog_editor(); }
+//     // if (btn_index === "9") { build_about_manager(); }
+//     // if (btn_index === "14")
+//     // {
+//     //     var model_meta = $("#load_meta_model").val();
+//     //     model_meta = String(model_meta);
+//     //     if (model_meta === "blog")
+//     //     {
+//     //         build_blog_editor();
+//     //         $("#editor_builder").hide();
+//     //         $("#editor_builder").removeClass("hidden");
+//     //         $("#editor_builder").fadeIn(500);
+//     //     }
+//     //     else if (model_meta === "product")
+//     //     {
+//     //         $("#msg11").hide();
+//     //         $("#msg11").removeClass("hidden");
+//     //         $("#msg11").fadeIn(500);
+//     //     }
+//     // }
+
+//     choose_selector_editor(btn_index);
+// }
 
 function initialize_admin_forms()
 {
@@ -46,42 +91,26 @@ function initialize_admin_forms()
 
     if (btn_index !== "6")
     {
-        var index = get_load_id(btn_index);
-        var trigger = "#msg" + index;
-
-        $(trigger).hide();
-        $(trigger).removeClass("hidden");
-        $(trigger).fadeIn(600);
+        $("#msg2").hide();
+        $("#msg2").removeClass("hidden");
+        $("#msg2").fadeIn(600);
         $("#frame_active").val("1");
+
+        if (btn_index==="7" || btn_index==="8")
+        {
+            choose_selector_editor(btn_index);
+        }
+        if (btn_index==="9")
+        {
+            $("#selected_e").val("0")
+            $("#div_0").addClass("super_select");
+        }
     }
     else
     {
         $("#frame_active").val("0");
         $("#blog_active").val("0");
     }
-
-    if (btn_index === "7") { build_blog_editor(); }
-    // if (btn_index === "9") { build_about_manager(); }
-    // if (btn_index === "14")
-    // {
-    //     var model_meta = $("#load_meta_model").val();
-    //     model_meta = String(model_meta);
-    //     if (model_meta === "blog")
-    //     {
-    //         build_blog_editor();
-    //         $("#editor_builder").hide();
-    //         $("#editor_builder").removeClass("hidden");
-    //         $("#editor_builder").fadeIn(500);
-    //     }
-    //     else if (model_meta === "product")
-    //     {
-    //         $("#msg11").hide();
-    //         $("#msg11").removeClass("hidden");
-    //         $("#msg11").fadeIn(500);
-    //     }
-    // }
-
-    choose_selector_editor(btn_index);
 }
 
 function initialize(jQuery) {
@@ -148,10 +177,18 @@ function load_selected_editor(index)
     }
 }
 
+function deactivate_blog_editor()
+{
+    $("#editor_subject").val("");
+    $("#super_blog_content").val("");
+    $("#msg3").fadeOut((500));
+}
+
 
 
 function open_product_editor(load_data)
 {
+    build_product_editor();
     load_data = String(load_data);
 
     if (load_data === "0") 
@@ -182,9 +219,9 @@ function open_product_editor(load_data)
         $("#target_action_prod").val("edit");
     }
 
-    $("#msg11").hide();
-    $("#msg11").removeClass("hidden");
-    $("#msg11").fadeIn(500);
+    $("#msg3").hide();
+    $("#msg3").removeClass("hidden");
+    $("#msg3").fadeIn(500);
 }
 
 function clear_product_fields()
@@ -192,6 +229,7 @@ function clear_product_fields()
     $("#product_name").val("");
     $("#product_description").val("");
     $("#product_price").val("0");
+    $("#msg3").fadeOut(500);
 }
 
 function load_error_message(labl1, labl2, labl3, obj1, obj2, obj3)
@@ -213,38 +251,7 @@ function load_error_heads(head, msg1, msg2, button)
     $("#obj_action").html(button);
 }
 
-function select_frame_builder(json_data)
-{
-    var btn_index = $("#btn_index").val();
-    btn_index = String(btn_index);
-
-    if (btn_index === "7") 
-    {
-        //Place the function here for blog manager
-    }
-    else if (btn_index === "8")
-    {
-        // Place the function here for the Product Manager
-    }
-    else if (btn_index === "9")
-    {
-        build_about_manager(json_data['inactive'], json_data['current']);
-    }
-    else if (btn_index === "10")
-    {
-        //Gallery Manager
-    }
-    else if (btn_index === "11")
-    {
-        // Comapny Editor
-    }
-    else if (btn_index === "12")
-    {
-        // User Editor
-    }
-}
-
-function build_blog_editor()
+function build_blog_editor(json_data)
 {
     var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
@@ -256,8 +263,8 @@ function build_blog_editor()
     html += "<div class=\"blog_full_editor_content\">";
     html += "<textarea id=\"super_blog_content\" required placeholder=\"Blog Body\" name=\"content\"></textarea>";
     html += "</div></form><div class=\"blog-btn-wrapper\"><button id=\"edit_action\">Submit</button>";
-    html += "<button id=\"close-this-10\">Close</button></div></div></div>";
-    $("#editor_builder").html(html);
+    html += "<button id=\"close-this-3\" onClick=\"javascript: deactivate_blog_editor();\">Close</button></div></div></div>";
+    $("#msg3").html(html);
 }
 
 function build_new_blog()
@@ -273,53 +280,64 @@ function build_new_blog()
     html += "<button id=\"close-this-1\">Cancel</button></div></div>";
 }
 
-function build_blog_manager()
+function build_blog_manager(data)
 {
-    var html = "";
-    html += "<div class=\"blog-manager-container center_v_mode\"><div class=\"frame_general\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Manage Blogs</h3>";
-    html += "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
+    var html = "<div class=\"blog-manager-container center_v_mode\">";
+    html += "<div class=\"frame_general steel_back\"><div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>Manage Blogs</h3><form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\"></form>";
-    html += "<div class=\"editor-cont\"> <div class=\"select-editor\"><ul>{% for b in blogs %}";
-    html += "<a href=\"javascript: load_selected_editor('{{b.index}}');\" id=\"at_{{b.index}}\">";
-    html += "<input type=\"hidden\" id=\"id_{{b.index}}\" value=\"{{b.blog.id}}\">";
-    html += "<input type=\"hidden\" id=\"subject_{{b.index}}\" value=\"{{b.blog.subject}}\">";
-    html += "<input type=\"hidden\" id=\"content_{{b.index}}\" value=\"{{b.blog.content}}\">";
-    html += "<input type=\"hidden\" id=\"date_{{b.index}}\" value=\"{{b.date}}\">";
-    html += "<input type=\"hidden\" id=\"time_{{b.index}}\" value=\"{{b.time}}\">";
-    html += "<li id=\"li_{{b.index}}\"><div><span>Subject: </span>{{b.blog.subject}}</div>";
-    html += "<div><span>Posted on: </span>{{b.date.date}} at <em>{{b.date.time}}</em></div>";
-    html += "</li></a>{% endfor %}</ul></div></div><div class=\"frame-btn-wrapper-3\">";
+    html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>";
+    for (var i = 0; i < data.length; i++)
+    {
+        html += "<a href=\"javascript: load_selected_editor('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
+        html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
+        html += "<input type=\"hidden\" id=\"subject_" + data[i]['index'] + "\" value=\"" + data[i]['subject'] + "\">";
+        html += "<input type=\"hidden\" id=\"content_" + data[i]['index'] + "\" value=\"" + data[i]['content'] + "\">";
+        html += "<input type=\"hidden\" id=\"date_" + data[i]['index'] + "\" value=\"" + data[i]['date'] + "\">";
+        html += "<input type=\"hidden\" id=\"time_" + data[i]['index'] + "\" value=\"" + data[i]['time'] + "\">";
+        html += "<li id=\"" + data[i]['index'] + "\">";
+        html += "<div><span>Subject: </span>" + data[i]['subject'] + "</div>";
+        html += "<div><span>Posted on: </span>" + data[i]['date'] + " at <em>" + data[i]['time'] + "</em></div>";
+        html += "</li>";
+        html += "</a>";
+
+    }
+    html += "</ul></div></div><div class=\"frame-btn-wrapper-3\">";
     html += "<button id=\"launch_blog_editor\">Edit</button>";
     html += "<button id=\"request_blog_delete\">Delete</button>";
-    html += "<button id=\"close-this-2\">Exit</button></div></div></div>";
+    html += "<button id=\"close-this-2\">Exit</button>";
+    html += "</div></div></div>";
+    return html;
 }
 
-function build_product_manager()
+function build_product_manager(data)
 {
-    var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general\">";
+    var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>Product manager</h3>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"delete\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\"></form>";
-    html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>{% for p in products %}";
-    html += "<a href=\"javascript: load_selected_editor('{{p.index}}');\" id=\"at_{{p.index}}\">";
-    html += "<input type=\"hidden\" id=\"id_{{p.index}}\" value=\"{{p.product.id}}\">";
-    html += "<input type=\"hidden\" id=\"name_{{p.index}}\" value=\"{{p.product.name}}\">";
-    html += "<input type=\"hidden\" id=\"description_{{p.index}}\" value=\"{{p.product.description}}\">";
-    html += "<input type=\"hidden\" id=\"price_{{p.index}}\" value=\"{{p.product.price}}\">";
-    html += "<li id=\"li_{{p.index}}\"><div><span>Product: </span>{{p.product.name}}</div>";
-    html += "<div><em><span>Description: </span>{{p.product.description}}</em></div>";
-    html += "<div><span>Price: </span>${{p.product.price}}</em></div></li></a>{% endfor %}";
+    html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>";
+    for (var i = 0; i < data.length; i++)
+    {
+        html += "<a href=\"javascript: load_selected_editor('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
+        html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
+        html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + data[i]['name'] + "\">";
+        html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + data[i]['description'] + "\">";
+        html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
+        html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
+        html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
+        html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a>";
+    }
     html += "</ul></div></div><div class=\"frame-btn-wrapper-4\">";
     html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
     html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
     html += "<button id=\"prod_btn3\">Delete Selected</button>";
-    html += "<button id=\"close-this-3\">Exit</button></div></div></div>";
+    html += "<button id=\"close-this-2\">Exit</button></div></div></div>";
+    return html
 }
 
 function build_product_editor()
@@ -337,7 +355,8 @@ function build_product_editor()
     html += "</div><div class=\"price_input\">";
     html += "<input type=\"number\" name=\"price\" id=\"product_price\" min=\"0\" value=\"0\"></div></form>";
     html += "<div class=\"blog-btn-wrapper\"><button id=\"product_editor_btn\"></button>";
-    html += "<button id=\"close-this-11\" onClick=\"javascript: clear_product_fields();\">Cancel</button></div></div></div>";
+    html += "<button id=\"close-this-3\" onClick=\"javascript: clear_product_fields();\">Cancel</button></div></div></div>";
+    $("#msg3").html(html);
 }
 
 function build_about_manager(inactive, current)
@@ -370,8 +389,8 @@ function build_about_manager(inactive, current)
     html += "<button id=\"set_about_active\" onClick=\"javascript: set_about_active();\">Set Active</button>";
     html += "<button id=\"edit_inactive_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
     html += "<button id=\"delete_about\" onClick=\"javascript: delete_about();\">Delete</button></div></div>";
-    html += "<div class=\"about-btn-wrapper\"><button id=\"close-this-5\">Exit</button></div></div></div>";
-    $("#msg5").html(html);
+    html += "<div class=\"about-btn-wrapper\"><button id=\"close-this-2\">Exit</button></div></div></div>";
+    return html;
 }
 
 function build_about_editor()
@@ -390,7 +409,30 @@ function build_about_editor()
     html += "<label>Set As Current Statement</label></div></form>";
     html += "<div class=\"blog-btn-wrapper\"><button onClick=\"javascript: save_about_object();\">Save</button>";
     html += "<button id=\"needless\" onClick=\"javascript: close_about_editor();\">Cancel</button></div></div></div>";
-    $("#editor_builder").html(html);
+    $("#msg3").html(html);
+    $("#msg3").hide();
+    $("#msg3").removeClass("hidden");
+    $("#msg3").fadeIn(500);
+}
+
+function build_url_frame(active, inactive, index)
+{
+    var html = "";
+    index = String(index);
+    if (index === "7")
+    {
+        html = build_blog_manager(inactive);
+    }
+    else if (index === "8")
+    {
+        html = build_product_manager(inactive);
+    }
+    else if (index ==="9")
+    {
+        html = build_about_manager(active, inactive);
+    }
+
+    $("#msg2").html(html);
 }
 
 function load_helper(subject)
@@ -542,6 +584,7 @@ function close_about_editor()
     $("#editor_statement").val("");
     $("#active_check").prop('checked', false);
     $("#active_check").prop("disabled", false);
+    $("#msg3").fadeOut(500);
 }
 
 function mod_checkbox(check_id)
@@ -596,18 +639,18 @@ $(document).ready(function() {
     });
     $("#ab3").click(function() {
         if (frame_active === "1")
-        { $( "#msg3" ).fadeOut(500, function() { window.location.href = "/product_editor" }); }
+        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/product_editor" }); }
         else { window.location.href = "/product_editor"; }
     });
     $("#ab4").click(function() {
         if (frame_active === "1")
-        { $( "#msg4" ).fadeOut(500, function() { window.location.href = "/gallery_editor" }); }
+        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/gallery_editor" }); }
         else { window.location.href = "/gallery_editor"; }
     });
     $("#ab5").click(function() {
         if (frame_active === "1")
         {
-            $( "#msg5" ).fadeOut(500, function() { 
+            $( "#msg2" ).fadeOut(500, function() { 
                 window.location.href = "/about_editor" 
             }); 
         }
@@ -615,17 +658,17 @@ $(document).ready(function() {
     });
     $("#ab6").click(function() {
         if (frame_active === "1")
-        { $( "#msg6" ).fadeOut(500, function() { window.location.href = "/company_editor" }); }
+        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/company_editor" }); }
         else { window.location.href = "/company_editor"; }
     });
     $("#ab7").click(function() {
         if (frame_active === "1")
-        { $( "#msg7" ).fadeOut(500, function() { window.location.href = "/user_editor" }); }
+        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/user_editor" }); }
         else { window.location.href = "/user_editor"; }
     });
     $("#ab8").click(function() {
         if (frame_active === "1")
-        { $( "#msg8" ).fadeOut(500, function() { window.location.href = "/user_access" }); }
+        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/user_access" }); }
         else { window.location.href = "/user_access"; }
     });
 
@@ -746,6 +789,7 @@ $(document).ready(function() {
         $("#err" ).fadeIn(500);
     });
     $("#launch_blog_editor").click(function() {
+        build_blog_editor();
         var index = $("#selected_e").val();
         index = String(index);
         var subj_id = "#subject_" + index;
@@ -758,9 +802,9 @@ $(document).ready(function() {
         $("#editor_subject").val(subject);
         $("#super_blog_content").val(content);
         $("#target_id2-1").val(e_id);
-        $("#editor_builder" ).hide();
-        $("#editor_builder" ).removeClass("hidden");
-        $("#editor_builder" ).fadeIn(500);
+        $("#msg3" ).hide();
+        $("#msg3" ).removeClass("hidden");
+        $("#msg3" ).fadeIn(500);
     });
 });
 
