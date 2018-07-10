@@ -61,11 +61,8 @@ def logout():
 @app.route('/admin_home')
 @login_required
 def admin_home():
-	content = {}
+	content = load_admin_home()
 	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | Administration"
-	content['btn_index'] = 6
-	content['json_data'] = None
 	return render_template("admin/home.html", **content)
 
 @app.route('/blog_editor')
@@ -75,7 +72,6 @@ def blog_editor():
 	content['user'] = current_user
 	content['title'] = "Natural Woman Salon | Blog Management"
 	content['btn_index'] = 7
-	content['blogs'] = get_blog_list()
 	content['json_data'] = get_blog_content()
 	return render_template("admin/editor.html", **content)
 
@@ -86,7 +82,6 @@ def product_editor():
 	content['user'] = current_user
 	content['title'] = "Natural Woman Salon | Product Management"
 	content['btn_index'] = 8
-	content["products"] = get_product_list()
 	content['json_data'] = get_product_content()
 	return render_template("admin/editor.html", **content)
 
@@ -117,7 +112,7 @@ def company_editor():
 	content['user'] = current_user
 	content['title'] = "Natural Woman Salon | Company Profile"
 	content['btn_index'] = 11
-	content["product"] = get_product_list()
+	content["json_data"] = get_company_content()
 	return render_template("admin/editor.html", **content)
 
 @app.route('/user_editor')

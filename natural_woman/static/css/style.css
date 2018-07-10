@@ -312,6 +312,18 @@ body {
   	background: linear-gradient(rgba(71, 73, 49, 0.3), rgba(172, 174, 57, 0.3));
 }
 
+.frame_general_sm {
+	width:100%;
+	border:1px solid #cccccc;
+	border-radius: 7px;
+	box-shadow: 4px 4px 4px #000000;
+  	padding-left:2%;
+  	padding-right:2%;
+  	padding-bottom:3%;
+  	padding-top: 2%;
+  	background: linear-gradient(rgba(71, 73, 49, 0.3), rgba(172, 174, 57, 0.3));
+}
+
 .dark_frame {
 	width:100%;
 	border:1px solid #cccccc;
@@ -325,6 +337,16 @@ body {
 }
 
 .frame_general h3 {
+	font-family: 'Lovers Quarrel', cursive;
+  	text-transform: lowercase;
+  	text-align: right;
+  	font-size: 50px;
+  	line-height: 50px;
+  	padding-right:4px;
+  	text-shadow: 1px 1px black;
+}
+
+.frame_general_sm h3 {
 	font-family: 'Lovers Quarrel', cursive;
   	text-transform: lowercase;
   	text-align: right;
@@ -1109,6 +1131,190 @@ body {
     padding: 3%;
     border-bottom: 1px solid #0d6af7;
     padding-bottom: 1%;
+}
+
+.company_container {
+    width: 25%;
+    margin: auto;
+}
+
+.company_data_wrap {
+    width: 95%;
+    margin: auto;
+    padding: 3%;
+    background-image: url('/static/images/iml_bkgnd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 1px solid #000000;
+    border-radius: 6px;
+}
+
+.company_section {
+    width: 100%;
+    color: #444444;
+    text-align: left;
+}
+
+.company_section h4 {
+    font-size: 16px;
+    width: 100%;
+    border-bottom: 1px solid #777777;
+}
+
+.company_section i {
+    font-size: 12px;
+    vertical-align: super;
+}
+
+.company_section p {
+    font-size: 12px;
+    text-align: center;
+    color: #02346c;
+    font-family: arial;
+    font-style: italic;
+}
+
+.company-item {
+    color: #000000;
+    font-size: 12px;
+}
+
+.company_button_wrap {
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    margin-top: 4%;
+    text-align: right;
+    background-color: #888888;
+}
+
+.company_button_wrap button {
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    font-size: 11px;
+    border-color: #444444;
+    border-top-color: #888888;
+    width: 100%;
+}
+
+.company_sub_head {
+    font-size: 14px;
+    color: #02346c;
+    font-weight: bold;
+}
+
+.lower_company1 {
+    margin-top:3%;
+}
+
+.lower_company2 {
+    margin-top:3%;
+}
+
+.company_media_style {
+    width: 100%;
+    margin-bottom: 3%;
+    padding-left: 2%;
+}
+
+.company_media_style img {
+    width: 9%;
+    border:1px solid #aaaaaa;
+    border-radius: 6px;
+    margin-right: 3%;
+    margin-bottom: 3%;
+    box-shadow: 2px 2px 2px #333333;
+}
+
+.company_media_style img:hover {
+    opacity: 0.5;
+}
+
+.company_media_style a {
+    font-size: 12px;
+}
+
+.media_link_container {
+    width: 55%;
+    margin: auto;
+}
+
+.co_media_form {
+    width: 100%;
+    background-image: url('/static/images/iml_bkgnd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 1px solid #000000;
+    border-radius: 6px;
+    padding: 2%;
+    margin-top:3%;
+}
+
+.co_media_form h5 {
+    text-align: left;
+    width:100%;
+    color: #444444;
+    font-size: 16px;
+    border-bottom: 1px solid #888888;
+    font-style: italic;
+}
+
+.co_media_form input {
+    font-size: 13px;
+    border-color: #cccccc;
+}
+
+.co_sm_buttons, .co_md_buttons {
+    width: 100%;
+    background-color: #999999;
+    border-radius: 6px;
+    border: 1px solid #444444;
+    text-align: right;
+    margin-top:3%;
+    padding-right: 1%;
+    padding-bottom: 0.6%;
+    background: linear-gradient(rgba(221, 221, 221, 1), rgba(153, 153, 153, 0.9));
+}
+
+.co_sm_buttons button {
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    font-size: 11px;
+    border-color: #444444;
+    border-top-color: #888888;
+    width: 15%;
+    font-size: 11px;
+}
+
+.co_md_buttons button {
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    font-size: 11px;
+    border-color: #444444;
+    border-top-color: #888888;
+    width: 25%;
+    font-size: 11px;
+}
+
+.compant_contact_container {
+    width: 30%;
+    margin: auto;
+}
+
+.drop_h5 {
+    margin-top: 5%;
+}
+
+.drop_input {
+    margin-bottom: 1%;
+}
+
+.font_11 input {
+    font-size: 11.5px;
+}
+
+.sep_co_btn {
+    margin-bottom: 8%;
 }
 
 

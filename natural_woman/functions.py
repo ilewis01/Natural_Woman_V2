@@ -113,6 +113,10 @@ def send_email(subject, sender, recipients, text_body, html_body):
 # 	thr = Thread(target=send_async_email, args=[msg])
 # 	thr.start()
 
+def get_company_model():
+	companies = Company.query.all()
+	return companies[0]
+
 def json_serialize_blogs():
 	data 	= []
 	index 	= 0
@@ -182,25 +186,45 @@ def json_serialize_users():
 	return data
 
 def json_serialize_company():
-	data = []
-	company = Company.query.all()
-	for c in company:
-		d 					= {}
-		d['code'] 			= c.code
-		d['address1'] 		= c.address1
-		d['address2'] 		= c.address2
-		d['address3'] 		= c.address3
-		d['city'] 			= c.city
-		d['state'] 			= c.state
-		d['zip_code'] 		= c.zip_code
-		d['phone'] 			= c.phone
-		d['hours_m_f'] 		= c.hours_m_f
-		d['hours_sat'] 		= c.hours_sat
-		d['hours_sun'] 		= c.hours_sun
-		d['facebook_url'] 	= c.facebook_url
-		d['twitter_url'] 	= c.twitter_url
-		d['instagram_url'] 	= c.instagram_url
-		data.append(d)
+	data = {}
+	c 						= get_company_model()
+	address2 				= isEmptyMember(c.address2)
+	address3 				= isEmptyMember(c.address3)
+	facebook 				= isEmptyMember(c.facebook_url)
+	twitter 				= isEmptyMember(c.twitter_url)
+	instagram 				= isEmptyMember(c.instagram_url)
+	data['code'] 			= c.code
+	data['address1'] 		= c.address1
+	data['address2'] 		= address2
+	data['address3'] 		= address3
+	data['city'] 			= c.city
+	data['state'] 			= c.state
+	data['zip_code'] 		= c.zip_code
+	data['phone'] 			= c.phone
+	data['email'] 			= c.email
+	data['hours_m_f'] 		= c.hours_m_f
+	data['hours_sat'] 		= c.hours_sat
+	data['hours_sun'] 		= c.hours_sun
+	data['facebook_url'] 	= facebook
+	data['twitter_url'] 	= twitter
+	data['instagram_url'] 	= instagram
+	return data
+
+def isEmptyMember(literal):
+	literal = str(literal)
+	print("LITERAL VALUE: " + literal)
+	if literal==None or literal=="" or literal=="null" or len(literal)==0 or literal=="None":
+		literal = "empty"
+	return literal
+
+def load_admin_home():
+	data 					= {}
+	json_data 				= {}
+	json_data['active'] 	= []
+	json_data['inactive'] 	= []
+	data['title'] 			= "Natural Woman Salon | Administration"
+	data['btn_index'] 		= 6
+	data['json_data'] 		= json_data
 	return data
 
 def get_about_list():
@@ -228,6 +252,14 @@ def get_product_content():
 	data 				= {}
 	products 			= json_serialize_products()
 	data['active'] 		= json.dumps(products)
+	data['inactive'] 	= []
+	return data
+
+def get_company_content():
+	data 				= {}
+	c_format 			= []
+	company 			= json_serialize_company()
+	data['active'] 		= company
 	data['inactive'] 	= []
 	return data
 

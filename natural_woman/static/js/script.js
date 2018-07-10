@@ -413,6 +413,124 @@ function build_about_editor()
     $("#msg3").hide();
     $("#msg3").removeClass("hidden");
     $("#msg3").fadeIn(500);
+}  
+
+function build_company_manager(data)
+{              
+    var html = "<div class=\"company_container center_v_mode\">";
+    html += "<div class=\"frame_general\">";
+    html += "<input type=\"hidden\" id=\"co1\" value=\"" + data['address1'] + "\">"
+    html += "<input type=\"hidden\" id=\"co2\" value=\"" + data['address2'] + "\">"
+    html += "<input type=\"hidden\" id=\"co3\" value=\"" + data['address3'] + "\">"
+    html += "<input type=\"hidden\" id=\"co4\" value=\"" + data['city'] + "\">"
+    html += "<input type=\"hidden\" id=\"co5\" value=\"" + data['state'] + "\">"
+    html += "<input type=\"hidden\" id=\"co6\" value=\"" + data['zip_code'] + "\">"
+    html += "<input type=\"hidden\" id=\"co7\" value=\"" + data['phone'] + "\">"
+    html += "<input type=\"hidden\" id=\"co8\" value=\"" + data['email'] + "\">"
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>Company Profile</h3>";
+    html += "<div class=\"company_data_wrap\">";
+    html += "<div class=\"company_section\">";
+    html += "<h4>";
+    html += "Contact Information";
+    html += "<a href=\"javascript: load_helper('contact_info');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</h4>";
+    html += "<div class=\"company_sub_head\">Address: </div>";
+    html += "<div class=\"company-item\">" + data['address1'] + "</div>";
+    html += "<div class=\"company-item\">" + data['address2'] + "</div>";
+    html += "<div class=\"company-item\">" + data['address3'] + "</div>";
+    html += "<div class=\"company-item\">"
+    html += data['city'];
+    html += ", ";
+    html += data['state'];
+    html += " ";
+    html += data['zip_code'];
+    html += "</div><div class=\"company_sub_head lower_company1\">Phone: </div>";
+    html += "<div class=\"company-item\">" + data['phone'] + "</div>";
+    html += "<div class=\"company_sub_head lower_company1\">Email: </div>";
+    html += "<div class=\"company-item\"><em>" + data['email'] + "</em></div>";
+    html += "<div class=\"company_button_wrap\">";
+    html += "<button onClick=\"javascript: launch_company_editor('contact');\">Edit Contact Information</button>";
+    html += "</div></div></div>";
+    html += "<div class=\"company_data_wrap lower_company2\">";
+    html += "<div class=\"company_section\"><h4>";
+    html += "Social Media Links";
+    html += "<a href=\"javascript: load_helper('social_media');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</h4>";
+    html += "<p>Click the icons to view link</p>";
+    html += "<div class=\"company_media_style\">";
+    html += "<a href=\"" + data['facebook_url'] + "\" target=\"_blank\"><img src=\"/static/images/fb.png\"></a>";
+    html += "<a href=\"javascript: launch_company_editor('facebook');\">Change Facebook Link</a>";
+    html += "</div><div class=\"company_media_style\">";
+    html += "<a href=\"" + data['twitter_url'] + "\" target=\"_blank\"><img src=\"/static/images/twitter.png\"></a>";
+    html += "<a href=\"javascript: launch_company_editor('twitter');\">Change Twitter Link</a>";
+    html += "</div> <div class=\"company_media_style\">";
+    html += "<a href=\"" + data['instagram_url'] + "\" target=\"_blank\"><img src=\"/static/images/instagram.png\"></a>";
+    html += "<a href=\"javascript: launch_company_editor('instagram');\">Change Instagram Link</a>";
+    html += "</div></div></div><div class=\"company_data_wrap\">";
+    html += "<div class=\"company_button_wrap\">";
+    html += "<button id=\"close-this-2\">Exit</button>";
+    html += "</div></div></div></div>";
+    return html
+}
+
+function build_company_editor(mode)
+{
+    var html = "";
+    mode = String(mode)
+    if (mode !== "contact")
+    {
+        html += "<div class=\"media_link_container center_v_mode\">";
+        html += "<div class=\"frame_general_sm\">";
+        html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+        html += "<h3 id=\"social_media_header_id\"></h3>";
+        html += "<div class=\"co_media_form\">";
+        html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
+        html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
+        html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
+        html += "<input type=\"text\" name=\"link\" id=\"sm_link\" placeholder=\"Enter the new social media link here\" required></form>";
+        html += "<div class=\"co_sm_buttons\">";
+        html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
+        html += "<button onClick=\"javascript: close_company_editor('media');\">Cancel</button>";
+        html += "</div></div></div></div>";
+    }
+    else
+    {                                 
+        html += "<div class=\"compant_contact_container center_v_mode\">";
+        html += "<div class=\"frame_general_sm steel_back\">";
+        html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+        html += "<h3 id=\"social_media_header_id\"></h3><div class=\"co_media_form\">";
+        html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
+        html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
+        html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
+        html += "<h5 class=\"drop_h5\">Address</h5><div class=\"font_11\">";
+        html += "<input type=\"text\" name=\"address1\" id=\"address1\" class=\"drop_input\" placeholder=\"Address Line 1\" required>";
+        html += "<input type=\"text\" name=\"address2\" id=\"address2\" class=\"drop_input\" placeholder=\"Address Line 2\">";
+        html += "<input type=\"text\" name=\"address3\" id=\"address3\" class=\"drop_input\" placeholder=\"Address Line 3\"></div>";
+        html += "<div class=\"container\"><div class=\"row\">";
+        html += "<div class=\"col-sm-7 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
+        html += "<input type=\"text\" name=\"city\" id=\"city\" placeholder=\"City\" required></div>";
+        html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
+        html += "<input type=\"text\" name=\"state\" id=\"state\" placeholder=\"MI\" value=\"MI\" required></div>";
+        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+        html += "<input type=\"text\" name=\"zip_code\" id=\"zip_code\" placeholder=\"Zip Code\" required></div></div></div>";
+        html += "<h5 class=\"drop_h5\">Phone</h5>";
+        html += "<div class=\"container\"><div class=\"row\">";
+        html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
+        html += "<input type=\"text\" name=\"area_code\" id=\"area_code\" required></div>";
+        html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
+        html += "<input type=\"text\" name=\"prefix\" id=\"prefix\" required></div>";
+        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
+        html += "<input type=\"text\" name=\"postfix\" id=\"postfix\" required>";
+        html += "</div><div class=\"col-sm-5\" style=\"padding:0; margin:0;\"></div></div></div>";
+        html += "<h5 class=\"drop_h5\">Email</h5>";
+        html += "<div class=\"font_11 sep_co_btn\"><input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" required></div>";
+        html += "</form><div class=\"co_md_buttons\">";
+        html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
+        html += "<button onClick=\"javascript: close_company_editor('contact');\">Cancel</button>";
+        html += "</div></div></div></div>";
+    }
+    $("#msg3").html(html);
 }
 
 function build_url_frame(active, inactive, index)
@@ -431,6 +549,10 @@ function build_url_frame(active, inactive, index)
     {
         html = build_about_manager(active, inactive);
     }
+    else if (index ==="11")
+    {
+        html = build_company_manager(inactive);
+    }
 
     $("#msg2").html(html);
 }
@@ -446,12 +568,26 @@ function load_helper(subject)
         message = "This is the \"About Us\" statement that is currently displayed on the site. Active about ";
         message += "statements cannot not be deleted. However, they can be edited. If you would like to delete this statement, ";
         message += "You must select a statement from the inactive statements below and set it as active. Then select the desired statement ";
-        message += "from the inactive list click the delete button."
+        message += "from the inactive list and click the delete button."
     }
     else if (subject === "about_inactive")
     {
         title = "Inactive Statement";
         message = "This statements can be saved and used any time as the \"About Us\" statement that is displayed on the site."
+    }
+    else if (subject == "contact_info")
+    {
+        title = "Contact Information";
+        message = "This is the content on the site that will provide users imformation to contact you.";
+        message += " When changing this information, make sure that it is accurate. There are three (3) address lines available. ";
+        message += "However, it is not necessary to use them all. Blank address lines will not be displayed on the live site."
+    }
+    else if (subject == "social_media")
+    {
+        title = "Social Media Links";
+        message = "This information controls the links in which users will be redirected to view your social media sites. ";
+        message += "Before changing this information, be certain that the link you provide is accurate. Otherwise, ";
+        message += "Your users will be directed to a site that does not belong to you and the content cannot be controlled."
     }
     $("#helper_title").html(title);
     $("#content_message").html(message);
@@ -463,6 +599,84 @@ function load_helper(subject)
 function close_helper_frame()
 {
     $("#helper_element").fadeOut(500);
+}
+
+function launch_company_editor(mode)
+{
+    mode = String(mode);
+    build_company_editor(mode);
+
+    if (mode === "contact")
+    {
+        var address1    = $("#co1").val();
+        var address2    = $("#co2").val();
+        var address3    = $("#co3").val();
+        var city        = $("#co4").val();
+        var state       = $("#co5").val();
+        var zip_code    = $("#co6").val();
+        var phone       = $("#co7").val();
+        var email       = $("#co8").val();
+
+        if (String(address2) === "empty") { address2 = ""; }
+        if (String(address3) === "empty") { address3 = ""; }
+        phone = String(phone);
+        var area_code = phone[1];
+        area_code += phone[2];
+        area_code += phone[3];
+        var prefix = phone[6];
+        prefix += phone[7];
+        prefix += phone[8];
+        var postfix = phone[10];
+        postfix += phone[11];
+        postfix += phone[12];
+        postfix += phone[13];
+
+        $("#social_media_header_id").html("Edit Contact Information");
+        $("#target_member_company").val("contact");
+        $("#address1").val(address1);
+        $("#address2").val(address2);
+        $("#address3").val(address3);
+        $("#city").val(city);
+        $("#state").val(state);
+        $("#zip_code").val(zip_code);
+        $("#email").val(email);
+        $("#area_code").val(area_code);
+        $("#prefix").val(prefix);
+        $("#postfix").val(postfix);
+    }
+    else if (mode === "facebook")
+    {
+        $("#social_media_header_id").html("Change Facebook Link");
+        $("#target_member_company").val("facebook");
+    }
+    else if (mode === "twitter")
+    {
+        $("#social_media_header_id").html("Change Twittewr Link");
+        $("#target_member_company").val("twitter");
+    }
+    else if (mode === "instagram")
+    {
+        $("#social_media_header_id").html("Change Instagram Link");
+        $("#target_member_company").val("instagram");
+    }
+    $("#msg3").hide();
+    $("#msg3").removeClass("hidden");
+    $("#msg3").fadeIn(500);
+}
+
+function close_company_editor(mode)
+{
+    mode = String(mode);
+    if (mode === "media")
+    {
+        $("#sm_link").val("");
+    }
+    $("#msg3").fadeOut(500);
+}
+
+function submit_company_edits()
+{
+    $("#company_manager_form").submit();
 }
 
 function save_about_object()
@@ -649,11 +863,8 @@ $(document).ready(function() {
     });
     $("#ab5").click(function() {
         if (frame_active === "1")
-        {
-            $( "#msg2" ).fadeOut(500, function() { 
-                window.location.href = "/about_editor" 
-            }); 
-        }
+        { $( "#msg2" ).fadeOut(500, function() { 
+                window.location.href = "/about_editor" }); }
         else { window.location.href = "/about_editor"; }
     });
     $("#ab6").click(function() {

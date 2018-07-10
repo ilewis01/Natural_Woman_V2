@@ -67,7 +67,8 @@
         </body>
 
         <!--EDITOR BUILDER -->
-        <div class="alert3 hidden" id="msg3"></div> 
+        <div class="alert3 hidden" id="msg3">
+        </div> 
 
 
             <!--<div class="alert2 hidden" id="msg5">
@@ -171,39 +172,81 @@
             </div>
         </div>
 
+
         <div class="alert6 hidden" id="msg6">
-            <div class="blog-manager-container">
-                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>Company Profile</h3>
-                <form action="/auth" method="POST" id="product_manager_form">
-                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
-                    <div class="blog_content_wrapper">
-                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body"></textarea>
+            <div class="company_container center_v_mode">
+                <div class="frame_general">
+                    <input type="hidden" id="co1" value="{{json_data.active.address1}}">
+                    <input type="hidden" id="co2" value="{{json_data.active.address2}}">
+                    <input type="hidden" id="co3" value="{{json_data.active.address3}}">
+                    <input type="hidden" id="co4" value="{{json_data.active.city}}">
+                    <input type="hidden" id="co5" value="{{json_data.active.state}}">
+                    <input type="hidden" id="co6" value="{{json_data.active.zip_code}}">
+                    <input type="hidden" id="co7" value="{{json_data.active.phone}}">
+                    <input type="hidden" id="co8" value="{{json_data.active.email}}">
+
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>Company Profile</h3>
+                    <div class="company_data_wrap">
+                        <div class="company_section">
+                            <h4>
+                                Contact Information
+                                <a href="javascript: load_helper('contact_info');"><i class="far fa-question-circle"></i></a>
+                            </h4>
+                            <div class="company_sub_head">Address: </div>
+                            <div class="company-item">{{json_data.active.address1}}</div>
+                            <!-- BE SURE TO MAKE A TEST THAT CHECKS IF THE ADDRES LINE IS EMPTY IN JS -->
+                            <div class="company-item">{{json_data.active.address2}}</div>
+                            <div class="company-item">{{json_data.active.address3}}</div>
+                            <div class="company-item">
+                                {{json_data.active.city}}, {{json_data.active.state}} {{json_data.active.zip_code}}
+                            </div>
+
+                            <div class="company_sub_head lower_company1">Phone: </div>
+                            <div class="company-item">{{json_data.active.phone}}</div>
+
+                            <div class="company_sub_head lower_company1">Email: </div>
+                            <div class="company-item"><em>info@naturalwomansalon.com</em></div>
+                            <div class="company_button_wrap">
+                                <button onClick="javascript: launch_company_editor('contact');">Edit Contact Information</button>
+                            </div>
+                        </div>
                     </div>
-                </form>
-                <div class="blog-btn-wrapper">
-                    <button id="login-btn">Post</button>
-                    <button id="close-this-6">Cancel</button>
+
+                    <div class="company_data_wrap lower_company2">
+                        <div class="company_section">
+                            <h4>
+                                Social Media Links
+                                <a href="javascript: load_helper('social_media');"><i class="far fa-question-circle"></i></a>
+                            </h4>
+                            <p>Click the icons to view link</p>
+
+                            <div class="company_media_style">
+                                <a href="{{json_data.active.facebook_url}}" target="_blank"><img src="/static/images/fb.png"></a>
+                                <a href="javascript: launch_company_editor('facebook');">Change Facebook Link</a>
+                            </div>
+
+                            <div class="company_media_style">
+                                <a href="{{json_data.active.twitter_url}}" target="_blank"><img src="/static/images/twitter.png"></a>
+                                <a href="javascript: launch_company_editor('twitter');">Change Twitter Link</a>
+                            </div>
+
+                            <div class="company_media_style">
+                                <a href="{{json_data.active.instagram_url}}" target="_blank"><img src="/static/images/instagram.png"></a>
+                                <a href="javascript: launch_company_editor('instagram');">Change Instagram Link</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="company_data_wrap">
+                        <div class="company_button_wrap">
+                            <button id="close-this-6">Exit</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="alert7 hidden" id="msg7">
-            <div class="blog-manager-container">
-                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>User Management</h3>
-                <form action="/auth" method="POST" id="product_manager_form">
-                    <input type="text" name="subject" id="subject" placeholder="Subject" required>
-                    <div class="blog_content_wrapper">
-                        <textarea name="blog_content" id="blog_content" placeholder="Blog Body"></textarea>
-                    </div>
-                </form>
-                <div class="blog-btn-wrapper">
-                    <button id="login-btn">Post</button>
-                    <button id="close-this-7">Cancel</button>
-                </div>
-            </div>
-        </div>
 
         <!-- THIS IS THE AREA WHERE THE USER AUTHORIZE WILL GO -->
         <div class="alert8 hidden" id="msg8"></div>

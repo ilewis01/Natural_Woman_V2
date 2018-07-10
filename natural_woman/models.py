@@ -184,6 +184,7 @@ class Company(db.Model):
 	city 			= db.Column('city', db.String, nullable=False)
 	state 			= db.Column('state', db.String(2), nullable=False)
 	zip_code 		= db.Column('zip_code', db.String(5), nullable=False)
+	email 			= db.Column('email', db.String, default="info@naturalwomansalon.com", nullable=False)
 	phone 			= db.Column('phone', db.String, nullable=False)
 	hours_m_f 		= db.Column('m-f', db.String, nullable=False)
 	hours_sat 		= db.Column('sat', db.String, nullable=False)
@@ -193,16 +194,17 @@ class Company(db.Model):
 	instagram_url	= db.Column('instagram', db.String, nullable=False)
 
 	def __init__(self):
-		self.address1 = "8485 Old 13 Mile Road"
-		self.city = "Warren"
-		self.state = "MI"
-		self.zip_code = "48093"
-		self.phone = "(586) 315-8858"
-		self.hours_m_f = "10am - 7pm"
-		self.hours_sat = "10am - 7pm"
-		self.hours_sun = "12pm - 5pm"
-		self.facebook_url = "https://www.facebook.com/Natural-Woman-Salon-133665140595488/?ref=bookmarks"
-		self.instagram_url = "https://www.instagram.com/naturalwomansalon/"
+		self.address1 		= "8485 Old 13 Mile Road"
+		self.city 			= "Warren"
+		self.state 			= "MI"
+		self.zip_code 		= "48093"
+		self.phone 			= "(586) 315-8858"
+		self.hours_m_f 		= "10am - 7pm"
+		self.hours_sat 		= "10am - 7pm"
+		self.hours_sun 		= "12pm - 5pm"
+		self.facebook_url 	= "https://www.facebook.com/Natural-Woman-Salon-133665140595488/?ref=bookmarks"
+		self.instagram_url 	= "https://www.instagram.com/naturalwomansalon/"
+		self.email = "info@naturalwomansalon.com"
 
 	def get_company():
 		return Company.query.filter_by(code="nws").one()
