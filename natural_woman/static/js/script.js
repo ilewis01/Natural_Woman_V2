@@ -427,6 +427,9 @@ function build_company_manager(data)
     html += "<input type=\"hidden\" id=\"co6\" value=\"" + data['zip_code'] + "\">"
     html += "<input type=\"hidden\" id=\"co7\" value=\"" + data['phone'] + "\">"
     html += "<input type=\"hidden\" id=\"co8\" value=\"" + data['email'] + "\">"
+    html += "<input type=\"hidden\" id=\"co9\" value=\"" + data['hours_m_f'] + "\">"
+    html += "<input type=\"hidden\" id=\"co10\" value=\"" + data['hours_sat'] + "\">"
+    html += "<input type=\"hidden\" id=\"co11\" value=\"" + data['hours_sun'] + "\">"
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Company Profile</h3>";
     html += "<div class=\"company_data_wrap\">";
@@ -449,6 +452,10 @@ function build_company_manager(data)
     html += "<div class=\"company-item\">" + data['phone'] + "</div>";
     html += "<div class=\"company_sub_head lower_company1\">Email: </div>";
     html += "<div class=\"company-item\"><em>" + data['email'] + "</em></div>";
+    html += "<div class=\"company_sub_head lower_company1\">Business Hours: </div>";
+    html += "<div class=\"company-item\"><b>Weekdays: </b><em>" + data['hours_m_f'] + "</em></div>";
+    html += "<div class=\"company-item\"><b>Saturdays: </b><em>" + data['hours_sat'] + "</em></div>";
+    html += "<div class=\"company-item\"><b>Sundays: </b><em>" + data['hours_sun'] + "</em></div>";
     html += "<div class=\"company_button_wrap\">";
     html += "<button onClick=\"javascript: launch_company_editor('contact');\">Edit Contact Information</button>";
     html += "</div></div></div>";
@@ -524,7 +531,30 @@ function build_company_editor(mode)
         html += "<input type=\"text\" name=\"postfix\" id=\"postfix\" required>";
         html += "</div><div class=\"col-sm-5\" style=\"padding:0; margin:0;\"></div></div></div>";
         html += "<h5 class=\"drop_h5\">Email</h5>";
-        html += "<div class=\"font_11 sep_co_btn\"><input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" required></div>";
+        html += "<div class=\"font_11\"><input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" required></div>";
+        html += "<h5 class=\"drop_h5\">Business Hours</h5>";
+        html += "<div class=\"container\"><div class=\"row\">";
+        //THIS IS WHERE THE INPUT WILL GO FOR BUSINESS HOURS
+        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+        html += "Weekdays:</div>";
+        html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
+        html += "<input type=\"text\" name=\"hours_m_f\" id=\"hours_m_f\" class=\"drop_input\" required></div>";
+        html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+
+        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+        html += "Saturdays:</div>";
+        html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
+        html += "<input type=\"text\" name=\"hours_sat\" id=\"hours_sat\" class=\"drop_input\" required></div>";
+        html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+
+        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+        html += "Sundays:</div>";
+        html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
+        html += "<input type=\"text\" name=\"hours_sun\" id=\"hours_sun\" class=\"drop_input\" required></div>";
+        html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+
+        //END OF THE NEW SECTION
+        html += "</div></div><div class=\"sep_co_btn\"></div>"
         html += "</form><div class=\"co_md_buttons\">";
         html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
         html += "<button onClick=\"javascript: close_company_editor('contact');\">Cancel</button>";
@@ -616,6 +646,9 @@ function launch_company_editor(mode)
         var zip_code    = $("#co6").val();
         var phone       = $("#co7").val();
         var email       = $("#co8").val();
+        var weekdays    = $("#co9").val();
+        var saturday    = $("#co10").val();
+        var sunday      = $("#co11").val();
 
         if (String(address2) === "empty") { address2 = ""; }
         if (String(address3) === "empty") { address3 = ""; }
@@ -643,6 +676,9 @@ function launch_company_editor(mode)
         $("#area_code").val(area_code);
         $("#prefix").val(prefix);
         $("#postfix").val(postfix);
+        $("#hours_m_f").val(weekdays);
+        $("#hours_sat").val(saturday);
+        $("#hours_sun").val(sunday);
     }
     else if (mode === "facebook")
     {
@@ -651,7 +687,7 @@ function launch_company_editor(mode)
     }
     else if (mode === "twitter")
     {
-        $("#social_media_header_id").html("Change Twittewr Link");
+        $("#social_media_header_id").html("Change Twitter Link");
         $("#target_member_company").val("twitter");
     }
     else if (mode === "instagram")

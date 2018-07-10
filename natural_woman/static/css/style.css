@@ -1309,6 +1309,12 @@ body {
     margin-bottom: 1%;
 }
 
+.font_11 {
+	font-size: 11.5px;
+	text-align: left;
+	color: #222222;
+}
+
 .font_11 input {
     font-size: 11.5px;
 }
@@ -1316,6 +1322,7 @@ body {
 .sep_co_btn {
     margin-bottom: 8%;
 }
+
 
 
 
