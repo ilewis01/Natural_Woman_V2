@@ -175,11 +175,11 @@ def json_serialize_users():
 		d['fname'] 				= u.fname
 		d['lname'] 				= u.lname
 		d['email'] 				= u.email
-		d['is_admin'] 			= u.is_admin
-		d['product_permission'] = u.product_permission
-		d['about_permission'] 	= u.about_permission
-		d['blog_permission'] 	= u.blog_permission
-		d['gallery_permission'] = u.gallery_permission
+		d['is_admin'] 			= str(u.is_admin)
+		d['product_permission'] = str(u.product_permission)
+		d['about_permission'] 	= str(u.about_permission)
+		d['blog_permission'] 	= str(u.blog_permission)
+		d['gallery_permission'] = str(u.gallery_permission)
 		d['index'] 				= index
 		data.append(d)
 		index += 1

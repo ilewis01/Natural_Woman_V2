@@ -563,6 +563,170 @@ function build_company_editor(mode)
     $("#msg3").html(html);
 }
 
+function build_user_manager(data)
+{
+    var granted = "<i class=\"far fa-check-square\"></i> ";
+    var denied = "<i class=\"far fa-square\"></i> ";
+    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"user_management_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelManager\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionManager\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdManager\" value=\"\">";
+    html += "</form>";
+    html += "<div class=\"blog-manager-container center_v_mode\">";
+    html += "<div class=\"frame_general_sm steel_back\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>User Management</h3>";
+    html += "<div class=\"generalSteel\">";
+    html += "<h5>Select a user from the list below</h5>";
+    html += "<div class=\"generalSteelListWrap\">";
+    html += "<ul>";
+
+    for(var i = 0; i < data.length; i++)
+    {
+        html += "<div id=\"div_" + data[i]['index'] + "\">";
+        html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\">";
+        html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
+        html += "<input type=\"hidden\" id=\"fname_" + data[i]['index'] + "\" value=\"" + data[i]['fname'] + "\">";
+        html += "<input type=\"hidden\" id=\"lname_" + data[i]['index'] + "\" value=\"" + data[i]['lname'] + "\">";
+        html += "<input type=\"hidden\" id=\"email_" + data[i]['index'] + "\" value=\"" + data[i]['email'] + "\">";
+        html += "<input type=\"hidden\" id=\"admin_" + data[i]['index'] + "\" value=\"" + data[i]['is_admin'] + "\">";
+        html += "<input type=\"hidden\" id=\"product_" + data[i]['index'] + "\" value=\"" + data[i]['product_permission'] + "\">";
+        html += "<input type=\"hidden\" id=\"about_" + data[i]['index'] + "\" value=\"" + data[i]['about_permission'] + "\">";
+        html += "<input type=\"hidden\" id=\"blog_" + data[i]['index'] + "\" value=\"" + data[i]['blog_permission'] + "\">";
+        html += "<input type=\"hidden\" id=\"gallery_" + data[i]['index'] + "\" value=\"" + data[i]['gallery_permission'] + "\">";
+        html += "<li>";
+        html += "<div class=\"container\">";
+        html += "<div class=\"row\">";
+        html += "<div class=\"col-sm-12 clear_pm cap_it\">" + data[i]['fname'] + " " + data['lname'] + "</div>";
+        html += "<div class=\"col-sm-12 clear_pm\"><em>" + data[i]['email'] + "</em></div>";
+        html += "<div class=\"col-sm-12 clear_pm access_drop\">Access Granted To User:</div>";
+
+        html += "<div class=\"col-sm-6 clear_pm access_box\">";
+        if (String(data[i]['is_admin']) === "True") { html += granted; }
+        else { html += denied; }
+        html += "<p>Administrator</p>";
+        html += "</div>";
+
+        html += "<div class=\"col-sm-6 clear_pm access_box\">";
+        if (String(data[i]['blog_permission']) === "True") { html += granted; }
+        else { html += denied; }
+        html += "<p>Blog Access</p>";
+        html += "</div>";
+
+        html += "<div class=\"col-sm-6 clear_pm access_box\">";
+        if (String(data[i]['product_permission']) === "True") { html += granted; }
+        else { html += denied; }
+        html += "<p>Product Access</p>";
+        html += "</div>";
+
+        html += "<div class=\"col-sm-6 clear_pm access_box\">";
+        if (String(data[i]['gallery_permission']) === "True") { html += granted; }
+        else { html += denied; }
+        html += "<p>Gallery Access</p>";
+        html += "</div>";
+
+        html += "<div class=\"col-sm-12 clear_pm access_box\">";
+        if (String(data[i]['about_permission']) === "True") { html += granted; }
+        else { html += denied; }
+        html += "<p>About Us Statement</p>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+        html += "</li>";
+        html += "</a>";
+        html += "</div>";   
+    }
+
+    html += "</ul>";
+    html += "</div>";
+
+    html += "<div class=\"ul_buttons3\">";
+    html += "<button id=\"edit_user_access\">Change Access</button>";
+    html += "<button id=\"block_all_access\">Block All</button>";
+    html += "<button id=\"delete_user_access\">Delete User</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class=\"generalSteel main_exit_btn\">";
+    html += "<div class=\"general_steel_btn1\">";
+    html += "<button id=\"close-this-2\">Exit</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    build_user_editor();
+    return html;
+}
+
+function build_user_editor()
+{
+    var html = "<div class=\"userEdirContainer center_v_mode\">";
+    html += "<form action=\"edit_success\" method=\"POST\" id=\"user_editor_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelEditor\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionEditor\" value=\"update\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdEditor\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"m_admin\" id=\"m_admin\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"m_product\" id=\"m_product\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"m_about\" id=\"m_about\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"m_blog\" id=\"m_blog\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"m_gallery\" id=\"m_gallery\" value=\"0\">";
+    html += "</form>";
+    html += "<div class=\"frame_general_sm\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>Change User Access</h3>";
+    html += "<div class=\"generalSteel\">";
+    html += "<h2><i class=\"fas fa-users-cog\"></i></h2>";
+    html += "<div class=\"um_name\" id=\"um_name\"></div>";
+    html += "<div class=\"um_email\" id=\"um_email\"></div>";
+    html += "<div class=\"access_overview\">";
+    html += "Select from the list below to change the type of content that this user is allowed to change or edit on the <em>\"Natural Woman Salon\"</em> website. Click on the <span><i class=\"far fa-question-circle\"></i></span> icon next to each item to learn more about the permission that is granted when selected.";
+    html += "</div>";
+    html += "<div class=\"access_checkbox_wrap\">";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td><input type=\"checkbox\" id=\"cb_admin\" onClick=\"javascript: loadCheckboxData('#m_admin');\"></td>";
+    html += "<td><span>Administrative Privileges</span></td>";
+    html += "<td><a href=\"javascript: load_helper('admin_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td><input type=\"checkbox\" id=\"cb_blog\" onClick=\"javascript: loadCheckboxData('#m_blog');\"></td>";
+    html += "<td><span>Blog Access</span></td>";
+    html += "<td><a href=\"javascript: load_helper('blog_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td><input type=\"checkbox\" id=\"cb_product\" onClick=\"javascript: loadCheckboxData('#m_product');\"></td>";
+    html += "<td><span>Product Modification</span></td>";
+    html += "<td><a href=\"javascript: load_helper('product_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td><input type=\"checkbox\" id=\"cb_gallery\" onClick=\"javascript: loadCheckboxData('#m_gallery');\"></td>";
+    html += "<td><span>Gallery Editing</span></td>";
+    html += "<td><a href=\"javascript: load_helper('gallery_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td><input type=\"checkbox\" id=\"cb_about\" onClick=\"javascript: loadCheckboxData('#m_about');\"></td>";
+    html += "<td><span>About Us Statements</span></td>";
+    html += "<td><a href=\"javascript: load_helper('about_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class=\"s_edit_btn shrink_s_btn\">";
+    html += "<button onClick=\"javascript: submit_access_edits();\">Submit</button>";
+    html += "<button onClick=\"javascript: simple_editor_close();\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#msg3").html(html);
+}
+
 function build_url_frame(active, inactive, index)
 {
     var html = "";
@@ -582,6 +746,10 @@ function build_url_frame(active, inactive, index)
     else if (index ==="11")
     {
         html = build_company_manager(inactive);
+    }
+    else if (index ==="12")
+    {
+        html = build_user_manager(inactive);
     }
 
     $("#msg2").html(html);

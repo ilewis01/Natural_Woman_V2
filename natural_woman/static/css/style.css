@@ -997,24 +997,6 @@ body {
     text-decoration: none;
 }
 
-.super_select li {
-    background-color: #e7e7a1;
-}
-
-.super_select li:hover {
-    background-color: #e7e7a1;
-}
-
-.super_select a {
-    color: #000000;
-    font-weight: 500;
-}
-
-.super_select a:hover {
-    color: #000000;
-    font-weight: 500;
-}
-
 .about-btn-wrapper {
     width: 100%;
     text-align: right;
@@ -1322,6 +1304,236 @@ body {
 
 .sep_co_btn {
     margin-bottom: 8%;
+}
+
+.generalSteel {
+    width: 97%;
+    margin: auto;
+    background-image: url('/static/images/iml_bkgnd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    padding: 3%;
+}
+
+.generalSteel h2 {
+    font-size: 30px;
+    font-weight: 700;
+    font-style: italic;
+    color: #555555;
+    text-align: left;
+    width: 100%;
+    border-bottom: 2px solid #777777;
+}
+
+.generalSteel h5 {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+    color: #000000;
+    text-align: left;
+}
+
+.general_steel_btn1 {
+    width: 100%;
+    border: 1px solid #444444;
+    border-radius: 6px;
+    padding-bottom: 1%;
+    background-color: #999999;
+}
+
+.main_exit_btn button, .ul_buttons3 button {
+    border-color: #444444;
+    border-top-color: #888888;
+    background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));
+}
+
+.ul_buttons3 {
+    width: 100%;
+    padding-bottom: 2%;
+    margin-top: 1%;
+}
+
+.ul_buttons3 button {
+    width: 30%;
+    font-size: 11px;
+}
+
+.main_exit_btn button 
+{
+    /*background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));*/
+    width: 95%;
+    font-size: 11px;
+}
+
+.clear_pm {
+    padding: 0;
+    margin: 0;
+}
+
+.generalSteelListWrap {
+    width: 100%;
+    border: 1px solid #444444;
+    border-radius: 6px;
+    height: 50vh;
+    background-color: #cccccc;
+    padding-top: 4%;
+    padding-bottom: 5%;
+    overflow-y: auto;
+}
+
+.generalSteelListWrap ul {
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid #222222;
+}
+
+.generalSteelListWrap li {
+    list-style: none;
+    text-align: left;
+    border-bottom: 1px solid #222222;
+    font-size: 12px;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: #eeeeee;
+}
+
+.generalSteelListWrap li:hover {
+    background-color: #fdfde7;
+}
+
+.generalSteelListWrap a {
+    color: #666666;
+}
+
+.generalSteelListWrap a:hover {
+    text-decoration: none;
+    color: #000000;
+    font-weight: 500;
+}
+
+.cap_it {
+    text-transform: capitalize;
+}
+
+.access_drop {
+    font-weight: 600;
+    margin-top: 3%;
+    margin-bottom: 1%;
+}
+
+.access_box {
+    font-weight: normal;
+}
+
+.access_box p {
+    display: inline;
+}
+
+.userEdirContainer {
+    width: 55%;
+    margin: auto;
+}
+
+.um_email, .um_name {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+    font-style: italic;
+}
+
+.um_name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #717102;
+}
+
+.um_email {
+    font-size: 14px;
+    color: #0973a9;
+    border-bottom: 1px solid #777777;
+    padding-bottom: 2.3%;
+}
+
+.access_overview {
+    margin-top: 1%;
+    width: 100%;
+    text-align: justify;
+    font-size: 11.5px;
+    color: #111111;
+    font-style: italic;
+}
+
+.access_overview span {
+    color: #0973a9;
+}
+
+.access_option {
+    width: 100%;
+    color: #333333;
+    font-size: 13px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.access_option input {
+    width: 13px;
+    border-color: #000000;
+}
+
+.shrink_s_btn {
+    padding: 0;
+    padding-right: 2%;
+    padding-bottom: 1%;
+    background-color: #5c5f40;
+}
+
+.shrink_s_btn button {
+    font-size: 10px;
+}
+
+.access_checkbox_wrap {
+    width: 100%;
+    padding: 2%;
+    background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));
+    border: 1px solid #444444;
+    border-radius: 6px;
+    margin-top: 4%; 
+}
+
+.access_checkbox_wrap span{
+    font-size: 12px;
+    color: #111111;
+}
+
+.access_checkbox_wrap input {
+    width: 10px;
+}
+
+.access_checkbox_wrap a {
+    font-size: 12px;
+}
+
+.super_select li {
+    background-color: #e7e7a1;
+}
+
+.super_select li:hover {
+    background-color: #e7e7a1;
+}
+
+.super_select a {
+    color: #000000;
+    font-weight: 500;
+}
+
+.super_select a:hover {
+    color: #000000;
+    font-weight: 500;
 }
 
 
