@@ -997,20 +997,22 @@ body {
     text-decoration: none;
 }
 
-.super_select li{
-    background-color: #eff9ca;
+.super_select li {
+    background-color: #e7e7a1;
 }
 
 .super_select li:hover {
-    background-color: #eff9ca;
+    background-color: #e7e7a1;
 }
 
 .super_select a {
-    color: #5b6219;
+    color: #000000;
+    font-weight: 500;
 }
 
 .super_select a:hover {
-    color: #5b6219;
+    color: #000000;
+    font-weight: 500;
 }
 
 .about-btn-wrapper {
@@ -1284,7 +1286,6 @@ body {
     border-color: #444444;
     border-top-color: #888888;
     width: 15%;
-    font-size: 11px;
 }
 
 .co_md_buttons button {

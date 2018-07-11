@@ -118,12 +118,8 @@ def company_editor():
 @app.route('/user_editor')
 @login_required
 def user_editor():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | Manage Users"
-	content['btn_index'] = 12
-	content["statements"] = get_about_list()
-	return render_template("admin/editor.html", **content)
+	content = getUserManagementContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/user_access')
 @login_required

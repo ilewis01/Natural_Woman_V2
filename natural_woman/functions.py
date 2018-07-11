@@ -257,11 +257,30 @@ def get_product_content():
 
 def get_company_content():
 	data 				= {}
-	c_format 			= []
 	company 			= json_serialize_company()
 	data['active'] 		= company
 	data['inactive'] 	= []
 	return data
+
+def get_user_json_data():
+	data 				= {}
+	users 				= json_serialize_users()
+	data['active'] 		= users
+	data['inactive'] 	= []
+	return data
+
+def getUserManagementContent(current_user):
+	content 				= {}
+	if current_user.is_admin == True:
+		content['json_data'] 	= get_user_json_data()
+		content['btn_index'] 	= 12
+		content['title'] 		= "Natural Woman Salon | Manage Users"
+		content['user'] 		= current_user
+		content['url'] 			= "admin/editor.html"
+	else:
+		content['title'] 		= "Restricted Access"
+		content['url'] 			= "admin/restrictedAccess.html"
+	return content
 
 def get_blog_list():
 	data = []

@@ -100,7 +100,7 @@ function initialize_admin_forms()
         {
             choose_selector_editor(btn_index);
         }
-        if (btn_index==="9")
+        if (btn_index==="9" || btn_index==="12")
         {
             $("#selected_e").val("0")
             $("#div_0").addClass("super_select");
@@ -737,6 +737,11 @@ function submit_delabt()
     $("#about_delete_form").submit();
 }
 
+function submit_errUser()
+{
+    $("#user_management_form").submit();
+}
+
 function about_selector(index)
 {
     index           = String(index);
@@ -844,6 +849,24 @@ function mod_checkbox(check_id)
     value = String(value);
     if (value === "0") { $(check_id).val("1"); }
     else if (value === "1") { $(check_id).val("0"); }
+}
+
+function loadCheckboxData(target)
+{
+    var value = $(target).val();
+    value = String(value);
+    if (value === "0") { $(target).val("1"); }
+    if (value === "1") { $(target).val("0"); }
+}
+
+function simple_editor_close()
+{
+    $("#msg3").fadeOut(500);
+}
+
+function submit_access_edits()
+{
+    $("#user_editor_form").submit();
 }
 
 
@@ -1049,6 +1072,133 @@ $(document).ready(function() {
         $("#editor_subject").val(subject);
         $("#super_blog_content").val(content);
         $("#target_id2-1").val(e_id);
+        $("#msg3" ).hide();
+        $("#msg3" ).removeClass("hidden");
+        $("#msg3" ).fadeIn(500);
+    });
+    $("#block_all_access").click(function() {
+        var index   = $("#selected_e").val();
+        index       = String(index);
+        var sel_id  = "#id_" + index;
+        var sel_fn  = "#fname_" + index;
+        var sel_ln  = "#lname_" + index;
+        var sel_em  = "#email_" + index;
+        var uid     = $(sel_id).val();
+        var fname   = $(sel_fn).val();
+        var lname   = $(sel_ln).val();
+        var email   = $(sel_em).val();
+        var name    = String(fname) + " " + String(lname);
+
+        load_error_heads("Block All Access", "Are You Sure You Want To Proceed?", "This will block the user from making any changes to the website.<br>This can be undone at any time", "Block");
+        load_error_message("USER:", "EMAIL:", "", name, email, "");
+
+        $("#targetActionManager").val("block");
+        $("#targetIdManager").val(uid);
+        $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
+        $("#err" ).hide();
+        $("#err" ).removeClass("hidden");
+        $("#err" ).fadeIn(500);
+    });
+    $("#delete_user_access").click(function() {
+        var index   = $("#selected_e").val();
+        index       = String(index);
+        var sel_id  = "#id_" + index;
+        var sel_fn  = "#fname_" + index;
+        var sel_ln  = "#lname_" + index;
+        var sel_em  = "#email_" + index;
+        var uid     = $(sel_id).val();
+        var fname   = $(sel_fn).val();
+        var lname   = $(sel_ln).val();
+        var email   = $(sel_em).val();
+        var name    = String(fname) + " " + String(lname);
+
+        load_error_heads("Delete User", "Are You Sure You Want To Proceed?", "This action will permanently delete this users account.<br>This cannot be undone.", "Delete");
+        load_error_message("USER:", "EMAIL:", "", name, email, "");
+
+        $("#targetActionManager").val("delete");
+        $("#targetIdManager").val(uid);
+        $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
+        $("#err" ).hide();
+        $("#err" ).removeClass("hidden");
+        $("#err" ).fadeIn(500);
+    });
+    $("#edit_user_access").click(function() {
+        var index   = $("#selected_e").val();
+        index       = String(index);
+        var sel_id  = "#id_" + index;
+        var sel_fn  = "#fname_" + index;
+        var sel_ln  = "#lname_" + index;
+        var sel_em  = "#email_" + index;
+        var sel_ad  = "#admin_" + index;
+        var sel_pd  = "#product_" + index;
+        var sel_ab  = "#about_" + index;
+        var sel_bg  = "#blog_" + index;
+        var sel_gy  = "#gallery_" + index;
+        var uid     = $(sel_id).val();
+        var fname   = $(sel_fn).val();
+        var lname   = $(sel_ln).val();
+        var email   = $(sel_em).val();
+        var admin   = $(sel_ad).val();
+        var product = $(sel_pd).val();
+        var about   = $(sel_ab).val();
+        var blog    = $(sel_bg).val();
+        var gallery = $(sel_gy).val();
+        var name = String(fname) + " " + String(lname);
+
+        if (String(admin) === "True")
+        {
+            $("#m_admin").val("1");
+            $("#cb_admin").prop('checked', true);
+        }
+        else
+        {
+            $("#m_admin").val("0");
+            $("#cb_admin").prop('checked', false);
+        }
+        if (String(blog) === "True")
+        {
+            $("#m_blog").val("1");
+            $("#cb_blog").prop('checked', true);
+        }
+        else
+        {
+            $("#m_blog").val("0");
+            $("#cb_blog").prop('checked', false);
+        }
+        if (String(product) === "True")
+        {
+            $("#m_product").val("1");
+            $("#cb_product").prop('checked', true);
+        }
+        else
+        {
+            $("#m_product").val("0");
+            $("#cb_product").prop('checked', false);
+        }
+        if (String(gallery) === "True")
+        {
+            $("#m_gallery").val("1");
+            $("#cb_gallery").prop('checked', true);
+        }
+        else
+        {
+            $("#m_gallery").val("0");
+            $("#cb_gallery").prop('checked', false);
+        }
+        if (String(about) === "True")
+        {
+            $("#m_about").val("1");
+            $("#cb_about").prop('checked', true);
+        }
+        else
+        {
+            $("#m_about").val("0");
+            $("#cb_about").prop('checked', false);
+        }
+
+        $("#targetIdEditor").val(uid);
+        $("#um_name").html(name);
+        $("#um_email").html(email);
         $("#msg3" ).hide();
         $("#msg3" ).removeClass("hidden");
         $("#msg3" ).fadeIn(500);
