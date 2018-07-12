@@ -96,11 +96,7 @@ function initialize_admin_forms()
         $("#msg2").fadeIn(600);
         $("#frame_active").val("1");
 
-        if (btn_index==="7" || btn_index==="8")
-        {
-            choose_selector_editor(btn_index);
-        }
-        if (btn_index==="9" || btn_index==="12")
+        if (btn_index==="7" || btn_index==="8" || btn_index==="9" || btn_index==="12")
         {
             $("#selected_e").val("0")
             $("#div_0").addClass("super_select");
@@ -138,45 +134,6 @@ function initialize(jQuery) {
     }
 }
 
-function choose_selector_editor(btn_index)
-{
-    var b = btn_index;
-    if (b==="7" || b==="8" || b==="10" || b==="12")
-    {
-        load_selected_editor("0");
-    }
-    if (b === "9")
-    {
-        $("#selected_e").val("0");
-        $("#div_0").addClass("super_select");
-    }
-}
-
-function load_selected_editor(index)
-{
-    var prev = $("#selected_e").val()
-    prev  = String(prev);
-    if (prev === "init_val")
-    {
-        $("#li_0").addClass("editor_selected");
-        $("#at_0").addClass("editor_selected");
-        $("#selected_e").val("0");
-    }
-    else
-    {
-        index   = String(index);
-        var at  = "#at_" + index;
-        var li  = "#li_" + index;
-        var pa  = "#at_" + prev;
-        var pl  = "#li_" + prev;
-        $(at).addClass("editor_selected");
-        $(li).addClass("editor_selected");
-        $(pa).removeClass("editor_selected");
-        $(pl).removeClass("editor_selected");
-        $("#selected_e").val(index);
-    }
-}
-
 function deactivate_blog_editor()
 {
     $("#editor_subject").val("");
@@ -188,7 +145,6 @@ function deactivate_blog_editor()
 
 function open_product_editor(load_data)
 {
-    build_product_editor();
     load_data = String(load_data);
 
     if (load_data === "0") 
@@ -282,16 +238,24 @@ function build_new_blog()
 
 function build_blog_manager(data)
 {
-    var html = "<div class=\"blog-manager-container center_v_mode\">";
-    html += "<div class=\"frame_general steel_back\"><div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Manage Blogs</h3><form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
+    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"user\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\"></form>";
-    html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>";
-    for (var i = 0; i < data.length; i++)
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
+    html += "</form>";
+    html += "<div class=\"blog-manager-container center_v_mode\">";
+    html += "<div class=\"frame_general_sm steel_back\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>Blog Management</h3>";
+    html += "<div class=\"generalSteel\">";
+    html += "<h5>Select a blog from the list below</h5>";
+    html += "<div class=\"generalSteelListWrap\">";
+    html += "<ul>";
+
+    for(var i = 0; i < data.length; i++)
     {
-        html += "<a href=\"javascript: load_selected_editor('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
+        html += "<div id=\"div_" + data[i]['index'] + "\">";
+        html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
         html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
         html += "<input type=\"hidden\" id=\"subject_" + data[i]['index'] + "\" value=\"" + data[i]['subject'] + "\">";
         html += "<input type=\"hidden\" id=\"content_" + data[i]['index'] + "\" value=\"" + data[i]['content'] + "\">";
@@ -301,43 +265,101 @@ function build_blog_manager(data)
         html += "<div><span>Subject: </span>" + data[i]['subject'] + "</div>";
         html += "<div><span>Posted on: </span>" + data[i]['date'] + " at <em>" + data[i]['time'] + "</em></div>";
         html += "</li>";
-        html += "</a>";
-
+        html += "</a></div>";
     }
-    html += "</ul></div></div><div class=\"frame-btn-wrapper-3\">";
-    html += "<button id=\"launch_blog_editor\">Edit</button>";
-    html += "<button id=\"request_blog_delete\">Delete</button>";
+
+    html += "</ul>";
+    html += "</div>";
+
+    html += "<div class=\"ul_buttons2\">";
+    html += "<button id=\"launch_blog_editor\">Edit Blog</button>";
+    html += "<button id=\"request_blog_delete\">Delete Selected</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class=\"generalSteel main_exit_btn\">";
+    html += "<div class=\"general_steel_btn1\">";
     html += "<button id=\"close-this-2\">Exit</button>";
-    html += "</div></div></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    build_blog_editor();
     return html;
 }
 
 function build_product_manager(data)
 {
-    var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general steel_back\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>Product manager</h3>";
-    html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"delete\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\"></form>";
-    html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>";
-    for (var i = 0; i < data.length; i++)
+    // var html = "<div class=\"pop_editor_wrap center_v_mode\"><div class=\"frame_general steel_back\">";
+    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>Product manager</h3>";
+    // html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
+    // html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
+    // html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"delete\">";
+    // html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\"></form>";
+    // html += "<div class=\"editor-cont\"><div class=\"select-editor\"><ul>";
+    // for (var i = 0; i < data.length; i++)
+    // {
+    //     html += "<a href=\"javascript: load_selected_editor('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + data[i]['name'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + data[i]['description'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
+    //     html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
+    //     html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
+    //     html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a>";
+    // }
+    // html += "</ul></div></div><div class=\"frame-btn-wrapper-4\">";
+    // html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
+    // html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
+    // html += "<button id=\"prod_btn3\">Delete Selected</button>";
+    // html += "<button id=\"close-this-2\">Exit</button></div></div></div>";
+    // return html
+
+
+    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
+    html += "</form>";
+    html += "<div class=\"pop_editor_wrap center_v_mode\">";
+    html += "<div class=\"frame_general_sm steel_back\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>Product Management</h3>";
+    html += "<div class=\"generalSteel\">";
+    html += "<h5>Select a product from the list below</h5>";
+    html += "<div class=\"generalSteelListWrap\">";
+    html += "<ul>";
+
+    for(var i = 0; i < data.length; i++)
     {
-        html += "<a href=\"javascript: load_selected_editor('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
+        html += "<div id=\"div_" + data[i]['index'] + "\">";
+        html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
         html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
         html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + data[i]['name'] + "\">";
         html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + data[i]['description'] + "\">";
         html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
         html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
         html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
-        html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a>";
+        html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a></div>";
     }
-    html += "</ul></div></div><div class=\"frame-btn-wrapper-4\">";
+
+    html += "</ul>";
+    html += "</div>";
+
+    html += "<div class=\"ul_buttons3\">";
     html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
     html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
     html += "<button id=\"prod_btn3\">Delete Selected</button>";
-    html += "<button id=\"close-this-2\">Exit</button></div></div></div>";
-    return html
+    html += "</div>";
+    html += "</div>";
+    html += "<div class=\"generalSteel main_exit_btn\">";
+    html += "<div class=\"general_steel_btn1\">";
+    html += "<button id=\"close-this-2\">Exit</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    build_product_editor();
+    return html;
 }
 
 function build_product_editor()
@@ -367,7 +389,7 @@ function build_about_manager(inactive, current)
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutManager\" value=\"\">";
     html += "<input type=\"hidden\" name=\"current_id\" id=\"current_id\" value=\"" + current['id'] + "\">";
     html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + current['statement'] + "\">";
-    html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general steel_back\">";
+    html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general_sm steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>About Us Statement</h3>";
     html += "<div class=\"active_about_wrapper\"><h4>Active <em>\"About Us\"</em> Statement";
     html += "<a href=\"javascript: load_helper('about_active');\"><i class=\"far fa-question-circle\"></i></a></h4> ";
@@ -389,7 +411,12 @@ function build_about_manager(inactive, current)
     html += "<button id=\"set_about_active\" onClick=\"javascript: set_about_active();\">Set Active</button>";
     html += "<button id=\"edit_inactive_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
     html += "<button id=\"delete_about\" onClick=\"javascript: delete_about();\">Delete</button></div></div>";
-    html += "<div class=\"about-btn-wrapper\"><button id=\"close-this-2\">Exit</button></div></div></div>";
+
+    html += "<div class=\"generalSteel main_exit_btn\" style=\"width: 100%; margin-top:1%;\">";
+    html += "<div class=\"general_steel_btn1\" style=\"width: 100%;\">";
+    html += "<button id=\"close-this-2\">Exit</button>";
+    html += "</div>";
+    html += "</div>";
     return html;
 }
 
@@ -440,8 +467,13 @@ function build_company_manager(data)
     html += "</h4>";
     html += "<div class=\"company_sub_head\">Address: </div>";
     html += "<div class=\"company-item\">" + data['address1'] + "</div>";
-    html += "<div class=\"company-item\">" + data['address2'] + "</div>";
-    html += "<div class=\"company-item\">" + data['address3'] + "</div>";
+
+    if (String(data['address2']) !== "empty") { html += "<div class=\"company-item\">" + data['address2'] + "</div>"; }
+    if (String(data['address3']) !== "empty") { html += "<div class=\"company-item\">" + data['address3'] + "</div>"; }
+
+    // html += "<div class=\"company-item\">" + data['address2'] + "</div>";
+    // html += "<div class=\"company-item\">" + data['address3'] + "</div>";
+
     html += "<div class=\"company-item\">"
     html += data['city'];
     html += ", ";
@@ -786,6 +818,38 @@ function load_helper(subject)
         message = "This information controls the links in which users will be redirected to view your social media sites. ";
         message += "Before changing this information, be certain that the link you provide is accurate. Otherwise, ";
         message += "Your users will be directed to a site that does not belong to you and the content cannot be controlled."
+    }
+
+    else if (subject === "admin_access")
+    {
+        title = "Administration Privileges";
+        message = "Users who have administration acces are allowed to change user acces, block their access to the site , or "
+        message += "remove their account from the database entirely. Users with these privileges can also change the pertinent infomation ";
+        message += "about your comapny such as: address, phone number, email address and social media links. You should be extremely careful when selecting ";
+        message += "individuals to grant administrative privileges.";
+    }
+    else if (subject === "product_access")
+    {
+        title = "Product Privileges";
+        message = "Users with product privileges are allowed to create new products (services that you offer), edit or write the descriptions of the products and set the prices.";
+        message += "These users also have the ability to delete existing products. Select these users with caution....it's your money.";
+    }   
+    else if (subject === "gallery_access")
+    {
+        title = "Gallery Access";
+        message = "Users with gallery access are allowed to add and delete photos from the picture gallery. There is only 5GB of space available. "
+        message += "The system will produce an error when you have used all of the space. If this occurs, you can simply delete old and unwanted images."
+    }
+    else if (subject === "blog_access")
+    {
+        title = "Blog Access";
+        message = "Users that have been granted blog access are allowed to edit and delete existing (previous) blog entries. These users "
+        message += "are also allowed to post new blogs."
+    }
+    else if (subject === "about_access")
+    {
+        title = "About Statement Editingt";
+        message = "Users that have been granted this type of access are allowed to edit and change the \"About Us\" statement that is displayed on the About Us Page on the Natural Woman Salon website."
     }
     $("#helper_title").html(title);
     $("#content_message").html(message);
@@ -1227,7 +1291,6 @@ $(document).ready(function() {
         $("#err" ).fadeIn(500);
     });
     $("#launch_blog_editor").click(function() {
-        build_blog_editor();
         var index = $("#selected_e").val();
         index = String(index);
         var subj_id = "#subject_" + index;
