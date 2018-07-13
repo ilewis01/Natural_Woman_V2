@@ -120,12 +120,8 @@ def user_editor():
 @app.route('/user_access')
 @login_required
 def user_access():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | User Access"
-	content['btn_index'] = 13
-	content["statements"] = get_about_list()
-	return render_template("admin/editor.html", **content)
+	content = getUserAccessContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/edit_success', methods=["POST"])
 @login_required

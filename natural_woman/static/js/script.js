@@ -231,7 +231,7 @@ function build_new_blog()
 function build_blog_manager(data)
 {
     var html = "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
     html += "</form>";
@@ -311,7 +311,7 @@ function build_blog_editor(json_data)
 function build_product_manager(data)
 {
     var html = "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
     html += "</form>";
@@ -367,7 +367,7 @@ function build_product_editor()
     html += "<div class=\"generalSteel-in\">";
     html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-tags\"></i></h2>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_edit_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_prod\" value=\"blog\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_prod\" value=\"product\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_prod\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_prod\">";
     html += "<div class=\"editme_label\">Product Name:</div>";
@@ -440,7 +440,7 @@ function build_about_editor()
     html += "<h2 class=\"blogger_editor\"><i class=\"far fa-gem\"></i></h2>";
     html += "<h5>Type or edit the \"About Us\" statement in the space provided below</h5>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"about_us_editor\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutEditor\" value=\"blog\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutEditor\" value=\"about\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutEditor\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutEditor\">";
     html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
@@ -732,7 +732,7 @@ function build_user_editor()
     html += "<div class=\"frame_general_sm\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Change User Access</h3>";
-    html += "<div class=\"generalSteel\">";
+    html += "<div class=\"generalSteel-in\">";
     html += "<h2><i class=\"fas fa-users-cog\"></i></h2>";
     html += "<div class=\"um_name\" id=\"um_name\"></div>";
     html += "<div class=\"um_email\" id=\"um_email\"></div>";
@@ -786,6 +786,102 @@ function build_user_editor()
     $("#msg3").html(html);
 }
 
+function build_auth_user()
+{
+    var html = "<div class=\"ua_wrapper center_v_mode\">";
+    html += "<div class=\"frame_general_sm\">";
+    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    html += "<h3>Authorize New User</h3>";
+    html += "<div class=\"generalSteel-in\">";
+    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-user-plus\"></i></h2>";
+    html += "<form action=\"/edit_success\" method=\"POST\" id=\"user_authorize_form\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_action_prod\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"authorize\">";
+    html += "<input type=\"hidden\" name=\"is_admin\" id=\"is_admin\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"product_permission\" id=\"ua_product_permission\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"about_permission\" id=\"ua_about_permission\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"blog_permission\" id=\"ua_blog_permission\" value=\"0\">";
+    html += "<input type=\"hidden\" name=\"gallery_permission\" id=\"ua_gallery_permission\" value=\"0\">";
+    html += "<div class=\"ua_header\">New User Information</div>";
+    html += "<div class=\"container\">";
+    html += "<div class=\"row\">";
+    html += "<div class=\"col-sm-6\" style=\"margin:0; padding:0; padding-right:3%;\">";
+    html += "<input type=\"text\" name=\"fname\" id=\"ua_fname\" placeholder=\"First Name\" required>";
+    html += "</div>";
+    html += "<div class=\"col-sm-6\" style=\"margin:0; padding:0;\">";
+    html += "<input type=\"text\" name=\"lname\" id=\"ua_lname\" placeholder=\"Last Name\" required>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class=\"ua_drop\"><input type=\"email\" name=\"email\" id=\"ua_email\" placeholder=\"Email\" required></div>";
+    html += "<div class=\"ua_header ua_drop4\">Permissions</div>";
+    html += "<div class=\"permission_slip\">";
+    html += "<p>";
+    html += "Select the permissions that you would like to grant this user below. Complete descriptions of the type of access that the new user will be granted can be viewed by clicking on the <span><i class=\"far fa-question-circle\"></i></span> icon.";
+    html += "</p>";
+    html += "<div class=\"ua_splitter\">";
+    html += "<div class=\"ua_half\">";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_admin\" onClick=\"javascript: loadCheckboxData('#is_admin');\"></td>";
+    html += "<td class=\"simple_label\">Administrator</td>";
+    html += "<td>";
+    html += "<a href=\"javascript: load_helper('admin_access');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_product\" onClick=\"javascript: loadCheckboxData('#ua_product_permission');\"></td>";
+    html += "<td class=\"simple_label\">Product Access</td>";
+    html += "<td>";
+    html += "<a href=\"javascript: load_helper('product_access');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_about\" onClick=\"javascript: loadCheckboxData('#ua_about_permission');\"></td>";
+    html += "<td class=\"simple_label\">About Statement</td>";
+    html += "<td>";
+    html += "<a href=\"javascript: load_helper('about_access');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>"
+    html += "<div class=\"ua_half\">";
+    html += "<table>";
+    html += "<tr> ";
+    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_blog\" onClick=\"javascript: loadCheckboxData('#ua_blog_permission');\"></td>";
+    html += "<td class=\"simple_label\">Blog Access</td>";
+    html += "<td>";
+    html += "<a href=\"javascript: load_helper('blog_access');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_gallery\" onClick=\"javascript: loadCheckboxData('#ua_gallery_permission');\"></td>";
+    html += "<td class=\"simple_label\">Gallery Permissions</td>";
+    html += "<td>";
+    html += "<a href=\"javascript: load_helper('gallery_access');\"><i class=\"far fa-question-circle\"></i></a>";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</form>";
+    html += "<div class=\"general_editor_btns\">";
+    html += "<button id=\"auth_new_user\">Authorize</button>";
+    html += "<button id=\"close-this-2\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
 function build_url_frame(active, inactive, index)
 {
     var html = "";
@@ -809,6 +905,10 @@ function build_url_frame(active, inactive, index)
     else if (index ==="12")
     {
         html = build_user_manager(inactive);
+    }
+    else if (index ==="13")
+    {
+        html = build_auth_user();
     }
 
     $("#msg2").html(html);
@@ -1126,6 +1226,11 @@ function simple_editor_close()
 function submit_access_edits()
 {
     $("#user_editor_form").submit();
+}
+
+function submit_auth_user()
+{
+    $("#user_authorize_form").submit();
 }
 
 
@@ -1460,6 +1565,33 @@ $(document).ready(function() {
         $("#msg3" ).hide();
         $("#msg3" ).removeClass("hidden");
         $("#msg3" ).fadeIn(500);
+    });
+    $("#auth_new_user").click(function() {
+        var permm = "";
+        var flagr = ", ";
+        var fname = $("#ua_fname").val();
+        var lname = $("#ua_lname").val();
+        var email = $("#ua_email").val();
+        var admin = $("#is_admin").val();
+        var blogg = $("#ua_blog_permission").val();
+        var about = $("#ua_about_permission").val();
+        var galle = $("#ua_gallery_permission").val();
+        var produ = $("#ua_product_permission").val();
+        var namef = String(fname) + " " + String(lname);
+
+        if (String(admin) === "1") { permm += "User Information, Company Contact Information, Social Media Links"; }
+        if (String(blogg) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Blog Entries"; }
+        if (String(produ) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Products and Pricing"; }
+        if (String(galle) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Gallery Images"; }
+        if (String(about) === "1") { if (permm.length > 0) { permm += flagr; } permm += "\"About Us\" Statements"; }
+
+        load_error_heads("Authorize User", "Are You Sure You Want To Proceed?", "This action will allow this individual to create an account on the Natural Woman Salon Website. Once they have registered, they will have acces to the information shown below.", "Proceed");
+        load_error_message("USER NAME: ", "USER EMAIL: ", "GRANTED ACCESS TO: ", namef, email, permm);
+
+        $("#obj_action").attr("onClick", "Javascript: submit_auth_user();")
+        $("#err" ).hide();
+        $("#err" ).removeClass("hidden");
+        $("#err" ).fadeIn(500);
     });
 });
 

@@ -78,71 +78,25 @@
         <!--EDITOR BUILDER -->
         <div class="alert3 hidden" id="msg3"></div> 
 
+
         <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
         <div class="alert4 hidden" id="msg4">
-            <div class="about_editor_container center_v_mode">
+            <div class="ua_wrapper center_v_mode">
                 <div class="frame_general_sm">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>Edit Product Details</h3>
+                    <h3>Edit Gallery Images</h3>
                     <div class="generalSteel-in">
-                        <h2 class="blogger_editor"><i class="fas fa-tags"></i></h2>
-                        <form action="/edit_success" method="POST" id="product_edit_form">
-                            <input type="hidden" name="target_model" id="target_action_prod" value="blog">
-                            <input type="hidden" name="target_action" id="target_action2">
-                            <input type="hidden" name="target_id" id="target_id_prod">
-                            <div class="editme_label">Product Name:</div>
-                            <input type="text" name="name" id="product_name" placeholder="Type product name here" required>
-                            <div class="product_description_textarea">
-                                <div class="editme_label">Product Description:</div>
-                                <textarea id="product_description" name="description" required></textarea>
-                            </div>
-                            <div class="restore_frame">
-                                Price: 
-                                <input type="number" min="0" max="9999" name="price" id="product_price" value="0">
-                            </div>
+                        <h2 class="blogger_editor"><i class="fas fa-camera"></i></h2>
+                        <form action="/edit_success" method="POST" id="gallery_manager_form">
+                            <input type="hidden" name="target_model" id="target_action_gallery" value="gallery">
+                            <input type="hidden" name="target_action" id="target_gallery">
+                            <input type="hidden" name="target_id" id="target_id_gallery">
                         </form>
 
                         <div class="general_editor_btns">
-                            <button>Save Changes</button>
+                            <button id="auth_new_user">Not Active</button>
                             <button id="close-this-4">Cancel</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- THIS IS THE AREA WHERE THE USER AUTHORIZE WILL GO -->
-        <div class="alert8 hidden" id="msg8"></div>
-
-
-        <!--THIS WILL BE THE DYNAMIC DIV TO BUILD THE EDITORS REMEMBER TO UNQUOTE WHEN FINISHED -->
-        <div class="alert10 hidden" id=""></div>
-
-        <div class="alert11 hidden" id="msg11">
-            <div class="product_form_wrapper center_v_mode">
-                <div class="dark_frame">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3 id="product_form_header">Product Editor</h3>
-
-                    <form action="/edit_success" method="POST" id="product_edit_form">
-                        <input type="hidden" name="target_model" id="target_model_prod" value="product">
-                        <input type="hidden" name="target_action" id="target_action_prod" value="">
-                        <input type="hidden" name="target_id" id="target_id_prod" value="">
-
-                        <input type="text" name="name" id="product_name" placeholder="Product Name" required>
-                        <div class="product_description_textarea">
-                            <textarea name="description" id="product_description" placeholder="Product Description" required></textarea>
-                        </div>
-                        <div class="price_input">
-                            <input type="number" name="price" id="product_price" min="0" value="0">
-                        </div>
-                    </form>
-
-                    <div class="blog-btn-wrapper">
-                        <button id="product_editor_btn"></button>
-                        <button id="close-this-11" onClick="javascript: clear_product_fields();">Cancel</button>
                     </div>
                 </div>
             </div>

@@ -1530,7 +1530,8 @@ body {
 .access_checkbox_wrap {
     width: 100%;
     padding: 2%;
-    background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));
+    background-color: #efefef;
+    /*background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));*/
     border: 1px solid #444444;
     border-radius: 6px;
     margin-top: 4%; 
@@ -1616,6 +1617,104 @@ body {
 .generalSteel-in ::placeholder {
     font-style: italic;
     color: #999999;
+}
+
+.ua_wrapper {
+    width:40%;
+    margin:auto;
+}
+
+.super_clear_default {
+    margin: 0;
+    padding: 0;
+}
+
+.clear_space3 {
+    padding-right: 3%;
+}
+
+.ua_drop {
+    margin-top: 1%;
+}
+
+.ua_drop4 {
+    margin-top: 4%;
+}
+
+.ua_header {
+    text-align: left;
+    color: #505524;
+    font-size: 15px;
+    width: 100%;
+    padding-left: 5px;
+    font-style: italic;
+    font-weight: 700;
+}
+
+.permission_slip {
+    width:100%;
+    height:20vh;
+    background-color: #efefef;
+    border-top: 2px solid #999999;
+    border-left: 2px solid #888888;
+    border-right: 1px solid #aaaaaa;
+    border-bottom: 1px solid #aaaaaa;
+    border-radius: 6px;
+    padding: 3%;
+    color: #444444;
+    font-size: 11px;
+    text-align: justify;
+    font-style: italic;
+}
+
+.permission_slip span{
+    color: #0973a9;
+}
+
+.permission_slip p {
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 2%;
+    margin-bottom:2%;
+}
+
+.permission_slip tr, {
+    width: 100%;
+}
+
+.simple_label {
+	font-style: normal;
+	font-weight: 600;
+}
+
+.ua_splitter {
+    width: 100%;
+    padding:0;
+    margin: 0;
+}
+
+.ua_half {
+    width: 50%;
+    position: relative;
+    float: left;
+}
+
+.ua_right {
+    text-align: right;
+}
+
+.ua_right table, .ua_right tr, .ua_right td {
+    text-align: left;
+    position: relative;
+    float: right;
+}
+
+.ua_input {
+    width: 16px;
+    text-align: left;
+}
+
+.ua_input input {
+    width: 12px;
 }
 
 
