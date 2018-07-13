@@ -217,16 +217,6 @@ def isEmptyMember(literal):
 		literal = "empty"
 	return literal
 
-def load_admin_home():
-	data 					= {}
-	json_data 				= {}
-	json_data['active'] 	= []
-	json_data['inactive'] 	= []
-	data['title'] 			= "Natural Woman Salon | Administration"
-	data['btn_index'] 		= 6
-	data['json_data'] 		= json_data
-	return data
-
 def get_about_list():
 	data 		= {}
 	a_list 		= []
@@ -262,6 +252,18 @@ def get_company_content():
 	data['inactive'] 	= []
 	return data
 
+def get_blog_json_data():
+	data 				= {}
+	data['active'] 		= json_serialize_blogs()
+	data['inactive'] 	= []
+	return data
+
+def get_product_json_data():
+	data 				= {}
+	data['active'] 		= json_serialize_products()
+	data['inactive'] 	= []
+	return data
+
 def get_user_json_data():
 	data 				= {}
 	users 				= json_serialize_users()
@@ -281,24 +283,82 @@ def get_empty_json_data():
 	data['inactive'] = []
 	return data
 
+def load_admin_home(current_user):
+	data 					= {}
+	data['title'] 			= "Natural Woman Salon | Administration"
+	data['user'] 			= current_user
+	data['btn_index'] 		= 6
+	data['json_data'] 		= get_empty_json_data()
+	data['url'] 			= "admin/home.html"
+	return data
 
-def getGalleryManagementContent(current_user):
-	content 				= {}
-	if current_user.gallery_permission == True:
-		content['json_data'] 	= get_gallery_json_data()
-		content['btn_index'] 	= 10
+def getBlogManagementContent(current_user):
+	content = {}
+	if current_user.blog_permission == True:
+		content['json_data'] 	= get_blog_json_data()
+		content['btn_index'] 	= 7
 		content['user'] 		= current_user
-		content['title'] 		= "Natural Woman Salon | Administration"
+		content['title'] 		= "Natural Woman Salon | Blog Management"
 		content['url'] 			= "admin/editor.html"
 	else:
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
-	print("JSON DATA:")
-	print(content['json_data'])
+	return content
+
+def getProductManagementContent(current_user):
+	content = {}
+	if current_user.product_permission == True:
+		content['json_data'] 	= get_product_json_data()
+		content['btn_index'] 	= 8
+		content['user'] 		= current_user
+		content['title'] 		= "Natural Woman Salon | Product Management"
+		content['url'] 			= "admin/editor.html"
+	else:
+		content['title'] 		= "Restricted Access"
+		content['url'] 			= "admin/restrictedAccess.html"
+	return content
+
+def getAboutManagementContent(current_user):
+	content = {}
+	if current_user.about_permission == True:
+		content['json_data'] 	= get_about_list()
+		content['btn_index'] 	= 9
+		content['user'] 		= current_user
+		content['title'] 		= "Natural Woman Salon | About Statement"
+		content['url'] 			= "admin/editor.html"
+	else:
+		content['title'] 		= "Restricted Access"
+		content['url'] 			= "admin/restrictedAccess.html"
+	return content
+
+def getGalleryManagementContent(current_user):
+	content = {}
+	if current_user.gallery_permission == True:
+		content['json_data'] 	= get_gallery_json_data()
+		content['btn_index'] 	= 10
+		content['user'] 		= current_user
+		content['title'] 		= "Natural Woman Salon | Gallery Management"
+		content['url'] 			= "admin/editor.html"
+	else:
+		content['title'] 		= "Restricted Access"
+		content['url'] 			= "admin/restrictedAccess.html"
+	return content
+
+def getCompanyManagementContent(current_user):
+	content = {}
+	if current_user.is_admin == True:
+		content['json_data'] 	= get_company_content()
+		content['btn_index'] 	= 11
+		content['user'] 		= current_user
+		content['title'] 		= "Natural Woman Salon | Company Profile"
+		content['url'] 			= "admin/editor.html"
+	else:
+		content['title'] 		= "Restricted Access"
+		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getUserManagementContent(current_user):
-	content 				= {}
+	content = {}
 	if current_user.is_admin == True:
 		content['json_data'] 	= get_user_json_data()
 		content['btn_index'] 	= 12
@@ -311,7 +371,7 @@ def getUserManagementContent(current_user):
 	return content
 
 def getUserAccessContent(current_user):
-	content 				= {}
+	content = {}
 	if current_user.is_admin == True:
 		content['json_data'] 	= get_empty_json_data()
 		content['btn_index'] 	= 13
@@ -321,6 +381,42 @@ def getUserAccessContent(current_user):
 	else:
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	return content
+
+def getEmailContent(current_user):
+	content = {}
+	content['json_data'] 	= get_empty_json_data()
+	content['btn_index'] 	= 20
+	content['title'] 		= "Natural Woman Salon |  Email"
+	content['user'] 		= current_user
+	content['url'] 			= "admin/email.html"
+	return content
+
+def getSetPasswordContent(current_user):
+	content = {}
+	content['json_data'] 	= get_empty_json_data()
+	content['btn_index'] 	= 21
+	content['title'] 		= "Natural Woman Salon |  Account Profile"
+	content['user'] 		= current_user
+	content['url'] 			= "admin/account.html"
+	return content
+
+def getSetNameContent(current_user):
+	content = {}
+	content['json_data'] 	= get_empty_json_data()
+	content['btn_index'] 	= 22
+	content['title'] 		= "Natural Woman Salon |  Account Profile"
+	content['user'] 		= current_user
+	content['url'] 			= "admin/account.html"
+	return content
+
+def getSetEmailContent(current_user):
+	content = {}
+	content['json_data'] 	= get_empty_json_data()
+	content['btn_index'] 	= 23
+	content['title'] 		= "Natural Woman Salon |  Account Profile"
+	content['user'] 		= current_user
+	content['url'] 			= "admin/account.html"
 	return content
 
 def get_blog_list():

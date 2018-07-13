@@ -1,5 +1,33 @@
 $( window ).on( "load", initialize);
 
+function initialize(jQuery) {
+    var btn_index = String(document.getElementById("btn_index").value);
+    
+    if (btn_index === "-1")
+    {
+        initialize_index();
+    }
+    else if (btn_index === "0")
+    {
+
+    }
+    else if (btn_index === "2")
+    {
+        
+    }
+    else if (Number(btn_index) > 5)
+    {
+        initialize_admin_forms();
+    }
+    else if (Number(btn_index) === 20)
+    {
+        
+    }
+    else if (Number(btn_index) > 20)
+    {
+        
+    }
+}
 
 //PAGE INITIALIZATIONS
 function initialize_index(jQuery) {
@@ -24,66 +52,6 @@ function initialize_index(jQuery) {
     $("#i6").delay(3000).fadeIn(700);
     $("#i7").delay(3500).fadeIn(700);
 }
-
-// function get_load_id(btn_index)
-// {
-//     var loader = "";
-//     btn_index = Number(btn_index);
-//     if (btn_index == 7) {loader = "2";}
-//     else if (btn_index == 8) {loader = "3";}
-//     else if (btn_index == 10) {loader = "4";}
-//     else if (btn_index == 9) {loader = "5";}
-//     else if (btn_index == 11) {loader = "6";}
-//     else if (btn_index == 12) {loader = "7";}
-//     else if (btn_index == 13) {loader = "8";}
-//     else if (btn_index == 14) {loader = "14";}
-//     return loader;
-// }
-
-
-// function initialize_admin_forms()
-// {
-//     var btn_index = String(document.getElementById("btn_index").value);
-
-//     if (btn_index !== "6")
-//     {
-//         var index = get_load_id(btn_index);
-//         var trigger = "#msg" + index;
-
-//         $(trigger).hide();
-//         $(trigger).removeClass("hidden");
-//         $(trigger).fadeIn(600);
-//         $("#frame_active").val("1");
-//     }
-//     else
-//     {
-//         $("#frame_active").val("0");
-//         $("#blog_active").val("0");
-//     }
-
-//     if (btn_index === "7") { build_blog_editor(); }
-//     // if (btn_index === "9") { build_about_manager(); }
-//     // if (btn_index === "14")
-//     // {
-//     //     var model_meta = $("#load_meta_model").val();
-//     //     model_meta = String(model_meta);
-//     //     if (model_meta === "blog")
-//     //     {
-//     //         build_blog_editor();
-//     //         $("#editor_builder").hide();
-//     //         $("#editor_builder").removeClass("hidden");
-//     //         $("#editor_builder").fadeIn(500);
-//     //     }
-//     //     else if (model_meta === "product")
-//     //     {
-//     //         $("#msg11").hide();
-//     //         $("#msg11").removeClass("hidden");
-//     //         $("#msg11").fadeIn(500);
-//     //     }
-//     // }
-
-//     choose_selector_editor(btn_index);
-// }
 
 function initialize_admin_forms()
 {
@@ -117,30 +85,6 @@ function initialize_admin_forms()
     }
 }
 
-function initialize(jQuery) {
-    var btn_index = String(document.getElementById("btn_index").value);
-    
-    if (btn_index === "-1")
-    {
-        initialize_index();
-    }
-    else if (btn_index === "0")
-    {
-
-    }
-    else if (btn_index === "2")
-    {
-        
-    }
-    else if (Number(btn_index) > 5)
-    {
-        initialize_admin_forms();
-    }
-    else
-    {
-        
-    }
-}
 
 function deactivate_blog_editor()
 {

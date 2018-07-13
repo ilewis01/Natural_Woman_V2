@@ -46,54 +46,29 @@ def auth():
 	else:
 		return render_template("global/index.html")
 
-@app.route('/logout')
-@login_required
-def logout():
-	content = {}
-	name = str(current_user.fname) + " " + str(current_user.lname)
-	content["title"] = "Natural Woman Salon | Logout"
-	content['name'] = name
-	current_user.authenticated = False
-	current_user.save()
-	logout_user()
-	return render_template("admin/logout.html", **content)
-
 @app.route('/admin_home')
 @login_required
 def admin_home():
-	content = load_admin_home()
-	content['user'] = current_user
-	return render_template("admin/home.html", **content)
+	content = load_admin_home(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/blog_editor')
 @login_required
 def blog_editor():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | Blog Management"
-	content['btn_index'] = 7
-	content['json_data'] = get_blog_content()
-	return render_template("admin/editor.html", **content)
+	content = getBlogManagementContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/product_editor')
 @login_required
 def product_editor():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | Product Management"
-	content['btn_index'] = 8
-	content['json_data'] = get_product_content()
-	return render_template("admin/editor.html", **content)
+	content = getProductManagementContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/about_editor')
 @login_required
 def about_editor():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | About Us"
-	content['btn_index'] = 9
-	content["json_data"] = get_about_list()
-	return render_template("admin/editor.html", **content)
+	content = getAboutManagementContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/gallery_editor')
 @login_required
@@ -104,12 +79,8 @@ def gallery_editor():
 @app.route('/company_editor')
 @login_required
 def company_editor():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | Company Profile"
-	content['btn_index'] = 11
-	content["json_data"] = get_company_content()
-	return render_template("admin/editor.html", **content)
+	content = getCompanyManagementContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/user_editor')
 @login_required
@@ -130,6 +101,42 @@ def edit_success():
 		content = fetch_target_fields()
 		content['json_data'] = None
 		return render_template("admin/editor.html", **content)
+
+@app.route('/email')
+@login_required
+def email():
+	content = getEmailContent(current_user)
+	return render_template(content['url'], **content)
+
+@app.route('/set_password')
+@login_required
+def set_password():
+	content = getSetPasswordContent(current_user)
+	return render_template(content['url'], **content)
+
+@app.route('/set_name')
+@login_required
+def set_name():
+	content = getSetNameContent(current_user)
+	return render_template(content['url'], **content)
+
+@app.route('/set_email')
+@login_required
+def set_email():
+	content = getSetEmailContent(current_user)
+	return render_template(content['url'], **content)
+
+@app.route('/logout')
+@login_required
+def logout():
+	content = {}
+	name = str(current_user.fname) + " " + str(current_user.lname)
+	content["title"] = "Natural Woman Salon | Logout"
+	content['name'] = name
+	current_user.authenticated = False
+	current_user.save()
+	logout_user()
+	return render_template("admin/logout.html", **content)
 
 
 
