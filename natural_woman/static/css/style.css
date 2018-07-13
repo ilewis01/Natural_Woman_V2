@@ -170,7 +170,7 @@ body {
 
 .blog_content_wrapper {
 	width:100%;
-	height:50vh;
+	height:40vh;
 	margin-top: 1%;
 }
 
@@ -180,13 +180,7 @@ body {
 	border-radius: 5px;
 	font-size: 11px;
 	padding-left: 5px;
-}
-
-.blog-btn-wrapper {
-	width: 30%;
-	position: relative;
-	float:right;
-	background-color: transparent;
+	border-color: #777777;
 }
 
 .center_v_mode {
@@ -201,47 +195,13 @@ body {
 }
 
 .pop_editor_wrap {
-	width:50%;
+	width:43%;
 	margin: auto;
 }
 
 .product_form_wrapper {
 	width:45%;
 	margin: auto;
-}
-
-.product_description_textarea {
-	width: 100%;
-	height: 20vh;
-	margin-top:10px;
-	margin-bottom: 10px;
-}
-
-.product_description_textarea textarea {
-	width: 100%;
-	height: 100%;
-	border-radius: 5px;
-	padding-left: 5px;
-	padding-right: 5px;
-	font-size: 11px;
-}
-
-.price_input {
-	width: 100%;
-	position: relative;
-	float: right;
-	font-size: 11px;
-	text-align: right;
-}
-
-.price_input input {
-	width:15%;
-	padding-left: 13px;
-	margin-bottom: 2%;
-	background-image: url('../images/dollar.png');
-	background-size: 15% 70%;
-	background-repeat: no-repeat;
-	background-position: 2px 3px; 
 }
 
 .editor_nav_bkg {
@@ -255,6 +215,15 @@ body {
 	overflow-y:hidden;
 }
 
+.new_blog_wrap {
+    width: 70%;
+    margin: auto;
+}
+
+.blog_content_wrapper ::placeholder{
+    font-style: italic;
+    color: #999999;
+}
 .product_holder {
 	width: 100%;
 	height:100%;
@@ -263,8 +232,8 @@ body {
 
 .blog_full_editor_content {
 	width:100%;
-	height:50vh;
-	margin-bottom: 20px;
+	height:38vh;
+	margin-bottom: 10px;
 }
 
 .blog_full_editor_content textarea {
@@ -273,7 +242,8 @@ body {
 	margin-top:10px;
 	border-radius: 5px;
 	padding-left: 5px;
-	font-size: 12px;
+	font-size: 11px;
+	border-color: #777777
 }
 
 .error_wrapper {
@@ -942,7 +912,7 @@ body {
 }
 
 .inactive_abouts {
-    margin-top: 4%;
+    margin-top: 1%;
 }
 
 .inactive_list_wrapper {
@@ -1017,13 +987,13 @@ body {
 }
 
 .about_editor_container {
-    width: 60%;
+    width: 55%;
     margin: auto;
 }
 
 .about_editor_textarea {
     width: 100%;
-    height: 30vh;
+    height: 20vh;
     color: #000000;
 }
 
@@ -1036,19 +1006,61 @@ body {
     font-size: 12px;
 }
 
+.product_description_textarea {
+    width: 100%;
+    height: 10vh;
+    margin-top: 2%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.product_description_textarea textarea {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    border-color: #666666;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    font-size: 11px;
+}
+
 .active_setter {
     width:100%;
     font-size: 12px;
     text-align: right;
-    padding:3px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    background-color: #999999;
-    margin-bottom: 10px;
+    padding-top:3px;
+    padding-right:3px;
+    background-color: transparent;
+    color: #444444;
 }
 
 .active_setter input {
-    width:10px;
+    width:11.6px;
+}
+
+
+.restore_frame {
+    width: 100%;
+    padding-top: 5%;
+    color: #222222;
+    font-size: 11px;
+    text-align: right;
+    padding-left: 5px;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 2%;
+}
+
+.restore_frame input {
+    width: 15%;
+    font-size: 11px;
+    background-image: url('/static/images/dollar.png');
+    background-size: 9% 63%;
+    background-repeat: no-repeat;
+    background-position: 4px 3px; 
+    padding-left: 15px;
 }
 
 .helper_container {
@@ -1317,7 +1329,7 @@ body {
     padding: 3%;
 }
 
-.generalSteel h2 {
+.generalSteel h2, .generalSteel-in h2 {
     font-size: 30px;
     font-weight: 700;
     font-style: italic;
@@ -1327,12 +1339,28 @@ body {
     border-bottom: 2px solid #777777;
 }
 
-.generalSteel h5 {
+.generalSteel h5, .generalSteel-in h5 {
     font-size: 12px;
     font-weight: normal;
     font-style: italic;
     color: #000000;
     text-align: left;
+    padding-right: 5p;
+}
+
+.generalSteel-in {
+    width: 100%;
+    margin: auto;
+    background-image: url('/static/images/iml_bkgnd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    padding: 3%;
+}
+
+.generalSteel input, .generalSteel-in input {
+	font-size: 11px;
 }
 
 .general_steel_btn1 {
@@ -1343,7 +1371,7 @@ body {
     background-color: #999999;
 }
 
-.main_exit_btn button, .ul_buttons3 button, .ul_buttons2 button {
+.main_exit_btn button, .ul_buttons3 button, .ul_buttons2 button, .general_editor_btns button {
     border-color: #444444;
     border-top-color: #888888;
     background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));
@@ -1374,16 +1402,11 @@ body {
     font-size: 11px;
 }
 
-.clear_pm {
-    padding: 0;
-    margin: 0;
-}
-
 .generalSteelListWrap {
     width: 100%;
     border: 1px solid #444444;
     border-radius: 6px;
-    height: 50vh;
+    height: 42vh;
     background-color: #cccccc;
     padding-top: 4%;
     padding-bottom: 5%;
@@ -1414,6 +1437,7 @@ body {
 
 .generalSteelListWrap a {
     color: #666666;
+    font-size: 11px;
 }
 
 .generalSteelListWrap a:hover {
@@ -1542,6 +1566,58 @@ body {
     color: #000000;
     font-weight: 500;
 }
+
+.general_editor_btns {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #777777;
+    text-align: right;
+    padding-bottom: 0.7%;
+    padding-right: 1%;
+    background: linear-gradient(to right, rgba(200, 200, 200, 1), rgba(130, 130, 130, 1));
+}
+
+.general_editor_btns  button {
+    width: 17%;
+    margin-left: 0.2%;
+    margin-right: 0.2%;
+}
+
+.editme_label{
+    color: #222222;
+    font-size: 11px;
+    width: 100%;
+    text-align: left;
+    padding-left: 5px;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.blogger_editor i {
+    padding-left: 5px;
+    color: #717102;
+}
+
+.clear_pm {
+    padding: 0;
+    margin: 0;
+}
+
+.alone_icon {
+    width: 100%;
+    font-size: 25px;
+    padding-left: 5px;
+    color: #717102;
+    border-bottom: 2px solid #444444;
+    margin-bottom: 1%;
+    padding-bottom: 1%;
+}
+
+.generalSteel-in ::placeholder {
+    font-style: italic;
+    color: #999999;
+}
+
 
 
 

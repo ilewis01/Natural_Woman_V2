@@ -15,6 +15,8 @@ class User(db.Model):
 	about_permission 	= db.Column('about_permission', db.Boolean, default=False) 
 	blog_permission 	= db.Column('blog_permission', db.Boolean, default=False)
 	gallery_permission 	= db.Column('gallery_permission', db.Boolean, default=False)
+	is_locked 			= db.Column('locked', db.Boolean, default=False)
+	superuser 			= db.Column('superuser', db.Boolean, default=False)
 
 	def __init__(self, fname, lname, email, plaintext_password):
 		self.fname = fname
@@ -38,6 +40,9 @@ class User(db.Model):
 		self.about_permission 	= p.about_permission
 		self.blog_permission 	= p.blog_permission
 		self.gallery_permission = p.gallery_permission
+
+	def name(self):
+		return str(self.fname) + " " + str(self.lname)
 
 	def password_validated(self, plaintext_password):
 		return bcrypt.check_password_hash(self.password, plaintext_password)

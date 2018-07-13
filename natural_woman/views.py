@@ -98,12 +98,8 @@ def about_editor():
 @app.route('/gallery_editor')
 @login_required
 def gallery_editor():
-	content = {}
-	content['user'] = current_user
-	content['title'] = "Natural Woman Salon | Image Manager"
-	content['btn_index'] = 10
-	content["statements"] = get_about_list()
-	return render_template("admin/editor.html", **content)
+	content = getGalleryManagementContent(current_user)
+	return render_template(content['url'], **content)
 
 @app.route('/company_editor')
 @login_required

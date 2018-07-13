@@ -269,6 +269,28 @@ def get_user_json_data():
 	data['inactive'] 	= []
 	return data
 
+def get_gallery_json_data():
+	data = {}
+	data['active'] = []
+	data['inactive'] = []
+	return data
+
+
+def getGalleryManagementContent(current_user):
+	content 				= {}
+	if current_user.gallery_permission == True:
+		content['json_data'] 	= get_gallery_json_data()
+		content['btn_index'] 	= 10
+		content['user'] 		= current_user
+		content['title'] 		= "Natural Woman Salon | Administration"
+		content['url'] 			= "admin/editor.html"
+	else:
+		content['title'] 		= "Restricted Access"
+		content['url'] 			= "admin/restrictedAccess.html"
+	print("JSON DATA:")
+	print(content['json_data'])
+	return content
+
 def getUserManagementContent(current_user):
 	content 				= {}
 	if current_user.is_admin == True:
