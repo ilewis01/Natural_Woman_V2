@@ -534,6 +534,11 @@ body {
 	text-shadow: 1px 1px #000000;
 }
 
+.selected-item a, .selected-item a:hover {
+	color: #cadc23;
+	text-shadow: 1px 1px #000000;
+}
+
 .content-wrapper {
 	background-color: transparent;
 	width: 100%;
@@ -589,7 +594,7 @@ body {
 	height:100%;
 	position: relative;
 	float:left;
-	overflow: hidden;
+	overflow: visible;
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
@@ -1574,13 +1579,16 @@ body {
 }
 
 .alone_icon {
+	font-family: 'Marck Script', cursive;
     width: 100%;
-    font-size: 25px;
+    font-size: 35px;
     padding-left: 5px;
     color: #717102;
     border-bottom: 2px solid #444444;
     margin-bottom: 1%;
     padding-bottom: 1%;
+    text-shadow: 1px solid #555555;
+    text-align: left;
 }
 
 .generalSteel-in ::placeholder {
@@ -1685,6 +1693,137 @@ body {
 .ua_input input {
     width: 12px;
 }
+
+.about_icon {
+    font-family: 'Marck Script', cursive;
+}
+
+.admin-h {
+    font-size: 16px;
+    line-height: 19px;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 7%;
+    color: #444444;
+    font-weight: 600;
+    text-shadow: 1px 1px #cccccc;
+}
+
+.admin-h span {
+    opacity: 0;
+}
+
+/*.admin-h:hover {
+    font-size:18px;
+    text-shadow: 1px 1px #aaaaaa;
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+}*/
+
+.admin-item {
+    width: 90%;
+    margin: auto;
+    padding-left:2%;
+    padding-right: 2%;
+    padding-top:4%;
+    padding-bottom: 3%;
+    border: 1px solid #444444;
+    box-shadow: 2px 2px 2px  2px #555555;
+    border-radius: 5px;
+    color: #000000;
+    margin-bottom: 20%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    background: linear-gradient(to right, rgba(130, 130, 130, 0.8)0%, rgba(225, 225, 225, 0.8) 50%, rgba(130, 130, 130, 0.8) 100%);
+
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+}
+
+.admin-item h3 {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    width:95%;
+    margin: auto;
+    margin-bottom: 12%;
+    text-shadow: 1px 1px #222222;
+    color: #ece8c9;
+    /*background: linear-gradient(rgba(206, 209, 162, 0.6), rgba(85, 88, 56, 0.6));*/
+
+    background: linear-gradient(to right, rgba(85, 85, 85, 0.7)0%, rgba(220, 220, 220, 0.7) 50%, rgba(85, 85, 85, 0.7) 100%);
+    color: #666666;
+    box-shadow: 1px 1px 1px #cccccc;
+
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+    
+}
+
+.admin-item:hover {
+    width: 100%;
+    background: linear-gradient(to right, rgba(80, 80, 80, 0.8)0%, rgba(225, 225, 225, 0.8) 50%, rgba(80, 80, 80, 0.8) 100%);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+}
+
+.admin-item:hover h3{
+    font-size: 35px;
+    background: linear-gradient(to right, rgba(88, 85, 56, 0.8)0%, rgba(206, 209, 162, 0.8) 50%, rgba(88, 85, 56, 0.8) 100%);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;
+}
+
+.master_head {
+    width: 100%;
+    text-align: right;
+    padding-right:10%;
+    font-family: 'Lovers Quarrel', cursive;
+    text-transform: lowercase;
+    font-size: 60px;
+    line-height: 1;
+    padding-top:1%;
+    color: #f3efd1;
+    text-shadow: 1px 1px #000000;
+}
+
+.abm_lift {
+    margin-top:-40px;
+}
+
+.atp_lift {
+    margin-top:-15px;
+}
+
+/*.brf2 {
+    background: linear-gradient(to right, rgba(130, 130, 130, 0.8)0%, rgba(225, 225, 225, 0.8) 50%, rgba(130, 130, 130, 0.8) 100%);
+    background: linear-gradient(to right, #753017 0%,#f48413 50%,#753017 100%);
+}
+
+.brf2 h3 {
+    background: linear-gradient(to right, rgba(85, 85, 85, 0.7)0%, rgba(220, 220, 220, 0.7) 50%, rgba(85, 85, 85, 0.7) 100%);
+    color: #666666;
+    box-shadow: 1px 1px 1px #cccccc;
+}*/
 
 
 

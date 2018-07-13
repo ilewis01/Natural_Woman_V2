@@ -19,9 +19,9 @@
         <!-- Custom Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Poiret+One" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Molle:400i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Marck+Script" rel="stylesheet">
 
-        <link rel="shortcut icon" type="image/png" href="../images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="/static/images/favicon.ico"/>
 
         <title>{{title}}</title>
 
@@ -50,13 +50,14 @@
         <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
         <div class="alert1 hidden" id="msg1">
             <div class="new_blog_wrap center_v_mode">
-                <div class="frame_general_sm">
+                <div class="frame_general_sm ">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>New Blog Post</h3>
                     <div class="generalSteel-in">
                         <h2 class="blogger_editor"><i class="fab fa-blogger"></i></h2>
                         <form action="/auth" method="POST" id="new_blog_form">
                             <input type="hidden" name="target_model" id="target1" value="new_blog">
+                            <input type="hidden" name="prev_index" value="{{btn_index}}">
                             <input type="text" name="subject" id="subject" placeholder="Subject" required>
                             <div class="blog_content_wrapper">
                                 <textarea name="blog_content" id="blog_content" placeholder="Type blog content here..." required></textarea>
@@ -206,113 +207,16 @@
             </div>
         </nav>
 
-<style type="text/css">
-.about_icon {
-    font-family: 'Molle', cursive;
-}
-
-.admin-h {
-    font-size: 16px;
-    line-height: 19px;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 7%;
-    color: #444444;
-    font-weight: 600;
-    text-shadow: 1px 1px #cccccc;
-}
-
-.admin-h span {
-    opacity: 0;
-}
-
-.admin-item {
-    width: 90%;
-    margin: auto;
-    padding-left:2%;
-    padding-right: 2%;
-    padding-top:4%;
-    padding-bottom: 3%;
-    border: 1px solid #444444;
-    box-shadow: 2px 2px 2px  2px #555555;
-    border-radius: 5px;
-    color: #000000;
-    margin-bottom: 20%;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
-
-.admin-item h3 {
-    padding-top: 5%;
-    padding-bottom: 5%;
-    border: 1px solid #333333;
-    border-radius: 6px;
-    width:95%;
-    margin: auto;
-    margin-bottom: 12%;
-    text-shadow: 1px 1px #222222;
-    color: #ece8c9;
-    background: linear-gradient(rgba(206, 209, 162, 0.6), rgba(85, 88, 56, 0.6));
-    
-}
-
-.abm_lift {
-    margin-top:-40px;
-}
-
-.brf1, .brf2, .brf3, .brf4, .brf5, .brf6, .brf7, .brf8 {
-    background: linear-gradient(to right, rgba(130, 130, 130, 0.8)0%, rgba(225, 225, 225, 0.8) 50%, rgba(130, 130, 130, 0.8) 100%);
-    /*background: linear-gradient(to right, #753017 0%,#f48413 50%,#753017 100%);*/
-}
-
-.brf1 h3 {
-    background: linear-gradient(to right, rgba(85, 88, 56, 0.7)0%, rgba(206, 209, 162, 0.7) 50%, rgba(85, 88, 56, 0.7) 100%);
-    box-shadow: 1px 1px 1px #777777;
-    /*background: linear-gradient(to right, #753017 0%,#f48413 50%,#753017 100%);*/
-}
-
-.brf2 h3 {
-    background: linear-gradient(to right, rgba(85, 85, 85, 0.7)0%, rgba(220, 220, 220, 0.7) 50%, rgba(85, 85, 85, 0.7) 100%);
-    color: #666666;
-    box-shadow: 1px 1px 1px #777777;
-}
-
-.brf3 h3 {
-    background: linear-gradient(to right, rgba(107, 91, 53, 0.7)0%, rgba(255, 239, 222, 0.7) 50%, rgba(107, 91, 53, 0.7) 100%);
-    color: #6b5b35;
-    box-shadow: 1px 1px 1px #777777;
-}
-
-.brf4 h3 {
-    background: linear-gradient(to right, rgba(21, 106, 150, 0.7)0%, rgba(198, 227, 242, 0.7) 50%, rgba(21, 106, 150, 0.7) 100%);
-    color: #0c5276;
-    box-shadow: 1px 1px 1px #777777;
-}
-
-.brf5 h3 {
-    background: linear-gradient(to right, rgba(0, 119, 130, 0.7)0%, rgba(185, 224, 228, 0.7) 50%, rgba(0, 119, 130, 0.7) 100%);
-    color: #2e8790;
-    box-shadow: 1px 1px 1px #777777;
-}
-
-.brf6 h3 {
-    background: linear-gradient(to right, rgba(21, 106, 150, 0.7)0%, rgba(198, 227, 242, 0.7) 50%, rgba(21, 106, 150, 0.7) 100%);
-    color: #0c5276;
-    box-shadow: 1px 1px 1px #777777;
-}
-</style>
-
         <div class="content-wrapper btn_background">
             <div class="content-a">
                 <div class="admin-content-wrapper">
                     <div class="v-split-top">
+                        <div class="master_head">administrative tools</div>
                         <div class="admin-h-split">
                         </div>
 
                         <div class="admin-h-split" id="ab1">
-                            <div class="admin-item brf2">
+                            <div class="admin-item  atp_lift">
                                 <h3><i class="fab fa-blogger"></i></h3>
                                 <div class="admin-h">New Blog Post<br><span>empty</span></div>
                             </div>
@@ -320,14 +224,14 @@
 
 
                         <div class="admin-h-split">
-                            <div class="admin-item brf2" id="ab2">
+                            <div class="admin-item  atp_lift" id="ab2">
                                 <h3><i class="fas fa-edit"></i></h3>
                                 <div class="admin-h">Manage Blogs<br><span>empty</span></div>
                             </div>
                         </div>
 
                         <div class="admin-h-split">
-                            <div class="admin-item brf2" id="ab3">
+                            <div class="admin-item  atp_lift" id="ab3">
                                 <h3><i class="fas fa-spray-can"></i></h3>
                                 <div class="admin-h">Manage Products<br><span>empty</span></div>
 
@@ -335,7 +239,7 @@
                         </div>
 
                         <div class="admin-h-split" id="ab4">
-                            <div class="admin-item brf2">
+                            <div class="admin-item  atp_lift">
                                 <h3><i class="fas fa-camera"></i></h3>
                                 <div class="admin-h">Manage Gallery<br>Images</div>
                             </div>
@@ -350,21 +254,21 @@
                         </div>
 
                         <div class="admin-h-split">
-                            <div class="admin-item brf2 abm_lift"  id="ab5">
+                            <div class="admin-item  abm_lift"  id="ab5">
                                 <h3 class="about_icon">A</h3>
                                 <div class="admin-h">About Statement<br><span>empty</span></div>
                             </div>
                         </div>
 
                         <div class="admin-h-split">
-                            <div class="admin-item brf2 abm_lift" id="ab6">
+                            <div class="admin-item  abm_lift" id="ab6">
                                 <h3><i class="fas fa-mobile-alt"></i></h3>
                                 <div class="admin-h">Contact & Links<br><span>empty</span></div>
                             </div>
                         </div>
 
                         <div class="admin-h-split">
-                            <div class="admin-item brf2 abm_lift" id="ab7">
+                            <div class="admin-item  abm_lift" id="ab7">
                                 <h3><i class="fas fa-user-cog"></i></h3>
                                 <div class="admin-h">User Management<br><span>empty</span></div>
 
@@ -372,7 +276,7 @@
                         </div>
 
                         <div class="admin-h-split">
-                            <div class="admin-item brf2 abm_lift" id="ab8">
+                            <div class="admin-item  abm_lift" id="ab8">
                                 <h3><i class="fas fa-user-plus"></i></h3>
                                 <div class="admin-h">Authorize New User<br><span>empty</span></div>
                             </div>

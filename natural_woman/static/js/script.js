@@ -83,6 +83,11 @@ function initialize_admin_forms()
         $("#frame_active").val("0");
         $("#blog_active").val("0");
     }
+
+    if (Number(btn_index) < 20)
+    {
+        $("#adm0").addClass("selected-item");
+    }
 }
 
 
@@ -159,32 +164,20 @@ function load_error_heads(head, msg1, msg2, button)
     $("#obj_action").html(button);
 }
 
-function build_new_blog()
-{
-    var html = "<div class=\"blog-post-wrapper\">"
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>New Blog Post</h3><form action=\"/auth\" method=\"POST\" id=\"new_blog_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target1\" value=\"new_blog\">";
-    html += "<div class=\"blog_content_wrapper\">";
-    html += "<textarea name=\"blog_content\" id=\"blog_content\" placeholder=\"Blog Body\" required></textarea>";
-    html += "</div></form><div class=\"blog-btn-wrapper\">";
-    html += "<button id=\"target_new_blog\">Post</button>";
-    html += "<button id=\"close-this-1\">Cancel</button></div></div>";
-}
-
 function build_blog_manager(data)
 {
     var html = "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"7\">";
     html += "</form>";
     html += "<div class=\"blog-manager-container center_v_mode\">";
     html += "<div class=\"frame_general_sm steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Blog Management</h3>";
     html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fab fa-blogger\"></i></h2>";
+    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-edit\"></i></h2>";
     html += "<h5>Select a blog from the list below</h5>";
     html += "<div class=\"generalSteelListWrap\">";
     html += "<ul>";
@@ -224,18 +217,19 @@ function build_blog_manager(data)
     return html;
 }
 
-function build_blog_editor(json_data)
+function build_blog_editor()
 {
     var html = "<div class=\"about_editor_container center_v_mode\">";
     html += "<div class=\"frame_general_sm\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Edit Blog Post</h3>";
     html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fab fa-blogger\"></i></h2>";
+    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-edit\"></i></h2>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"7\">";
     html += "<div class=\"editme_label\">Subject:</div>";
     html += "<input type=\"text\" name=\"subject\" id=\"editor_subject\" placeholder=\"Type subject here\" style=\"font-size:11px;\" required>";
     html += "<div class=\"blog_full_editor_content\">";
@@ -258,13 +252,14 @@ function build_product_manager(data)
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
     html += "</form>";
     html += "<div class=\"pop_editor_wrap center_v_mode\">";
     html += "<div class=\"frame_general_sm steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Product Management</h3>";
     html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-tags\"></i></h2>";
+    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-spray-can\"></i></h2>";
     html += "<h5>Select a product from the list below</h5>";
     html += "<div class=\"generalSteelListWrap\">";
     html += "<ul>";
@@ -309,11 +304,12 @@ function build_product_editor()
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3 id=\"product_form_header\">Edit Product Details</h3>";
     html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-tags\"></i></h2>";
+    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-spray-can\"></i></h2>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_edit_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_prod\" value=\"product\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_prod\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_prod\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
     html += "<div class=\"editme_label\">Product Name:</div>";
     html += "<input type=\"text\" name=\"name\" id=\"product_name\" placeholder=\"Type product name here\" required>";
     html += "<div class=\"product_description_textarea\">";
@@ -341,15 +337,16 @@ function build_about_manager(inactive, current)
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutManager\" value=\"about\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutManager\" value=\"delete\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutManager\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"9\">";
     html += "<input type=\"hidden\" name=\"current_id\" id=\"current_id\" value=\"" + current['id'] + "\">";
     html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + current['statement'] + "\">";
     html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general_sm steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>About Us Statement</h3>";
-    html += "<div class=\"active_about_wrapper\"><div class=\"alone_icon\"><i class=\"far fa-gem\"></i></div><h4>Active <em>\"About Us\"</em> Statement";
+    html += "<div class=\"active_about_wrapper\"><div class=\"alone_icon\">A</div><h4>Active <em>\"About Us\"</em> Statement";
     html += "<a href=\"javascript: load_helper('about_active');\"> <i class=\"far fa-question-circle\"></i></a></h4> ";
     html += "<em>" + current['statement'] + "</em><div class=\"s_edit_btn\">";
-    html += "<button id=\"new_about\" onClick=\"javascript: build_about_editor(); display_about_editor('0', 'active');\">New</button>";
-    html += "<button id=\"edit_active_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'active');\">Edit</button>";
+    html += "<button id=\"new_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('0', 'active');\">New</button>";
+    html += "<button id=\"edit_active_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('1', 'active');\">Edit</button>";
     html += "</div></div><div class=\"inactive_abouts\"><h4> Inactive Statements";
     html += "<a href=\"javascript: load_helper('about_inactive');\"> <i class=\"far fa-question-circle\"></i></a></h4>";
     html += "<div class=\"inactive_list_wrapper\"><div class=\"inactive_list\"><ul>";
@@ -363,7 +360,7 @@ function build_about_manager(inactive, current)
     html += "</ul></div></div>";
     html += "<div class=\"s_edit_btn\">";
     html += "<button id=\"set_about_active\" onClick=\"javascript: set_about_active();\">Set Active</button>";
-    html += "<button id=\"edit_inactive_about\" onClick=\"javascript: build_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
+    html += "<button id=\"edit_inactive_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
     html += "<button id=\"delete_about\" onClick=\"javascript: delete_about();\">Delete</button></div></div>";
 
     html += "<div class=\"generalSteel main_exit_btn\" style=\"width: 100%; margin-top:1%;\">";
@@ -371,6 +368,7 @@ function build_about_manager(inactive, current)
     html += "<button id=\"close-this-2\">Exit</button>";
     html += "</div>";
     html += "</div>";
+    build_about_editor();
     return html;
 }
 
@@ -381,12 +379,13 @@ function build_about_editor()
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>\"About Us\" Editor</h3>";
     html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"far fa-gem\"></i></h2>";
+    html += "<div class=\"alone_icon\">A</div>";
     html += "<h5>Type or edit the \"About Us\" statement in the space provided below</h5>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"about_us_editor\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutEditor\" value=\"about\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutEditor\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutEditor\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"9\">";
     html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
 
     html += "<div class=\"about_editor_textarea\">";
@@ -407,18 +406,14 @@ function build_about_editor()
     html += "</div>";
     html += "</div>";
 
-
-
     $("#msg3").html(html);
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(500);
 }  
 
 function build_company_manager(data)
 {              
     var html = "<div class=\"company_container center_v_mode\">";
     html += "<div class=\"frame_general\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
     html += "<input type=\"hidden\" id=\"co1\" value=\"" + data['address1'] + "\">"
     html += "<input type=\"hidden\" id=\"co2\" value=\"" + data['address2'] + "\">"
     html += "<input type=\"hidden\" id=\"co3\" value=\"" + data['address3'] + "\">"
@@ -497,6 +492,7 @@ function build_company_editor(mode)
         html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
         html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
         html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
+        html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
         html += "<input type=\"text\" name=\"link\" id=\"sm_link\" placeholder=\"Enter the new social media link here\" required></form>";
         html += "<div class=\"co_sm_buttons\">";
         html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
@@ -573,13 +569,14 @@ function build_user_manager(data)
     html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelManager\" value=\"user\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionManager\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdManager\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
     html += "</form>";
     html += "<div class=\"blog-manager-container center_v_mode\">";
     html += "<div class=\"frame_general_sm steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>User Management</h3>";
     html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"\"><i class=\"fas fa-users-cog\"></i></h2>";
+    html += "<h2 class=\"\"><i class=\"fas fa-user-cog\"></i></h2>";
     html += "<h5>Select a user from the list below</h5>";
     html += "<div class=\"generalSteelListWrap\">";
     html += "<ul>";
@@ -667,6 +664,7 @@ function build_user_editor()
     html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelEditor\" value=\"user\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionEditor\" value=\"update\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdEditor\" value=\"\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
     html += "<input type=\"hidden\" name=\"m_admin\" id=\"m_admin\" value=\"0\">";
     html += "<input type=\"hidden\" name=\"m_product\" id=\"m_product\" value=\"0\">";
     html += "<input type=\"hidden\" name=\"m_about\" id=\"m_about\" value=\"0\">";
@@ -677,7 +675,7 @@ function build_user_editor()
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Change User Access</h3>";
     html += "<div class=\"generalSteel-in\">";
-    html += "<h2><i class=\"fas fa-users-cog\"></i></h2>";
+    html += "<h2><i class=\"fas fa-user-cog\"></i></h2>";
     html += "<div class=\"um_name\" id=\"um_name\"></div>";
     html += "<div class=\"um_email\" id=\"um_email\"></div>";
     html += "<div class=\"access_overview\">";
@@ -741,6 +739,7 @@ function build_auth_user()
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"user_authorize_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_action_prod\" value=\"user\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"authorize\">";
+    html += "<input type=\"hidden\" name=\"prev_index\" value=\"13\">";
     html += "<input type=\"hidden\" name=\"is_admin\" id=\"is_admin\" value=\"0\">";
     html += "<input type=\"hidden\" name=\"product_permission\" id=\"ua_product_permission\" value=\"0\">";
     html += "<input type=\"hidden\" name=\"about_permission\" id=\"ua_about_permission\" value=\"0\">";
@@ -932,6 +931,13 @@ function load_helper(subject)
 function close_helper_frame()
 {
     $("#helper_element").fadeOut(500);
+}
+
+function activate_about_editor()
+{
+    $("#msg3").hide();
+    $("#msg3").removeClass("hidden");
+    $("#msg3").fadeIn(500);
 }
 
 function launch_company_editor(mode)
