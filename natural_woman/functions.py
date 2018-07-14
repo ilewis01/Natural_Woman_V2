@@ -396,9 +396,9 @@ def getSetPasswordContent(current_user):
 	content = {}
 	content['json_data'] 	= get_empty_json_data()
 	content['btn_index'] 	= 21
-	content['title'] 		= "Natural Woman Salon |  Account Profile"
+	content['title'] 		= "Natural Woman Salon |  Change Password"
 	content['user'] 		= current_user
-	content['url'] 			= "admin/account.html"
+	content['url'] 			= "admin/editor.html"
 	return content
 
 def getSetNameContent(current_user):
@@ -407,7 +407,7 @@ def getSetNameContent(current_user):
 	content['btn_index'] 	= 22
 	content['title'] 		= "Natural Woman Salon |  Account Profile"
 	content['user'] 		= current_user
-	content['url'] 			= "admin/account.html"
+	content['url'] 			= "admin/editor.html"
 	return content
 
 def getSetEmailContent(current_user):
@@ -416,7 +416,7 @@ def getSetEmailContent(current_user):
 	content['btn_index'] 	= 23
 	content['title'] 		= "Natural Woman Salon |  Account Profile"
 	content['user'] 		= current_user
-	content['url'] 			= "admin/account.html"
+	content['url'] 			= "admin/editor.html"
 	return content
 
 def get_blog_list():

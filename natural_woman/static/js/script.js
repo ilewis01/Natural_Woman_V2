@@ -86,10 +86,13 @@ function initialize_admin_forms()
 
     if (Number(btn_index) < 20)
     {
-        $("#adm0").addClass("selected-item");
+        $("#btn0").addClass("selected-item");
+    }
+    else if (Number(btn_index) > 20)
+    {
+        $("#actdpbtn").addClass("selected-item");
     }
 }
-
 
 function deactivate_blog_editor()
 {
@@ -825,6 +828,78 @@ function build_auth_user()
     return html;
 }
 
+function build_password_setter()
+{
+    var index = $("#btn_index").val();
+    var html ="<div class=\"account_change_wrap center_v_mode\">";
+    html += "<div class=\"account_set_frame\">";
+    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
+    html += "<h3><i class=\"fas fa-cog\"></i> Reset Password</h3>";
+    html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
+    html += "<input type=\"hidden\" name=\"target_action\" value=\"" + String(index) + "\">";
+    html += "<div class=\"account-input-space\">";
+    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your current password\" required>";
+    html += "</div>";
+    html += "<input type=\"password\" name=\"password1\" id=\"password1\" placeholder=\"Enter your new password\" required>";
+    html += "<input type=\"password\" name=\"password2\" id=\"password2\" placeholder=\"Re-enter your new password\" required>";
+    html += "<div class=\"account-buttons\">";
+    html += "<button type=\"submit\">Save</button>";
+    html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function build_email_setter()
+{
+    var index = $("#btn_index").val();
+    var html ="<div class=\"account_change_wrap center_v_mode\">";
+    html += "<div class=\"account_set_frame\">";
+    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
+    html += "<h3><i class=\"fas fa-cog\"></i> Change Email Address</h3>";
+    html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
+    html += "<input type=\"hidden\" name=\"target_action\" value=\"" + String(index) + "\">";
+    html += "<div class=\"account-input-space\">";
+    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your password\" required>";
+    html += "</div>";
+    html += "<input type=\"email\" name=\"email1\" id=\"email1\" placeholder=\"Enter your new email address\" required>";
+    html += "<input type=\"email\" name=\"email2\" id=\"email2\" placeholder=\"Re-enter your new email address\" required>";
+    html += "<div class=\"account-buttons\">";
+    html += "<button type=\"submit\">Save</button>";
+    html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function build_name_setter()
+{
+    var index = $("#btn_index").val();
+    var html ="<div class=\"account_change_wrap center_v_mode\">";
+    html += "<div class=\"account_set_frame\">";
+    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
+    html += "<h3><i class=\"fas fa-cog\"></i> Change Name</h3>";
+    html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
+    html += "<input type=\"hidden\" name=\"target_action\" value=\"" + String(index) + "\">";
+    html += "<div class=\"account-input-space\">";
+    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your password\" required>";
+    html += "</div>";
+    html += "<input type=\"text\" name=\"fname\" id=\"fname\" placeholder=\"First Name\" required>";
+    html += "<input type=\"text\" name=\"lname\" id=\"lname\" placeholder=\"Last Name\" required>";
+    html += "<div class=\"account-buttons\">";
+    html += "<button type=\"submit\">Save</button>";
+    html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
 function build_url_frame(active, inactive, index)
 {
     var html = "";
@@ -853,8 +928,26 @@ function build_url_frame(active, inactive, index)
     {
         html = build_auth_user();
     }
+    else if (index ==="21")
+    {
+        html = build_password_setter();
+    }
+    else if (index ==="22")
+    {
+        html = build_name_setter();
+    }
+    else if (index ==="23")
+    {
+        html = build_email_setter();
+    }
 
     $("#msg2").html(html);
+}
+
+function closeIconBtn(index)
+{
+    var trigger = "#msg" + String(index);
+    $(trigger).fadeOut(500);
 }
 
 function load_helper(subject)
@@ -1183,6 +1276,30 @@ function submit_auth_user()
     $("#user_authorize_form").submit();
 }
 
+function load_admin_master(index)
+{
+    index = Number(index);
+        
+    if (index < 20)
+    {
+        $("#btn0").addClass("selected-item");
+        $("#btn1").removeClass("selected-item");
+        $("#btn2").removeClass("selected-item");
+    }
+    else if (index === 20)
+    {
+        $("#btn0").removeClass("selected-item");
+        $("#btn1").addClass("selected-item");
+        $("#btn2").removeClass("selected-item");
+    }
+    else if (index > 20)
+    {
+        $("#btn0").removeClass("selected-item");
+        $("#btn1").removeClass("selected-item");
+        $("#btn2").addClass("selected-item");
+    }
+}
+
 
 $(document).ready(function() {
     $("#login-btn").click(function() {
@@ -1255,6 +1372,18 @@ $(document).ready(function() {
         { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/user_access" }); }
         else { window.location.href = "/user_access"; }
     });
+
+
+
+
+    $("#btn1").click(function() {
+        $("#master_admin_fader").fadeOut(500, function() {
+            window.location.href = "/email"; 
+        });
+    });
+
+
+
 
 
     //ADMIN FRAME CLOSERS

@@ -79,12 +79,118 @@
         </body>
 
         <!--EDITOR BUILDER -->
-        <div class="alert3 hidden" id="msg3"></div> 
+        <div class="alert3 hidden" id="msg3"></div>
+
+<style type="text/css">
+.dropdown-menu {
+    background-color: rgba(193, 188, 142, 0.8);
+    margin-left: -55px;
+    margin-top: 10px;
+}
+
+.dropdown-menu  a:hover {
+    background-color: blue;
+}
+
+.account_change_wrap {
+    width:40%;
+    margin: auto;
+}
+
+.account_set_frame {
+    width: 100%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1%;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    box-shadow: 2px 2px 2px #111111;
+    background: linear-gradient(to right, rgba(110, 110, 110, 0.9)0%, rgba(225, 225, 225, 0.9) 50%, rgba(110, 110, 110, 0.9) 100%);
+}
+
+.account_set_frame h3 {
+    width: 100%;
+    font-size: 18px;
+    color: #333333;
+    text-align: left;
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: 1px solid #444444;
+}
+
+.account_set_frame input {
+    font-size: 11px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.account_set_frame ::placeholder {
+    color: #777777;
+    font-style: italic;
+}
+
+.account-input-space {
+    margin-bottom: 15px;
+}
+
+.super_closer {
+    width: 100%;
+    font-size: 20px;
+    color:#222222;
+    text-align: right;
+}
+
+.super_closer i {
+    cursor:pointer;
+}
+
+.super_closer i:hover {
+    color: #bbbbbb;
+    text-shadow:1px 1px #111111;
+}
+
+.account-buttons {
+    width: 100%;
+    border: 1px solid #444444;
+    border-radius: 6px;
+    text-align: right;
+    padding-right: 1%;
+    margin-bottom: 5%;
+    margin-top:5px;
+    padding-bottom: 1%;
+    background: linear-gradient(to right, rgba(170, 170, 170, 1), rgba(100, 100, 100, 1));
+}
+
+.account-buttons button {
+    width: 20%;
+    border-color: #444444;
+    border-top-color: #888888;
+    background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));
+}
+
+</style>
 
 
         <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
         <div class="alert4 hidden" id="msg4">
-            <div class="ua_wrapper center_v_mode">
+            <div class="account_change_wrap center_v_mode">
+                <div class="account_set_frame">
+                    <div class="super_closer" id="close_ultra"><i class="far fa-window-close"></i></div>
+                    <h3><i class="fas fa-cog"></i> Reset Password</h3>
+                    <form action="/account_changed" method="POST" id="account_form">
+                        <div class="account-input-space">
+                            <input type="password" name="old" id="old" placeholder="Enter your current password" required>
+                        </div>
+                        <input type="password" name="password1" id="password1" placeholder="Enter your new password" required>
+                        <input type="password" name="password2" id="password2" placeholder="Re-enter your new password" required>
+                        <div class="account-buttons">
+                            <button type="submit">Save</button>
+                            <button type="button">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--<div class="ua_wrapper center_v_mode">
                 <div class="frame_general_sm">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>Edit Gallery Images</h3>
@@ -102,7 +208,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <div class="alert14 hidden" id="msg14">
@@ -197,17 +303,26 @@
                         <a id="adm0" href="/blog_editor"><i class="fas fa-cog"></i> Tools</a>
                     </li>
                     <li class="nav-item" id="btn1"><a id="adm1" href="#"><i class="fas fa-envelope"></i> Email</a></li>
-                    <li class="nav-item" id="btn2">
-                        <a id="adm2" href="/logout">
-                            <i class="fas fa-user"></i>
-                            {{user.fname}} {{user.lname}} <span id="carat"><i class="fas fa-caret-up"></i></span>
+                    <li class="nav-item dropdown" id="actdpbtn">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" id="add00">
+                            <i class="fas fa-user"></i> {{user.fname}} {{user.lname}}
                         </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" id="btn3" href="/set_password">Change Password</a>
+                            <a class="dropdown-item" id="btn4" href="/set_email">Change Email</a>
+                            <a class="dropdown-item" id="btn5" href="/set_name">Change Name</a>
+                            <a class="dropdown-item" id="btn6" href="/logout">Logout</a>
+                        </div>
+                        <!--<a id="adm2" href="#">
+                            <i class="fas fa-user"></i> 
+                            {{user.fname}} {{user.lname}} <span id="carat"><i class="fas fa-caret-up"></i></span>
+                        </a>-->
                     </li>
                 </ul>
             </div>
         </nav>
 
-        <div class="content-wrapper btn_background">
+        <div class="content-wrapper btn_background" id="master_admin_fader">
             <div class="content-a">
                 <div class="admin-content-wrapper">
                     <div class="v-split-top">
@@ -289,6 +404,7 @@
                 {% block content %}
                 {% endblock %}
             </div>
+
 
             <div class="copyright">
                 Copyright &copy; 2018 Natural Woman Salon Detroit. All Rights Reserved.
