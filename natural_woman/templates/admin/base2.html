@@ -37,7 +37,7 @@
 
 </style>
 
-    <body class="global-style">
+    <body class="global-style" id="masterAdminManagerFader">
         <form action="#" method="POST" id="main_admin_form">
             <input type="hidden" id="btn_index" value="{{btn_index}}">
             <input type="hidden" id="frame_active" value="0">
@@ -83,13 +83,27 @@
 
 <style type="text/css">
 .dropdown-menu {
-    background-color: rgba(193, 188, 142, 0.8);
-    margin-left: -55px;
-    margin-top: 10px;
+    background: linear-gradient(to top, rgba(206, 209, 162, 0.7), rgba(85, 88, 56, 0.7));
+    margin-left: -43px;
+    margin-top: 9px;
+    text-align: right;
+    box-shadow: 2px 2px 2px #222222;
+    border-top: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
-.dropdown-menu  a:hover {
-    background-color: blue;
+.dropdown-menu  a {
+    border-bottom: 1px solid #777777;
+    *-webkit-transition: all 0.6s; 
+    transition: all 0.6s;
+}
+
+.dropdown-menu  a:hover, .drpSelected a, .drpSelected a:hover  {
+    background-color: rgba(225, 221, 190, 0.7);
+    color: #353a07;
+    font-weight: bold;
+    text-shadow: none;
 }
 
 .account_change_wrap {
@@ -300,7 +314,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" id="btn0">
-                        <a id="adm0" href="/blog_editor"><i class="fas fa-cog"></i> Tools</a>
+                        <a id="adm0" href="/admin_home"><i class="fas fa-cog"></i> Tools</a>
                     </li>
                     <li class="nav-item" id="btn1"><a id="adm1" href="#"><i class="fas fa-envelope"></i> Email</a></li>
                     <li class="nav-item dropdown" id="actdpbtn">
@@ -308,10 +322,10 @@
                             <i class="fas fa-user"></i> {{user.fname}} {{user.lname}}
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" id="btn3" href="/set_password">Change Password</a>
-                            <a class="dropdown-item" id="btn4" href="/set_email">Change Email</a>
-                            <a class="dropdown-item" id="btn5" href="/set_name">Change Name</a>
-                            <a class="dropdown-item" id="btn6" href="/logout">Logout</a>
+                            <div id="ddb1"><a class="dropdown-item" href="/set_password">Change Password</a></div>
+                            <div id="ddb2"><a class="dropdown-item" href="/set_email">Change Email</a></div>
+                            <div id="ddb3"><a class="dropdown-item" href="/set_name">Change Name</a></div>
+                            <div id="ddb4"><a class="dropdown-item" href="#">Logout</a></div>
                         </div>
                         <!--<a id="adm2" href="#">
                             <i class="fas fa-user"></i> 

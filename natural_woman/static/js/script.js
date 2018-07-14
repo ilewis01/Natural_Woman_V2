@@ -3,29 +3,25 @@ $( window ).on( "load", initialize);
 function initialize(jQuery) {
     var btn_index = String(document.getElementById("btn_index").value);
     
-    if (btn_index === "-1")
-    {
-        initialize_index();
-    }
-    else if (btn_index === "0")
-    {
-
-    }
-    else if (btn_index === "2")
-    {
-        
-    }
-    else if (Number(btn_index) > 5)
+    if (Number(btn_index) > 5)
     {
         initialize_admin_forms();
     }
-    else if (Number(btn_index) === 20)
+    else
     {
-        
-    }
-    else if (Number(btn_index) > 20)
-    {
-        
+        $("#base1_fade_id").removeClass('hidden');
+        if (btn_index === "-1")
+        {
+            initialize_index();
+        }
+        else if (btn_index === "0")
+        {
+
+        }
+        else if (btn_index === "2")
+        {
+            
+        }
     }
 }
 
@@ -88,9 +84,28 @@ function initialize_admin_forms()
     {
         $("#btn0").addClass("selected-item");
     }
-    else if (Number(btn_index) > 20)
+    else
     {
-        $("#actdpbtn").addClass("selected-item");
+        if (Number(btn_index) === 21)
+        {
+            $("#ddb1").addClass("drpSelected");
+        }
+        else if (Number(btn_index) > 22)
+        {
+            $("#ddb2").addClass("drpSelected");
+        }
+        else if (Number(btn_index) > 23)
+        {
+            $("#ddb3").addClass("drpSelected");
+        }
+        $("#add00").css({"text-shadow":"1px 1px #000000", "color":"#cadc23"});
+    }
+    if (Number(btn_index) === 40)
+    {
+        $("#base1_fade_id").hide();
+        $("#msg7").removeClass('hidden');
+        $("#base1_fade_id").removeClass('hidden');
+        $("#base1_fade_id").fadeIn(500);
     }
 }
 
@@ -1379,6 +1394,11 @@ $(document).ready(function() {
     $("#btn1").click(function() {
         $("#master_admin_fader").fadeOut(500, function() {
             window.location.href = "/email"; 
+        });
+    });
+    $("#ddb4").click(function() {
+        $("#master_admin_fader").fadeOut(500, function() {
+            window.location.href = "/logout"; 
         });
     });
 

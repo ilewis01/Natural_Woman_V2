@@ -20,7 +20,7 @@
         <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Poiret+One" rel="stylesheet">
 
-        <link rel="shortcut icon" type="image/png" href="../images/favicon.ico"/>
+        <link rel="shortcut icon" type="image/png" href="static/images/favicon.ico"/>
 
         <title>{{title}}</title>
 
@@ -32,7 +32,7 @@
         <![endif]-->
     </head>
 
-    <body class="global-style">
+    <body class="global-style hidden" id="base1_fade_id">
         <input type="hidden" id="btn_index" value="{{btn_index}}">
         <div class="alert1 hidden" id="msg1">
             <div class="login-wrapper">
@@ -49,10 +49,20 @@
             </div>
         </div>
 
+        <div class="alert7 hidden" id="msg7">
+            <div class="logout_msg_wrap center_v_mode">
+                <div class="logout_stylish">
+                    <h3>You were successfully logged out</h3>
+                    <h5>See you soon</h5>
+                    <a href="#" id="close-this-7">Click Here To Close</a>
+                </div>
+            </div>
+        </div>
+
         <nav class="navbar navbar-expand-sm" role="navigation">
             <div class="navbar-header">
                 <div class="nav-head-wrap">
-                    <a href="#">
+                    <a href="/">
                         <div class="nature-green icon-left icon-nav"><i class="fab fa-envira"></i></div>
                         <div class="nws-brand">natural woman salon</div>
                     </a>

@@ -10,7 +10,7 @@ def index():
 
 @app.route('/home')
 def home():
-	content = home_comtent()
+	content = {}
 	return render_template("global/index.html", **content)
 
 @app.route('/sign_up')
@@ -130,9 +130,9 @@ def set_email():
 @login_required
 def logout():
 	content = {}
-	name = str(current_user.fname) + " " + str(current_user.lname)
 	content["title"] = "Natural Woman Salon | Logout"
-	content['name'] = name
+	content['user'] = current_user
+	content['btn_index'] = 40
 	current_user.authenticated = False
 	current_user.save()
 	logout_user()
