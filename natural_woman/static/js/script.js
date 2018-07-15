@@ -595,7 +595,7 @@ function build_company_manager(pay, data)
     html += "<a href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
     html += "</div>";
     html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<div class='canter_b_mode'><button>Update Link</button></div>";
+    html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Facebook');\">Update Link</button></div>";
     html += "</div>";
     html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
     html += "<table>";
@@ -629,7 +629,7 @@ function build_company_manager(pay, data)
     html += "<a href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
     html += "</div>";
     html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<div class='canter_b_mode'><button>Update Link</button></div>";
+    html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Twitter');\">Update Link</button></div>";
     html += "</div>";
     html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
     html += "<table>";
@@ -664,7 +664,7 @@ function build_company_manager(pay, data)
     html += "<a href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
     html += "</div>";
     html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<div class='canter_b_mode'><button>Update Link</button></div>";
+    html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Instagram');\">Update Link</button></div>";
     html += "</div>";
     html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
     html += "<table>";
@@ -713,24 +713,120 @@ function build_address_setter()
     html += "<i class='far fa-window-close'></i>";
     html += "</div>";
     html += "<h3 class='drop_pad_co'>Edit Company Address</h3>";
-    html += "<input type='text' placeholder='Address lIne 1' id=''>";
-    html += "<input type='text' placeholder='Address lIne 2' id=''>";
-    html += "<input type='text' placeholder='Address lIne 3' id=''>";
+    html += "<input type='text' placeholder='Address lIne 1' id='pop_ad1'>";
+    html += "<input type='text' placeholder='Address lIne 2' id='pop_ad2'>";
+    html += "<input type='text' placeholder='Address lIne 3' id='pop_ad3'>";
     html += "<div class='space_10'></div>";
     html += "<div class='container'>";
     html += "<div class='row'>";
     html += "<div class='col-sm-7' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='City' id=''>";
+    html += "<input type='text' placeholder='City' id='pop_city'>";
     html += "</div>";
     html += "<div class='col-sm-2' style='padding:0; margin:0;'>";
-    html += "<div class='minify_input'><input type='text' placeholder='MI' id=''></div>";
+    html += "<div class='minify_input'><input type='text' placeholder='MI' id='pop_state'></div>";
     html += "</div>";
     html += "<div class='col-sm-3' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='Zip Code' id=''>";
+    html += "<input type='text' placeholder='Zip Code' id='pop_zip'>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
     html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
+    html += "<div class='company_address_btns'>";
+    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function build_phone_setter ()
+{
+    var html = "<div class='company_contact_set_frame center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<h3 class=\"drop_pad_co\">Edit Company Phone</h3>";
+    html += "<div class='single_line_entry'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12 general_label' >Enter new phone number below:</div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0; margin-left:12px;'><input type='text' id='area_code'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin: 0;'><input type='text' id='area_code'></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin: 0;'><input type='text' id='area_code'></div>";
+    html += "<div class='col-sm-5'></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
+    html += "</div>";
+    html += "<div class='company_address_btns'>";
+    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function build_email_setter_co()
+{
+    var html = "<div class='company_contact_set_frame center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<h3 class='drop_pad_co'>Edit Company Email</h3>";
+    html += "<div class='single_line_entry'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12'>";
+    html += "<input type='email' id='pop_email1' placeholder='Enter the new email here'>";
+    html += "</div>";
+    html += "<div class='col-sm-12'>";
+    html += "<input type='email' id='pop_email2' placeholder='Confirm the new email address'>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
+    html += "</div>";
+    html += "<div class='company_address_btns'>";
+    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function build_hours_setter()
+{
+
+}
+
+function build_link_setter(target)
+{
+    target = String(target);
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<h3 class='drop_pad_co'>Edit ";
+    html += target;
+    html += " Link</h3>";
+    html += "<div class='single_line_entry'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12 general_label' >Enter the new ";
+    html += target;
+    html += " link below:</div>"
+    html += "<div class='col-sm-12'>";
+    html += "<input type='email' id='pop_";
+    html += target;
+    html += "_link' placeholder='Enter the new link here...'>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
+    html += "</div>";
     html += "<div class='company_address_btns'>";
     html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
     html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
@@ -1177,10 +1273,12 @@ function multi_company_editor(mode)
 {
     var html = ""
     mode = String(mode);
-    if (mode === 'address')
-    {
-        html = build_address_setter();
-    }
+    if (mode === 'address') { html = build_address_setter(); }
+    else if (mode === 'phone') { html = build_phone_setter(); }
+    else if (mode === 'email') { html = build_email_setter_co(); }
+    else if (mode === 'hours') { html = build_hours_setter(); }
+    else { html = build_link_setter(mode); }
+
     $("#msg3").html(html);
     $("#msg3").hide();
     $("#msg3").removeClass('hidden');

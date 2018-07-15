@@ -462,13 +462,18 @@ input[type="radio"]:checked:after {
     margin: auto;
 }
 
-.company_contact_set_frame h3 {
+.company_contact_set_frame2 {
+    width:35%;
+    margin: auto;
+}
+
+.company_contact_set_frame h3, .company_contact_set_frame2 h3 {
     color: #444444;
     font-size: 17px;
     width: 100%;
 }
 
-.company_contact_set_frame p {
+.company_contact_set_frame p, .company_contact_set_frame2 p {
     color: #000000;
     font-size: 11px;
     text-align: left;
@@ -487,6 +492,15 @@ input[type="radio"]:checked:after {
     margin: auto;
 }
 
+.general_label {
+    font-size: 11px;
+    text-align:left;
+    color: #014892;
+    font-weight: 600;
+    font-style: italic;
+    text-transform: capitalize;
+}
+
 .company_address_btns {
     width: 100%;
     margin-bottom: 20px;
@@ -497,31 +511,35 @@ input[type="radio"]:checked:after {
     width:30%;
 }
 
+.single_line_entry p
+{
+    padding: 15px;
+    margin-bottom: 0;
+}
+
+
 </style>
 
 
         <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
         <div class='alert4 hidden' id='msg4'>
-            <div class='company_contact_set_frame center_v_mode'>
+            <div class='company_contact_set_frame2 center_v_mode'>
                 <div class='company_contact_edit1'>
                     <div class='super_closer_inverse' onClick="javascript: closeIconBtn('4');">
                         <i class='far fa-window-close'></i>
                     </div>
-                    <h3 class="drop_pad_co">Edit Company Phone</h3>
-                    <div class='container'>
-                        <div class='row'>
-                            <div class='col-sm-7' style='padding:0; margin:0;'>
-                                <input type='text' placeholder='City' id=''>
-                            </div>
-                            <div class='col-sm-2' style='padding:0; margin:0;'>
-                                <div class='minify_input'><input type='text' placeholder='MI' id=''></div>
-                            </div>
-                            <div class='col-sm-3' style='padding:0; margin:0;'>
-                                <input type='text' placeholder='Zip Code' id=''>
+                    <h3 class='drop_pad_co'>Edit Facebook Link</h3>
+                    <div class='single_line_entry'>
+                        <div class='container'>
+                            <div class='row'>
+                                <div class='col-sm-12 general_label' >Enter the new Facebook link below:</div>
+                                <div class='col-sm-12'>
+                                    <input type='email' id='pop_link' placeholder='Enter the new link here...'>
+                                </div>
                             </div>
                         </div>
+                        <p>*Note: These changes will not be permanently stored until you update the company profile.</p>
                     </div>
-                    <p>*Note: These changes will not be permanently stored until you update the company profile.</p>
                     <div class='company_address_btns'>
                         <button onClick="javascript: soft_save('address');">Apply Changes</button>
                         <button onClick="javascript: closeIconBtn('4');">Cancel</button>
