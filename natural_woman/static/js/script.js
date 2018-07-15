@@ -428,73 +428,7 @@ function build_about_editor()
 }  
 
 function build_company_manager(pay, data)
-{              
-    // var html = "<div class=\"company_container center_v_mode\">";
-    // html += "<div class=\"frame_general\">";
-    // html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
-    // html += "<input type=\"hidden\" id=\"co1\" value=\"" + data['address1'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co2\" value=\"" + data['address2'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co3\" value=\"" + data['address3'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co4\" value=\"" + data['city'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co5\" value=\"" + data['state'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co6\" value=\"" + data['zip_code'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co7\" value=\"" + data['phone'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co8\" value=\"" + data['email'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co9\" value=\"" + data['hours_m_f'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co10\" value=\"" + data['hours_sat'] + "\">"
-    // html += "<input type=\"hidden\" id=\"co11\" value=\"" + data['hours_sun'] + "\">"
-    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    // html += "<h3>Company Profile</h3>";
-    // html += "<div class=\"company_data_wrap\">";
-    // html += "<div class=\"company_section\">";
-    // html += "<h4>";
-    // html += "Contact Information";
-    // html += "<a href=\"javascript: load_helper('contact_info');\"><i class=\"far fa-question-circle\"></i></a>";
-    // html += "</h4>";
-    // html += "<div class=\"company_sub_head\">Address: </div>";
-    // html += "<div class=\"company-item\">" + data['address1'] + "</div>";
-
-    // if (String(data['address2']) !== "empty") { html += "<div class=\"company-item\">" + data['address2'] + "</div>"; }
-    // if (String(data['address3']) !== "empty") { html += "<div class=\"company-item\">" + data['address3'] + "</div>"; }
-
-    // html += "<div class=\"company-item\">"
-    // html += data['city'];
-    // html += ", ";
-    // html += data['state'];
-    // html += " ";
-    // html += data['zip_code'];
-    // html += "</div><div class=\"company_sub_head lower_company1\">Phone: </div>";
-    // html += "<div class=\"company-item\">" + data['phone'] + "</div>";
-    // html += "<div class=\"company_sub_head lower_company1\">Email: </div>";
-    // html += "<div class=\"company-item\"><em>" + data['email'] + "</em></div>";
-    // html += "<div class=\"company_sub_head lower_company1\">Business Hours: </div>";
-    // html += "<div class=\"company-item\"><b>Weekdays: </b><em>" + data['hours_m_f'] + "</em></div>";
-    // html += "<div class=\"company-item\"><b>Saturdays: </b><em>" + data['hours_sat'] + "</em></div>";
-    // html += "<div class=\"company-item\"><b>Sundays: </b><em>" + data['hours_sun'] + "</em></div>";
-    // html += "<div class=\"company_button_wrap\">";
-    // html += "<button onClick=\"javascript: launch_company_editor('contact');\">Edit Contact Information</button>";
-    // html += "</div></div></div>";
-    // html += "<div class=\"company_data_wrap lower_company2\">";
-    // html += "<div class=\"company_section\"><h4>";
-    // html += "Social Media Links";
-    // html += "<a href=\"javascript: load_helper('social_media');\"><i class=\"far fa-question-circle\"></i></a>";
-    // html += "</h4>";
-    // html += "<p>Click the icons to view link</p>";
-    // html += "<div class=\"company_media_style\">";
-    // html += "<a href=\"" + data['facebook_url'] + "\" target=\"_blank\"><img src=\"/static/images/fb.png\"></a>";
-    // html += "<a href=\"javascript: launch_company_editor('facebook');\">Change Facebook Link</a>";
-    // html += "</div><div class=\"company_media_style\">";
-    // html += "<a href=\"" + data['twitter_url'] + "\" target=\"_blank\"><img src=\"/static/images/twitter.png\"></a>";
-    // html += "<a href=\"javascript: launch_company_editor('twitter');\">Change Twitter Link</a>";
-    // html += "</div> <div class=\"company_media_style\">";
-    // html += "<a href=\"" + data['instagram_url'] + "\" target=\"_blank\"><img src=\"/static/images/instagram.png\"></a>";
-    // html += "<a href=\"javascript: launch_company_editor('instagram');\">Change Instagram Link</a>";
-    // html += "</div></div></div><div class=\"company_data_wrap\">";
-    // html += "<div class=\"company_button_wrap\">";
-    // html += "<button id=\"close-this-2\">Exit</button>";
-    // html += "</div></div></div></div>";
-    // return html
-
+{
     var cash        = "";
     var check       = "";
     var visa        = "";
@@ -523,7 +457,7 @@ function build_company_manager(pay, data)
     if (String(data['address3']) !== "empty") { html += "<div class='ultraAddy'>" + data['address3'] + "</div>" }
 
 
-    html += "<div class='ultraAddy'>" + data['city'] + ", " + data['state'] + data['zip_code'] + "</div>";
+    html += "<div class='ultraAddy'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
     html += "<div class='superSocial_l'></div>";
     html += "<h1>Phone &nbsp<a href=\"javascript: multi_company_editor('phone');\">[Edit]</a></h1>";
     html += "<div class='ultraAddy'>" + data['phone'] + "</div>";
@@ -766,6 +700,40 @@ function build_company_manager(pay, data)
     html += "<button id='updateCompanyBtn'>Update</button>";
     html += "<button id='close-this-2'>Exit</button>";
     html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function build_address_setter()
+{
+    var html = "<div class='company_contact_set_frame center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<h3 class='drop_pad_co'>Edit Company Address</h3>";
+    html += "<input type='text' placeholder='Address lIne 1' id=''>";
+    html += "<input type='text' placeholder='Address lIne 2' id=''>";
+    html += "<input type='text' placeholder='Address lIne 3' id=''>";
+    html += "<div class='space_10'></div>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-7' style='padding:0; margin:0;'>";
+    html += "<input type='text' placeholder='City' id=''>";
+    html += "</div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'>";
+    html += "<div class='minify_input'><input type='text' placeholder='MI' id=''></div>";
+    html += "</div>";
+    html += "<div class='col-sm-3' style='padding:0; margin:0;'>";
+    html += "<input type='text' placeholder='Zip Code' id=''>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
+    html += "<div class='company_address_btns'>";
+    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     return html;
@@ -1203,6 +1171,20 @@ function build_restrictor()
     html += "</div>";
     html += "</div>";
     return html;
+}
+
+function multi_company_editor(mode)
+{
+    var html = ""
+    mode = String(mode);
+    if (mode === 'address')
+    {
+        html = build_address_setter();
+    }
+    $("#msg3").html(html);
+    $("#msg3").hide();
+    $("#msg3").removeClass('hidden');
+    $("#msg3").fadeIn(500);
 }
 
 function build_url_frame(active, inactive, index)

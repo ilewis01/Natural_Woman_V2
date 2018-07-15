@@ -113,14 +113,14 @@
     margin: auto;
 }
 
-.account_set_frame {
+.account_set_frame, .company_contact_edit1 {
     width: 100%;
     padding-left: 3%;
     padding-right: 3%;
     padding-top: 1%;
     border: 1px solid #333333;
     border-radius: 6px;
-    box-shadow: 2px 2px 2px #111111;
+    box-shadow: 2px 2px 2px #555555;
     background: linear-gradient(to right, rgba(110, 110, 110, 0.9)0%, rgba(225, 225, 225, 0.9) 50%, rgba(110, 110, 110, 0.9) 100%);
 }
 
@@ -134,13 +134,17 @@
     border-bottom: 1px solid #444444;
 }
 
+.account_set_frame h3 span {
+    font-size:20px;
+}
+
 .account_set_frame input {
     font-size: 11px;
     padding-left: 5px;
     margin-bottom: 5px;
 }
 
-.account_set_frame ::placeholder {
+.account_set_frame ::placeholder, .company_contact_set_frame ::placeholder {
     color: #777777;
     font-style: italic;
 }
@@ -172,6 +176,23 @@
 .super_closer i:hover {
     color: #bbbbbb;
     text-shadow:1px 1px #111111;
+}
+
+.super_closer_inverse {
+    width: 100%;
+    font-size: 20px;
+    color:#bbbbbb;
+    text-align: right;
+    text-shadow:1px 1px #111111;
+}
+
+.super_closer_inverse i {
+    cursor:pointer;
+}
+
+.super_closer_inverse i:hover {
+    color: #333333;
+    text-shadow:none;
 }
 
 .account-buttons, .restricted_gradient {
@@ -417,25 +438,99 @@ input[type="radio"]:checked:after {
     background: linear-gradient(to right, rgba(170, 170, 170, 1), rgba(100, 100, 100, 1));
 }
 
-.company_btn_container button {
-    width: 15%;
+.company_btn_container button, .company_address_btns button {
     margin-left: 3px;
     border-color: #777777;
     border-top-color: #888888;
     background: linear-gradient(rgba(220, 220, 220, 1), rgba(170, 170, 170, 1));
 }
 
-.company_btn_container button:hover {
+.company_btn_container button {
+    width: 15%;
+}
+
+.company_btn_container button:hover, .company_address_btns button:hover {
     background: linear-gradient(rgba(200, 200, 200, 1), rgba(130, 130, 130, 1));
 }
 
+.space_10 {
+    height: 10px;
+}
+
+.company_contact_set_frame {
+    width: 28%;
+    margin: auto;
+}
+
+.company_contact_set_frame h3 {
+    color: #444444;
+    font-size: 17px;
+    width: 100%;
+}
+
+.company_contact_set_frame p {
+    color: #000000;
+    font-size: 11px;
+    text-align: left;
+    font-style: italic;
+    padding-left:4px;
+    padding-top: 15px;
+}
+
+.minify_input {
+    width: 100%;
+    text-align: center;
+}
+
+.minify_input input{
+    width: 64%;
+    margin: auto;
+}
+
+.company_address_btns {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.company_address_btns button {
+    width:30%;
+}
 
 </style>
 
 
         <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
         <div class='alert4 hidden' id='msg4'>
-            <div class="ua_wrapper center_v_mode">
+            <div class='company_contact_set_frame center_v_mode'>
+                <div class='company_contact_edit1'>
+                    <div class='super_closer_inverse' onClick="javascript: closeIconBtn('4');">
+                        <i class='far fa-window-close'></i>
+                    </div>
+                    <h3 class="drop_pad_co">Edit Company Phone</h3>
+                    <div class='container'>
+                        <div class='row'>
+                            <div class='col-sm-7' style='padding:0; margin:0;'>
+                                <input type='text' placeholder='City' id=''>
+                            </div>
+                            <div class='col-sm-2' style='padding:0; margin:0;'>
+                                <div class='minify_input'><input type='text' placeholder='MI' id=''></div>
+                            </div>
+                            <div class='col-sm-3' style='padding:0; margin:0;'>
+                                <input type='text' placeholder='Zip Code' id=''>
+                            </div>
+                        </div>
+                    </div>
+                    <p>*Note: These changes will not be permanently stored until you update the company profile.</p>
+                    <div class='company_address_btns'>
+                        <button onClick="javascript: soft_save('address');">Apply Changes</button>
+                        <button onClick="javascript: closeIconBtn('4');">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--<div class="ua_wrapper center_v_mode">
                 <div class="frame_general_sm">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>Edit Gallery Images</h3>
@@ -453,7 +548,7 @@ input[type="radio"]:checked:after {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <div class="alert14 hidden" id="msg14">
