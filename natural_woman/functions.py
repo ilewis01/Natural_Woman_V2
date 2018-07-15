@@ -188,6 +188,8 @@ def json_serialize_users():
 def json_serialize_company():
 	data = {}
 	c 						= get_company_model()
+	group_weekdays 			= c.group_weekdays
+	group_weekends 			= c.group_weekends
 	address2 				= isEmptyMember(c.address2)
 	address3 				= isEmptyMember(c.address3)
 	facebook 				= isEmptyMember(c.facebook_url)
@@ -202,12 +204,40 @@ def json_serialize_company():
 	data['zip_code'] 		= c.zip_code
 	data['phone'] 			= c.phone
 	data['email'] 			= c.email
-	data['hours_m_f'] 		= c.hours_m_f
-	data['hours_sat'] 		= c.hours_sat
-	data['hours_sun'] 		= c.hours_sun
 	data['facebook_url'] 	= facebook
 	data['twitter_url'] 	= twitter
 	data['instagram_url'] 	= instagram
+	data['hours_title'] 	= c.hours_title
+	data['monday'] 			= c.monday
+	data['saturday'] 		= c.saturday
+	data['show_facebook'] 	= str(c.show_facebook)
+	data['show_instagram'] 	= str(c.show_instagram)
+	data['show_twitter'] 	= str(c.show_twitter)
+	data['special_hours'] 	= str(c.special_hours)
+	data['group_weekdays'] 	= str(group_weekdays)
+	data['group_weekends'] 	= str(group_weekends)
+
+	if group_weekdays == False:
+		data['tuesday'] 	= c.tuesday
+		data['wednesday'] 	= c.wednesday
+		data['thursday'] 	= c.thursday
+		data['friday'] 		= c.friday
+	if group_weekends == False:
+		data['sunday'] 		= c.sunday
+	return data
+
+def json_serialize_payments():
+	data 		= []
+	index 		= 0
+	payments 	= Payment.query.all()
+	for p in payments:
+		d = {}
+		d['method'] 		= str(p.method).lower()
+		d['is_accepted'] 	= str(p.is_accepted)
+		d['icon'] 			= p.icon
+		d['index'] 			= index
+		index += 1
+		data.append(d)
 	return data
 
 def isEmptyMember(literal):
@@ -247,9 +277,8 @@ def get_product_content():
 
 def get_company_content():
 	data 				= {}
-	company 			= json_serialize_company()
-	data['active'] 		= company
-	data['inactive'] 	= []
+	data['active'] 		= json_serialize_company()
+	data['inactive'] 	= json_serialize_payments()
 	return data
 
 def get_blog_json_data():
@@ -293,92 +322,113 @@ def load_admin_home(current_user):
 	return data
 
 def getBlogManagementContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_blog_json_data()
+	content['user'] 			= current_user
 	if current_user.blog_permission == True:
-		content['json_data'] 	= get_blog_json_data()
 		content['btn_index'] 	= 7
-		content['user'] 		= current_user
 		content['title'] 		= "Natural Woman Salon | Blog Management"
 		content['url'] 			= "admin/editor.html"
+		content['restricted'] 	= 0
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getProductManagementContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_product_json_data()
+	content['user'] 			= current_user
 	if current_user.product_permission == True:
-		content['json_data'] 	= get_product_json_data()
 		content['btn_index'] 	= 8
 		content['user'] 		= current_user
 		content['title'] 		= "Natural Woman Salon | Product Management"
 		content['url'] 			= "admin/editor.html"
+		content['restricted'] 	= 0
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getAboutManagementContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_about_list()
+	content['user'] 			= current_user
 	if current_user.about_permission == True:
-		content['json_data'] 	= get_about_list()
 		content['btn_index'] 	= 9
 		content['user'] 		= current_user
 		content['title'] 		= "Natural Woman Salon | About Statement"
 		content['url'] 			= "admin/editor.html"
+		content['restricted'] 	= 0
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getGalleryManagementContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_gallery_json_data()
+	content['user'] 			= current_user
 	if current_user.gallery_permission == True:
-		content['json_data'] 	= get_gallery_json_data()
 		content['btn_index'] 	= 10
 		content['user'] 		= current_user
 		content['title'] 		= "Natural Woman Salon | Gallery Management"
 		content['url'] 			= "admin/editor.html"
+		content['restricted'] 	= 0
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getCompanyManagementContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_company_content()
+	content['user'] 			= current_user
 	if current_user.is_admin == True:
-		content['json_data'] 	= get_company_content()
 		content['btn_index'] 	= 11
 		content['user'] 		= current_user
 		content['title'] 		= "Natural Woman Salon | Company Profile"
 		content['url'] 			= "admin/editor.html"
+		content['restricted'] 	= 0
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getUserManagementContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_user_json_data()
+	content['user'] 			= current_user
 	if current_user.is_admin == True:
-		content['json_data'] 	= get_user_json_data()
 		content['btn_index'] 	= 12
 		content['title'] 		= "Natural Woman Salon | Manage Users"
 		content['user'] 		= current_user
+		content['restricted'] 	= 0
 		content['url'] 			= "admin/editor.html"
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content
 
 def getUserAccessContent(current_user):
-	content = {}
+	content 					= {}
+	content['json_data'] 		= get_empty_json_data()
+	content['user'] 			= current_user
 	if current_user.is_admin == True:
 		content['json_data'] 	= get_empty_json_data()
 		content['btn_index'] 	= 13
 		content['title'] 		= "Natural Woman Salon | User Access"
 		content['user'] 		= current_user
 		content['url'] 			= "admin/editor.html"
+		content['restricted'] 	= 0
 	else:
+		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
 	return content

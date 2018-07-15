@@ -66,23 +66,27 @@ class User(db.Model):
 	def __repr__(self):
 		return "<User: " + str(self.fname) + " " + str(self.lname) + ">"
 
-class Permissions(db.Model):
-	__tablename__ 		= "permissions"
-	id 					= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-	email 				= db.Column('email', db.String(120), nullable=False, unique=True)
-	is_admin 			= db.Column('is_admin', db.Boolean, default=False)
-	product_permission 	= db.Column('product_permission', db.Boolean, default=False)
-	about_permission 	= db.Column('about_permission', db.Boolean, default=False)
-	blog_permission 	= db.Column('blog_permission', db.Boolean, default=False)
-	gallery_permission 	= db.Column('gallery_permission', db.Boolean, default=False)
+class Payment(db.Model):
+	__tablename__ 	= "payment"
+	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+	method 			= db.Column('method', db.String(120), nullable=False, unique=True)
+	is_accepted 	= db.Column('is_accepted', db.Boolean, default=False, nullable=False)
+	icon 			= db.Column('icon', db.String(120), default="Cash")
 
-	def __init__(self, email, is_admin, product_permission, about_permission, blog_permission, gallery_permission):
-		self.email = email
-		self.is_admin = is_admin
-		self.product_permission = product_permission
-		self.about_permission = about_permission
-		self.blog_permission = blog_permission
-		self.gallery_permission = gallery_permission
+	def __init__(self, method):
+		icon 				= "<i class='fas fa-money-bill-alt'></i>"
+		self.method 		= method
+		self.is_accepted 	= False
+		method 				= method.lower()
+		if method == "visa":
+			icon = "<i class='fab fa-cc-visa'></i>"
+		elif method == "mastercard":
+			icon = "<i class='fab fa-cc-mastercard'></i>"
+		elif method == "amex":
+			icon = "<i class='fab fa-cc-amex'></i>"
+		elif method == "check":
+			icon = "<i class='fas fa-money-check'></i>"
+		self.icon = icon
 
 	def save(self):
 		db.session.add(self)
@@ -91,6 +95,9 @@ class Permissions(db.Model):
 	def delete(self):
 		db.session.delete(self)
 		db.session.commit()
+
+	def __repr__(self):
+		return '<Payment Method: %r>' % self.method
 
 class Product(db.Model):
 	__tablename__ 	= "products"
@@ -191,12 +198,23 @@ class Company(db.Model):
 	zip_code 		= db.Column('zip_code', db.String(5), nullable=False)
 	email 			= db.Column('email', db.String, default="info@naturalwomansalon.com", nullable=False)
 	phone 			= db.Column('phone', db.String, nullable=False)
-	hours_m_f 		= db.Column('m-f', db.String, nullable=False)
-	hours_sat 		= db.Column('sat', db.String, nullable=False)
-	hours_sun 		= db.Column('sun', db.String, nullable=False)
-	facebook_url 	= db.Column('facebook', db.String, nullable=False)
+	monday 			= db.Column('monday', db.String)
+	tuesday 		= db.Column('tuesday', db.String)
+	wednesday 		= db.Column('wednesday', db.String)
+	thursday 		= db.Column('thursday', db.String)
+	friday 			= db.Column('friday', db.String)
+	saturday 		= db.Column('saturday', db.String)
+	sunday 			= db.Column('sunday', db.String)
+	group_weekdays 	= db.Column('group_weekdays', db.Boolean, default=True, nullable=False)
+	group_weekends 	= db.Column('group_weekends', db.Boolean, default=True, nullable=False)
+	facebook_url 	= db.Column('facebook', db.String)
 	twitter_url		= db.Column('twitter', db.String)
-	instagram_url	= db.Column('instagram', db.String, nullable=False)
+	instagram_url	= db.Column('instagram', db.String)
+	show_facebook 	= db.Column('show_facebook', db.Boolean, default=True, nullable=False)
+	show_twitter 	= db.Column('show_twitter', db.Boolean, default=True, nullable=False)
+	show_instagram 	= db.Column('show_instagram', db.Boolean, default=True, nullable=False)
+	special_hours 	= db.Column('special_hours', db.Boolean, default=False, nullable=False)
+	hours_title 	= db.Column('hours_title', db.String(50), default="Hours of Operation")
 
 	def __init__(self):
 		self.address1 		= "8485 Old 13 Mile Road"
@@ -204,23 +222,36 @@ class Company(db.Model):
 		self.state 			= "MI"
 		self.zip_code 		= "48093"
 		self.phone 			= "(586) 315-8858"
-		self.hours_m_f 		= "10am - 7pm"
-		self.hours_sat 		= "10am - 7pm"
-		self.hours_sun 		= "12pm - 5pm"
+		self.monday 		= "10am - 7pm"
+		self.saturday 		= "10am - 7pm"
+		self.sunday 		= "12pm - 5pm"
 		self.facebook_url 	= "https://www.facebook.com/Natural-Woman-Salon-133665140595488/?ref=bookmarks"
 		self.instagram_url 	= "https://www.instagram.com/naturalwomansalon/"
-		self.email = "info@naturalwomansalon.com"
+		self.twitter_url 	= "https://www.twitter.com"
+		self.show_facebook 	= True
+		self.show_instagram = True
+		self.show_twitter 	= True
+		self.group_weekdays = True
+		self.group_weekends = False
+		self.special_hours 	= False
+		self.hours_title 	= "Hours of Operation"
+		self.email 			= "info@naturalwomansalon.com"
 
-	def get_company():
-		return Company.query.filter_by(code="nws").one()
+	def setHoursTitle(self, title):
+		is_special = self.special_hours
+		if is_special == True:
+			self.hours_title = title
+		else:
+			self.hours_title = "Hours of Operation"
+		self.save()
 
 	def save(self):
-		saved = -1
+		saved = False
 		q = Company.query.all()
-		if len(q) == 0:
+		if len(q) < 2:
 			db.session.add(self)
 			db.session.commit()
-			saved = 10
+			saved = True
 		return saved
 
 class Image(db.Model):

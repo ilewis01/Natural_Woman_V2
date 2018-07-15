@@ -427,156 +427,431 @@ function build_about_editor()
     $("#msg3").html(html);
 }  
 
-function build_company_manager(data)
+function build_company_manager(pay, data)
 {              
-    var html = "<div class=\"company_container center_v_mode\">";
-    html += "<div class=\"frame_general\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
-    html += "<input type=\"hidden\" id=\"co1\" value=\"" + data['address1'] + "\">"
-    html += "<input type=\"hidden\" id=\"co2\" value=\"" + data['address2'] + "\">"
-    html += "<input type=\"hidden\" id=\"co3\" value=\"" + data['address3'] + "\">"
-    html += "<input type=\"hidden\" id=\"co4\" value=\"" + data['city'] + "\">"
-    html += "<input type=\"hidden\" id=\"co5\" value=\"" + data['state'] + "\">"
-    html += "<input type=\"hidden\" id=\"co6\" value=\"" + data['zip_code'] + "\">"
-    html += "<input type=\"hidden\" id=\"co7\" value=\"" + data['phone'] + "\">"
-    html += "<input type=\"hidden\" id=\"co8\" value=\"" + data['email'] + "\">"
-    html += "<input type=\"hidden\" id=\"co9\" value=\"" + data['hours_m_f'] + "\">"
-    html += "<input type=\"hidden\" id=\"co10\" value=\"" + data['hours_sat'] + "\">"
-    html += "<input type=\"hidden\" id=\"co11\" value=\"" + data['hours_sun'] + "\">"
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Company Profile</h3>";
-    html += "<div class=\"company_data_wrap\">";
-    html += "<div class=\"company_section\">";
-    html += "<h4>";
-    html += "Contact Information";
-    html += "<a href=\"javascript: load_helper('contact_info');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</h4>";
-    html += "<div class=\"company_sub_head\">Address: </div>";
-    html += "<div class=\"company-item\">" + data['address1'] + "</div>";
+    // var html = "<div class=\"company_container center_v_mode\">";
+    // html += "<div class=\"frame_general\">";
+    // html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
+    // html += "<input type=\"hidden\" id=\"co1\" value=\"" + data['address1'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co2\" value=\"" + data['address2'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co3\" value=\"" + data['address3'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co4\" value=\"" + data['city'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co5\" value=\"" + data['state'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co6\" value=\"" + data['zip_code'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co7\" value=\"" + data['phone'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co8\" value=\"" + data['email'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co9\" value=\"" + data['hours_m_f'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co10\" value=\"" + data['hours_sat'] + "\">"
+    // html += "<input type=\"hidden\" id=\"co11\" value=\"" + data['hours_sun'] + "\">"
+    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    // html += "<h3>Company Profile</h3>";
+    // html += "<div class=\"company_data_wrap\">";
+    // html += "<div class=\"company_section\">";
+    // html += "<h4>";
+    // html += "Contact Information";
+    // html += "<a href=\"javascript: load_helper('contact_info');\"><i class=\"far fa-question-circle\"></i></a>";
+    // html += "</h4>";
+    // html += "<div class=\"company_sub_head\">Address: </div>";
+    // html += "<div class=\"company-item\">" + data['address1'] + "</div>";
 
-    if (String(data['address2']) !== "empty") { html += "<div class=\"company-item\">" + data['address2'] + "</div>"; }
-    if (String(data['address3']) !== "empty") { html += "<div class=\"company-item\">" + data['address3'] + "</div>"; }
+    // if (String(data['address2']) !== "empty") { html += "<div class=\"company-item\">" + data['address2'] + "</div>"; }
+    // if (String(data['address3']) !== "empty") { html += "<div class=\"company-item\">" + data['address3'] + "</div>"; }
 
-    html += "<div class=\"company-item\">"
-    html += data['city'];
-    html += ", ";
-    html += data['state'];
-    html += " ";
-    html += data['zip_code'];
-    html += "</div><div class=\"company_sub_head lower_company1\">Phone: </div>";
-    html += "<div class=\"company-item\">" + data['phone'] + "</div>";
-    html += "<div class=\"company_sub_head lower_company1\">Email: </div>";
-    html += "<div class=\"company-item\"><em>" + data['email'] + "</em></div>";
-    html += "<div class=\"company_sub_head lower_company1\">Business Hours: </div>";
-    html += "<div class=\"company-item\"><b>Weekdays: </b><em>" + data['hours_m_f'] + "</em></div>";
-    html += "<div class=\"company-item\"><b>Saturdays: </b><em>" + data['hours_sat'] + "</em></div>";
-    html += "<div class=\"company-item\"><b>Sundays: </b><em>" + data['hours_sun'] + "</em></div>";
-    html += "<div class=\"company_button_wrap\">";
-    html += "<button onClick=\"javascript: launch_company_editor('contact');\">Edit Contact Information</button>";
-    html += "</div></div></div>";
-    html += "<div class=\"company_data_wrap lower_company2\">";
-    html += "<div class=\"company_section\"><h4>";
-    html += "Social Media Links";
-    html += "<a href=\"javascript: load_helper('social_media');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</h4>";
-    html += "<p>Click the icons to view link</p>";
-    html += "<div class=\"company_media_style\">";
-    html += "<a href=\"" + data['facebook_url'] + "\" target=\"_blank\"><img src=\"/static/images/fb.png\"></a>";
-    html += "<a href=\"javascript: launch_company_editor('facebook');\">Change Facebook Link</a>";
-    html += "</div><div class=\"company_media_style\">";
-    html += "<a href=\"" + data['twitter_url'] + "\" target=\"_blank\"><img src=\"/static/images/twitter.png\"></a>";
-    html += "<a href=\"javascript: launch_company_editor('twitter');\">Change Twitter Link</a>";
-    html += "</div> <div class=\"company_media_style\">";
-    html += "<a href=\"" + data['instagram_url'] + "\" target=\"_blank\"><img src=\"/static/images/instagram.png\"></a>";
-    html += "<a href=\"javascript: launch_company_editor('instagram');\">Change Instagram Link</a>";
-    html += "</div></div></div><div class=\"company_data_wrap\">";
-    html += "<div class=\"company_button_wrap\">";
-    html += "<button id=\"close-this-2\">Exit</button>";
-    html += "</div></div></div></div>";
-    return html
+    // html += "<div class=\"company-item\">"
+    // html += data['city'];
+    // html += ", ";
+    // html += data['state'];
+    // html += " ";
+    // html += data['zip_code'];
+    // html += "</div><div class=\"company_sub_head lower_company1\">Phone: </div>";
+    // html += "<div class=\"company-item\">" + data['phone'] + "</div>";
+    // html += "<div class=\"company_sub_head lower_company1\">Email: </div>";
+    // html += "<div class=\"company-item\"><em>" + data['email'] + "</em></div>";
+    // html += "<div class=\"company_sub_head lower_company1\">Business Hours: </div>";
+    // html += "<div class=\"company-item\"><b>Weekdays: </b><em>" + data['hours_m_f'] + "</em></div>";
+    // html += "<div class=\"company-item\"><b>Saturdays: </b><em>" + data['hours_sat'] + "</em></div>";
+    // html += "<div class=\"company-item\"><b>Sundays: </b><em>" + data['hours_sun'] + "</em></div>";
+    // html += "<div class=\"company_button_wrap\">";
+    // html += "<button onClick=\"javascript: launch_company_editor('contact');\">Edit Contact Information</button>";
+    // html += "</div></div></div>";
+    // html += "<div class=\"company_data_wrap lower_company2\">";
+    // html += "<div class=\"company_section\"><h4>";
+    // html += "Social Media Links";
+    // html += "<a href=\"javascript: load_helper('social_media');\"><i class=\"far fa-question-circle\"></i></a>";
+    // html += "</h4>";
+    // html += "<p>Click the icons to view link</p>";
+    // html += "<div class=\"company_media_style\">";
+    // html += "<a href=\"" + data['facebook_url'] + "\" target=\"_blank\"><img src=\"/static/images/fb.png\"></a>";
+    // html += "<a href=\"javascript: launch_company_editor('facebook');\">Change Facebook Link</a>";
+    // html += "</div><div class=\"company_media_style\">";
+    // html += "<a href=\"" + data['twitter_url'] + "\" target=\"_blank\"><img src=\"/static/images/twitter.png\"></a>";
+    // html += "<a href=\"javascript: launch_company_editor('twitter');\">Change Twitter Link</a>";
+    // html += "</div> <div class=\"company_media_style\">";
+    // html += "<a href=\"" + data['instagram_url'] + "\" target=\"_blank\"><img src=\"/static/images/instagram.png\"></a>";
+    // html += "<a href=\"javascript: launch_company_editor('instagram');\">Change Instagram Link</a>";
+    // html += "</div></div></div><div class=\"company_data_wrap\">";
+    // html += "<div class=\"company_button_wrap\">";
+    // html += "<button id=\"close-this-2\">Exit</button>";
+    // html += "</div></div></div></div>";
+    // return html
+
+    var cash        = "";
+    var check       = "";
+    var visa        = "";
+    var mc          = "";
+    var amex        = "";
+    var twitter     = String(data['show_twitter']);
+    var facebook    = String(data['show_facebook']);
+    var instagram   = String(data['show_instagram']);
+
+    var html = "<div class='pfile2_wrap center_v_mode'>";
+    html += "<div class='frame_general_sm'>";
+    html += "<div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>";
+    html += "<h3>Contact Info | company Profile</h3>";
+    html += "<div class='generalSteel-in'>";
+    html += "<h2 class=''><i class='fas fa-mobile-alt'></i></h2>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
+    html += "<div class='company_psection'>";
+    html += "<h4>Contact Information <a href=\"javascript: load_helper('contact_info');\"><i class='far fa-question-circle'></i></a></h4>";
+    html += "<div class='display_hours1'>";
+    html += "<h1>Address &nbsp<a href=\"javascript: multi_company_editor('address');\">[Edit]</a></h1>";
+    html += "<div class='ultraAddy'>" + data['address1'] + "</div>";
+
+    if (String(data['address2']) !== "empty") { html += "<div class='ultraAddy'>" + data['address2'] + "</div>" }
+    if (String(data['address3']) !== "empty") { html += "<div class='ultraAddy'>" + data['address3'] + "</div>" }
+
+
+    html += "<div class='ultraAddy'>" + data['city'] + ", " + data['state'] + data['zip_code'] + "</div>";
+    html += "<div class='superSocial_l'></div>";
+    html += "<h1>Phone &nbsp<a href=\"javascript: multi_company_editor('phone');\">[Edit]</a></h1>";
+    html += "<div class='ultraAddy'>" + data['phone'] + "</div>";
+    html += "<div class='superSocial_l'></div>";
+    html += "<h1>Email &nbsp<a href=\"javascript: multi_company_editor('email');\">[Edit]</a></h1>";
+    html += "<div class='ultraAddy'>" + data['email'] + "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
+    html += "<div class='company_psection'>";
+    html += "<h4>Business Hours <a href=\"javascript: load_helper('hours');\"><i class='far fa-question-circle'></i></a></h4>";
+    html += "<div class='display_hours1'>";
+    html += "<h1>" + data['hours_title'] + ": &nbsp<a href=\"javascript: multi_company_editor('hours');\">[Edit]</a></h1>";
+    html += "<table>";
+    html += "<tr>";
+
+    if (String(data['group_weekdays']) === "True")
+    {
+        html += "<td><h2><span>Weekdays: </span></h2></td>";
+        html += "<td><h2>" + data['monday'] + "</h2></td>";
+    }
+    else
+    {
+        html += "<td><h2><span>Monday: </span></h2></td>";
+        html += "<td><h2>" + data['monday'] + "</h2></td>";
+
+        html += "<td><h2><span>Tuesday: </span></h2></td>";
+        html += "<td><h2>" + data['tuesday'] + "</h2></td>";
+
+        html += "<td><h2><span>Wednesday: </span></h2></td>";
+        html += "<td><h2>" + data['wednesday'] + "</h2></td>";
+
+        html += "<td><h2><span>Thursday: </span></h2></td>";
+        html += "<td><h2>" + data['thursday'] + "</h2></td>";
+
+        html += "<td><h2><span>Frid: </span></h2></td>";
+        html += "<td><h2>" + data['friday'] + "</h2></td>";
+    }
+    
+    html += "</tr>";
+    html += "<tr>";
+
+    if (String(data['group_weekends']) === "True")
+    {
+        html += "<td><h2><span>Weekends: </span></h2></td>";
+        html += "<td><h2>" + data['monday'] + "</h2></td>";
+    }
+    else
+    {
+        html += "<td><h2><span>Saturdays: </span></h2></td>";
+        html += "<td><h2>" + data['saturday'] + "</h2></td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td><h2><span>Sundays: </span></h2></td>";
+        html += "<td><h2>" + data['sunday'] + "</h2></td>";
+    }
+        
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
+    html += "<div class='company_psection'>";
+    html += "<h4>Payment Methods <a href=\"javascript: load_helper('payments');\"><i class='far fa-question-circle'></i></a></h4>";
+    html += "<p style='padding-right: 40px;'><i class='fas fa-info-circle'></i> Select from the options below to set the payment methods that are accepted at Natural Woman Salon.</p>";
+    html += "<div>";
+    html += "<table>";
+    html += "<tr>";
+
+    for (var i = 0; i < pay.length; i++)
+    {
+        var method      = String(pay[i]['method']);
+        var accepted    = String(pay[i]['is_accepted']);
+        if (method === "cash")
+        {
+            if (accepted === "False") { cash = "<td><input type='checkbox' id='m_cash'></td>"; }
+            else { cash = "<td><input type='checkbox' id='m_cash' checked></td>"; }
+        }
+        else if (method === "visa")
+        {
+            if (accepted === "False") { visa = "<td><input type='checkbox' id='m_visa'></td>"; }
+            else { visa = "<td><input type='checkbox' id='m_visa' checked></td>"; }
+        }
+        else if (method === "mastercard")
+        {
+            if (accepted === "False") { mc = "<td><input type='checkbox' id='m_mastercard'></td>"; }
+            else { mc = "<td><input type='checkbox' id='m_mastercard' checked></td>"; }
+        }
+        else if (method === "amex")
+        {
+            if (accepted === "False") { amex = "<td><input type='checkbox' id='m_amex'></td>"; }
+            else { amex = "<td><input type='checkbox' id='m_amex' checked></td>"; }
+        }
+        else if (method === "check")
+        {
+            if (accepted === "False") { check = "<td><input type='checkbox' id='m_check'></td>"; }
+            else { check = "<td><input type='checkbox' id='m_check' checked></td>"; }
+        }
+    }
+
+    html += cash;
+    html += "<td class='cep_label'>Cash</td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += check;
+    html += "<td class='cep_label'>Check</td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += visa;
+    html += "<td class='cep_label'>Visa</td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += mc;
+    html += "<td class='cep_label'>MasterCard</td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += amex;
+    html += "<td class='cep_label'>American Express</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
+    html += "<div class='company_psection'>";
+    html += "<h4>Social Media Links <a href=\"javascript: load_helper('social_media');\"><i class='far fa-question-circle'></i></a></h4>";
+    html += "<p><i class='fas fa-info-circle'></i> Click social media icons to view link</p>";
+    html += "<h6>Facebook</h6>";
+    html += "<div class=\"sm_decorator\">";
+    html += "<div class='container'>";
+    html += "<div class='row superSocialStyle'>";
+    html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
+    html += "<a href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
+    html += "</div>";
+    html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
+    html += "<div class='canter_b_mode'><button>Update Link</button></div>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
+    html += "<table>";
+    html += "<tr>";
+
+    if (facebook === "True") {
+        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1' checked></td>";
+        html += "<td><label for='fb_on'>On</label></td>";
+        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0'></td>";
+    }
+    else
+    {
+        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1'></td>";
+        html += "<td><label for='fb_on'>On</label></td>";
+        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0' checked></td>";
+    }      
+
+    html += "<td><label for='fb_off'>Off</label></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='superSocial_s'></div>";
+    html += "<h6>Twitter</h6>";
+    html += "<div class=\"sm_decorator\">";
+    html += "<div class='container'>";
+    html += "<div class='row superSocialStyle'>";
+    html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
+    html += "<a href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
+    html += "</div>";
+    html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
+    html += "<div class='canter_b_mode'><button>Update Link</button></div>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
+    html += "<table>";
+    html += "<tr>";
+
+    if (twitter === "True")
+    {
+        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1' checked></td>";
+        html += "<td><label for='twitter_on'>On</label></td>";
+        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0'></td>";
+    }
+    else
+    {
+        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1'></td>";
+        html += "<td><label for='twitter_on'>On</label></td>";
+        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0' checked></td>";
+    }
+
+    html += "<td><label for='twitter_off'>Off</label></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='superSocial_s'></div>";
+    html += "<h6>Instagram</h6>";
+    html += "<div class=\"sm_decorator\">";
+    html += "<div class='container'>";
+    html += "<div class='row superSocialStyle'>";
+    html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
+    html += "<a href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
+    html += "</div>";
+    html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
+    html += "<div class='canter_b_mode'><button>Update Link</button></div>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
+    html += "<table>";
+    html += "<tr>";
+
+    if (instagram === "True")
+    {
+        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1' checked></td>";
+        html += "<td><label for='instagram_on'>On</label></td>";
+        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0'></td>";
+    }
+    else
+    {
+        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1'></td>";
+        html += "<td><label for='instagram_on'>On</label></td>";
+        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0' checked></td>";
+    }
+
+    html += "<td><label for='instagram_off'>Off</label></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='generalSteelBtn-co'>";
+    html += "<div class='company_btn_container'>";
+    html += "<button id='updateCompanyBtn'>Update</button>";
+    html += "<button id='close-this-2'>Exit</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
 }
 
 function build_company_editor(mode)
 {
-    var html = "";
-    mode = String(mode)
-    if (mode !== "contact")
-    {
-        html += "<div class=\"media_link_container center_v_mode\">";
-        html += "<div class=\"frame_general_sm\">";
-        html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-        html += "<h3 id=\"social_media_header_id\"></h3>";
-        html += "<div class=\"co_media_form\">";
-        html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
-        html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
-        html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
-        html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
-        html += "<input type=\"text\" name=\"link\" id=\"sm_link\" placeholder=\"Enter the new social media link here\" required></form>";
-        html += "<div class=\"co_sm_buttons\">";
-        html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
-        html += "<button onClick=\"javascript: close_company_editor('media');\">Cancel</button>";
-        html += "</div></div></div></div>";
-    }
-    else
-    {                                 
-        html += "<div class=\"compant_contact_container center_v_mode\">";
-        html += "<div class=\"frame_general_sm steel_back\">";
-        html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-        html += "<h3 id=\"social_media_header_id\"></h3><div class=\"co_media_form\">";
-        html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
-        html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
-        html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
-        html += "<h5 class=\"drop_h5\">Address</h5><div class=\"font_11\">";
-        html += "<input type=\"text\" name=\"address1\" id=\"address1\" class=\"drop_input\" placeholder=\"Address Line 1\" required>";
-        html += "<input type=\"text\" name=\"address2\" id=\"address2\" class=\"drop_input\" placeholder=\"Address Line 2\">";
-        html += "<input type=\"text\" name=\"address3\" id=\"address3\" class=\"drop_input\" placeholder=\"Address Line 3\"></div>";
-        html += "<div class=\"container\"><div class=\"row\">";
-        html += "<div class=\"col-sm-7 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
-        html += "<input type=\"text\" name=\"city\" id=\"city\" placeholder=\"City\" required></div>";
-        html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
-        html += "<input type=\"text\" name=\"state\" id=\"state\" placeholder=\"MI\" value=\"MI\" required></div>";
-        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-        html += "<input type=\"text\" name=\"zip_code\" id=\"zip_code\" placeholder=\"Zip Code\" required></div></div></div>";
-        html += "<h5 class=\"drop_h5\">Phone</h5>";
-        html += "<div class=\"container\"><div class=\"row\">";
-        html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
-        html += "<input type=\"text\" name=\"area_code\" id=\"area_code\" required></div>";
-        html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
-        html += "<input type=\"text\" name=\"prefix\" id=\"prefix\" required></div>";
-        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
-        html += "<input type=\"text\" name=\"postfix\" id=\"postfix\" required>";
-        html += "</div><div class=\"col-sm-5\" style=\"padding:0; margin:0;\"></div></div></div>";
-        html += "<h5 class=\"drop_h5\">Email</h5>";
-        html += "<div class=\"font_11\"><input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" required></div>";
-        html += "<h5 class=\"drop_h5\">Business Hours</h5>";
-        html += "<div class=\"container\"><div class=\"row\">";
-        //THIS IS WHERE THE INPUT WILL GO FOR BUSINESS HOURS
-        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-        html += "Weekdays:</div>";
-        html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
-        html += "<input type=\"text\" name=\"hours_m_f\" id=\"hours_m_f\" class=\"drop_input\" required></div>";
-        html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+    // var html = "";
+    // mode = String(mode)
+    // if (mode !== "contact")
+    // {
+    //     html += "<div class=\"media_link_container center_v_mode\">";
+    //     html += "<div class=\"frame_general_sm\">";
+    //     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    //     html += "<h3 id=\"social_media_header_id\"></h3>";
+    //     html += "<div class=\"co_media_form\">";
+    //     html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
+    //     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
+    //     html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
+    //     html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
+    //     html += "<input type=\"text\" name=\"link\" id=\"sm_link\" placeholder=\"Enter the new social media link here\" required></form>";
+    //     html += "<div class=\"co_sm_buttons\">";
+    //     html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
+    //     html += "<button onClick=\"javascript: close_company_editor('media');\">Cancel</button>";
+    //     html += "</div></div></div></div>";
+    // }
+    // else
+    // {                                 
+    //     html += "<div class=\"compant_contact_container center_v_mode\">";
+    //     html += "<div class=\"frame_general_sm steel_back\">";
+    //     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    //     html += "<h3 id=\"social_media_header_id\"></h3><div class=\"co_media_form\">";
+    //     html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
+    //     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
+    //     html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
+    //     html += "<h5 class=\"drop_h5\">Address</h5><div class=\"font_11\">";
+    //     html += "<input type=\"text\" name=\"address1\" id=\"address1\" class=\"drop_input\" placeholder=\"Address Line 1\" required>";
+    //     html += "<input type=\"text\" name=\"address2\" id=\"address2\" class=\"drop_input\" placeholder=\"Address Line 2\">";
+    //     html += "<input type=\"text\" name=\"address3\" id=\"address3\" class=\"drop_input\" placeholder=\"Address Line 3\"></div>";
+    //     html += "<div class=\"container\"><div class=\"row\">";
+    //     html += "<div class=\"col-sm-7 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
+    //     html += "<input type=\"text\" name=\"city\" id=\"city\" placeholder=\"City\" required></div>";
+    //     html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
+    //     html += "<input type=\"text\" name=\"state\" id=\"state\" placeholder=\"MI\" value=\"MI\" required></div>";
+    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "<input type=\"text\" name=\"zip_code\" id=\"zip_code\" placeholder=\"Zip Code\" required></div></div></div>";
+    //     html += "<h5 class=\"drop_h5\">Phone</h5>";
+    //     html += "<div class=\"container\"><div class=\"row\">";
+    //     html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
+    //     html += "<input type=\"text\" name=\"area_code\" id=\"area_code\" required></div>";
+    //     html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
+    //     html += "<input type=\"text\" name=\"prefix\" id=\"prefix\" required></div>";
+    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
+    //     html += "<input type=\"text\" name=\"postfix\" id=\"postfix\" required>";
+    //     html += "</div><div class=\"col-sm-5\" style=\"padding:0; margin:0;\"></div></div></div>";
+    //     html += "<h5 class=\"drop_h5\">Email</h5>";
+    //     html += "<div class=\"font_11\"><input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" required></div>";
+    //     html += "<h5 class=\"drop_h5\">Business Hours</h5>";
+    //     html += "<div class=\"container\"><div class=\"row\">";
+    //     //THIS IS WHERE THE INPUT WILL GO FOR BUSINESS HOURS
+    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "Weekdays:</div>";
+    //     html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "<input type=\"text\" name=\"hours_m_f\" id=\"hours_m_f\" class=\"drop_input\" required></div>";
+    //     html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
 
-        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-        html += "Saturdays:</div>";
-        html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
-        html += "<input type=\"text\" name=\"hours_sat\" id=\"hours_sat\" class=\"drop_input\" required></div>";
-        html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "Saturdays:</div>";
+    //     html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "<input type=\"text\" name=\"hours_sat\" id=\"hours_sat\" class=\"drop_input\" required></div>";
+    //     html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
 
-        html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-        html += "Sundays:</div>";
-        html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
-        html += "<input type=\"text\" name=\"hours_sun\" id=\"hours_sun\" class=\"drop_input\" required></div>";
-        html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "Sundays:</div>";
+    //     html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
+    //     html += "<input type=\"text\" name=\"hours_sun\" id=\"hours_sun\" class=\"drop_input\" required></div>";
+    //     html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
 
-        //END OF THE NEW SECTION
-        html += "</div></div><div class=\"sep_co_btn\"></div>"
-        html += "</form><div class=\"co_md_buttons\">";
-        html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
-        html += "<button onClick=\"javascript: close_company_editor('contact');\">Cancel</button>";
-        html += "</div></div></div></div>";
-    }
-    $("#msg3").html(html);
+    //     //END OF THE NEW SECTION
+    //     html += "</div></div><div class=\"sep_co_btn\"></div>"
+    //     html += "</form><div class=\"co_md_buttons\">";
+    //     html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
+    //     html += "<button onClick=\"javascript: close_company_editor('contact');\">Cancel</button>";
+    //     html += "</div></div></div></div>";
+    // }
+    // $("#msg3").html(html);
 }
 
 function build_user_manager(data)
@@ -915,27 +1190,48 @@ function build_name_setter()
     return html;
 }
 
+function build_restrictor()
+{
+    var html = "<div class=\"account_change_wrap center_v_mode\">";
+    html += "<div class=\"account_set_frame\">";
+    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
+    html += "<h3><i class=\"fas fa-ban paintRed iShadow\"></i> <span class=\"paintRed\">This is a restricted page</span></h3>";
+    html += "<p>You do not have access to the information on this page. If you feel that this is an error, please contact the administrator of this site.</p>"; 
+    html += "<div class=\"account-buttons\">";
+    html += "<button type=\"button\" onClick=\"javascript: closeIconBtn('2');\">Close</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
 function build_url_frame(active, inactive, index)
 {
-    var html = "";
-    index = String(index);
-    if (index === "7")
+    var is_restricted   = $("#is_restricted").val();
+    var html            = "";
+    index               = String(index);
+    is_restricted       = Number(is_restricted);
+    if (index === "7" && is_restricted === 0)
     {
         html = build_blog_manager(inactive);
     }
-    else if (index === "8")
+    else if (index === "8" && is_restricted === 0)
     {
         html = build_product_manager(inactive);
     }
-    else if (index ==="9")
+    else if (index ==="9" && is_restricted === 0)
     {
         html = build_about_manager(active, inactive);
     }
-    else if (index ==="11")
+    else if (index ==="10" && is_restricted === 0)
     {
-        html = build_company_manager(inactive);
+        //This is where the gallery builder will go once complete
     }
-    else if (index ==="12")
+    else if (index ==="11" && is_restricted === 0)
+    {
+        html = build_company_manager(active, inactive);
+    }
+    else if (index ==="12" && is_restricted === 0)
     {
         html = build_user_manager(inactive);
     }
@@ -954,6 +1250,18 @@ function build_url_frame(active, inactive, index)
     else if (index ==="23")
     {
         html = build_email_setter();
+    }
+    else
+    {
+        if (index !== "6")
+        {
+            html = build_restrictor();
+            $("#msg2").html(html);
+            $("#msg2").hide();
+            $("#msg2").removeClass("hidden");
+            $("#msg2").fadeIn(500);
+            return;
+        }
     }
 
     $("#msg2").html(html);
@@ -995,7 +1303,9 @@ function load_helper(subject)
         title = "Social Media Links";
         message = "This information controls the links in which users will be redirected to view your social media sites. ";
         message += "Before changing this information, be certain that the link you provide is accurate. Otherwise, ";
-        message += "Your users will be directed to a site that does not belong to you and the content cannot be controlled."
+        message += "Your users will be directed to a site that does not belong to you and the content cannot be controlled.";
+        message += " In addition, you can either display the link or hide it on the live Natural Woman Salon site by ";
+        message += "turning setting the corresponding buttons to \"<b><em>Yes</em><b>\" or \"<b><em>No</em><b>\\ respectively.";
     }
 
     else if (subject === "admin_access")
@@ -1028,6 +1338,19 @@ function load_helper(subject)
     {
         title = "About Statement Editingt";
         message = "Users that have been granted this type of access are allowed to edit and change the \"About Us\" statement that is displayed on the About Us Page on the Natural Woman Salon website."
+    }
+    else if (subject === "payments")
+    {
+        title = "Accepted Payment Methods";
+        message = "Select from the options to display what payment methods are accepted at Natural Woman Salon. This information will be displayed on the contact page."
+    }
+    else if (subject === "hours")
+    {
+        title = "Business Hours";
+        message = "Enter the hours of operation at Natural Woman Salon. If you select the <em>\"Group Weekdays\"</em> option, ";
+        message += "The weekday hours will be displayed as: <b><em>\"Weekdays:\"</em></b>. Choose this option only if all weekday business hours are the same. This is also the case with weekends"
+        message += " You can also set special hours. For example, for Christmas hours, you can set the title as <b><em>\"Holiday Hours.\"</em></b>"
+        message += " It is your responsibility to keep Natural Woman Salon's hours of operation up-to-date. This system does not provide date-checker service."
     }
     $("#helper_title").html(title);
     $("#content_message").html(message);
@@ -1332,20 +1655,32 @@ $(document).ready(function() {
     });
 
     $("#ab1").click(function() {
-        var frame_active = String(document.getElementById("frame_active").value);
-        if (frame_active === "1")
+        var launchBlogger   = $("#launchBlogger").val();
+        if (String(launchBlogger) === "True")
         {
-            var btn_index   = String(document.getElementById("btn_index").value);
-            var loader      = get_load_id(btn_index);
-            var trigger     = "#msg" + loader;
+            var frame_active    = String(document.getElementById("frame_active").value);
+            if (frame_active === "1")
+            {
+                var btn_index   = String(document.getElementById("btn_index").value);
+                var loader      = get_load_id(btn_index);
+                var trigger     = "#msg" + loader;
 
-            $(trigger).fadeOut(600);
+                $(trigger).fadeOut(600);
+            }
+
+            $("#msg1").hide();
+            $("#msg1").removeClass("hidden");
+            $("#msg1").fadeIn(600);
+            $("#blog_active").val("1");
         }
-
-        $("#msg1").hide();
-        $("#msg1").removeClass("hidden");
-        $("#msg1").fadeIn(600);
-        $("#blog_active").val("1");
+        else
+        {
+            html = build_restrictor();
+            $("#msg2").html(html);
+            $("#msg2").hide();
+            $("#msg2").removeClass("hidden");
+            $("#msg2").fadeIn(500);
+        }       
     });
 
 

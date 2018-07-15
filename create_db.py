@@ -14,8 +14,20 @@ b1 = Blog("Blog entry 1", "This is just some dumb ass shit that I am typing to c
 b2 = Blog("Put it up", "This is just another meaningless sentence")
 c0 = Company()
 
+m1 = Payment("Cash")
+m2 = Payment("visa")
+m3 = Payment("Mastercard")
+m4 = Payment("AMEX")
+m5 = Payment("check")
+
+m1.is_accepted = True
+m2.is_accepted = True
+m3.is_accepted = True
+
 a1.is_active = False
 a2.is_active = False
+
+c0.show_twitter = False
 
 u1 = User("Deez", "Nutz", "mynutz@gmail.com", "1234" )
 u2 = User("Nasty", "Whore", "hotmess@gmail.com", "password")
@@ -45,4 +57,15 @@ p3.save()
 b1.save()
 b2.save()
 c0.save()
+m1.save()
+m2.save()
+m3.save()
+m4.save()
+m5.save()
+
+
+
+
+
+
 
