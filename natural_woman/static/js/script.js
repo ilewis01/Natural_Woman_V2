@@ -119,8 +119,6 @@ function deactivate_blog_editor()
     $("#msg3").fadeOut((500));
 }
 
-
-
 function open_product_editor(load_data)
 {
     load_data = String(load_data);
@@ -428,7 +426,7 @@ function build_about_editor()
     html += "</div>";
 
     $("#msg3").html(html);
-}  
+}
 
 function build_company_manager(pay, data)
 {
@@ -440,11 +438,83 @@ function build_company_manager(pay, data)
     var twitter     = String(data['show_twitter']);
     var facebook    = String(data['show_facebook']);
     var instagram   = String(data['show_instagram']);
-
     var html = "<div class='pfile2_wrap center_v_mode'>";
     html += "<form action='/edit_success' method='POST' id='master_company_management_form'>";
-    html += "<input type='hidden' name='master_group_weekdays' id='master_group_weekdays' value='0'>";
-    html += "<input type='hidden' name='master_group_weekends' id='master_group_weekends' value='0'>";
+    html += "<input type='hidden' name='master_address1' id='master_address1' value='";
+    html += data["address1"];
+    html += "'>";
+    html += "<input type='hidden' name='master_address2' id='master_address2' value='";
+    html += data["address2"];
+    html += "'>";
+    html += "<input type='hidden' name='master_address3' id='master_address3' value='";
+    html += data["address3"];
+    html += "'>";
+    html += "<input type='hidden' name='master_city' id='master_city' value='";
+    html += data["city"];
+    html += "'>";
+    html += "<input type='hidden' name='master_state' id='master_state' value='";
+    html += data["state"];
+    html += "'>";
+    html += "<input type='hidden' name='master_zip_code' id='master_zip_code' value='";
+    html += data["zip_code"];
+    html += "'>";
+    html += "<input type='hidden' name='master_phone' id='master_phone' value='";
+    html += data["phone"];
+    html += "'>";
+    html += "<input type='hidden' name='master_email' id='master_email' value='";
+    html += data["email"];
+    html += "'>";
+    html += "<input type='hidden' name='master_facebook_url' id='master_facebook_url' value='";
+    html += data["facebook_url"];
+    html += "'>";
+    html += "<input type='hidden' name='master_twitter_url' id='master_twitter_url' value='";
+    html += data["twitter_url"];
+    html += "'>";
+    html += "<input type='hidden' name='master_instagram_url' id='master_instagram_url' value='";
+    html += data["instagram_url"];
+    html += "'>";
+    html += "<input type='hidden' name='master_hours_title' id='master_hours_title' value='";
+    html += data["hours_title"];
+    html += "'>";
+    html += "<input type='hidden' name='master_show_facebook' id='master_show_facebook' value='";
+    html += data["show_facebook"];
+    html += "'>";
+    html += "<input type='hidden' name='master_show_instagram' id='master_show_instagram' value='";
+    html += data["show_instagram"];
+    html += "'>";
+    html += "<input type='hidden' name='master_show_twitter' id='master_show_twitter' value='";
+    html += data["show_twitter"];
+    html += "'>";
+    html += "<input type='hidden' name='master_special_hours' id='master_special_hours' value='";
+    html += data["special_hours"];
+    html += "'>";
+    html += "<input type='hidden' name='master_monday' id='master_monday' value='";
+    html += data["monday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_tuesday' id='master_tuesday' value='";
+    html += data["tuesday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_wednesday' id='master_wednesday' value='";
+    html += data["wednesday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_thursday' id='master_thursday' value='";
+    html += data["thursday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_friday' id='master_friday' value='";
+    html += data["friday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_saturday' id='master_saturday' value='";
+    html += data["saturday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_sunday' id='master_sunday' value='";
+    html += data["sunday"];
+    html += "'>";
+    html += "<input type='hidden' name='master_group_weekdays' id='master_group_weekdays' value='";
+    html += data["group_weekdays"];
+    html += "'>";
+    html += "<input type='hidden' name='master_group_weekends' id='master_group_weekends' value='";
+    html += data["group_weekends"];
+    html += "'>";
     html += "</form>";
     html += "<div class='frame_general_sm'>";
     html += "<div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>";
@@ -459,11 +529,8 @@ function build_company_manager(pay, data)
     html += "<div class='display_hours1'>";
     html += "<h1>Address &nbsp<a href=\"javascript: multi_company_editor('address');\">[Edit]</a></h1>";
     html += "<div class='ultraAddy'>" + data['address1'] + "</div>";
-
     if (String(data['address2']) !== "empty") { html += "<div class='ultraAddy'>" + data['address2'] + "</div>" }
     if (String(data['address3']) !== "empty") { html += "<div class='ultraAddy'>" + data['address3'] + "</div>" }
-
-
     html += "<div class='ultraAddy'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
     html += "<div class='superSocial_l'></div>";
     html += "<h1>Phone &nbsp<a href=\"javascript: multi_company_editor('phone');\">[Edit]</a></h1>";
@@ -481,7 +548,6 @@ function build_company_manager(pay, data)
     html += "<h1>" + data['hours_title'] + ": &nbsp<a href=\"javascript: multi_company_editor('hours');\">[Edit]</a></h1>";
     html += "<table>";
     html += "<tr>";
-
     if (String(data['group_weekdays']) === "True")
     {
         html += "<td><h2><span>Weekdays: </span></h2></td>";
@@ -504,10 +570,8 @@ function build_company_manager(pay, data)
         html += "<td><h2><span>Frid: </span></h2></td>";
         html += "<td><h2>" + data['friday'] + "</h2></td>";
     }
-    
     html += "</tr>";
     html += "<tr>";
-
     if (String(data['group_weekends']) === "True")
     {
         html += "<td><h2><span>Weekends: </span></h2></td>";
@@ -521,8 +585,7 @@ function build_company_manager(pay, data)
         html += "<tr>";
         html += "<td><h2><span>Sundays: </span></h2></td>";
         html += "<td><h2>" + data['sunday'] + "</h2></td>";
-    }
-        
+    }   
     html += "</tr>";
     html += "</table>";
     html += "</div>";
@@ -535,7 +598,6 @@ function build_company_manager(pay, data)
     html += "<div>";
     html += "<table>";
     html += "<tr>";
-
     for (var i = 0; i < pay.length; i++)
     {
         var method      = String(pay[i]['method']);
@@ -566,7 +628,6 @@ function build_company_manager(pay, data)
             else { check = "<td><input type='checkbox' id='m_check' checked></td>"; }
         }
     }
-
     html += cash;
     html += "<td class='cep_label'>Cash</td>";
     html += "</tr>";
@@ -607,19 +668,17 @@ function build_company_manager(pay, data)
     html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
     html += "<table>";
     html += "<tr>";
-
     if (facebook === "True") {
-        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1' checked></td>";
+        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1' checked onClick=\"javascript: commit_radio_value('master_show_facebook', '1');\"></td>";
         html += "<td><label for='fb_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0'></td>";
+        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0' onClick=\"javascript: commit_radio_value('master_show_facebook', '0');\"></td>";
     }
     else
     {
-        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1'></td>";
+        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1' onClick=\"javascript: commit_radio_value('master_show_facebook', '1');\"></td>";
         html += "<td><label for='fb_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0' checked></td>";
+        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0' checked> onClick=\"javascript: commit_radio_value('master_show_facebook', '0');\"</td>";
     }      
-
     html += "<td><label for='fb_off'>Off</label></td>";
     html += "</tr>";
     html += "</table>";
@@ -641,20 +700,18 @@ function build_company_manager(pay, data)
     html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
     html += "<table>";
     html += "<tr>";
-
     if (twitter === "True")
     {
-        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1' checked></td>";
+        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1' checked onClick=\"javascript: commit_radio_value('master_show_twitter', '1');\"></td>";
         html += "<td><label for='twitter_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0'></td>";
+        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0' onClick=\"javascript: commit_radio_value('master_show_twitter', '0');\"></td>";
     }
     else
     {
-        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1'></td>";
+        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1' onClick=\"javascript: commit_radio_value('master_show_twitter', '1');\"></td>";
         html += "<td><label for='twitter_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0' checked></td>";
+        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0' checked onClick=\"javascript: commit_radio_value('master_show_twitter', '0');\"></td>";
     }
-
     html += "<td><label for='twitter_off'>Off</label></td>";
     html += "</tr>";
     html += "</table>";
@@ -676,20 +733,18 @@ function build_company_manager(pay, data)
     html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
     html += "<table>";
     html += "<tr>";
-
     if (instagram === "True")
     {
-        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1' checked></td>";
+        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1' checked onClick=\"javascript: commit_radio_value('master_show_instagram', '1');\"></td>";
         html += "<td><label for='instagram_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0'></td>";
+        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0' onClick=\"javascript: commit_radio_value('master_show_instagram', '0');\"></td>";
     }
     else
     {
-        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1'></td>";
+        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1' onClick=\"javascript: commit_radio_value('master_show_instagram', '1');\"></td>";
         html += "<td><label for='instagram_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0' checked></td>";
+        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0' checked onClick=\"javascript: commit_radio_value('master_show_instagram', '0');\"></td>";
     }
-
     html += "<td><label for='instagram_off'>Off</label></td>";
     html += "</tr>";
     html += "</table>";
@@ -712,28 +767,62 @@ function build_company_manager(pay, data)
     return html;
 }
 
+function commit_radio_value(target, mode)
+{
+    target  = "#" + String(target);
+    mode    = Number(mode);
+    if (mode === 1) { $(target).val("True"); }
+    else if (mode === 0) { $(target).val("False"); }
+    $("#updateCompanyBtn").addClass('flash-button');
+}
+
 function build_address_setter()
 {
-    var html = "<div class='company_contact_set_frame center_v_mode'>";
+    var address1    = $("#master_address1").val();
+    var address2    = $("#master_address2").val();
+    var address3    = $("#master_address3").val();
+    var city        = $("#master_city").val();
+    var state       = $("#master_state").val();
+    var zip_code    = $("#master_zip_code").val();
+    var tag         = "'>";
+    var html        = "<div class='company_contact_set_frame center_v_mode'>";
     html += "<div class='company_contact_edit1'>";
     html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
     html += "<i class='far fa-window-close'></i>";
     html += "</div>";
     html += "<h3 class='drop_pad_co'>Edit Company Address</h3>";
-    html += "<input type='text' placeholder='Address lIne 1' id='pop_ad1'>";
-    html += "<input type='text' placeholder='Address lIne 2' id='pop_ad2'>";
-    html += "<input type='text' placeholder='Address lIne 3' id='pop_ad3'>";
+    html += "<input type='text' placeholder='Address lIne 1' id='pop_address1' value='";
+    html += String(address1)
+    html += "'>"
+    if (String(address2) === "empty") { html += "<input type='text' placeholder='Address lIne 2' id='pop_address2'>"; }
+    else {
+        html += "<input type='text' placeholder='Address lIne 2' id='pop_address2' value='";
+        html += String(address2);
+        html += tag;
+    }
+    if (String(address2) === "empty") { html += "<input type='text' placeholder='Address lIne 3' id='pop_address3'>"; }
+    else {
+        html += "<input type='text' placeholder='Address lIne 3' id='pop_address3' value='";
+        html += String(address3);
+        html += tag;
+    }
     html += "<div class='space_10'></div>";
     html += "<div class='container'>";
     html += "<div class='row'>";
     html += "<div class='col-sm-7' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='City' id='pop_city'>";
+    html += "<input type='text' placeholder='City' id='pop_city' value='";
+    html += String(city);
+    html += tag;
     html += "</div>";
     html += "<div class='col-sm-2' style='padding:0; margin:0;'>";
-    html += "<div class='minify_input'><input type='text' placeholder='MI' id='pop_state'></div>";
+    html += "<div class='minify_input'><input type='text' placeholder='MI' id='pop_state' value='";
+    html += String(state);
+    html += "'></div>";
     html += "</div>";
     html += "<div class='col-sm-3' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='Zip Code' id='pop_zip'>";
+    html += "<input type='text' placeholder='Zip Code' id='pop_zip' value='";
+    html += String(zip_code);
+    html += tag;
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -746,9 +835,31 @@ function build_address_setter()
     return html;
 }
 
+function encode_phone(phone)
+{
+    phone       = String(phone);
+    encoded     = {};
+    var area    = phone[1];
+    var perf    = phone[6];
+    var post    = phone[10];
+    area += phone[2];
+    area += phone[3];
+    perf += phone[7];
+    perf += phone[8];
+    post += phone[11];
+    post += phone[12];
+    post += phone[13];
+    encoded['area_code']    = area;
+    encoded['prefix']       = perf;
+    encoded['postfix']      = post;
+    return encoded;
+}
+
 function build_phone_setter ()
 {
-    var html = "<div class='company_contact_set_frame center_v_mode'>";
+    var phone   = $("#master_phone").val();
+    phone       = encode_phone(phone)
+    var html    = "<div class='company_contact_set_frame center_v_mode'>";
     html += "<div class='company_contact_edit1'>";
     html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
     html += "<i class='far fa-window-close'></i>";
@@ -758,9 +869,15 @@ function build_phone_setter ()
     html += "<div class='container'>";
     html += "<div class='row'>";
     html += "<div class='col-sm-12 general_label' >Enter new phone number below:</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0; margin-left:12px;'><input type='text' id='area_code'></div>";
-    html += "<div class='col-sm-2' style='padding:0; margin: 0;'><input type='text' id='area_code'></div>";
-    html += "<div class='col-sm-3' style='padding:0; margin: 0;'><input type='text' id='area_code'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0; margin-left:12px;'><input type='text' id='area_code' value='";
+    html += phone["area_code"];
+    html += "'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin: 0;'><input type='text' id='prefix' value='";
+    html += phone["prefix"];
+    html += "'></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin: 0;'><input type='text' id='postfix' value='";
+    html += phone["postfix"];
+    html += "'></div>";
     html += "<div class='col-sm-5'></div>";
     html += "</div>";
     html += "</div>";
@@ -803,12 +920,110 @@ function build_email_setter_co()
     return html;
 }
 
+function decode_python_bool(value)
+{
+    var result = null;
+    value = String(value);
+    if (value === "True") { result = "1"; }
+    if (value === "False") { result = "0"; }
+    return result;
+}
+
+function init_hour_table()
+{
+    var weekday_status  = $("#master_group_weekdays").val();
+    var weekend_status  = $("#master_group_weekends").val();
+    var monday          = decode_hours($("#master_monday").val());
+    var saturday        = decode_hours($("#master_saturday").val());
+    var special_hours   = decode_python_bool($("#special_hours").val());
+    weekday_status      = decode_python_bool(weekday_status);
+    weekend_status      = decode_python_bool(weekend_status);
+
+    $("#weekday_on").val(weekday_status);
+    $("#weekend_on").val(weekend_status);
+    if(special_hours === "1") 
+    { 
+        var special_title = $("#hours_title").val()
+        $("#sp_on").prop('checked', true); 
+        $("#pop_special_hours_title").removeClass('hidden');
+        $("#pop_special_hours_title").val(special_title);
+    }
+    if(weekday_status === "1") 
+    {
+        $("#pop_group_weekday").prop( "checked", true );
+        $("#mon_open").val(monday['open']);
+        $("#mon_close").val(monday['close']);
+        if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
+        if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
+    }
+    else {
+        var tuesday = decode_hours($("#master_tuesday").val());
+        var wednesday = decode_hours($("#master_wednesday").val());
+        var thursday = decode_hours($("#master_thursday").val());
+        var friday = decode_hours($("#master_friday").val());
+
+        $("#pop_group_weekday").prop( "checked", true );
+        $("#mon_open").val(monday['open']);
+        $("#mon_close").val(monday['close']);
+        if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
+        if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
+
+        $("#pop_group_weekday").prop( "checked", true );
+        $("#tue_open").val(tuesday['open']);
+        $("#tue_close").val(tuesday['close']);
+        if (tuesday['open_am'] === false) { $("#tue_open_s").prop('selectedIndex', 1); }
+        if (tuesday['close_am'] === false) { $("#tue_close_s").prop('selectedIndex', 1); }
+
+        $("#pop_group_weekday").prop( "checked", true );
+        $("#wed_open").val(wednesday['open']);
+        $("#wed_close").val(wednesday['close']);
+        if (wednesday['open_am'] === false) { $("#wed_open_s").prop('selectedIndex', 1); }
+        if (wednesday['close_am'] === false) { $("#wed_close_s").prop('selectedIndex', 1); }
+
+        $("#pop_group_weekday").prop( "checked", true );
+        $("#thu_open").val(thursday['open']);
+        $("#thu_close").val(thursday['close']);
+        if (thursday['open_am'] === false) { $("#thu_open_s").prop('selectedIndex', 1); }
+        if (thursday['close_am'] === false) { $("#thu_close_s").prop('selectedIndex', 1); }
+
+        $("#pop_group_weekday").prop( "checked", true );
+        $("#fri_open").val(friday['open']);
+        $("#fri_close").val(friday['close']);
+        if (friday['open_am'] === false) { $("#fri_open_s").prop('selectedIndex', 1); }
+        if (friday['close_am'] === false) { $("#fri_close_s").prop('selectedIndex', 1); }
+    }
+    if(weekend_status === "1") 
+    {
+        $("#pop_group_weekends").prop( "checked", true );
+        $("#sat_open").val(monday['open']);
+        $("#sat_close").val(monday['close']);
+        if (monday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
+        if (monday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
+    }
+    else
+    {
+        var sunday = decode_hours($("#master_sunday").val());
+        $("#sat_open").val(saturday['open']);
+        $("#sat_close").val(saturday['close']);
+        if (saturday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
+        if (saturday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
+        $("#sun_open").val(sunday['open']);
+        $("#sun_close").val(sunday['close']);
+        if (sunday['open_am'] === false) { $("#sun_open_s").prop('selectedIndex', 1); }
+        if (sunday['close_am'] === false) { $("#sun_close_s").prop('selectedIndex', 1); }
+    }
+
+    $("#msg3").hide();
+    $("#msg3").removeClass('hidden');
+    $("#msg3").fadeIn(500);
+}
+
 function build_hours_setter()
 {
     var weekday_status  = $("#master_group_weekdays").val();
     var weekend_status  = $("#master_group_weekends").val();
-    weekday_status      = String(weekday_status);
-    weekend_status      = String(weekend_status);
+    weekday_status      = decode_python_bool(weekday_status);
+    weekend_status      = decode_python_bool(weekend_status);
     var table           = getHoursTable(weekday_status, weekend_status);
 
     var html = "<div class='company_contact_set_frame2 center_v_mode'>";
@@ -888,7 +1103,7 @@ function build_link_setter(target)
     html += "<div class='col-sm-12'>";
     html += "<input type='email' id='pop_";
     html += target;
-    html += "_link' placeholder='Enter the new link here...'>";
+    html += "_link' placeholder='Enter or paste the new link here...'>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -927,9 +1142,57 @@ function getHoursTable(weekday_status, weekend_status)
     return html
 }
 
+function decode_hours(val)
+{
+    val = String(val);
+    var set1 = false;
+    var record = false;
+    var open = "";
+    var close = "";
+    var open_am = true;
+    var close_am = true;
+    var data = {};
+    for (var i = 0; i < val.length; i++)
+    {
+        var c = val[i];
+        if (set1 === false)
+        {
+            if (c !== " " && open.length < 2)
+            {
+                open += c;
+            }
+            else
+            {
+                set1 = true;
+            }
+            if (c === "p") { open_am = false; }
+        }
+        else 
+        {
+            if (c === " ")
+            {
+                record = true;
+                continue;
+            }
+            if (record === true && close.length < 2 && c !== "-" && c !== "a" && c !== "p" && c !== "m")
+            {
+                close += c;
+            }
+            if (c === "p") { close_am = false; }
+        }
+    }
+
+    data['open'] = open;
+    data['open_am'] = open_am;
+    data['close'] = close;
+    data['close_am'] = close_am;
+    return data;
+}
+
 function getWeekdayHTML(status)
 {
-    var html = "";
+    var html    = "";
+    var monday  = decode_hours($("#master_monday").val());
     if (status === "0")
     {
         html += "<table>";
@@ -1053,26 +1316,6 @@ function loadHoursTable(html)
     $("#dynamic_week").fadeIn(300, function() {
         $("#dynamic_week").html(html);
     });
-}
-
-function groupWeekdays()
-{
-    var grouped = $("#weekday_on").val();
-    grouped = String(grouped);
-    var html = getWeekdayHTML(grouped);
-    if (grouped === "0") { $("#weekday_on").val("1"); }
-    else if (grouped === "1") { $("#weekday_on").val("0"); }
-    $("#dynamic_weekday").html(html);
-}
-
-function groupWeekends()
-{
-    var grouped = $("#weekend_on").val();
-    grouped = String(grouped);
-    var html = getWeekendHTML(grouped);
-    if (grouped === "0") { $("#weekend_on").val("1"); }
-    else if (grouped === "1") { $("#weekend_on").val("0"); }
-    $("#dynamic_weekend").html(html);
 }
 
 function build_user_manager(data)
@@ -1451,6 +1694,53 @@ function edit_success_builder(icon, header, message)
     return html;
 }
 
+function soft_save(target)
+{
+    var proceed     = false;
+    var messages    = [];
+    var data        = {};
+    var m2          = "";
+    target          = String(target);
+    if (target === "Facebook" || target === "Twitter" || target === "Instagram")
+    {
+        var target_id   = "#pop_" + target + "_link";
+        var lower       = target.toLowerCase();
+        var current_id  = "#master_" + lower + "_url";
+        var new_link    = $(target_id).val();
+        var old_link    = $(current_id).val();
+        new_link        = String(new_link);
+        old_link        = String(old_link);
+        if (new_link.length === 0) 
+        { 
+            m2 = "If you choose not to display a ";
+            m2 += target;
+            m2 += " link, you can simply deactivate it on the main Company Profile Editor in the ";
+            m2 += target;
+            m2 += " section of the page.";
+            messages.push("This value is required"); 
+            messages.push(m2);
+        }
+        else if (new_link === old_link) 
+        { 
+            m2 = "The link that you entered is identical to the current ";
+            m2 += target;
+            m2 += " link. No changes will be applied."
+            messages.push("Identical links detected");
+            messages.push(m2);
+        }
+        else 
+        {
+            proceed = true;
+            $(current_id).val(new_link);
+            $("#updateCompanyBtn").addClass('flash-button');
+            $("#msg3").fadeOut(300);
+        }
+    }
+
+    data['proceed'] = proceed;
+    data['messages'] = messages;
+}
+
 function multi_company_editor(mode)
 {
     var html = ""
@@ -1460,11 +1750,17 @@ function multi_company_editor(mode)
     else if (mode === 'email') { html = build_email_setter_co(); }
     else if (mode === 'hours') { html = build_hours_setter(); }
     else { html = build_link_setter(mode); }
-
     $("#msg3").html(html);
-    $("#msg3").hide();
-    $("#msg3").removeClass('hidden');
-    $("#msg3").fadeIn(500);
+
+    if (mode !== 'hours')
+    {
+        $("#msg3").hide();
+        $("#msg3").removeClass('hidden');
+        $("#msg3").fadeIn(500);
+    }
+    else {
+        init_hour_table();
+    }
 }
 
 function build_url_frame(active, inactive, index)

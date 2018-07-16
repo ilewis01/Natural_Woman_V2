@@ -104,6 +104,91 @@
     text-shadow: none;
 }
 
+.yo {
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
+}
+
+.maze button {
+    width:300px;
+    background: #666666;
+}
+
+
+@-webkit-keyframes bgblink {
+    from {background: #c1374e; }
+    50% {background:#aaaaaa;}
+    to {background: #c1374e; }
+}
+@keyframes bgblink {
+    from {background: #c1374e; }
+    50% {background:#aaaaaa;}
+    to {background: #c1374e; }
+}
+.divtoBlink{
+    -webkit-animation: bgblink 1s;  /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: infinite;  /* Chrome, Safari, Opera */
+    opacity: 1;
+    border-radius: 1px solid #ffffff;
+    opacity: 0.9;
+}
+
+.flas_reg {
+    padding:2px 10px;
+    padding-bottom: 30px;
+    border: 1px solid #333333;
+    border-radius:5px;
+    font-size: 11px;
+    color: #000;
+}
+
+.flash-button{
+    padding-top:2px;
+    padding-bottom: 4px;
+    border: 1px solid #333333;
+    border-radius:5px;
+    font-size: 11px;
+    color: #000;
+    
+    animation-name: flash;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    //Firefox 1+
+    -webkit-animation-name: flash;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    //Safari 3-4
+    -moz-animation-name: flash;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+}
+
+@keyframes flash {  
+    0% { background: linear-gradient(rgba(220, 220, 220, 1), rgba(193, 55, 78, 1)); ease-in; }
+    50% { background: linear-gradient(rgba(220, 220, 220, 1), rgba(100, 100, 100, 0.7)); ease-in}
+    100% { background: linear-gradient(rgba(220, 220, 220, 1), rgba(193, 55, 78, 1)); ease-in}
+}
+
+//Firefox 1+
+@-webkit-keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+//Safari 3-4
+@-moz-keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
 </style>
 
         <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
@@ -119,6 +204,9 @@
                             <input type="hidden" name="target_action" id="target_gallery">
                             <input type="hidden" name="target_id" id="target_id_gallery">
                         </form>
+                        <div class="yo divtoBlink" id="" style='opacity: 0.4;'>yo</div>
+
+                        <div class=''><button class='flash-button'>This is a button</button></div>
 
                         <div class="general_editor_btns">
                             <button id="auth_new_user">Not Active</button>
