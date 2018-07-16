@@ -222,8 +222,15 @@ def json_serialize_company():
 		data['wednesday'] 	= c.wednesday
 		data['thursday'] 	= c.thursday
 		data['friday'] 		= c.friday
+	else:
+		data['tuesday'] 	= "empty"
+		data['wednesday'] 	= "empty"
+		data['thursday'] 	= "empty"
+		data['friday'] 		= "empty"
 	if group_weekends == False:
 		data['sunday'] 		= c.sunday
+	else:
+		data['sunday'] 		= "empty"
 	return data
 
 def json_serialize_payments():

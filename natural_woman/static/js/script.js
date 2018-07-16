@@ -557,7 +557,6 @@ function build_company_manager(pay, data)
     html += "<input type='hidden' name='master_group_weekends' id='master_group_weekends' value='";
     html += data["group_weekends"];
     html += "'>";
-
     html += "<input type='hidden' name='master_cash' id='master_cash' value='";
     html += has_cash;
     html += "'>";
@@ -573,7 +572,6 @@ function build_company_manager(pay, data)
     html += "<input type='hidden' name='master_amex' id='master_amex' value='";
     html += has_amex;
     html += "'>";
-
 
     html += "</form>";
     html += "<div class='frame_general_sm'>";
@@ -1009,31 +1007,26 @@ function init_hour_table()
         var thursday = decode_hours($("#master_thursday").val());
         var friday = decode_hours($("#master_friday").val());
 
-        $("#pop_group_weekday").prop( "checked", true );
         $("#mon_open").val(monday['open']);
         $("#mon_close").val(monday['close']);
         if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
         if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
 
-        $("#pop_group_weekday").prop( "checked", true );
         $("#tue_open").val(tuesday['open']);
         $("#tue_close").val(tuesday['close']);
         if (tuesday['open_am'] === false) { $("#tue_open_s").prop('selectedIndex', 1); }
         if (tuesday['close_am'] === false) { $("#tue_close_s").prop('selectedIndex', 1); }
 
-        $("#pop_group_weekday").prop( "checked", true );
         $("#wed_open").val(wednesday['open']);
         $("#wed_close").val(wednesday['close']);
         if (wednesday['open_am'] === false) { $("#wed_open_s").prop('selectedIndex', 1); }
         if (wednesday['close_am'] === false) { $("#wed_close_s").prop('selectedIndex', 1); }
 
-        $("#pop_group_weekday").prop( "checked", true );
         $("#thu_open").val(thursday['open']);
         $("#thu_close").val(thursday['close']);
         if (thursday['open_am'] === false) { $("#thu_open_s").prop('selectedIndex', 1); }
         if (thursday['close_am'] === false) { $("#thu_close_s").prop('selectedIndex', 1); }
 
-        $("#pop_group_weekday").prop( "checked", true );
         $("#fri_open").val(friday['open']);
         $("#fri_close").val(friday['close']);
         if (friday['open_am'] === false) { $("#fri_open_s").prop('selectedIndex', 1); }
@@ -1042,10 +1035,10 @@ function init_hour_table()
     if(weekend_status === "1") 
     {
         $("#pop_group_weekends").prop( "checked", true );
-        $("#sat_open").val(monday['open']);
-        $("#sat_close").val(monday['close']);
-        if (monday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
-        if (monday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
+        $("#sat_open").val(saturday['open']);
+        $("#sat_close").val(saturday['close']);
+        if (saturday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
+        if (saturday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
     }
     else
     {
@@ -1063,6 +1056,53 @@ function init_hour_table()
     $("#msg3").hide();
     $("#msg3").removeClass('hidden');
     $("#msg3").fadeIn(500);
+}
+
+function load_hour_values()
+{
+    var monday      = decode_hours($("#master_monday").val());
+    var tuesday     = decode_hours($("#master_tuesday").val());
+    var saturday    = decode_hours($("#master_saturday").val());
+    var sunday      = decode_hours($("#master_sunday").val());
+
+    $("#mon_open").val(monday['open']);
+    $("#mon_close").val(monday['close']);
+    if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
+    if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
+    $("#sat_open").val(saturday['open']);
+    $("#sat_close").val(saturday['close']);
+    if (saturday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
+    if (saturday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
+
+    if (tuesday['open'] !== "em")
+    {
+        $("#tue_open").val(tuesday['open']);
+        $("#tue_close").val(tuesday['close']);
+        if (tuesday['open_am'] === false) { $("#tue_open_s").prop('selectedIndex', 1); }
+        if (tuesday['close_am'] === false) { $("#tue_close_s").prop('selectedIndex', 1); }
+
+        $("#wed_open").val(wednesday['open']);
+        $("#wed_close").val(wednesday['close']);
+        if (wednesday['open_am'] === false) { $("#wed_open_s").prop('selectedIndex', 1); }
+        if (wednesday['close_am'] === false) { $("#wed_close_s").prop('selectedIndex', 1); }
+
+        $("#thu_open").val(thursday['open']);
+        $("#thu_close").val(thursday['close']);
+        if (thursday['open_am'] === false) { $("#thu_open_s").prop('selectedIndex', 1); }
+        if (thursday['close_am'] === false) { $("#thu_close_s").prop('selectedIndex', 1); }
+
+        $("#fri_open").val(friday['open']);
+        $("#fri_close").val(friday['close']);
+        if (friday['open_am'] === false) { $("#fri_open_s").prop('selectedIndex', 1); }
+        if (friday['close_am'] === false) { $("#fri_close_s").prop('selectedIndex', 1); }
+    }
+    if (sunday['open'] !== "em")
+    {
+        $("#sun_open").val(sunday['open']);
+        $("#sun_close").val(sunday['close']);
+        if (sunday['open_am'] === false) { $("#sun_open_s").prop('selectedIndex', 1); }
+        if (sunday['close_am'] === false) { $("#sun_close_s").prop('selectedIndex', 1); }
+    }
 }
 
 function build_hours_setter()
@@ -1202,31 +1242,33 @@ function decode_hours(val)
     for (var i = 0; i < val.length; i++)
     {
         var c = val[i];
-        if (set1 === false)
-        {
-            if (c !== " " && open.length < 2)
+        if (c !== "empty")
+            if (set1 === false)
             {
-                open += c;
+                if (c !== " " && open.length < 2)
+                {
+                    open += c;
+                }
+                else
+                {
+                    set1 = true;
+                }
+                if (c === "p") { open_am = false; }
             }
-            else
+            else 
             {
-                set1 = true;
+                if (c === " ")
+                {
+                    record = true;
+                    continue;
+                }
+                if (record === true && close.length < 2 && c !== "-" && c !== "a" && c !== "p" && c !== "m")
+                {
+                    close += c;
+                }
+                if (c === "p") { close_am = false; }
             }
-            if (c === "p") { open_am = false; }
-        }
-        else 
-        {
-            if (c === " ")
-            {
-                record = true;
-                continue;
-            }
-            if (record === true && close.length < 2 && c !== "-" && c !== "a" && c !== "p" && c !== "m")
-            {
-                close += c;
-            }
-            if (c === "p") { close_am = false; }
-        }
+        else { open = "no_value_set"; }
     }
 
     data['open'] = open;
@@ -1355,7 +1397,16 @@ function setHoursTable(mode)
     weekday_html = getWeekdayHTML(weekday_status);
     weekend_html = getWeekendHTML(weekend_status);
     html = weekday_html + weekend_html;
-    $("#dynamic_week").html(html)
+
+    $("#dynamic_week").fadeOut(400, "linear",function() {
+        $("#dynamic_week").html(html)
+        load_hour_values();
+    });
+
+    $("#dynamic_week").fadeIn(600, "linear");
+
+    // $("#dynamic_week").html(html)
+    // load_hour_values();
 }
 
 function loadHoursTable(html)
@@ -1963,7 +2014,7 @@ function load_helper(subject)
     else if (subject === "group_weekdays")
     {
         title = "Group Weekdays";
-        message = "Select this option if the hours the same Monday thru Friday."
+        message = "Select this option if the hours are the same Monday thru Friday."
     }
     else if (subject === "group_weekends")
     {
