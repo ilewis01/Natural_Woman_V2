@@ -439,6 +439,10 @@ function build_company_manager(pay, data)
     var instagram   = String(data['show_instagram']);
 
     var html = "<div class='pfile2_wrap center_v_mode'>";
+    html += "<form action='/edit_success' method='POST' id='master_company_management_form'>";
+    html += "<input type='hidden' name='master_group_weekdays' id='master_group_weekdays' value='0'>";
+    html += "<input type='hidden' name='master_group_weekends' id='master_group_weekends' value='0'>";
+    html += "</form>";
     html += "<div class='frame_general_sm'>";
     html += "<div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>";
     html += "<h3>Contact Info | company Profile</h3>";
@@ -760,7 +764,7 @@ function build_phone_setter ()
     html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
     html += "</div>";
     html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: soft_save('phone');\">Apply Changes</button>";
     html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -789,7 +793,7 @@ function build_email_setter_co()
     html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
     html += "</div>";
     html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: soft_save('email');\">Apply Changes</button>";
     html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -798,7 +802,67 @@ function build_email_setter_co()
 
 function build_hours_setter()
 {
+    var weekday_status  = $("#master_group_weekdays").val();
+    var weekend_status  = $("#master_group_weekends").val();
+    weekday_status      = String(weekday_status);
+    weekend_status      = String(weekend_status);
+    var table           = getHoursTable(weekday_status, weekend_status);
 
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<input type='hidden' id='weekday_on' value='";
+    html += weekday_status;
+    html += "'>";
+    html += "<input type='hidden' id='weekend_on' value='";
+    html += weekend_status;
+    html += "'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<h3 class='drop_pad_co'>Edit Business Hours</h3>";
+    html += "<div class='hours_table_container'>";
+
+    html += "<section id='dynamic_week'>";
+    html += table;
+    html += "</section>";
+
+    html += "<div class='space_10'></div>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td><input type='checkbox' id='pop_group_weekday' onClick=\"javascript: setHoursTable('weekdays');\"></td>";
+    html += "<td>Group Weekdays</td>";
+    html += "<td><a href=\"javascript: load_helper('group_weekdays');\"><i class='far fa-question-circle'></i></a></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='checkbox' id='pop_group_weekends' onClick=\"javascript: setHoursTable('weekends');\"></td>";
+    html += "<td>Group Weekends</td>";
+    html += "<td><a href=\"javascript: load_helper('group_weekends');\"><i class='far fa-question-circle'></i></a></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<div class='special_hr_label'>Special Hours: <a href=\"javascript: load_helper('special_hours');\"><i class='far fa-question-circle'></i></a></div>";
+    html += "<div class='sp_hr_input_wrap'>"
+    html += "<div class='sp_hr_radio_input'>"
+    html += "<table>"
+    html += "<tr>"
+    html += "<td><input type='radio' name='pop_special_hours' id='sp_on' onClick=\"javascript: special_input('show');\"></td>"
+    html += "<td><label for='sp_on'>On</label></td>"
+    html += "<td><input type='radio' name='pop_special_hours' id='sp_off' onClick=\"javascript: special_input('hide');\" checked></td>"
+    html += "<td><label for='sp_off'>Off</label></td>"
+    html += "</tr>"
+    html += "</table>"
+    html += "</div>"
+    html += "<div class='sp_hr_title_input'>"
+    html += "<table><tr><td><input type='text' id='pop_special_hours_title' placeholder='Enter title [ex: \"Holiday Hours\"]' class='hidden'></td></tr></table>";
+    html += "</div>"
+    html += "</div>"
+    html += "</div>";
+    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
+    html += "<div class='company_address_btns'>";
+    html += "<button onClick=\"javascript: soft_save('hours');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    return html;
 }
 
 function build_link_setter(target)
@@ -828,94 +892,184 @@ function build_link_setter(target)
     html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
     html += "</div>";
     html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
+    html += "<button onClick=\"javascript: soft_save('";
+    html += target;
+    html += "');\">Apply Changes</button>";
     html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     return html;
 }
 
-function build_company_editor(mode)
+function special_input(visibility)
 {
-    // var html = "";
-    // mode = String(mode)
-    // if (mode !== "contact")
-    // {
-    //     html += "<div class=\"media_link_container center_v_mode\">";
-    //     html += "<div class=\"frame_general_sm\">";
-    //     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    //     html += "<h3 id=\"social_media_header_id\"></h3>";
-    //     html += "<div class=\"co_media_form\">";
-    //     html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
-    //     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
-    //     html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
-    //     html += "<input type=\"hidden\" name=\"prev_index\" value=\"11\">";
-    //     html += "<input type=\"text\" name=\"link\" id=\"sm_link\" placeholder=\"Enter the new social media link here\" required></form>";
-    //     html += "<div class=\"co_sm_buttons\">";
-    //     html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
-    //     html += "<button onClick=\"javascript: close_company_editor('media');\">Cancel</button>";
-    //     html += "</div></div></div></div>";
-    // }
-    // else
-    // {                                 
-    //     html += "<div class=\"compant_contact_container center_v_mode\">";
-    //     html += "<div class=\"frame_general_sm steel_back\">";
-    //     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    //     html += "<h3 id=\"social_media_header_id\"></h3><div class=\"co_media_form\">";
-    //     html += "<form action=\"/edit_success\" method=\"POST\" id=\"company_manager_form\">";
-    //     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_company\" value=\"company\">";
-    //     html += "<input type=\"hidden\" name=\"target_member\" id=\"target_member_company\" value=\"\">";
-    //     html += "<h5 class=\"drop_h5\">Address</h5><div class=\"font_11\">";
-    //     html += "<input type=\"text\" name=\"address1\" id=\"address1\" class=\"drop_input\" placeholder=\"Address Line 1\" required>";
-    //     html += "<input type=\"text\" name=\"address2\" id=\"address2\" class=\"drop_input\" placeholder=\"Address Line 2\">";
-    //     html += "<input type=\"text\" name=\"address3\" id=\"address3\" class=\"drop_input\" placeholder=\"Address Line 3\"></div>";
-    //     html += "<div class=\"container\"><div class=\"row\">";
-    //     html += "<div class=\"col-sm-7 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
-    //     html += "<input type=\"text\" name=\"city\" id=\"city\" placeholder=\"City\" required></div>";
-    //     html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right:3%;\">";
-    //     html += "<input type=\"text\" name=\"state\" id=\"state\" placeholder=\"MI\" value=\"MI\" required></div>";
-    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "<input type=\"text\" name=\"zip_code\" id=\"zip_code\" placeholder=\"Zip Code\" required></div></div></div>";
-    //     html += "<h5 class=\"drop_h5\">Phone</h5>";
-    //     html += "<div class=\"container\"><div class=\"row\">";
-    //     html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
-    //     html += "<input type=\"text\" name=\"area_code\" id=\"area_code\" required></div>";
-    //     html += "<div class=\"col-sm-2 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
-    //     html += "<input type=\"text\" name=\"prefix\" id=\"prefix\" required></div>";
-    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0; padding-right: 2%;\">";
-    //     html += "<input type=\"text\" name=\"postfix\" id=\"postfix\" required>";
-    //     html += "</div><div class=\"col-sm-5\" style=\"padding:0; margin:0;\"></div></div></div>";
-    //     html += "<h5 class=\"drop_h5\">Email</h5>";
-    //     html += "<div class=\"font_11\"><input type=\"email\" name=\"email\" id=\"email\" placeholder=\"Email\" required></div>";
-    //     html += "<h5 class=\"drop_h5\">Business Hours</h5>";
-    //     html += "<div class=\"container\"><div class=\"row\">";
-    //     //THIS IS WHERE THE INPUT WILL GO FOR BUSINESS HOURS
-    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "Weekdays:</div>";
-    //     html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "<input type=\"text\" name=\"hours_m_f\" id=\"hours_m_f\" class=\"drop_input\" required></div>";
-    //     html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+    visibility = String(visibility);
+    if (visibility === "show")
+    {
+        $("#pop_special_hours_title").hide();
+        $("#pop_special_hours_title").removeClass("hidden");
+        $("#pop_special_hours_title").fadeIn(300);
+    }
+    if (visibility === "hide")
+    {
+        $("#pop_special_hours_title").fadeOut(300);
+        $("#pop_special_hours_title").val("");
+    }
+}
 
-    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "Saturdays:</div>";
-    //     html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "<input type=\"text\" name=\"hours_sat\" id=\"hours_sat\" class=\"drop_input\" required></div>";
-    //     html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+function getHoursTable(weekday_status, weekend_status)
+{
+    var html = getWeekdayHTML(weekday_status);
+    html += getWeekendHTML(weekend_status);
+    return html
+}
 
-    //     html += "<div class=\"col-sm-3 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "Sundays:</div>";
-    //     html += "<div class=\"col-sm-5 font_11\" style=\"padding:0; margin:0;\">";
-    //     html += "<input type=\"text\" name=\"hours_sun\" id=\"hours_sun\" class=\"drop_input\" required></div>";
-    //     html += "<div class=\"col-sm-4 font_11\" style=\"padding:0; margin:0;\"></div>";
+function getWeekdayHTML(status)
+{
+    var html = "";
+    if (status === "0")
+    {
+        html += "<table>";
+        html += "<tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top'>Monday</th>";
+        html += "<td class='top_left2px'><input type='text' id='mon_open'></td>";
+        html += "<td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='mon_close'></td>";
+        html += "<td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top'>Tuesday</th>";
+        html += "<td class='top_left2px'><input type='text' id='tue_open'></td>";
+        html += "<td class='border_top'><select id='tue_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='tue_close'></td>";
+        html += "<td class='top_right'><select id='tue_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top'>Wednesday</th>";
+        html += "<td class='top_left2px'><input type='text' id='wed_open'></td>";
+        html += "<td class='border_top'><select id='wed_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='wed_close'></td>";
+        html += "<td class='top_right'><select id='wed_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top'>Thursday</th>";
+        html += "<td class='top_left2px'><input type='text' id='thu_open'></td>";
+        html += "<td class='border_top'><select id='thu_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='thu_close'></td>";
+        html += "<td class='top_right'><select id='thu_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top'>Friday</th>";
+        html += "<td class='top_left2px'><input type='text' id='fri_open'></td>";
+        html += "<td class='border_top'><select id='fri_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='fri_close'></td>";
+        html += "<td class='top_right'><select id='fri_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+    }
+    else if (status === "1")
+    {
+        html += "<table>";
+        html += "<tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top red_ask'>Weekdays</th>";
+        html += "<td class='top_left2px'><input type='text' id='mon_open'></td>";
+        html += "<td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='mon_close'></td>";
+        html += "<td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+    }
+    return html;
+}
 
-    //     //END OF THE NEW SECTION
-    //     html += "</div></div><div class=\"sep_co_btn\"></div>"
-    //     html += "</form><div class=\"co_md_buttons\">";
-    //     html += "<button onClick=\"javascript: submit_company_edits();\">Submit</button>";
-    //     html += "<button onClick=\"javascript: close_company_editor('contact');\">Cancel</button>";
-    //     html += "</div></div></div></div>";
-    // }
-    // $("#msg3").html(html);
+function getWeekendHTML(status)
+{
+    var html = "";
+    if (status === "0")
+    {
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top'>Saturday</th>";
+        html += "<td class='top_left2px'><input type='text' id='sat_open'></td>";
+        html += "<td class='border_top'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px'><input type='text' id='sat_close'></td>";
+        html += "<td class='top_right'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top border_bottom'>Sunday</th>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_open'></td>";
+        html += "<td class='border_top border_bottom'><select id='sun_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_close'></td>";
+        html += "<td class='top_right border_bottom'><select id='sun_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "</table>";
+    }
+    else if (status === "1")
+    {
+        html += "<tr>";
+        html += "<th class='hours_label border_left_top border_bottom red_ask'>Weekends</th>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_open'></td>";
+        html += "<td class='border_top border_bottom'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_close'></td>";
+        html += "<td class='top_right border_bottom'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
+        html += "</tr>";
+        html += "</table>";
+    }
+    return html;
+}
+
+function setHoursTable(mode)
+{
+    var html            = null;
+    var weekday_html    = null;
+    var weekend_html    = null;
+    var weekday_status  = $("#weekday_on").val();
+    var weekend_status  = $("#weekend_on").val();
+    mode                = String(mode)
+    weekday_status      = String(weekday_status);
+    weekend_status      = String(weekend_status);
+    if (mode === "weekdays")
+    {
+        if (weekday_status === "0") { weekday_status = "1"; }
+        else if (weekday_status === "1") { weekday_status = "0"; }
+        $("#weekday_on").val(weekday_status);
+    }
+    else if (mode === "weekends")
+    {
+        if (weekend_status === "0") { weekend_status = "1"; }
+        else if (weekend_status === "1") { weekend_status = "0"; }
+        $("#weekend_on").val(weekend_status);
+    }
+    weekday_html = getWeekdayHTML(weekday_status);
+    weekend_html = getWeekendHTML(weekend_status);
+    html = weekday_html + weekend_html;
+    $("#dynamic_week").html(html)
+}
+
+function loadHoursTable(html)
+{
+    $("#dynamic_week").fadeIn(300, function() {
+        $("#dynamic_week").html(html);
+    });
+}
+
+function groupWeekdays()
+{
+    var grouped = $("#weekday_on").val();
+    grouped = String(grouped);
+    var html = getWeekdayHTML(grouped);
+    if (grouped === "0") { $("#weekday_on").val("1"); }
+    else if (grouped === "1") { $("#weekday_on").val("0"); }
+    $("#dynamic_weekday").html(html);
+}
+
+function groupWeekends()
+{
+    var grouped = $("#weekend_on").val();
+    grouped = String(grouped);
+    var html = getWeekendHTML(grouped);
+    if (grouped === "0") { $("#weekend_on").val("1"); }
+    else if (grouped === "1") { $("#weekend_on").val("0"); }
+    $("#dynamic_weekend").html(html);
 }
 
 function build_user_manager(data)
@@ -1431,6 +1585,21 @@ function load_helper(subject)
         message += "The weekday hours will be displayed as: <b><em>\"Weekdays:\"</em></b>. Choose this option only if all weekday business hours are the same. This is also the case with weekends"
         message += " You can also set special hours. For example, for Christmas hours, you can set the title as <b><em>\"Holiday Hours.\"</em></b>"
         message += " It is your responsibility to keep Natural Woman Salon's hours of operation up-to-date. This system does not provide date-checker service."
+    }
+    else if (subject === "group_weekdays")
+    {
+        title = "Group Weekdays";
+        message = "Select this option if the hours the same Monday thru Friday."
+    }
+    else if (subject === "group_weekends")
+    {
+        title = "Group Weekends";
+        message = "Select this option if the hours are the same for both Saturday and Sunday."
+    }
+    else if (subject === "special_hours")
+    {
+        title = "Special Hours";
+        message = "Select \"<em><b>On</b></em>\" if these are special hours such as \"<em><b>Holiday Hours</b></em>\". You must also enter the name of the special hours."
     }
     $("#helper_title").html(title);
     $("#content_message").html(message);
