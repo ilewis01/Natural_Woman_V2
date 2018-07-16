@@ -435,9 +435,51 @@ function build_company_manager(pay, data)
     var visa        = "";
     var mc          = "";
     var amex        = "";
+    var has_cash    = "";
+    var has_check   = "";
+    var has_visa    = "";
+    var has_mc      = "";
+    var has_amex    = "";
     var twitter     = String(data['show_twitter']);
     var facebook    = String(data['show_facebook']);
     var instagram   = String(data['show_instagram']);
+
+    for (var i = 0; i < pay.length; i++)
+    {
+        var method      = String(pay[i]['method']);
+        var accepted    = String(pay[i]['is_accepted']);
+        if (method === "cash")
+        {
+            has_cash = accepted;
+            if (accepted === "False") { cash = "<td><input type='checkbox' id='m_cash' onClick=\"javascript: commit_checkbox_value('master_cash')\"></td>"; }
+            else { cash = "<td><input type='checkbox' id='m_cash' checked onClick=\"javascript: commit_checkbox_value('master_cash')\"></td>"; }
+        }
+        else if (method === "visa")
+        {
+            has_visa = accepted;
+            if (accepted === "False") { visa = "<td><input type='checkbox' id='m_visa' onClick=\"javascript: commit_checkbox_value('master_visa')\"></td>"; }
+            else { visa = "<td><input type='checkbox' id='m_visa' checked onClick=\"javascript: commit_checkbox_value('master_visa')\"></td>"; }
+        }
+        else if (method === "mastercard")
+        {
+            has_mc = accepted;
+            if (accepted === "False") { mc = "<td><input type='checkbox' id='m_mastercard' onClick=\"javascript: commit_checkbox_value('master_mc')\"></td>"; }
+            else { mc = "<td><input type='checkbox' id='m_mastercard' checked onClick=\"javascript: commit_checkbox_value('master_mc')\"></td>"; }
+        }
+        else if (method === "amex")
+        {
+            has_amex = accepted;
+            if (accepted === "False") { amex = "<td><input type='checkbox' id='m_amex' onClick=\"javascript: commit_checkbox_value('master_amex')\"></td>"; }
+            else { amex = "<td><input type='checkbox' id='m_amex' checked onClick=\"javascript: commit_checkbox_value('master_amex')\"></td>"; }
+        }
+        else if (method === "check")
+        {
+            has_check = accepted;
+            if (accepted === "False") { check = "<td><input type='checkbox' id='m_check' onClick=\"javascript: commit_checkbox_value('master_check')\"></td>"; }
+            else { check = "<td><input type='checkbox' id='m_check' checked onClick=\"javascript: commit_checkbox_value('master_check')\"></td>"; }
+        }
+    }
+
     var html = "<div class='pfile2_wrap center_v_mode'>";
     html += "<form action='/edit_success' method='POST' id='master_company_management_form'>";
     html += "<input type='hidden' name='master_address1' id='master_address1' value='";
@@ -515,6 +557,24 @@ function build_company_manager(pay, data)
     html += "<input type='hidden' name='master_group_weekends' id='master_group_weekends' value='";
     html += data["group_weekends"];
     html += "'>";
+
+    html += "<input type='hidden' name='master_cash' id='master_cash' value='";
+    html += has_cash;
+    html += "'>";
+    html += "<input type='hidden' name='master_check' id='master_check' value='";
+    html += has_check;
+    html += "'>";
+    html += "<input type='hidden' name='master_visa' id='master_visa' value='";
+    html += has_visa;
+    html += "'>";
+    html += "<input type='hidden' name='master_mc' id='master_mc' value='";
+    html += has_mc;
+    html += "'>";
+    html += "<input type='hidden' name='master_amex' id='master_amex' value='";
+    html += has_amex;
+    html += "'>";
+
+
     html += "</form>";
     html += "<div class='frame_general_sm'>";
     html += "<div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>";
@@ -598,36 +658,7 @@ function build_company_manager(pay, data)
     html += "<div>";
     html += "<table>";
     html += "<tr>";
-    for (var i = 0; i < pay.length; i++)
-    {
-        var method      = String(pay[i]['method']);
-        var accepted    = String(pay[i]['is_accepted']);
-        if (method === "cash")
-        {
-            if (accepted === "False") { cash = "<td><input type='checkbox' id='m_cash'></td>"; }
-            else { cash = "<td><input type='checkbox' id='m_cash' checked></td>"; }
-        }
-        else if (method === "visa")
-        {
-            if (accepted === "False") { visa = "<td><input type='checkbox' id='m_visa'></td>"; }
-            else { visa = "<td><input type='checkbox' id='m_visa' checked></td>"; }
-        }
-        else if (method === "mastercard")
-        {
-            if (accepted === "False") { mc = "<td><input type='checkbox' id='m_mastercard'></td>"; }
-            else { mc = "<td><input type='checkbox' id='m_mastercard' checked></td>"; }
-        }
-        else if (method === "amex")
-        {
-            if (accepted === "False") { amex = "<td><input type='checkbox' id='m_amex'></td>"; }
-            else { amex = "<td><input type='checkbox' id='m_amex' checked></td>"; }
-        }
-        else if (method === "check")
-        {
-            if (accepted === "False") { check = "<td><input type='checkbox' id='m_check'></td>"; }
-            else { check = "<td><input type='checkbox' id='m_check' checked></td>"; }
-        }
-    }
+    
     html += cash;
     html += "<td class='cep_label'>Cash</td>";
     html += "</tr>";
@@ -660,7 +691,7 @@ function build_company_manager(pay, data)
     html += "<div class='container'>";
     html += "<div class='row superSocialStyle'>";
     html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<a href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
+    html += "<a id='facebook_site_loader' href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
     html += "</div>";
     html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
     html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Facebook');\">Update Link</button></div>";
@@ -692,7 +723,7 @@ function build_company_manager(pay, data)
     html += "<div class='container'>";
     html += "<div class='row superSocialStyle'>";
     html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<a href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
+    html += "<a id='twitter_site_loader' href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
     html += "</div>";
     html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
     html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Twitter');\">Update Link</button></div>";
@@ -725,7 +756,7 @@ function build_company_manager(pay, data)
     html += "<div class='container'>";
     html += "<div class='row superSocialStyle'>";
     html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<a href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
+    html += "<a id='instagram_site_loader' href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
     html += "</div>";
     html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
     html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Instagram');\">Update Link</button></div>";
@@ -767,13 +798,29 @@ function build_company_manager(pay, data)
     return html;
 }
 
+function flashBtn()
+{
+    $("#updateCompanyBtn").addClass('flash-button');
+}
+
 function commit_radio_value(target, mode)
 {
     target  = "#" + String(target);
     mode    = Number(mode);
     if (mode === 1) { $(target).val("True"); }
     else if (mode === 0) { $(target).val("False"); }
-    $("#updateCompanyBtn").addClass('flash-button');
+    flashBtn();
+}
+
+function commit_checkbox_value(target)
+{
+    target = "#" + String(target);
+    current = $(target).val();
+    current = String(current);
+    if (current === "True") { current = "False"; }
+    else if (current === "False") { current = "True"; }
+    $(target).val(current);
+    flashBtn();
 }
 
 function build_address_setter()
@@ -1699,7 +1746,6 @@ function soft_save(target)
     var proceed     = false;
     var messages    = [];
     var data        = {};
-    var m2          = "";
     target          = String(target);
     if (target === "Facebook" || target === "Twitter" || target === "Instagram")
     {
@@ -1710,6 +1756,8 @@ function soft_save(target)
         var old_link    = $(current_id).val();
         new_link        = String(new_link);
         old_link        = String(old_link);
+        var m2          = "";
+        var loader      = "";
         if (new_link.length === 0) 
         { 
             m2 = "If you choose not to display a ";
@@ -1731,6 +1779,8 @@ function soft_save(target)
         else 
         {
             proceed = true;
+            loader = "#" + lower + "_site_loader";
+            $(loader).attr("href", new_link);
             $(current_id).val(new_link);
             $("#updateCompanyBtn").addClass('flash-button');
             $("#msg3").fadeOut(300);
