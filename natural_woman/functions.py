@@ -529,6 +529,95 @@ def decode_checkbox(value):
 		result = True
 	return result
 
+def getEditSuccessData(taget_model, target_action, user):
+	data 			= {}
+	icon 			= None
+	header 			= None
+	message 		= None
+	json_data 		= None
+	index 			= None
+	target_model 	= str(target_model)
+	target_action 	= str(target_action)
+	# REMEMBER TO CHANGE THE ABOUT ICON ONCE COMPLETED IN CSS
+	if target_model == "new_blog":
+		icon 		= "<i class='fab fa-blogger'></i>"
+		header 		= "New Blog Post"
+		message 	= "A new blog has been posted"
+		json_data 	= get_empty_json_data()
+		index 		= 6
+	elif target_model == "blog":
+		icon 		= "<i class='fas fa-edit'></i>"
+		header 		= "Manage Blogs"
+		json_data 	= get_blog_json_data()
+		index 		= 7
+		if target_action == "delete":
+			message = "Blog Post Successfully Deleted"
+		elif target_action == "update":
+			message = "Blog Post Successfully Updated"
+	elif target_model =="product":
+		icon 		= "<i class='fas fa-spray-can'></i>"
+		header 		= "Manage Products & Pricing"
+		json_data 	= get_product_json_data()
+		index 		= 8
+		if target_action == "delete":
+			message = "Product Successfully Deleted"
+		elif target_action == "edit":
+			message = "Productt Successfully Updated"
+		elif target_action == "new":
+			message = "A New Product Has Been Created"
+	elif target_model =="about":
+		icon 		= "<div class=\"alone_icon\">A</div>"
+		header 		= "About Statement"
+		json_data 	= get_about_list()
+		index 		= 9
+		if target_action == "new":
+			message = "A New About Statement Has Been Created"
+		elif target_action == "update":
+			message = "About Us Statement Successfully Updated"
+		elif target_action == "swap":
+			message = "A New About Statement Has Been Created"
+		elif target_action == "delete":
+			message = "The Selected Statement Has Been Deleted"
+	elif target_model == "gallery":
+		icon 		="<i class='fas fa-camera'></i>"
+		header 		= "Manage Gallery Images"
+		index 		= 10
+		json_data 	= get_empty_json_data()
+		if target_action == "delete":
+			message = "Image Successfully Deleted"
+		elif target_action == "save":
+			message = "Image Successfully Saved"
+	elif target_model == "company":
+		icon 		= "<i class='fas fa-mobile-alt'></i>"
+		header 		= "Contact & Company Profile"
+		message 	= "Company Profile Successfully Updated"
+		json_data 	= get_company_content()
+		index 		= 11
+	elif target_model == "user":
+		icon 		= "<i class='fas fa-user-cog'></i>"
+		header 		= "User Management"
+		json_data 	= get_user_json_data()
+		index 		= 12
+		if target_action == "update":
+			message = "User Privileges Sucessfully Updated"
+		elif target_action == "block":
+			message = "User Privileges Successfully Blocked"
+		elif target_action == "delete":
+			message = "User Successfully Deleted"
+	elif target_model == "authorize":
+		icon 		= "<i class='fas fa-user-plus'></i>"
+		header 		= "Authorize New User"
+		message 	= "The Authorization Code Has Been Sent"
+		json_data 	= get_empty_json_data()
+		index 		= 13
+
+	content['user'] 		= user
+	content['icon'] 		= icon
+	content['header'] 		= header
+	content['message'] 		= message
+	content['json_data'] 	= json_data
+	content['btn_index'] 	= index
+	return Content
 
 def fetch_target_fields():
 	data 	= {}

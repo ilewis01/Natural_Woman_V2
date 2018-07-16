@@ -76,6 +76,9 @@ function initialize_admin_forms()
     }
     else
     {
+        $("#master-body-fader").hide();
+        $("#master-body-fader").removeClass("hidden");
+        $("#master-body-fader").fadeIn(600);
         $("#frame_active").val("0");
         $("#blog_active").val("0");
     }
@@ -1423,6 +1426,31 @@ function build_restrictor()
     return html;
 }
 
+function edit_success_builder(icon, header, message)
+{
+    header      = String(header);
+    message     = String(message);
+    icon        = String(icon);
+    var html    = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='edit_success_closer' onClick=\"javascript: closeIconBtn('4');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<div class='edit_succes_style_container'>";
+    html += " <div id='edit_success_header' class='edit_success_header'>";
+    html += icon;
+    html += " ";
+    html += header;
+    html += "</div>";
+    html += "<div id='edit_success_message' class='edit_success_message'>";
+    html += message;
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
 function multi_company_editor(mode)
 {
     var html = ""
@@ -1981,7 +2009,7 @@ $(document).ready(function() {
         });
     });
     $("#ddb4").click(function() {
-        $("#master_admin_fader").fadeOut(500, function() {
+        $("#master-body-fader").fadeOut(500, function() {
             window.location.href = "/logout"; 
         });
     });
