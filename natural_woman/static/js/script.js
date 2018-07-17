@@ -913,7 +913,7 @@ function build_phone_setter ()
     html += "<div class='single_line_entry'>";
     html += "<div class='container'>";
     html += "<div class='row'>";
-    html += "<div class='col-sm-12 general_label' >Enter new phone number below:</div>";
+    html += "<div class='col-sm-12 general_label' >Enter new phone number below: (Numbers Only)</div>";
     html += "<div class='col-sm-2' style='padding:0; margin:0; margin-left:12px;'><input type='text' id='area_code' value='";
     html += phone["area_code"];
     html += "'></div>";
@@ -1131,6 +1131,7 @@ function build_hours_setter()
     html += table;
     html += "</section>";
 
+    html += "<div class='hours_message5'><i class='fas fa-asterisk'></i> Leave fields blank for days that the salon is closed.</div>";
     html += "<div class='space_10'></div>";
     html += "<table>";
     html += "<tr>";
@@ -1288,37 +1289,37 @@ function getWeekdayHTML(status)
         html += "<tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top'>Monday</th>";
-        html += "<td class='top_left2px'><input type='text' id='mon_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='mon_open' oninput=\"javascript: validate_time('mon_open', '2');\"></td>";
         html += "<td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='mon_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='mon_close' oninput=\"javascript: validate_time('mon_close', '2');\"></td>";
         html += "<td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top'>Tuesday</th>";
-        html += "<td class='top_left2px'><input type='text' id='tue_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='tue_open' oninput=\"javascript: validate_time('tue_open', '2');\"></td>";
         html += "<td class='border_top'><select id='tue_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='tue_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='tue_close' oninput=\"javascript: validate_time('tue_close', '2');\"></td>";
         html += "<td class='top_right'><select id='tue_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top'>Wednesday</th>";
-        html += "<td class='top_left2px'><input type='text' id='wed_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='wed_open' oninput=\"javascript: validate_time('wed_open', '2');\"></td>";
         html += "<td class='border_top'><select id='wed_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='wed_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='wed_close' oninput=\"javascript: validate_time('wed_close', '2');\"></td>";
         html += "<td class='top_right'><select id='wed_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top'>Thursday</th>";
-        html += "<td class='top_left2px'><input type='text' id='thu_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='thu_open' oninput=\"javascript: validate_time('thu_open', '2');\"></td>";
         html += "<td class='border_top'><select id='thu_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='thu_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='thu_close' oninput=\"javascript: validate_time('thu_close', '2');\"></td>";
         html += "<td class='top_right'><select id='thu_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top'>Friday</th>";
-        html += "<td class='top_left2px'><input type='text' id='fri_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='fri_open' oninput=\"javascript: validate_time('fri_open', '2');\"></td>";
         html += "<td class='border_top'><select id='fri_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='fri_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='fri_close' oninput=\"javascript: validate_time('fri_close', '2');\"></td>";
         html += "<td class='top_right'><select id='fri_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
     }
@@ -1328,9 +1329,9 @@ function getWeekdayHTML(status)
         html += "<tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top red_ask'>Weekdays</th>";
-        html += "<td class='top_left2px'><input type='text' id='mon_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='mon_open' oninput=\"javascript: validate_time('mon_open', '2');\"></td>";
         html += "<td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='mon_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='mon_close' oninput=\"javascript: validate_time('mon_close', '2');\"></td>";
         html += "<td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
     }
@@ -1344,16 +1345,16 @@ function getWeekendHTML(status)
     {
         html += "<tr>";
         html += "<th class='hours_label border_left_top'>Saturday</th>";
-        html += "<td class='top_left2px'><input type='text' id='sat_open'></td>";
+        html += "<td class='top_left2px'><input type='text' id='sat_open' oninput=\"javascript: validate_time('sat_open', '2');\"></td>";
         html += "<td class='border_top'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='sat_close'></td>";
+        html += "<td class='top_left2px'><input type='text' id='sat_close' oninput=\"javascript: validate_time('sat_close', '2');\"></td>";
         html += "<td class='top_right'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "<tr>";
         html += "<th class='hours_label border_left_top border_bottom'>Sunday</th>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_open'></td>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_open' oninput=\"javascript: validate_time('sun_open', '2');\"></td>";
         html += "<td class='border_top border_bottom'><select id='sun_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_close'></td>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_close' oninput=\"javascript: validate_time('sun_close', '2');\"></td>";
         html += "<td class='top_right border_bottom'><select id='sun_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "</table>";
@@ -1362,9 +1363,9 @@ function getWeekendHTML(status)
     {
         html += "<tr>";
         html += "<th class='hours_label border_left_top border_bottom red_ask'>Weekends</th>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_open'></td>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_open' oninput=\"javascript: validate_time('sat_open', '2');\"></td>";
         html += "<td class='border_top border_bottom'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_close'></td>";
+        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_close' oninput=\"javascript: validate_time('sat_close', '2');\"></td>";
         html += "<td class='top_right border_bottom'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
         html += "</tr>";
         html += "</table>";
@@ -1404,16 +1405,43 @@ function setHoursTable(mode)
     });
 
     $("#dynamic_week").fadeIn(600, "linear");
-
-    // $("#dynamic_week").html(html)
-    // load_hour_values();
 }
 
-function loadHoursTable(html)
+function numbers(value, max)
 {
-    $("#dynamic_week").fadeIn(300, function() {
-        $("#dynamic_week").html(html);
-    });
+    var len     = value.length;
+    var result  = null;
+    var c       = null;
+    if (len <= max)
+    {
+        c = value[len - 1];
+        if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0"||c==="*")
+        {
+            result = value;
+        }
+    }
+    else
+    {
+        result = value[0];
+        result += value[1];
+    }
+
+    if (len === 2)
+    {
+        if (Number(value[0]) > 1) { result = value[0]; }
+        if (Number(value[0]) === 1 && Number(value[1]) > 2) { result = value[0]; }
+        if (value[0] === "0") { result = value[1]; }
+    }
+    return result
+}
+
+function validate_time(element, max) 
+{
+    var target  = "#" + String(element);
+    var value   = $(target).val()
+    max         = Number(max);
+    var result  = numbers(value, max);
+    $(target).val(result);
 }
 
 function build_user_manager(data)
@@ -1792,55 +1820,7 @@ function edit_success_builder(icon, header, message)
     return html;
 }
 
-function soft_save(target)
-{
-    var proceed     = false;
-    var messages    = [];
-    var data        = {};
-    target          = String(target);
-    if (target === "Facebook" || target === "Twitter" || target === "Instagram")
-    {
-        var target_id   = "#pop_" + target + "_link";
-        var lower       = target.toLowerCase();
-        var current_id  = "#master_" + lower + "_url";
-        var new_link    = $(target_id).val();
-        var old_link    = $(current_id).val();
-        new_link        = String(new_link);
-        old_link        = String(old_link);
-        var m2          = "";
-        var loader      = "";
-        if (new_link.length === 0) 
-        { 
-            m2 = "If you choose not to display a ";
-            m2 += target;
-            m2 += " link, you can simply deactivate it on the main Company Profile Editor in the ";
-            m2 += target;
-            m2 += " section of the page.";
-            messages.push("This value is required"); 
-            messages.push(m2);
-        }
-        else if (new_link === old_link) 
-        { 
-            m2 = "The link that you entered is identical to the current ";
-            m2 += target;
-            m2 += " link. No changes will be applied."
-            messages.push("Identical links detected");
-            messages.push(m2);
-        }
-        else 
-        {
-            proceed = true;
-            loader = "#" + lower + "_site_loader";
-            $(loader).attr("href", new_link);
-            $(current_id).val(new_link);
-            $("#updateCompanyBtn").addClass('flash-button');
-            $("#msg3").fadeOut(300);
-        }
-    }
 
-    data['proceed'] = proceed;
-    data['messages'] = messages;
-}
 
 function multi_company_editor(mode)
 {

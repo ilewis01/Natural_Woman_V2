@@ -190,13 +190,14 @@ def json_serialize_company():
 	c 						= get_company_model()
 	group_weekdays 			= c.group_weekdays
 	group_weekends 			= c.group_weekends
+	address1 				= isEmptyMember(c.address1)
 	address2 				= isEmptyMember(c.address2)
 	address3 				= isEmptyMember(c.address3)
 	facebook 				= isEmptyMember(c.facebook_url)
 	twitter 				= isEmptyMember(c.twitter_url)
 	instagram 				= isEmptyMember(c.instagram_url)
 	data['code'] 			= c.code
-	data['address1'] 		= c.address1
+	data['address1'] 		= address1
 	data['address2'] 		= address2
 	data['address3'] 		= address3
 	data['city'] 			= c.city

@@ -2470,6 +2470,11 @@ input[type="radio"]:checked:after {
     float: left;
 }
 
+.sp_hr_title_input ::placeholder {
+	font-style:italic;
+	color: #888888;
+}
+
 .sp_hr_title_input table {
     width: 100%;
 }
