@@ -2544,16 +2544,113 @@ input[type="radio"]:checked:after {
     padding-bottom: 30px;
 }
 
-/*.brf2 {
-    background: linear-gradient(to right, rgba(130, 130, 130, 0.8)0%, rgba(225, 225, 225, 0.8) 50%, rgba(130, 130, 130, 0.8) 100%);
-    background: linear-gradient(to right, #753017 0%,#f48413 50%,#753017 100%);
+.yo {
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
 }
 
-.brf2 h3 {
-    background: linear-gradient(to right, rgba(85, 85, 85, 0.7)0%, rgba(220, 220, 220, 0.7) 50%, rgba(85, 85, 85, 0.7) 100%);
-    color: #666666;
-    box-shadow: 1px 1px 1px #cccccc;
-}*/
+.maze button {
+    width:300px;
+    background: #666666;
+}
+
+
+@-webkit-keyframes bgblink {
+    from {background: #c1374e; }
+    50% {background:#aaaaaa;}
+    to {background: #c1374e; }
+}
+@keyframes bgblink {
+    from {background: #c1374e; }
+    50% {background:#aaaaaa;}
+    to {background: #c1374e; }
+}
+.divtoBlink{
+    -webkit-animation: bgblink 1s;  /* Chrome, Safari, Opera */
+    -webkit-animation-iteration-count: infinite;  /* Chrome, Safari, Opera */
+    opacity: 1;
+    border-radius: 1px solid #ffffff;
+    opacity: 0.9;
+}
+
+.flash_reg {
+    border: 1px solid #333333;
+    border-radius:5px;
+    font-size: 11px;
+    color: #000;
+}
+
+.flash-button{
+    border: 1px solid #333333;
+    border-radius:5px;
+    font-size: 11px;
+    color: #000;
+    
+    animation-name: flash;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    //Firefox 1+
+    -webkit-animation-name: flash;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    //Safari 3-4
+    -moz-animation-name: flash;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+}
+
+@keyframes flash {  
+    0% { background: linear-gradient(rgba(220, 220, 220, 1), rgba(193, 55, 78, 1)); ease-in; }
+    50% { background: linear-gradient(rgba(220, 220, 220, 1), rgba(100, 100, 100, 0.7)); ease-in}
+    100% { background: linear-gradient(rgba(220, 220, 220, 1), rgba(193, 55, 78, 1)); ease-in}
+}
+
+//Firefox 1+
+@-webkit-keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+//Safari 3-4
+@-moz-keyframes flash {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1.0; }
+}
+
+.hours_message5 {
+    font-size:10px;
+    margin-top: 10px;
+    color: #0000ff;
+    font-style: italic;
+}
+
+.hours_message5 i {
+    color: #ff0000;
+    font-size: 7px;
+    vertical-align: super;
+}
+
+.flash_off {
+    position: relative;
+    float: right;
+    width: 100%;
+}
+
+.flash_off button {
+
+    background: #999999;
+    border: 1px solid black;
+}
+
+
 
 
 
