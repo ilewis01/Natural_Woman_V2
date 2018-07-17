@@ -330,9 +330,9 @@ function soft_save(target)
             messages.push("Empty Fields");
             messages.push("You must enter a valid city to proceed.");
         }
-        else if (state.length === 0)
+        else if (state.length === 0 || state.length !== 2)
         {
-            messages.push("Empty Fields");
+            messages.push("Invalid State Entry");
             messages.push("You must enter a valid state to proceed.");
         }
         else if (zipcode.length === 0 || zipcode.length < 5)
@@ -423,6 +423,16 @@ function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
 }
 
+function isInt(c) {
+    c = String(c);
+    is_integer = false;
+    if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
+    {
+        is_integer = true;
+    }
+    return is_integer;
+}
+
 function format_state()
 {
     var state   = $("#pop_state").val();
@@ -460,7 +470,7 @@ function format_zip()
     var result  = null;
     if (len <= 5)
     {
-        if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
+        if (isInt(c) === true)
         {
             result = zip;
         }
@@ -484,6 +494,46 @@ function format_zip()
         result = temp;
     }
     $("#pop_zip").val(result);
+}
+
+function limitIntegerEntry(value, max)
+{
+    var result  = "";
+    value       = String(value);
+    max         = Number(max);
+    var len     = value.length;
+    var pos     = len - 1;
+    var c       = value[pos];
+    if (len <= max)
+    {
+        if (isInt(c) === true)
+        {
+            result = value;
+        }
+        else
+        {
+            for (var i = 0; i < pos; i++)
+            {
+                result += value[i];
+            }
+        }
+    }
+    else 
+    { 
+        for (var i = 0; i < pos; i ++)
+        {  
+            result += value[i];
+        }
+    }
+    return result;
+}
+
+function setPhoneInput(element_name, max)
+{
+    var element_id  = "#" + String(element_name);
+    var value       = $(element_id).val();
+    var input       = limitIntegerEntry(value, max)
+    $(element_id).val(input);
 }
 
 function validate_email(email)
