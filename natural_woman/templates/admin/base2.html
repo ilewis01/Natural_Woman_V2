@@ -134,9 +134,7 @@
     opacity: 0.9;
 }
 
-.flas_reg {
-    padding:2px 10px;
-    padding-bottom: 30px;
+.flash_reg {
     border: 1px solid #333333;
     border-radius:5px;
     font-size: 11px;
@@ -144,8 +142,6 @@
 }
 
 .flash-button{
-    padding-top:2px;
-    padding-bottom: 4px;
     border: 1px solid #333333;
     border-radius:5px;
     font-size: 11px;
@@ -200,6 +196,18 @@
     color: #ff0000;
     font-size: 7px;
     vertical-align: super;
+}
+
+.flash_off {
+    position: relative;
+    float: right;
+    width: 100%;
+}
+
+.flash_off button {
+
+    background: #999999;
+    border: 1px solid black;
 }
 
 </style>
@@ -404,11 +412,78 @@ function soft_save(target)
         }
     }
 
-    if (proceed === true ) { flashBtn(); $("#msg3").fadeOut(300); }
+    if (proceed === true ) { flashBtn(); $("#msg3").fadeOut(300); $("#changes_detected").val("1"); }
     else { alert(messages[0]); alert(messages[1]); }
     data['proceed'] = proceed;
     data['messages'] = messages;
     return data;
+}
+
+function isLetter(c) {
+  return c.toLowerCase() != c.toUpperCase();
+}
+
+function format_state()
+{
+    var state   = $("#pop_state").val();
+    state       = String(state);
+    var len     = state.length;
+    var pos     = len -1;
+    var c       = state[pos];
+    var result  = "";
+    if (len < 3)
+    {
+        if (isLetter(c) === true)
+        {
+            result = state.toUpperCase();
+        }
+    }
+    else
+    {
+        var t = "";
+        for (var i = 0; i < pos; i++)
+        {
+            t += state[i];
+        }
+        result = t.toUpperCase();
+    }
+    $("#pop_state").val(result);
+}
+
+function format_zip()
+{
+    var zip     = $("#pop_zip").val();
+    zip         = String(zip);
+    var len     = zip.length;
+    var pos     = len - 1;
+    var c       = zip[pos];
+    var result  = null;
+    if (len <= 5)
+    {
+        if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
+        {
+            result = zip;
+        }
+        else
+        {
+            var t = "";
+            for (var i = 0; i < pos; i++)
+            {
+                t += zip[i];
+            }
+            result = t;
+        }
+    }
+    else
+    {
+        var temp = "";
+        for (var i = 0; i < pos; i++)
+        {
+            temp += zip[i];
+        }
+        result = temp;
+    }
+    $("#pop_zip").val(result);
 }
 
 function validate_email(email)
@@ -465,7 +540,7 @@ function encode_hours(target)
                         </form>
                         <div class="yo divtoBlink" id="" style='opacity: 0.4;'>yo</div>
 
-                        <div class=''><button class='flash-button'>This is a button</button></div>
+                        <div class=''><button class='flash-button' disabled>This is a button</button></div>
 
                         <div class="general_editor_btns">
                             <button id="auth_new_user">Not Active</button>

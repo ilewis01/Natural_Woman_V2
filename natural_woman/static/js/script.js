@@ -482,6 +482,7 @@ function build_company_manager(pay, data)
 
     var html = "<div class='pfile2_wrap center_v_mode'>";
     html += "<form action='/edit_success' method='POST' id='master_company_management_form'>";
+    html += "<input type='hidden' name='changes_detected' id='changes_detected' value='0'>";
     html += "<input type='hidden' name='master_address1' id='master_address1' value='";
     html += data["address1"];
     html += "'>";
@@ -788,8 +789,8 @@ function build_company_manager(pay, data)
     html += "</div>";
     html += "<div class='generalSteelBtn-co'>";
     html += "<div class='company_btn_container'>";
-    html += "<button id='updateCompanyBtn'>Update</button>";
-    html += "<button id='close-this-2'>Exit</button>";
+    html += "<button class='flash_reg' id='updateCompanyBtn'>Update</button>";
+    html += "<button class='flash_reg' id='close-this-2'>Exit</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -862,10 +863,10 @@ function build_address_setter()
     html += "<div class='col-sm-2' style='padding:0; margin:0;'>";
     html += "<div class='minify_input'><input type='text' placeholder='MI' id='pop_state' value='";
     html += String(state);
-    html += "'></div>";
+    html += "' oninput=\"javascript: format_state();\"></div>";
     html += "</div>";
     html += "<div class='col-sm-3' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='Zip Code' id='pop_zip' value='";
+    html += "<input type='text' placeholder='Zip Code' id='pop_zip' oninput=\"javascript: format_zip();\" value='";
     html += String(zip_code);
     html += tag;
     html += "</div>";
@@ -1415,7 +1416,7 @@ function numbers(value, max)
     if (len <= max)
     {
         c = value[len - 1];
-        if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0"||c==="*")
+        if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
         {
             result = value;
         }
@@ -1819,8 +1820,6 @@ function edit_success_builder(icon, header, message)
     html += "</div>";
     return html;
 }
-
-
 
 function multi_company_editor(mode)
 {
