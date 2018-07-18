@@ -326,6 +326,10 @@ def load_admin_home(current_user):
 	data['user'] 			= current_user
 	data['btn_index'] 		= 6
 	data['json_data'] 		= get_empty_json_data()
+	data['is_edited'] 		= "0"
+	data['header'] 			= "empty"
+	data['icon'] 			= "empty"
+	data['message'] 		= "empty"
 	data['url'] 			= "admin/home.html"
 	return data
 
@@ -342,6 +346,10 @@ def getBlogManagementContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getProductManagementContent(current_user):
@@ -358,6 +366,10 @@ def getProductManagementContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getAboutManagementContent(current_user):
@@ -374,6 +386,10 @@ def getAboutManagementContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getGalleryManagementContent(current_user):
@@ -390,6 +406,10 @@ def getGalleryManagementContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getCompanyManagementContent(current_user):
@@ -406,6 +426,10 @@ def getCompanyManagementContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getUserManagementContent(current_user):
@@ -422,6 +446,10 @@ def getUserManagementContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getUserAccessContent(current_user):
@@ -439,6 +467,10 @@ def getUserAccessContent(current_user):
 		content['restricted'] 	= 1
 		content['title'] 		= "Restricted Access"
 		content['url'] 			= "admin/restrictedAccess.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getEmailContent(current_user):
@@ -448,6 +480,10 @@ def getEmailContent(current_user):
 	content['title'] 		= "Natural Woman Salon |  Email"
 	content['user'] 		= current_user
 	content['url'] 			= "admin/email.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getSetPasswordContent(current_user):
@@ -457,6 +493,10 @@ def getSetPasswordContent(current_user):
 	content['title'] 		= "Natural Woman Salon |  Change Password"
 	content['user'] 		= current_user
 	content['url'] 			= "admin/editor.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getSetNameContent(current_user):
@@ -466,6 +506,10 @@ def getSetNameContent(current_user):
 	content['title'] 		= "Natural Woman Salon |  Account Profile"
 	content['user'] 		= current_user
 	content['url'] 			= "admin/editor.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def getSetEmailContent(current_user):
@@ -475,6 +519,10 @@ def getSetEmailContent(current_user):
 	content['title'] 		= "Natural Woman Salon |  Account Profile"
 	content['user'] 		= current_user
 	content['url'] 			= "admin/editor.html"
+	content['is_edited'] 		= "0"
+	content['header'] 			= "empty"
+	content['icon'] 			= "empty"
+	content['message'] 			= "empty"
 	return content
 
 def get_blog_list():
@@ -537,24 +585,23 @@ def decode_checkbox(value):
 		result = True
 	return result
 
-def getEditSuccessData(target_model, target_action, user):
-	data 			= {}
+def getEditSuccessData(user):
+	content 		= {}
 	icon 			= None
 	header 			= None
 	message 		= None
 	json_data 		= None
 	index 			= None
-	target_model 	= str(target_model)
-	target_action 	= str(target_action)
+	target_model 	= str(request.form['target_model'])
+	# target_action 	= str(target_action)
+	fetch_target_fields(target_model)
 	# REMEMBER TO CHANGE THE ABOUT ICON ONCE COMPLETED IN CSS
 	if target_model == "new_blog":
-		icon 		= "<i class='fab fa-blogger'></i>"
 		header 		= "New Blog Post"
 		message 	= "A new blog has been posted"
 		json_data 	= get_empty_json_data()
 		index 		= 6
 	elif target_model == "blog":
-		icon 		= "<i class='fas fa-edit'></i>"
 		header 		= "Manage Blogs"
 		json_data 	= get_blog_json_data()
 		index 		= 7
@@ -563,10 +610,10 @@ def getEditSuccessData(target_model, target_action, user):
 		elif target_action == "update":
 			message = "Blog Post Successfully Updated"
 	elif target_model =="product":
-		icon 		= "<i class='fas fa-spray-can'></i>"
-		header 		= "Manage Products & Pricing"
-		json_data 	= get_product_json_data()
-		index 		= 8
+		target_action 	= str(target_action)
+		header 			= "Manage Products & Pricing"
+		json_data 		= get_product_json_data()
+		index 			= 8
 		if target_action == "delete":
 			message = "Product Successfully Deleted"
 		elif target_action == "edit":
@@ -574,7 +621,6 @@ def getEditSuccessData(target_model, target_action, user):
 		elif target_action == "new":
 			message = "A New Product Has Been Created"
 	elif target_model =="about":
-		icon 		= "<div class=\"alone_icon\">A</div>"
 		header 		= "About Statement"
 		json_data 	= get_about_list()
 		index 		= 9
@@ -587,7 +633,6 @@ def getEditSuccessData(target_model, target_action, user):
 		elif target_action == "delete":
 			message = "The Selected Statement Has Been Deleted"
 	elif target_model == "gallery":
-		icon 		="<i class='fas fa-camera'></i>"
 		header 		= "Manage Gallery Images"
 		index 		= 10
 		json_data 	= get_empty_json_data()
@@ -595,14 +640,17 @@ def getEditSuccessData(target_model, target_action, user):
 			message = "Image Successfully Deleted"
 		elif target_action == "save":
 			message = "Image Successfully Saved"
+
+
 	elif target_model == "company":
-		icon 		= "<i class='fas fa-mobile-alt'></i>"
 		header 		= "Contact & Company Profile"
 		message 	= "Company Profile Successfully Updated"
 		json_data 	= get_company_content()
 		index 		= 11
+
+
+
 	elif target_model == "user":
-		icon 		= "<i class='fas fa-user-cog'></i>"
 		header 		= "User Management"
 		json_data 	= get_user_json_data()
 		index 		= 12
@@ -613,7 +661,6 @@ def getEditSuccessData(target_model, target_action, user):
 		elif target_action == "delete":
 			message = "User Successfully Deleted"
 	elif target_model == "authorize":
-		icon 		= "<i class='fas fa-user-plus'></i>"
 		header 		= "Authorize New User"
 		message 	= "The Authorization Code Has Been Sent"
 		json_data 	= get_empty_json_data()
@@ -625,17 +672,105 @@ def getEditSuccessData(target_model, target_action, user):
 	content['message'] 		= message
 	content['json_data'] 	= json_data
 	content['btn_index'] 	= index
+	content['is_edited'] 	= 1
+	content['title']		= "Natural Woman Salon | Administration"
 	return content
 
-def fetch_target_fields(user):
-	target 		= str(request.form['target_model'])
-	content 	= {}
-	model_id 	= None
-	model 		= None
-	message 	= None
+def decodeJqueryBool(val):
+	result = True
+	val = str(val)
+	if val == "False":
+		result = False
+	return result
 
+def fetch_target_fields(target):
+	target = str(target)
 	if target == "company":
-		content = getEditSuccessData(target, "update", user)
+		action 			= str(request.form['target_action'])
+		company 		= get_company_model()
+		payments 		= Payment.query.all()
+		address1 		= str(request.form['master_address1'])
+		address2 		= str(request.form['master_address2'])
+		address3 		= str(request.form['master_address3'])
+		city 			= str(request.form['master_city'])
+		state 			= str(request.form['master_state'])
+		zip_code 		= str(request.form['master_zip_code'])
+		email 			= str(request.form['master_email'])
+		phone 			= str(request.form['master_phone'])
+		monday 			= str(request.form['master_monday'])
+		tuesday 		= str(request.form['master_tuesday'])
+		wednesday 		= str(request.form['master_wednesday'])
+		thursday 		= str(request.form['master_thursday'])
+		friday 			= str(request.form['master_friday'])
+		saturday 		= str(request.form['master_saturday'])
+		sunday 			= str(request.form['master_sunday'])
+		group_weekdays 	= str(request.form['master_group_weekdays'])
+		group_weekends 	= str(request.form['master_group_weekends'])
+		facebook_url 	= str(request.form['master_facebook_url'])
+		twitter_url 	= str(request.form['master_twitter_url'])
+		instagram_url 	= str(request.form['master_instagram_url'])
+		show_facebook 	= str(request.form['master_show_facebook'])
+		show_twitter 	= str(request.form['master_show_twitter'])
+		show_instagram 	= str(request.form['master_show_instagram'])
+		special_hours 	= str(request.form['master_special_hours'])
+		hours_title 	= str(request.form['master_hours_title'])
+		cash 			= str(request.form['master_cash'])
+		visa 			= str(request.form['master_visa'])
+		masctercard 	= str(request.form['master_mc'])
+		amex 			= str(request.form['master_amex'])
+		check 			= str(request.form['master_check'])
+		cash 			= decodeJqueryBool(cash)
+		amex 			= decodeJqueryBool(amex)
+		masctercard 	= decodeJqueryBool(masctercard)
+		visa 			= decodeJqueryBool(visa)
+		check 			= decodeJqueryBool(check)
+		group_weekdays 	= decodeJqueryBool(group_weekdays)
+		group_weekends 	= decodeJqueryBool(group_weekends)
+		show_facebook 	= decodeJqueryBool(show_facebook)
+		show_instagram 	= decodeJqueryBool(show_instagram)
+		show_twitter 	= decodeJqueryBool(show_twitter)
+		special_hours 	= decodeJqueryBool(special_hours)
+		company.address1 		= address1
+		company.address2 		= address2
+		company.address3 		= address3
+		company.city 			= city
+		company.state 			= state
+		company.zip_code 		= zip_code
+		company.email 			= email
+		company.phone 			= phone
+		company.address3 		= address3
+		company.monday 			= monday
+		company.tuesday 		= tuesday
+		company.wednesday 		= wednesday
+		company.thursday 		= thursday
+		company.friday 			= friday
+		company.saturday 		= saturday
+		company.sunday 			= sunday
+		company.group_weekdays 	= group_weekdays
+		company.group_weekends 	= group_weekends
+		company.facebook_url 	= facebook_url
+		company.twitter_url 	= twitter_url
+		company.instagram_url 	= instagram_url
+		company.show_facebook 	= show_facebook
+		company.show_twitter 	= show_twitter
+		company.show_instagram 	= show_instagram
+		company.special_hours 	= special_hours
+		company.hours_title 	= hours_title
+		for p in payments:
+			method = str(p.method).lower()
+			if method == "cash":
+				p.is_accepted = cash
+			elif method == "visa":
+				p.is_accepted = visa
+			elif method == "amex":
+				p.is_accepted = amex
+			elif method == "check":
+				p.is_accepted = check
+			elif method == "mastercard":
+				p.is_accepted = masctercard
+			p.save()
+		company.save()
+
 
 
 	# if target == "new_blog":
@@ -722,10 +857,6 @@ def fetch_target_fields(user):
 	# 		message 	= "The Selected Statement Has Been Deleted"
 	# 		model.delete()
 
-	data['message'] 	= message
-	data['title'] 		= "Natural Woman Salon | Administration"
-	data['btn_index'] 	= 14
-	return data
 
 
 

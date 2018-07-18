@@ -2169,14 +2169,25 @@ function build_restrictor()
     return html;
 }
 
-function edit_success_builder(icon, header, message)
+function edit_success_builder(btn_index, header, message)
 {
     header      = String(header);
     message     = String(message);
-    icon        = String(icon);
+    btn_index   = String(btn_index);
+    icon        = ""
+
+    if (btn_index === "6") { icon = "<i class=\"fab fa-blogger\"></i>"; }
+    else if (btn_index === "7") { icon = "<i class=\"fas fa-edit\"></i>"; }
+    else if (btn_index === "8") { icon = "<i class=\"fas fa-spray-can\"></i>"; }
+    else if (btn_index === "9") { icon = "<i class=\"fas fa-camera\"></i>"; }
+    else if (btn_index === "10") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
+    else if (btn_index === "11") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
+    else if (btn_index === "12") { icon = "<i class=\"fas fa-user-cog\"></i>"; }
+    else if (btn_index === "13") { icon = "<i class=\"fas fa-user-plus\"></i>"; }
+
     var html    = "<div class='company_contact_set_frame2 center_v_mode'>";
     html += "<div class='company_contact_edit1'>";
-    html += "<div class='edit_success_closer' onClick=\"javascript: closeIconBtn('4');\">";
+    html += "<div class='edit_success_closer' onClick=\"javascript: closeIconBtn('3');\">";
     html += "<i class='far fa-window-close'></i>";
     html += "</div>";
     html += "<div class='edit_succes_style_container'>";
@@ -2216,7 +2227,7 @@ function multi_company_editor(mode)
     }
 }
 
-function build_url_frame(active, inactive, index)
+function build_url_frame(active, inactive, index, is_edited, header, message)
 {
     var is_restricted   = $("#is_restricted").val();
     var html            = "";
@@ -2276,6 +2287,11 @@ function build_url_frame(active, inactive, index)
     }
 
     $("#msg2").html(html);
+    if (String(is_edited) === "1")
+    {
+        var html2   = edit_success_builder(index, header, message);
+        loadHiddenFrame("msg3", html2);
+    }
 }
 
 function closeIconBtn(index)
@@ -2292,7 +2308,7 @@ function ultimateErrorMessage(messages)
     html += "<i class='far fa-window-close'></i>";
     html += "</div>";
     html += "<div class='ultimate-error-container'>";
-    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
     html += "<div class='ultimate-error-content'>";
     html += "<h1>";
     html += String(messages[0]);
@@ -2315,7 +2331,7 @@ function ultimateErrorMessageOption(messages)
     html += "<i class='far fa-window-close'></i>";
     html += "</div>";
     html += "<div class='ultimate-error-container'>";
-    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
     html += "<div class='ultimate-error-content'>";
     html += "<h1>";
     html += String(messages[0]);

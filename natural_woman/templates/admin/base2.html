@@ -74,7 +74,7 @@
         </div>
 
         <!-- MANAGER BUILDER -->
-        <body onLoad="javascript: build_url_frame({{json_data.inactive}}, {{json_data.active}}, '{{btn_index}}');" id="frame_builder">
+        <body onLoad="javascript: build_url_frame( {{json_data.inactive}}, {{json_data.active}}, '{{btn_index}}', {{is_edited}}, '{{header}}', '{{message}}', '{{message}}' );" id="frame_builder">
             <div class="alert2 hidden" id="msg2"></div> 
         </body>
 
@@ -136,7 +136,7 @@ function detectChanges(model, mode)
         if (model === "company")
         {
             if(mode==="exit") { messages.push("Are you sure you want to exit this page? All changes will be discarded."); ultimateErrorMessageOption(messages); }
-            else if (mode==="update") { messages.push("No changes have been detected"); ultimateErrorMessage(messages); }
+            else if (mode==="update") { $("#target_action").val(mode); $("#master_company_management_form").submit(); }
         } 
     }
     else
@@ -144,7 +144,7 @@ function detectChanges(model, mode)
         if (model === "company")
         {
             if(mode==="exit") { closeIconBtn("2"); }
-            else if(mode==="update") { $("#master_company_management_form").submit(); }
+            else if (mode==="update") { messages.push("No changes have been detected"); messages.push(' '); ultimateErrorMessage(messages); }
         }
     }
 }
