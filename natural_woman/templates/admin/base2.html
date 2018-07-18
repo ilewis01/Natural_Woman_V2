@@ -111,9 +111,54 @@
 
 </script>
 
-        <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
-        <div class='alert4 hidden' id='msg4'>
-            <div class="ua_wrapper center_v_mode">
+        <!-- ERROR MESSAGES -->
+        <div class='alert4 hidden' id='msg4'></div>
+
+        <!-- HELPER POP-UP -->
+        <div class="alert5 hidden" id="helper_element">
+            <div class="helper_container center_v_mode">
+                <div class="helper_data">
+                    <table>
+                        <tr>
+                            <td class="td_left">
+                                <div class="help_icon"><i class="far fa-question-circle"></i></div>
+                            </td>
+                            <td class="td_right">
+                                <a href="javascript: close_helper_frame();">
+                                    <i class="far fa-window-close"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="helper_title" id="helper_title"></div>
+                    <div class="helper_content" id="content_message">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
+        <div class='alert6 hidden' id='msg6'>
+            <div class='company_contact_set_frame2 center_v_mode'>
+                <div class='company_contact_edit1'>
+                    <div class='ultimate-error-closer' onClick="javascript: closeIconBtn('6');">
+                        <i class='far fa-window-close'></i>
+                    </div>
+                    <div class='ultimate-error-container'>
+                        <h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>
+                        <div class='ultimate-error-content'>
+                            <h1>This is the message header</h1>
+                            <h2>This is where specific details about the error message that was generated from the user input.</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!--<div class="ua_wrapper center_v_mode">
                 <div class="frame_general_sm">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>Edit Gallery Images</h3>
@@ -130,22 +175,11 @@
 
                         <div class="general_editor_btns">
                             <button id="auth_new_user">Not Active</button>
-                            <button id="close-this-4">Cancel</button>
+                            <button id="close-this-6">Cancel</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="alert14 hidden" id="msg14">
-            <div class="blog-manager-container">
-                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>{{message}}</h3>
-                
-                <div class="blog-btn-wrapper">
-                    <button id="close-this-14">Close</button>
-                </div>
-            </div>
+            </div>-->
         </div>
 
         <div class="alert15 hidden" id="err">
@@ -179,29 +213,6 @@
                             <button id="obj_action"></button>
                             <button id="close-this-15">Cancel</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="alert16 hidden" id="helper_element">
-            <div class="helper_container center_v_mode">
-                <div class="helper_data">
-                    <table>
-                        <tr>
-                            <td class="td_left">
-                                <div class="help_icon"><i class="far fa-question-circle"></i></div>
-                            </td>
-                            <td class="td_right">
-                                <a href="javascript: close_helper_frame();">
-                                    <i class="far fa-window-close"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="helper_title" id="helper_title"></div>
-                    <div class="helper_content" id="content_message">
                     </div>
                 </div>
             </div>

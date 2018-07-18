@@ -2650,6 +2650,63 @@ input[type="radio"]:checked:after {
     border: 1px solid black;
 }
 
+.ultimate-error-container {
+    width: 100%;
+    color: #444444;
+    text-align: left;
+}
+
+.ultimate-error-container h3 {
+    color: #650212;
+    font-size: 17px;
+    font-weight: 700;
+    font-style: italic;
+    border-bottom: 1px solid #777777;
+    padding-bottom: 7px;
+}
+
+.ultimate-error-closer {
+    width: 100%;
+    font-size: 20px;
+    color:#650212;
+    text-align: right;
+    text-shadow:1px 1px #111111;
+}
+
+.ultimate-error-closer i {
+    cursor:pointer;
+}
+
+.ultimate-error-closer i:hover {
+    color: #b3011d;
+    text-shadow:1px 1px #111111;
+}
+
+.ultimate-error-content {
+    width: 90%;
+    margin: auto;
+}
+
+.ultimate-error-content h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #3b4101;
+}
+
+.ultimate-error-content h2 {
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+    color: #333333;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
 
 
 

@@ -66,12 +66,12 @@ function initialize_admin_forms()
             $("#div_0").addClass("super_select");
         }
 
-        else if (btn_index === "10")
+        else if (btn_index === "10") //TEMPORARY GALLERY FRAME
         {
             $("#msg2").hide();
-            $("#msg4").hide();
-            $("#msg4").removeClass("hidden");
-            $("#msg4").fadeIn(600);
+            $("#msg6").hide();
+            $("#msg6").removeClass("hidden");
+            $("#msg6").fadeIn(600);
         }
     }
     else
@@ -1650,7 +1650,7 @@ function soft_save(target)
     }
 
     if (proceed === true ) { flashBtn(); $("#msg3").fadeOut(300); $("#changes_detected").val("1"); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { ultimateErrorMessage(messages); }
     data['proceed'] = proceed;
     data['messages'] = messages;
     return data;
@@ -2274,6 +2274,38 @@ function closeIconBtn(index)
 {
     var trigger = "#msg" + String(index);
     $(trigger).fadeOut(500);
+}
+
+function ultimateErrorMessage(messages)
+{
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<div class='ultimate-error-container'>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>";
+    html += "<div class='ultimate-error-content'>";
+    html += "<h1>";
+    html += String(messages[0]);
+    html += "<h1>";
+    html += "<h2>";
+    html += String(messages[1]);
+    html += "<h2>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    loadHiddenFrame("msg4", html);
+}
+
+function loadHiddenFrame(name, html)
+{
+    var target = "#" + String(name);
+    $(target).html(html);
+    $(target).hide();
+    $(target).removeClass("hidden");
+    $(target).fadeIn(600);
 }
 
 function load_helper(subject)
