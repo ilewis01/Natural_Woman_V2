@@ -43,6 +43,8 @@
             <input type="hidden" id="load_meta_model" value="{{model}}">
             <input type="hidden" id="is_restricted" value="{{restricted}}">
             <input type="hidden" id="launchBlogger" value="{{user.blog_permission}}">
+            <input type="hidden" id="changes_detected" name="changes_detected" value="0">
+            <input type="hidden" id="requested_url" name="requested_url" value="">
         </form>
 
         <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
@@ -105,9 +107,58 @@
     text-shadow: none;
 }
 
+.ultimate-btn-holder {
+    width: 100%;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.ultimate-btn-holder button{
+    width: 45%;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
 </style>
 
 <script type="text/javascript">
+
+function detectChanges(model, mode)
+{
+    var messages            = [];
+    var changes_detected    = $("#changes_detected").val();
+    changes_detected        = String(changes_detected);
+    model                   = String(model);
+    mode                    = String(mode);
+    if (changes_detected === "1")
+    {
+        messages.push("Changes Detected")
+        if (model === "company")
+        {
+            if(mode==="exit") { messages.push("Are you sure you want to exit this page? All changes will be discarded."); ultimateErrorMessageOption(messages); }
+            else if (mode==="update") { messages.push("No changes have been detected"); ultimateErrorMessage(messages); }
+        } 
+    }
+    else
+    {
+        if (model === "company")
+        {
+            if(mode==="exit") { closeIconBtn("2"); }
+            else if(mode==="update") { $("#master_company_management_form").submit(); }
+        }
+    }
+}
+
+function ultimateSoftClose()
+{
+    $("#msg4").fadeOut(500);
+}
+
+function ultimateHardClose()
+{
+    $("#msg4").fadeOut(500);
+    $("#msg2").fadeOut(500);
+}
 
 </script>
 
@@ -150,6 +201,10 @@
                         <div class='ultimate-error-content'>
                             <h1>This is the message header</h1>
                             <h2>This is where specific details about the error message that was generated from the user input.</h2>
+                            <div class='ultimate-btn-holder'>
+                                <button onClick="javascript: ultimateSoftClose();">Stay On Page</button>
+                                <button onClick="javascript: ultimateHardClose();">Leave Page</button>
+                            </div>
                         </div>
                     </div>
                 </div>

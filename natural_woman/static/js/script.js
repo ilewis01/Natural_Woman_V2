@@ -482,7 +482,8 @@ function build_company_manager(pay, data)
 
     var html = "<div class='pfile2_wrap center_v_mode'>";
     html += "<form action='/edit_success' method='POST' id='master_company_management_form'>";
-    html += "<input type='hidden' name='changes_detected' id='changes_detected' value='0'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='company'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value=''>";
     html += "<input type='hidden' name='master_address1' id='master_address1' value='";
     html += data["address1"];
     html += "'>";
@@ -789,8 +790,8 @@ function build_company_manager(pay, data)
     html += "</div>";
     html += "<div class='generalSteelBtn-co'>";
     html += "<div class='company_btn_container'>";
-    html += "<button class='flash_reg' id='updateCompanyBtn'>Update</button>";
-    html += "<button class='flash_reg' id='close-this-2'>Exit</button>";
+    html += "<button class='flash_reg' id='updateCompanyBtn' onClick=\"javascript: detectChanges('company', 'update');\">Update</button>";
+    html += "<button class='flash_reg' id='' onClick=\"javascript: detectChanges('company', 'exit');\">Exit</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -808,6 +809,7 @@ function commit_radio_value(target, mode)
     mode    = Number(mode);
     if (mode === 1) { $(target).val("True"); }
     else if (mode === 0) { $(target).val("False"); }
+    $("#changes_detected").val("1");
     flashBtn();
 }
 
@@ -819,6 +821,7 @@ function commit_checkbox_value(target)
     if (current === "True") { current = "False"; }
     else if (current === "False") { current = "True"; }
     $(target).val(current);
+    $("#changes_detected").val("1");
     flashBtn();
 }
 
@@ -1648,8 +1651,13 @@ function soft_save(target)
             $("#master_phone").val(phone);
         }
     }
-
-    if (proceed === true ) { flashBtn(); $("#msg3").fadeOut(300); $("#changes_detected").val("1"); }
+ 
+    if (proceed === true )
+    {
+        flashBtn();
+        $("#changes_detected").val("1");
+        $("#msg3").fadeOut(300);
+    }
     else { ultimateErrorMessage(messages); }
     data['proceed'] = proceed;
     data['messages'] = messages;
@@ -2299,6 +2307,33 @@ function ultimateErrorMessage(messages)
     loadHiddenFrame("msg4", html);
 }
 
+function ultimateErrorMessageOption(messages)
+{
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<div class='ultimate-error-container'>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>";
+    html += "<div class='ultimate-error-content'>";
+    html += "<h1>";
+    html += String(messages[0]);
+    html += "<h1>";
+    html += "<h2>";
+    html += String(messages[1]);
+    html += "<h2>";
+    html += "<div class='ultimate-btn-holder'>";
+    html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
+    html += "<button onClick=\"javascript: ultimateHardClose();\">Leave Page</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    loadHiddenFrame("msg4", html);
+}
+
 function loadHiddenFrame(name, html)
 {
     var target = "#" + String(name);
@@ -2736,41 +2771,25 @@ $(document).ready(function() {
 
     //ADMIN BUTTON LOADERS
     $("#ab2").click(function() {
-        var btn_index   = String(document.getElementById("btn_index").value);
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/blog_editor" }); }
-        else { window.location.href = "/blog_editor"; }
+        window.location.href = "/blog_editor";
     });
     $("#ab3").click(function() {
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/product_editor" }); }
-        else { window.location.href = "/product_editor"; }
+        window.location.href = "/product_editor"; 
     });
     $("#ab4").click(function() {
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/gallery_editor" }); }
-        else { window.location.href = "/gallery_editor"; }
+        window.location.href = "/gallery_editor";
     });
     $("#ab5").click(function() {
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { 
-                window.location.href = "/about_editor" }); }
-        else { window.location.href = "/about_editor"; }
+        window.location.href = "/about_editor";
     });
     $("#ab6").click(function() {
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/company_editor" }); }
-        else { window.location.href = "/company_editor"; }
+        window.location.href = "/company_editor";
     });
     $("#ab7").click(function() {
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/user_editor" }); }
-        else { window.location.href = "/user_editor"; }
+        window.location.href = "/user_editor";
     });
     $("#ab8").click(function() {
-        if (frame_active === "1")
-        { $( "#msg2" ).fadeOut(500, function() { window.location.href = "/user_access" }); }
-        else { window.location.href = "/user_access"; }
+        window.location.href = "/user_access";
     });
 
 

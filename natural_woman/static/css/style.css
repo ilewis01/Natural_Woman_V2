@@ -2266,7 +2266,7 @@ input[type="radio"]:checked:after {
     background: linear-gradient(to right, rgba(170, 170, 170, 1), rgba(100, 100, 100, 1));
 }
 
-.company_btn_container button, .company_address_btns button {
+.company_btn_container button, .company_address_btns button, .ultimate-btn-holder button {
     margin-left: 3px;
     border-color: #777777;
     border-top-color: #888888;
@@ -2277,7 +2277,7 @@ input[type="radio"]:checked:after {
     width: 15%;
 }
 
-.company_btn_container button:hover, .company_address_btns button:hover {
+.company_btn_container button:hover, .company_address_btns button:hover, .ultimate-btn-holder button:hover {
     background: linear-gradient(rgba(200, 200, 200, 1), rgba(130, 130, 130, 1));
 }
 

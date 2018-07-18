@@ -98,8 +98,7 @@ def user_access():
 @login_required
 def edit_success():
 	if request.method == "POST":
-		content = fetch_target_fields()
-		content['json_data'] = None
+		content = fetch_target_fields(current_user)
 		return render_template("admin/editor.html", **content)
 
 @app.route('/email')
