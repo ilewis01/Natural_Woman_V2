@@ -2156,14 +2156,15 @@ function build_email_setter()
     html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
     html += "<h3><i class=\"fas fa-cog\"></i> Change Email Address</h3>";
     html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
-    html += "<input type=\"hidden\" name=\"target_action\" value=\"" + String(index) + "\">";
+    html += "<input type=\"hidden\" name=\"super_index\" value=\"" + String(index) + "\">";
+    html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_email'>";
     html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your password\" required>";
+    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\" required oninput=\"javascript: completeEmailFields();\">";
     html += "</div>";
-    html += "<input type=\"email\" name=\"email1\" id=\"email1\" placeholder=\"Enter your new email address\" required>";
-    html += "<input type=\"email\" name=\"email2\" id=\"email2\" placeholder=\"Re-enter your new email address\" required>";
+    html += "<input type=\"email\" name=\"email1\" id=\"email1\" placeholder=\"Enter your new email address\" required oninput=\"javascript: completeEmailFields();\">";
+    html += "<input type=\"email\" name=\"email2\" id=\"email2\" placeholder=\"Re-enter your new email address\" required oninput=\"javascript: completeEmailFields();\">";
     html += "<div class=\"account-buttons\">";
-    html += "<button type=\"submit\">Save</button>";
+    html += "<button type=\"submit\" id='emailResetBtn'>Save</button>";
     html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</form>";
@@ -2180,14 +2181,15 @@ function build_name_setter()
     html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
     html += "<h3><i class=\"fas fa-cog\"></i> Change Name</h3>";
     html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
-    html += "<input type=\"hidden\" name=\"target_action\" value=\"" + String(index) + "\">";
+    html += "<input type=\"hidden\" name=\"super_index\" value=\"" + String(index) + "\">";
+    html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_name'>";
     html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your password\" required>";
+    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\" required oninput=\"javascript: complateNameFields();\">";
     html += "</div>";
-    html += "<input type=\"text\" name=\"fname\" id=\"fname\" placeholder=\"First Name\" required>";
-    html += "<input type=\"text\" name=\"lname\" id=\"lname\" placeholder=\"Last Name\" required>";
+    html += "<input type=\"text\" name=\"fname\" id=\"fname\" placeholder=\"First Name\" required oninput=\"javascript: complateNameFields();\">";
+    html += "<input type=\"text\" name=\"lname\" id=\"lname\" placeholder=\"Last Name\" required oninput=\"javascript: complateNameFields();\">";
     html += "<div class=\"account-buttons\">";
-    html += "<button type=\"submit\">Save</button>";
+    html += "<button type=\"submit\" id='nameResetBtn'>Save</button>";
     html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</form>";
@@ -2461,7 +2463,15 @@ function ultimateWarningMessageOption(action)
     else if (action === "password")
     {
         requestPasswordUpdate()
-    }     
+    }
+    else if (action === "email")
+    {
+        requestEmailUpdate();
+    }   
+    else if (action === "name")
+    {
+        requestNameUpdate();
+    }  
 }
 
 

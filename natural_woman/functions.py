@@ -700,24 +700,55 @@ def attemptChangeAccount(user):
 	content 	= {}
 	header 		= ""
 	message 	= ""
+	index 		= 0
 	action 		= str(request.form['target_action'])
 	if action == "change_password":
-		password_entered = str(request.form['old'])
-		password_request = str(request.form['password1'])
-		isValid = user.password_validated(password_request)
+		password_entered 	= str(request.form['old'])
+		password_request 	= str(request.form['password1'])
+		index 				= 21
+		isValid = user.password_validated(password_entered)
 		if isValid == True:
 			message 	= " "
 			header 		= "Password Successfully Updated"
-			user.set_password(password_entered)
+			user.set_password(password_request)
 			user.save()
 		else:
 			header 		= "Incorrect Password Entered"
 			message 	= "You must enter your current password correctly to make any changes to your account. This is for your security. If you do not remember your password, you can retrieve it by clicking on the \"forgot password\" button on the login page."
 
+	if action == "change_email":
+		password_entered 	= str(request.form['password'])
+		index 				= 23
+		isValid = user.password_validated(password_entered)
+		if isValid == True:
+			message 	= " "
+			header 		= "Email Successfully Updated"
+			email 		= str(request.form['email1'])
+			user.email 	= email
+			user.save()
+		else:
+			header 		= "Incorrect Password Entered"
+			message 	= "You must enter your current password correctly to make any changes to your account. This is for your security. If you do not remember your password, you can retrieve it by clicking on the \"forgot password\" button on the login page."
+
+	if action == "change_name":
+		password_entered 	= str(request.form['password'])
+		index 				= 22
+		isValid = user.password_validated(password_entered)
+		if isValid == True:
+			message 	= " "
+			header 		= "Name Successfully Updated"
+			fname 		= str(request.form['fname'])
+			lname 		= str(request.form['lname'])
+			user.fname 	= fname
+			user.lname 	= lname
+			user.save()
+		else:
+			header 		= "Incorrect Password Entered"
+			message 	= "You must enter your current password correctly to make any changes to your account. This is for your security. If you do not remember your password, you can retrieve it by clicking on the \"forgot password\" button on the login page."
 	content['message'] 		= message
 	content['header'] 		= header
 	content['is_edited'] 	= 1
-	content["btn_index"] 	= 21
+	content["btn_index"] 	= index
 	content['json_data'] 	= get_empty_json_data()
 	content['user'] 		= user
 	content['url'] 			= "admin/editor.html"
