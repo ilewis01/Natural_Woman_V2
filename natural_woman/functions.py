@@ -601,8 +601,6 @@ def getEditSuccessData(user):
 		message 	= "A new blog has been posted"
 		json_data 	= get_empty_json_data()
 		index 		= 6
-
-
 	elif target_model == "blog":
 		header 		= "Manage Blogs"
 		json_data 	= get_blog_json_data()
@@ -611,19 +609,20 @@ def getEditSuccessData(user):
 			message = "Blog Post Successfully Deleted"
 		elif target_action == "update":
 			message = "Blog Post Successfully Updated"
-
-
-
 	elif target_model =="product":
-		header 			= "Manage Products & Pricing"
-		json_data 		= get_product_json_data()
-		index 			= 8
+		header 		= "Manage Products & Pricing"
+		json_data 	= get_product_json_data()
+		index 		= 8
 		if target_action == "delete":
 			message = "Product Successfully Deleted"
 		elif target_action == "edit":
-			message = "Productt Successfully Updated"
+			message = "Product Successfully Updated"
 		elif target_action == "new":
 			message = "A New Product Has Been Created"
+
+
+
+
 	elif target_model =="about":
 		header 		= "About Statement"
 		json_data 	= get_about_list()
@@ -775,7 +774,6 @@ def save_target_model(target, action):
 		company.save()
 	elif target == "blog":
 		b_id = str(request.form['target_id'])
-		print("TARGET ID: " + b_id)
 		blog = get_blog_by_id(b_id)
 		if action == "update":
 			subject 		= str(request.form['editor_subject'])
@@ -785,6 +783,29 @@ def save_target_model(target, action):
 			blog.save()
 		elif action == "delete":
 			blog.delete()
+	elif target == "product":
+		name 		= None
+		description = None
+		price 		= None
+		product 	= None
+		if action == "new":
+			product = Product(name, description, price)
+			product.save()
+		else:
+			pid 	= str(request.form['product_id'])
+			product = get_product_by_id(pid)
+			if action == "delete":
+				product.delete()
+			elif action == "update":
+				product.name 		= name
+				product.description = description
+				product.price 		= price
+				product.save()
+	elif target == "new_blog":
+		subject = str(request.form['new_blog_subj'])
+		content = str(request.form['new_blog_cont'])
+		blog 	= Blog(subject, content)
+		blog.save()
 
 
 

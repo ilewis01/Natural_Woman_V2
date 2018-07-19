@@ -54,18 +54,19 @@
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>New Blog Post</h3>
                     <div class="generalSteel-in">
-                        <h2 class="blogger_editor"><i class="fab fa-blogger"></i></h2>
-                        <form action="/auth" method="POST" id="new_blog_form">
+                        <h2 class=""><i class="fab fa-blogger"></i></h2>
+                        <form action="/edit_success" method="POST" id="new_blog_form">
                             <input type="hidden" name="target_model" id="target1" value="new_blog">
+                            <input type="hidden" name="target_action" id="taction11" value="new">
                             <input type="hidden" name="prev_index" value="{{btn_index}}">
-                            <input type="text" name="subject" id="subject" placeholder="Subject" required>
+                            <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" required>
                             <div class="blog_content_wrapper">
-                                <textarea name="blog_content" id="blog_content" placeholder="Type blog content here..." required></textarea>
+                                <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." required></textarea>
                             </div>
                         </form>
 
                         <div class="general_editor_btns">
-                            <button id="target_new_blog">Post</button>
+                            <button id="target_new_blog" onClick="javascript: validateModel('new_blog');">Post</button>
                             <button id="close-this-1">Cancel</button>
                         </div>
                     </div>
@@ -82,7 +83,6 @@
         <div class="alert3 hidden" id="msg3"></div>
 
 <style type="text/css">
-
 .dropdown-menu {
     background: linear-gradient(to top, rgba(206, 209, 162, 0.7), rgba(85, 88, 56, 0.7));
     margin-left: -43px;
@@ -152,10 +152,36 @@ function detectChanges(model, mode)
 function validateModel(model)
 {
     model = String(model);
-    if (model === "blog")
+    if (model === "blog") { validateBlogEdit(); }
+    else if (model === "new_blog") { validateNewBlog(); }
+}
+
+function validateNewBlog()
+{
+    var messages    = [];
+    var proceed     = false;
+    var subject     = $("#new_blog_subj").val();
+    var content     = $("#new_blog_cont").val();
+    if (subject.length === 0)
     {
-        validateBlogEdit();
+        messages.push("Empty Field");
+        messages.push("You cannot leave the subject blank.");
     }
+    else if (content.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You cannot leave the content body of the blog blank.");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        $("#new_blog_form").submit();
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    } 
 }
 
 function validateBlogEdit()

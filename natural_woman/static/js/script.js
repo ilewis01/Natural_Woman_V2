@@ -2962,12 +2962,6 @@ $(document).ready(function() {
 
 
     //ADMIN FORM SUBMISSION
-    $("#target_new_blog").click(function() {
-        $( "#msg1" ).fadeOut(500, function() {
-            $("#new_blog_form").attr("action", "/edit_success");
-            $("#new_blog_form").submit();
-        });
-    });
     $("#product_editor_btn").click(function() {
         $("#product_edit_form").submit();
     });
