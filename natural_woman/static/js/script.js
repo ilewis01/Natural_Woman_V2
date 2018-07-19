@@ -2015,8 +2015,8 @@ function build_user_editor()
     html += "</table>";
     html += "</div>";
     html += "<div class=\"s_edit_btn shrink_s_btn\">";
-    html += "<button onClick=\"javascript: submit_access_edits();\">Submit</button>";
-    html += "<button onClick=\"javascript: simple_editor_close();\">Cancel</button>";
+    html += "<button onClick=\"javascript: validateModel('access');\">Submit</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -2878,11 +2878,6 @@ function loadCheckboxData(target)
 function simple_editor_close()
 {
     $("#msg3").fadeOut(500);
-}
-
-function submit_access_edits()
-{
-    $("#user_editor_form").submit();
 }
 
 function submit_auth_user()

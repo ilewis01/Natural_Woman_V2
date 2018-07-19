@@ -156,6 +156,7 @@ function validateModel(model)
     else if (model === "new_blog") { validateNewBlog(); }
     else if (model === "product") { validateProduct(); }
     else if (model === "about") { validateAboutModel(); }
+    else if (model === "access") { validateAccess(); }
     else if (model === "new_user") { validateNewUser(); }
     else if (model === "password") { validatePasswordChange(); }
     else if (model === "email") { validateEmailChange(); }
@@ -194,7 +195,49 @@ function validateAboutModel()
     { 
         ultimateErrorMessage(messages); 
     }
+}
 
+function isMatch_d(intval, boolval)
+{
+    var isEqual = false;
+    intval = String(intval);
+    boolval = String(boolval);
+    if ((intval === "1" && boolval === "True") || (intval === "0" && boolval === "False")) { isEqual = true; }
+    return isEqual;
+}
+
+function validateAccess()
+{
+    var proceed     = false;
+    var messages    = [];
+    var selected_e  = $("#selected_e").val();
+    var p_admin     = $("#admin_" + selected_e).val(); 
+    var p_product   = $("#product_" + selected_e).val(); 
+    var p_about     = $("#about_" + selected_e).val(); 
+    var p_blog      = $("#blog_" + selected_e).val(); 
+    var p_gallery   = $("#gallery_" + selected_e).val();
+    var c_admin     = $("#m_admin").val(); 
+    var c_product   = $("#m_product").val(); 
+    var c_about     = $("#m_about").val(); 
+    var c_blog      = $("#m_blog").val(); 
+    var c_gallery   = $("#m_gallery").val();
+    var a           = isMatch_d(c_admin, p_admin);
+    var b           = isMatch_d(c_product, p_product);
+    var c           = isMatch_d(c_about, p_about);
+    var d           = isMatch_d(c_blog, p_blog);
+    var e           = isMatch_d(c_gallery, p_gallery);
+    if(a===true&&b===true&&c===true&&d===true&e===true)
+    { messages.push("No Changes Detected"); messages.push(" "); }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        $("#user_editor_form").submit();
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    } 
 }
 
 function validateNewUser()
