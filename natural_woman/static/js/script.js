@@ -1938,8 +1938,8 @@ function build_user_manager(data)
 
     html += "<div class=\"ul_buttons3\">";
     html += "<button id=\"edit_user_access\">Change Access</button>";
-    html += "<button id=\"block_all_access\">Block All</button>";
-    html += "<button id=\"delete_user_access\">Delete User</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('block_user');\">Block All</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('delete_user');\">Delete User</button>";
     html += "</div>";
     html += "</div>";
     html += "<div class=\"generalSteel main_exit_btn\">";
@@ -2440,7 +2440,65 @@ function ultimateWarningMessageOption(action)
     else if (action === "delete_about_object_m")
     {
         requestAboutDelete(delete_about);
-    }         
+    }
+    else if (action === "block_user")
+    {
+        blockUserAccess();
+    }
+    else if (action === "delete_user")
+    {
+        deleteUserAccount();
+    }        
+}
+
+function blockUserAccess()
+{
+    var index   = $("#selected_e").val();
+    index       = String(index);
+    var sel_id  = "#id_" + index;
+    var sel_fn  = "#fname_" + index;
+    var sel_ln  = "#lname_" + index;
+    var sel_em  = "#email_" + index;
+    var uid     = $(sel_id).val();
+    var fname   = $(sel_fn).val();
+    var lname   = $(sel_ln).val();
+    var email   = $(sel_em).val();
+    var name    = String(fname) + " " + String(lname);
+
+    load_error_heads("Block All Access", "Are You Sure You Want To Proceed?", "This will block the user from making any changes to the website.<br>This can be undone at any time", "Block");
+    load_error_message("USER:", "EMAIL:", "", name, email, "");
+
+    $("#targetActionManager").val("block");
+    $("#targetIdManager").val(uid);
+    $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
+    $("#msg4" ).hide();
+    $("#msg4" ).removeClass("hidden");
+    $("#msg4" ).fadeIn(500);
+}
+
+function deleteUserAccount()
+{
+    var index   = $("#selected_e").val();
+    index       = String(index);
+    var sel_id  = "#id_" + index;
+    var sel_fn  = "#fname_" + index;
+    var sel_ln  = "#lname_" + index;
+    var sel_em  = "#email_" + index;
+    var uid     = $(sel_id).val();
+    var fname   = $(sel_fn).val();
+    var lname   = $(sel_ln).val();
+    var email   = $(sel_em).val();
+    var name    = String(fname) + " " + String(lname);
+
+    load_error_heads("Delete User", "Are You Sure You Want To Proceed?", "This action will permanently delete this users account.<br>This cannot be undone.", "Delete");
+    load_error_message("USER:", "EMAIL:", "", name, email, "");
+
+    $("#targetActionManager").val("delete");
+    $("#targetIdManager").val(uid);
+    $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
+    $("#msg4" ).hide();
+    $("#msg4" ).removeClass("hidden");
+    $("#msg4" ).fadeIn(500);
 }
 
 function request_blog_delete()
@@ -3020,52 +3078,6 @@ $(document).ready(function() {
         $("#msg3" ).hide();
         $("#msg3" ).removeClass("hidden");
         $("#msg3" ).fadeIn(500);
-    });
-    $("#block_all_access").click(function() {
-        var index   = $("#selected_e").val();
-        index       = String(index);
-        var sel_id  = "#id_" + index;
-        var sel_fn  = "#fname_" + index;
-        var sel_ln  = "#lname_" + index;
-        var sel_em  = "#email_" + index;
-        var uid     = $(sel_id).val();
-        var fname   = $(sel_fn).val();
-        var lname   = $(sel_ln).val();
-        var email   = $(sel_em).val();
-        var name    = String(fname) + " " + String(lname);
-
-        load_error_heads("Block All Access", "Are You Sure You Want To Proceed?", "This will block the user from making any changes to the website.<br>This can be undone at any time", "Block");
-        load_error_message("USER:", "EMAIL:", "", name, email, "");
-
-        $("#targetActionManager").val("block");
-        $("#targetIdManager").val(uid);
-        $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
-        $("#err" ).hide();
-        $("#err" ).removeClass("hidden");
-        $("#err" ).fadeIn(500);
-    });
-    $("#delete_user_access").click(function() {
-        var index   = $("#selected_e").val();
-        index       = String(index);
-        var sel_id  = "#id_" + index;
-        var sel_fn  = "#fname_" + index;
-        var sel_ln  = "#lname_" + index;
-        var sel_em  = "#email_" + index;
-        var uid     = $(sel_id).val();
-        var fname   = $(sel_fn).val();
-        var lname   = $(sel_ln).val();
-        var email   = $(sel_em).val();
-        var name    = String(fname) + " " + String(lname);
-
-        load_error_heads("Delete User", "Are You Sure You Want To Proceed?", "This action will permanently delete this users account.<br>This cannot be undone.", "Delete");
-        load_error_message("USER:", "EMAIL:", "", name, email, "");
-
-        $("#targetActionManager").val("delete");
-        $("#targetIdManager").val(uid);
-        $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
-        $("#err" ).hide();
-        $("#err" ).removeClass("hidden");
-        $("#err" ).fadeIn(500);
     });
     $("#edit_user_access").click(function() {
         var index   = $("#selected_e").val();
