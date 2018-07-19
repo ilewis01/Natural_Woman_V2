@@ -65,6 +65,26 @@ def get_user_by_id(uid):
 			break
 	return q
 
+def isQueued(target_model, mid):
+	queued = False
+	model_list = None
+	target_model = str(target_model)
+	if target_model == "user":
+		model_list = User.query.all()
+	elif target_model == "product":
+		model_list = Product.query.all()
+	elif target_model == "about":
+		model_list = About.query.all()
+	elif target_model == "payment":
+		model_list = Payment.query.all()
+	elif target_model == "blog":
+		target_model = Blog.query.all()
+	for m in model_list:
+		if str(m.id) == str(mid):
+			queued = True
+			break
+	return queued
+
 def index_content():
 	content = {}
 	content['title'] = "Natural Woman Salon"
@@ -601,10 +621,12 @@ def getEditSuccessData(user):
 	message 		= None
 	json_data 		= None
 	index 			= None
+	is_edited 		= 1
 	target_model 	= str(request.form['target_model'])
 	target_action 	= str(request.form["target_action"])
-	save_target_model(target_model, target_action)
-	# REMEMBER TO CHANGE THE ABOUT ICON ONCE COMPLETED IN CSS
+	success 		= save_target_model(target_model, target_action)
+	if success == False:
+		is_edited 	= 0
 	if target_model == "new_blog":
 		header 		= "New Blog Post"
 		message 	= "A new blog has been posted"
@@ -679,7 +701,7 @@ def getEditSuccessData(user):
 	content['message'] 		= message
 	content['json_data'] 	= json_data
 	content['btn_index'] 	= index
-	content['is_edited'] 	= 1
+	content['is_edited'] 	= is_edited
 	content['title']		= "Natural Woman Salon | Administration"
 	return content
 
@@ -756,6 +778,7 @@ def attemptChangeAccount(user):
 	return content
 
 def save_target_model(target, action):
+	complete = True
 	target = str(target)
 	if target == "company":
 		action 			= str(request.form['target_action'])
@@ -844,15 +867,18 @@ def save_target_model(target, action):
 		company.save()
 	elif target == "blog":
 		b_id = str(request.form['target_id'])
-		blog = get_blog_by_id(b_id)
-		if action == "update":
-			subject 		= str(request.form['editor_subject'])
-			content 		= str(request.form['content'])
-			blog.subject 	= subject
-			blog.content 	= content
-			blog.save()
-		elif action == "delete":
-			blog.delete()
+		if isQueued("blog", b_id) == True:
+			blog = get_blog_by_id(b_id)
+			if action == "update":
+				subject 		= str(request.form['editor_subject'])
+				content 		= str(request.form['content'])
+				blog.subject 	= subject
+				blog.content 	= content
+				blog.save()
+			elif action == "delete":
+				blog.delete()
+		else:
+			complete = False
 	elif target == "product":		
 		product 	= None
 		name 		= None
@@ -868,13 +894,16 @@ def save_target_model(target, action):
 		else:
 			pid 	= str(request.form['target_id'])
 			product = get_product_by_id(pid)
-			if action == "delete":
-				product.delete()
-			elif action == "update":
-				product.name 		= name
-				product.description = description
-				product.price 		= price
-				product.save()
+			if isQueued("product", pid) == True:
+				if action == "delete":
+					product.delete()
+				elif action == "update":
+					product.name 		= name
+					product.description = description
+					product.price 		= price
+					product.save()
+			else:
+				complete = False
 	elif target == "new_blog":
 		subject = str(request.form['new_blog_subj'])
 		content = str(request.form['new_blog_cont'])
@@ -884,55 +913,65 @@ def save_target_model(target, action):
 		about 		= None
 		statement 	= None
 		is_active 	= True
-		if action == "delete" or action == "update" or action == "swap":
-			a_id 	= str(request.form['target_id'])
-			about 	= get_about_by_id(a_id)
 		if action == "update" or action == "new":
 			statement = str(request.form['master_a_statement'])
 			is_active = str(request.form['m_is_active'])
 			is_active = decodeBoolInteger(is_active)
-		if action == "delete":
-			about.delete()
-		elif action == "swap":
-			a_list = About.query.all()
-			for a in a_list:
-				a.is_active = False
-				a.save()
-			about.is_active = True
-			about.save()
-		elif action == "update":
-			about.statement = statement
-			about.is_active = is_active
-			about.save()
-		elif action == "new":
+		if action == "delete" or action == "update" or action == "swap":
+			a_id 	= str(request.form['target_id'])
+			if isQueued("about", a_id) == True:
+				about 	= get_about_by_id(a_id)
+				if action == "delete":
+					about.delete()
+				elif action == "swap":
+					a_list = About.query.all()
+					for a in a_list:
+						a.is_active = False
+						a.save()
+					about.is_active = True
+					about.save()
+				elif action == "update":
+					about.statement = statement
+					about.is_active = is_active
+					about.save()
+			else:
+				complete = False
+		if action == "new":
+			if is_active == True:
+				a_list = About.query.all()
+				for a in a_list:
+					a.is_active = False
+					a.save()
 			about = About(statement)
 			about.is_active = is_active
 			about.save()
 	elif target == "user":
 		u_id = str(request.form["target_id"])
-		user = get_user_by_id(u_id)
-		if user.is_locked == False:
-			if action == "blocked":
-				user.is_admin 			= False
-				user.product_permission = False
-				user.about_permission 	= False
-				user.blog_permission 	= False
-				user.gallery_permission = False
-				user.save()
-			elif action == "delete":
-				user.delete()
-			elif action == "update":
-				product_permission 		= request.form['m_product']
-				about_permission 		= request.form['m_about']
-				blog_permission 		= request.form['m_blog']
-				gallery_permission 		= request.form['m_gallery']
-				is_admin 				= request.form['m_admin']
-				user.product_permission = decodeBoolInteger(product_permission)
-				user.about_permission 	= decodeBoolInteger(about_permission)
-				user.blog_permission 	= decodeBoolInteger(blog_permission)
-				user.gallery_permission = decodeBoolInteger(gallery_permission)
-				user.is_admin 			= decodeBoolInteger(is_admin)
-				user.save()
+		if isQueued("user", u_id) == True:
+			user = get_user_by_id(u_id)
+			if user.is_locked == False:
+				if action == "blocked":
+					user.is_admin 			= False
+					user.product_permission = False
+					user.about_permission 	= False
+					user.blog_permission 	= False
+					user.gallery_permission = False
+					user.save()
+				elif action == "delete":
+					user.delete()
+				elif action == "update":
+					product_permission 		= request.form['m_product']
+					about_permission 		= request.form['m_about']
+					blog_permission 		= request.form['m_blog']
+					gallery_permission 		= request.form['m_gallery']
+					is_admin 				= request.form['m_admin']
+					user.product_permission = decodeBoolInteger(product_permission)
+					user.about_permission 	= decodeBoolInteger(about_permission)
+					user.blog_permission 	= decodeBoolInteger(blog_permission)
+					user.gallery_permission = decodeBoolInteger(gallery_permission)
+					user.is_admin 			= decodeBoolInteger(is_admin)
+					user.save()
+	return complete
 
 
 

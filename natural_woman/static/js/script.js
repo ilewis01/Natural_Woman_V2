@@ -112,6 +112,67 @@ function initialize_admin_forms()
     }
 }
 
+function fetchStates()
+{
+    s = [];
+    s.push("AL");
+    s.push("AK");
+    s.push("AS");
+    s.push("AZ");
+    s.push("AR");
+    s.push("CA");
+    s.push("CO");
+    s.push("DE");
+    s.push("DC");
+    s.push("FL");
+    s.push("GA");
+    s.push("GU");
+    s.push("HI");
+    s.push("ID");
+    s.push("IL");
+    s.push("IN");
+    s.push("IA");
+    s.push("KS");
+    s.push("KY");
+    s.push("LA");
+    s.push("ME");
+    s.push("MD");
+    s.push("MH");
+    s.push("MA");
+    s.push("MI");
+    s.push("MN");
+    s.push("MS");
+    s.push("MO");
+    s.push("MT");
+    s.push("NE");
+    s.push("NV");
+    s.push("NH");
+    s.push("NJ");
+    s.push("NM");
+    s.push("NY");
+    s.push("NC");
+    s.push("ND");
+    s.push("OH");
+    s.push("OK");
+    s.push("OR");
+    s.push("PA");
+    s.push("PR");
+    s.push("RI");
+    s.push("SC");
+    s.push("SD");
+    s.push("TN");
+    s.push("TX");
+    s.push("UT");
+    s.push("VT");
+    s.push("VA");
+    s.push("VI");
+    s.push("WA");
+    s.push("WV");
+    s.push("WI");
+    s.push("WY");
+    return s;
+}
+
 function deactivate_blog_editor()
 {
     $("#editor_subject").val("");
@@ -1493,6 +1554,21 @@ function validate_time(element, max)
     $(target).val(result);
 }
 
+function stateValid(val)
+{
+    isValid = false;
+    states = fetchStates();
+    for (var i = 0; i < states.length; i++)
+    {
+        if (val === states[i])
+        {
+            isValid = true;
+            break;
+        }
+    }
+    return isValid;
+}
+
 function soft_save(target)
 {
     var proceed     = false;
@@ -1613,6 +1689,11 @@ function soft_save(target)
         {
             messages.push("Invalid State Entry");
             messages.push("You must enter a valid state to proceed.");
+        }
+        else if (stateValid(state) === false)
+        {
+            messages.push("State Does Not Exist");
+            messages.push("There is not a U.S. state with the abbreviation \"" + state + "\". Please enter a valid U.S. state.")
         }
         else if (zipcode.length === 0 || zipcode.length < 5)
         {
@@ -2473,8 +2554,6 @@ function ultimateWarningMessageOption(action)
         requestNameUpdate();
     }  
 }
-
-
 
 function sendNewUserRequest()
 {
