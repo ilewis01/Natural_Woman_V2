@@ -560,6 +560,15 @@ def get_sorted_products():
 		p_list.insert(p_index, p)
 	return p_list
 
+def getActiveAbout():
+	active = None
+	abouts = About.query.all()
+	for a in abouts:
+		if a.is_active == True:
+			active = a
+			break
+	return active
+
 def set_active(about):
 	abouts = About.query.all()
 	for a in abouts:
@@ -619,10 +628,6 @@ def getEditSuccessData(user):
 			message = "Product Successfully Updated"
 		elif target_action == "new":
 			message = "A New Product Has Been Created"
-
-
-
-
 	elif target_model =="about":
 		header 		= "About Statement"
 		json_data 	= get_about_list()
@@ -632,9 +637,12 @@ def getEditSuccessData(user):
 		elif target_action == "update":
 			message = "About Us Statement Successfully Updated"
 		elif target_action == "swap":
-			message = "A New About Statement Has Been Created"
+			message = "The Active About Statement Has Been Changed"
 		elif target_action == "delete":
 			message = "The Selected Statement Has Been Deleted"
+
+
+
 	elif target_model == "gallery":
 		header 		= "Manage Gallery Images"
 		index 		= 10
@@ -820,7 +828,7 @@ def save_target_model(target, action):
 		about 		= None
 		statement 	= None
 		is_active 	= True
-		if action == "delete" or action == "update":
+		if action == "delete" or action == "update" or action == "swap":
 			a_id 	= str(request.form['target_id'])
 			about 	= get_about_by_id(a_id)
 		if action == "update" or action == "new":
@@ -829,6 +837,13 @@ def save_target_model(target, action):
 			is_active = decodeBoolInteger(is_active)
 		if action == "delete":
 			about.delete()
+		elif action == "swap":
+			a_list = About.query.all()
+			for a in a_list:
+				a.is_active = False
+				a.save()
+			about.is_active = True
+			about.save()
 		elif action == "update":
 			about.statement = statement
 			about.is_active = is_active

@@ -416,9 +416,9 @@ function build_about_manager(inactive, current)
     }
     html += "</ul></div></div>";
     html += "<div class=\"s_edit_btn\">";
-    html += "<button id=\"set_about_active\" onClick=\"javascript: set_about_active();\">Set Active</button>";
+    html += "<button id=\"set_about_active\" onClick=\"javascript: ultimateWarningMessageOption('about_active');\">Set Active</button>";
     html += "<button id=\"edit_inactive_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
-    html += "<button id=\"delete_about\" onClick=\"javascript: delete_about();\">Delete</button></div></div>";
+    html += "<button id=\"delete_about\" onClick=\"javascript: ultimateWarningMessageOption('delete_about_object_m');\">Delete</button></div></div>";
 
     html += "<div class=\"generalSteel main_exit_btn\" style=\"width: 100%; margin-top:1%;\">";
     html += "<div class=\"general_steel_btn1\" style=\"width: 100%;\">";
@@ -443,6 +443,7 @@ function build_about_editor()
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutEditor\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutEditor\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"9\">";
+    html += "<input type=\"hidden\" name=\"active_loaded\" id=\"active_loaded\" value=\"0\">";
     html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
 
     html += "<div class=\"about_editor_textarea\">";
@@ -456,7 +457,7 @@ function build_about_editor()
 
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: save_about_object();\">Save Changes</button>";
+    html += "<button onClick=\"javascript: validateModel('about');\">Save Changes</button>";
     html += "<button onClick=\"javascript: close_about_editor();\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -2431,7 +2432,15 @@ function ultimateWarningMessageOption(action)
     else if (action === "product")
     {
         requestProductDelete();
-    }           
+    } 
+    else if (action === "about_active")
+    {
+        set_about_active();
+    }
+    else if (action === "delete_about_object_m")
+    {
+        requestAboutDelete(delete_about);
+    }         
 }
 
 function request_blog_delete()
@@ -2664,13 +2673,6 @@ function submit_company_edits()
     $("#company_manager_form").submit();
 }
 
-function save_about_object()
-{
-    $( "#msg5" ).fadeOut(500, function() {
-        $("#about_us_editor").submit();
-    });
-}
-
 function submit_delbg()
 {
     $("#blog_editor_form").submit();
@@ -2718,12 +2720,12 @@ function set_about_active()
     $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
     $("#target_action_aboutManager").val('swap');
     $("#target_id_aboutManager").val(a_id);
-    $("#err").hide();
-    $("#err").removeClass("hidden");
-    $("#err").fadeIn(500);
+    $("#msg4").hide();
+    $("#msg4").removeClass("hidden");
+    $("#msg4").fadeIn(500);
 }
 
-function delete_about()
+function requestAboutDelete()
 {
     var selected_element    = $("#selected_e").val();
     selected_element        = String(selected_element);
@@ -2735,20 +2737,24 @@ function delete_about()
     load_error_heads("Delete About Statement", "Are You Sure You Want To Proceed?", "This action cannot be undone!", "Delete");
     load_error_message("\"About Us\" Statement: ", "", "", statement, "", "");
     $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
+    $("#target_action_aboutManager").val('delete');
     $("#target_id_aboutManager").val(a_id);
-    $("#err").hide();
-    $("#err").removeClass("hidden");
-    $("#err").fadeIn(500);
+    $("#msg4").hide();
+    $("#msg4").removeClass("hidden");
+    $("#msg4").fadeIn(500);
 }
 
 function display_about_editor(load_data, query)
 {
+    var html = build_about_editor();
+    $("#msg3").html(html);
     var statement = null;
     var a_id = null;
     load_data = String(load_data);
     query = String(query);
     if (load_data === "0")
     {
+        $("#active_loaded").val("0");
         $("#target_action_aboutEditor").val("new");
     }
     else if (load_data === "1")
@@ -2760,11 +2766,13 @@ function display_about_editor(load_data, query)
             statement   = $("#current_statement_v2").val();
             a_id        = String(a_id);
             statement   = String(statement);
+            $("#active_loaded").val("1");
             $("#active_check").prop('checked', true);
             $("#active_check").prop("disabled", true);
         }
         else if (query === "inactive")
         {
+            $("#active_loaded").val("0");
             var selected_element    = $("#selected_e").val();
             selected_element        = String(selected_element);
             var selector_id         = "#id_" + selected_element;
@@ -2784,11 +2792,12 @@ function display_about_editor(load_data, query)
 
 function close_about_editor()
 {
-    $("#editor_builder").fadeOut(500);
-    $("#editor_statement").val("");
-    $("#active_check").prop('checked', false);
-    $("#active_check").prop("disabled", false);
-    $("#msg3").fadeOut(500);
+    // $("#editor_builder").fadeOut(500);    
+    $("#msg3").fadeOut(500, function() {
+        $("#editor_statement").val("");
+        $("#active_check").prop('checked', false);
+        $("#active_check").prop("disabled", false);
+    });
 }
 
 function mod_checkbox(check_id)

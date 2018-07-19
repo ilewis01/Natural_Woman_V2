@@ -155,6 +155,72 @@ function validateModel(model)
     if (model === "blog") { validateBlogEdit(); }
     else if (model === "new_blog") { validateNewBlog(); }
     else if (model === "product") { validateProduct(); }
+    else if (model === "about") { validateAboutModel(); }
+    else if (model === "access") { validateUserAccess(); }
+    else if (model === "new_user") { validateNewUser(); }
+    else if (model === "password") { validatePasswordChange(); }
+    else if (model === "email") { validateEmailChange(); }
+    else if (model === "name") { validateNameChange(); }
+}
+
+function validateAboutModel()
+{
+    var messages        = [];
+    var proceed         = false;
+    var active_loaded   = $("#active_loaded").val();
+    var statement       = $("#editor_statement").val();
+    var prev_state      = null;
+
+    if (String(active_loaded) === "0")
+    {
+        var selected_e  = $("#selected_e").val();
+        prev_state  = $("#statement_" + selected_e).val();
+    }
+    else if (String(active_loaded === "1"))
+    {
+        prev_state = $("#current_statement_v2").val();
+    }
+    if (statement.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid about us statement to proceed.")
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        $("#about_us_editor").submit();
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    }
+
+}
+
+function validateUserAccess()
+{
+    alert("Validating User Access")
+}
+
+function validateNewUser()
+{
+    alert("Validating New User Form")
+}
+
+function validatePasswordChange()
+{
+    alert("Validating Password Change")
+}
+
+function validateEmailChange()
+{
+    alert("Validating Email Change")
+}
+
+function validateNameChange()
+{
+    alert("Validating Name Change")
 }
 
 function validateNewBlog()
@@ -366,40 +432,6 @@ function validatePricingInput()
                 </div>
             </div>-->
         </div>
-
-        <div class="alert15 hidden" id="err">
-            <div class='error_style center_v_mode'>
-                <div class='warning_nav'>
-                    <table>
-                        <tr>
-                            <td class='td_left'>
-                                <i class='fas fa-exclamation-triangle'></i>
-                                <span>warning</span>
-                            </td>
-                            <td class='td_right'>
-                                <a href='#'' id='close_error_window'>
-                                    <i class='far fa-window-close'></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class='warning_body'>
-                        <h1 id='error_header'></h1>
-                        <div class='warning_msg_1' id='error_msg_m1'></div>
-                        <div class='warning_msg_2' id='error_msg_m2'></div>
-                        <div class='warn_details'>Details:</div>
-                        <div class='warning_items' id='label1'></div>
-                        <div class='warning_items' id='label2'></div>
-                        <div class='warning_items' id='label3'></div>
-                        <div class='warning_buttons'>
-                            <button id='obj_action'></button>
-                            <button id='close-this-15'>Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <div id='master-body-fader' class='master-body-fader'>
             <nav class="navbar navbar-expand-sm" role="navigation">
