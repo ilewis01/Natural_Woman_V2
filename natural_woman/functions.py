@@ -852,7 +852,7 @@ def save_target_model(target, action):
 			about = About(statement)
 			about.is_active = is_active
 			about.save()
-	elif target == "access":
+	elif target == "user":
 		u_id = str(request.form["target_id"])
 		user = get_user_by_id(u_id)
 		if user.is_locked == False:

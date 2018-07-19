@@ -1893,7 +1893,7 @@ function build_user_manager(data)
         html += "<li>";
         html += "<div class=\"container\">";
         html += "<div class=\"row\">";
-        html += "<div class=\"col-sm-12 clear_pm cap_it\">" + data[i]['fname'] + " " + data['lname'] + "</div>";
+        html += "<div class=\"col-sm-12 clear_pm cap_it\">" + data[i]['fname'] + " " + data[i]['lname'] + "</div>";
         html += "<div class=\"col-sm-12 clear_pm\"><em>" + data[i]['email'] + "</em></div>";
         html += "<div class=\"col-sm-12 clear_pm access_drop\">Access Granted To User:</div>";
 

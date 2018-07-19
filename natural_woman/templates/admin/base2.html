@@ -156,7 +156,6 @@ function validateModel(model)
     else if (model === "new_blog") { validateNewBlog(); }
     else if (model === "product") { validateProduct(); }
     else if (model === "about") { validateAboutModel(); }
-    else if (model === "access") { validateUserAccess(); }
     else if (model === "new_user") { validateNewUser(); }
     else if (model === "password") { validatePasswordChange(); }
     else if (model === "email") { validateEmailChange(); }
@@ -196,11 +195,6 @@ function validateAboutModel()
         ultimateErrorMessage(messages); 
     }
 
-}
-
-function validateUserAccess()
-{
-    alert("Validating User Access")
 }
 
 function validateNewUser()
