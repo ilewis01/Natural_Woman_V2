@@ -149,15 +149,45 @@ function detectChanges(model, mode)
     }
 }
 
-function ultimateSoftClose()
+function validateModel(model)
 {
-    $("#msg4").fadeOut(500);
+    model = String(model);
+    if (model === "blog")
+    {
+        validateBlogEdit();
+    }
 }
 
-function ultimateHardClose()
+function validateBlogEdit()
 {
-    $("#msg4").fadeOut(500);
-    $("#msg2").fadeOut(500);
+    var subject     = $("#editor_subject").val();
+    var content     = $("#super_blog_content").val();
+    var selected_e  = $("#selected_e").val();
+    var prev_sub    = $("#" + "subject_" + selected_e).val();
+    var prev_con    = $("#" + "content_" + selected_e).val();
+    var proceed     = false;
+    var messages    = [];
+
+    if (subject.length === 0 || content.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You cannot leave any fields blank.")
+    }
+    else if (prev_sub === subject && prev_con === content)
+    {
+        messages.push("No Changes Detected");
+        messages.push("No further action will be taken.")
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        $("#blog_editor_form").submit();
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    } 
 }
 
 </script>
@@ -238,35 +268,32 @@ function ultimateHardClose()
         </div>
 
         <div class="alert15 hidden" id="err">
-            <div class="error_style center_v_mode">
-                <div class="warning_nav">
+            <div class='error_style center_v_mode'>
+                <div class='warning_nav'>
                     <table>
                         <tr>
-                            <td class="td_left">
-                                <i class="fas fa-exclamation-triangle"></i>
+                            <td class='td_left'>
+                                <i class='fas fa-exclamation-triangle'></i>
                                 <span>warning</span>
                             </td>
-                            <td class="td_right">
-                                <a href="#" id="close_error_window">
-                                    <i class="far fa-window-close"></i>
+                            <td class='td_right'>
+                                <a href='#'' id='close_error_window'>
+                                    <i class='far fa-window-close'></i>
                                 </a>
                             </td>
                         </tr>
                     </table>
-                    <div class="warning_body">
-                        <h1 id="error_header"></h1>
-
-                        <div class="warning_msg_1" id="error_msg_m1"></div>
-                        <div class="warning_msg_2"  id="error_msg_m2"></div>
-
-                        <div class="warn_details">Details:</div>
-                        <div class="warning_items" id="label1"></div>
-                        <div class="warning_items" id="label2"></div>
-                        <div class="warning_items" id="label3"></div>
-
-                        <div class="warning_buttons">
-                            <button id="obj_action"></button>
-                            <button id="close-this-15">Cancel</button>
+                    <div class='warning_body'>
+                        <h1 id='error_header'></h1>
+                        <div class='warning_msg_1' id='error_msg_m1'></div>
+                        <div class='warning_msg_2' id='error_msg_m2'></div>
+                        <div class='warn_details'>Details:</div>
+                        <div class='warning_items' id='label1'></div>
+                        <div class='warning_items' id='label2'></div>
+                        <div class='warning_items' id='label3'></div>
+                        <div class='warning_buttons'>
+                            <button id='obj_action'></button>
+                            <button id='close-this-15'>Cancel</button>
                         </div>
                     </div>
                 </div>

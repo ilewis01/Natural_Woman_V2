@@ -185,7 +185,7 @@ function load_error_heads(head, msg1, msg2, button)
 
 function build_blog_manager(data)
 {
-    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
+    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"blog_manager_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
@@ -196,7 +196,7 @@ function build_blog_manager(data)
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Blog Management</h3>";
     html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-edit\"></i></h2>";
+    html += "<h2 class=\"\"><i class=\"fas fa-edit\"></i></h2>";
     html += "<h5>Select a blog from the list below</h5>";
     html += "<div class=\"generalSteelListWrap\">";
     html += "<ul>";
@@ -222,7 +222,7 @@ function build_blog_manager(data)
 
     html += "<div class=\"ul_buttons2\">";
     html += "<button id=\"launch_blog_editor\">Edit Blog</button>";
-    html += "<button id=\"request_blog_delete\">Delete Selected</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('blog');\">Delete Selected</button>";
     html += "</div>";
     html += "</div>";
     html += "<div class=\"generalSteel main_exit_btn\">";
@@ -243,26 +243,37 @@ function build_blog_editor()
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Edit Blog Post</h3>";
     html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-edit\"></i></h2>";
+    html += "<h2 class=\"\"><i class=\"fas fa-edit\"></i></h2>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"e_target_model\" value=\"blog\">";
+    html += "<input type=\"hidden\" name=\"target_action\" id=\"e_target_action\">";
+    html += "<input type=\"hidden\" name=\"target_id\" id=\"e_target_id\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"7\">";
     html += "<div class=\"editme_label\">Subject:</div>";
-    html += "<input type=\"text\" name=\"subject\" id=\"editor_subject\" placeholder=\"Type subject here\" style=\"font-size:11px;\" required>";
+    html += "<input type=\"text\" name=\"editor_subject\" id=\"editor_subject\" placeholder=\"Type subject here\" style=\"font-size:11px;\">";
     html += "<div class=\"blog_full_editor_content\">";
     html += "<textarea id=\"super_blog_content\" name=\"content\" required></textarea>";
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button id=\"edit_action\">Save Changes</button>";
+    html += "<button onClick=\"javascript: validateModel('blog');\">Save Changes</button>";
     html += "<button onClick=\"javascript: deactivate_blog_editor();\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
     $("#msg3").html(html);
+}
+
+function ultimateSoftClose()
+{
+    $("#msg4").fadeOut(500);
+}
+
+function ultimateHardClose()
+{
+    $("#msg4").fadeOut(500);
+    $("#msg2").fadeOut(500);
 }
 
 function build_product_manager(data)
@@ -2350,6 +2361,72 @@ function ultimateErrorMessageOption(messages)
     loadHiddenFrame("msg4", html);
 }
 
+function ultimateWarningMessageOption(action)
+{
+    var html = "";
+    action = String(action);
+    html += "<div class='error_style center_v_mode'>";
+    html += "<div class='warning_nav'>";
+    html +=  "<table>";
+    html +=  "<tr>";
+    html +=  "<td class='td_left'>";
+    html +=  "<i class='fas fa-exclamation-triangle'></i>";
+    html +=  "<span>warning</span>";
+    html +=  "</td>";
+    html +=  "<td class='td_right'>";
+    html +=  "<a href=\"javascript: closeIconBtn('4');\">";
+    html +=  " <i class='far fa-window-close'></i>";
+    html +=  "</a>";
+    html +=  "</td>";
+    html +=  "</tr>";
+    html +=  "</table>";
+    html +=  "<div class='warning_body'>";
+    html +=  "<h1 id='error_header'></h1>";
+    html +=  "<div class='warning_msg_1' id='error_msg_m1'></div>";
+    html +=  "<div class='warning_msg_2' id='error_msg_m2'></div>";
+    html +=  "<div class='warn_details'>Details:</div>";
+    html +=  "<div class='warning_items' id='label1'></div>";
+    html +=  "<div class='warning_items' id='label2'></div>";
+    html +=  "<div class='warning_items' id='label3'></div>";
+    html +=  "<div class='warning_buttons'>";
+    html +=  "<button id='obj_action'></button>";
+    html +=  "<button onClick=\"javascript: closeIconBtn('4');\">Cancel</button>";
+    html +=  "</div>";
+    html +=  "</div>";
+    html +=  "</div>";
+    html +=  "</div>";
+        
+    if (action === "blog")
+    {
+        $("#msg4").html(html);
+        request_blog_delete(); 
+    }            
+}
+
+function request_blog_delete()
+{
+    var index   = $("#selected_e").val();
+    index       = String(index);
+    var subj_id = "#subject_" + index;
+    var cont_id = "#content_" + index;
+    var date_id = "#date_" + index;
+    var elem_id = "#id_" + index;
+    var subject = $(subj_id).val();
+    var content = $(cont_id).val();
+    var date    = $(date_id).val();
+    var e_id    = $(elem_id).val()
+
+    load_error_message("SUBJECT:", "POSTED ON:", "CONTENT:", subject, content, date);
+    load_error_heads("Delete Blog", "Are You Sure You Want To Proceed?", "This action is permanent and cannot be undone", "Delete");
+
+    $("#e_target_id").val(e_id);
+    $("#e_target_action").val("delete");
+    $("#obj_action").attr("onClick", "Javascript: submit_delbg();")
+    $("#msg4" ).hide();
+    $("#msg4" ).removeClass("hidden");
+    $("#msg4" ).fadeIn(500);
+}
+
 function loadHiddenFrame(name, html)
 {
     var target = "#" + String(name);
@@ -2891,35 +2968,10 @@ $(document).ready(function() {
             $("#new_blog_form").submit();
         });
     });
-    $("#edit_action").click(function() {
-        $( "#editor_builder" ).fadeOut(500, function() {
-            $("#super_blog_form").submit();
-        });
-    });
     $("#product_editor_btn").click(function() {
         $("#product_edit_form").submit();
     });
-    $("#request_blog_delete").click(function() {
-        var index = $("#selected_e").val();
-        index = String(index);
-        var subj_id = "#subject_" + index;
-        var cont_id = "#content_" + index;
-        var date_id = "#date_" + index;
-        var elem_id = "#id_" + index;
-        var subject = $(subj_id).val();
-        var content = $(cont_id).val();
-        var date    = $(date_id).val();
-        var e_id    = $(elem_id).val()
 
-        load_error_message("SUBJECT:", "POSTED ON:", "CONTENT:", subject, content, date);
-        load_error_heads("Delete Blog", "Are You Sure You Want To Proceed?", "This action is permanent and cannot be undone", "Delete");
-
-        $("#target_id2").val(e_id);
-        $("#obj_action").attr("onClick", "Javascript: submit_delbg();")
-        $("#err" ).hide();
-        $("#err" ).removeClass("hidden");
-        $("#err" ).fadeIn(500);
-    });
     $("#prod_btn3").click(function() {
         var index = $("#selected_e").val();
         index = String(index);
@@ -2944,16 +2996,19 @@ $(document).ready(function() {
     $("#launch_blog_editor").click(function() {
         var index = $("#selected_e").val();
         index = String(index);
+        var html    = build_blog_editor();
+        $("#msg3").html(html);
         var subj_id = "#subject_" + index;
         var cont_id = "#content_" + index;
         var elem_id = "#id_" + index;
         var subject = $(subj_id).val();
         var content = $(cont_id).val();
-        var e_id    = $(elem_id).val()
-
+        var e_id    = $(elem_id).val() 
+        
+        $("#e_target_action").val("update");
+        $("#e_target_id").val(e_id);
         $("#editor_subject").val(subject);
         $("#super_blog_content").val(content);
-        $("#target_id2-1").val(e_id);
         $("#msg3" ).hide();
         $("#msg3" ).removeClass("hidden");
         $("#msg3" ).fadeIn(500);
