@@ -260,6 +260,36 @@ function validateProduct()
     } 
 }
 
+function validatePricingInput()
+{
+    var result  = "";
+    var price   = $("#product_price").val();
+    var len     = price.length;
+    var pos     = len - 1;
+    var c       = price[pos];
+    if (len < 5)
+    {
+        if (isInt(c) === true) { result = price; }
+    }
+    else
+    {
+        for (var i = 0; i < pos; i++)
+        {
+            result += price[i];
+        }
+    }
+    if (result.length > 1 && String(result[0]) === "0")
+    {
+        var t = "";
+        for (var i = 1; i < result.length; i++)
+        {
+            t += result[i];
+        }
+        result = t;
+    }
+    $("#product_price").val(result);
+}
+
 </script>
 
         <!-- ERROR MESSAGES -->

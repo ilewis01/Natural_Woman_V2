@@ -685,6 +685,12 @@ def decodeJqueryBool(val):
 		result = False
 	return result
 
+def decodeBoolInteger(val):
+	result = True
+	if str(val) == "0":
+		result = False
+	return result
+
 def save_target_model(target, action):
 	target = str(target)
 	if target == "company":
@@ -783,11 +789,15 @@ def save_target_model(target, action):
 			blog.save()
 		elif action == "delete":
 			blog.delete()
-	elif target == "product":
-		name 		= str(request.form['p_name'])
-		description = str(request.form['p_description'])
-		price 		= str(request.form['p_price'])
+	elif target == "product":		
 		product 	= None
+		name 		= None
+		description = None
+		price 		= None
+		if action == "new" or action == "update":
+			name 		= str(request.form['p_name'])
+			description = str(request.form['p_description'])
+			price 		= str(request.form['p_price'])
 		if action == "new":
 			product = Product(name, description, price)
 			product.save()
@@ -806,6 +816,52 @@ def save_target_model(target, action):
 		content = str(request.form['new_blog_cont'])
 		blog 	= Blog(subject, content)
 		blog.save()
+	elif target == "about":
+		about 		= None
+		statement 	= None
+		is_active 	= True
+		if action == "delete" or action == "update":
+			a_id 	= str(request.form['target_id'])
+			about 	= get_about_by_id(a_id)
+		if action == "update" or action == "new":
+			statement = str(request.form['master_a_statement'])
+			is_active = str(request.form['m_is_active'])
+			is_active = decodeBoolInteger(is_active)
+		if action == "delete":
+			about.delete()
+		elif action == "update":
+			about.statement = statement
+			about.is_active = is_active
+			about.save()
+		elif action == "new":
+			about = About(statement)
+			about.is_active = is_active
+			about.save()
+	elif target == "access":
+		u_id = str(request.form["target_id"])
+		user = get_user_by_id(u_id)
+		if user.is_locked == False:
+			if action == "blocked":
+				user.is_admin 			= False
+				user.product_permission = False
+				user.about_permission 	= False
+				user.blog_permission 	= False
+				user.gallery_permission = False
+				user.save()
+			elif action == "delete":
+				user.delete()
+			elif action == "update":
+				product_permission 		= request.form['m_product']
+				about_permission 		= request.form['m_about']
+				blog_permission 		= request.form['m_blog']
+				gallery_permission 		= request.form['m_gallery']
+				is_admin 				= request.form['m_admin']
+				user.product_permission = decodeBoolInteger(product_permission)
+				user.about_permission 	= decodeBoolInteger(about_permission)
+				user.blog_permission 	= decodeBoolInteger(blog_permission)
+				user.gallery_permission = decodeBoolInteger(gallery_permission)
+				user.is_admin 			= decodeBoolInteger(is_admin)
+				user.save()
 
 
 

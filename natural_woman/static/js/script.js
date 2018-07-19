@@ -121,10 +121,11 @@ function deactivate_blog_editor()
 
 function clear_product_fields()
 {
-    $("#product_name").val("");
-    $("#product_description").val("");
-    $("#product_price").val("0");
-    $("#msg3").fadeOut(500);
+    $("#msg3").fadeOut(500, function() {
+        $("#product_name").val("");
+        $("#product_description").val("");
+        $("#product_price").val("0");
+    });
 }
 
 function load_error_message(labl1, labl2, labl3, obj1, obj2, obj3)
@@ -276,7 +277,7 @@ function build_product_manager(data)
     html += "<div class=\"ul_buttons3\">";
     html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
     html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
-    html += "<button id=\"prod_btn3\">Delete Selected</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('product');\">Delete Selected</button>";
     html += "</div>";
     html += "</div>";
     html += "<div class=\"generalSteel main_exit_btn\">";
@@ -350,7 +351,7 @@ function build_product_editor()
     html += "</div>";
     html += "<div class=\"restore_frame\">";
     html += "Price: ";
-    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"p_price\" id=\"product_price\" value=\"0\">";
+    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"p_price\" id=\"product_price\" value=\"0\" oninput=\"javascript: validatePricingInput();\">";
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
@@ -361,6 +362,30 @@ function build_product_editor()
     html += "</div>";
     html += "</div>";
     $("#msg3").html(html);
+}
+
+function requestProductDelete()
+{
+    var index = $("#selected_e").val();
+    index = String(index);
+    var loader_name         = "#name_" + index;
+    var loader_description  = "#description_" + index;
+    var loader_price        = "#price_" + index;
+    var loader_id           = "#id_" + index;
+    var name                = $(loader_name).val();
+    var description         = $(loader_description).val();
+    var price               = $(loader_price).val();
+    var e_id                = $(loader_id).val()
+
+    load_error_heads("Delete Product", "Are You Sure You Want To Proceed?", "This action is permanent and cannot be undone", "Delete");
+    load_error_message("PRODUCT:", "DESCRIPTION:", "PRICE: $", name, description, price);
+
+    $("#target_id_proddel").val(e_id);
+    $("#target_action_proddel").val("delete");
+    $("#obj_action").attr("onClick", "Javascript: submit_delpd();")
+    $("#msg4" ).hide();
+    $("#msg4" ).removeClass("hidden");
+    $("#msg4" ).fadeIn(500);
 }
 
 function build_about_manager(inactive, current)
@@ -421,7 +446,7 @@ function build_about_editor()
     html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
 
     html += "<div class=\"about_editor_textarea\">";
-    html += "<textarea name=\"statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" required></textarea>";
+    html += "<textarea name=\"master_a_statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" required></textarea>";
     html += "</div>";
     html += "<div class=\"active_setter\">";
     html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#m_is_active');\" checked>";
@@ -2397,12 +2422,16 @@ function ultimateWarningMessageOption(action)
     html +=  "</div>";
     html +=  "</div>";
     html +=  "</div>";
+    $("#msg4").html(html);
         
     if (action === "blog")
     {
-        $("#msg4").html(html);
         request_blog_delete(); 
-    }            
+    } 
+    else if (action === "product")
+    {
+        requestProductDelete();
+    }           
 }
 
 function request_blog_delete()
@@ -2961,31 +2990,8 @@ $(document).ready(function() {
         $("#frame_active").val("0");
     });
 
-
-
     //ADMIN FORM SUBMISSION
 
-    $("#prod_btn3").click(function() {
-        var index = $("#selected_e").val();
-        index = String(index);
-        var loader_name         = "#name_" + index;
-        var loader_description  = "#description_" + index;
-        var loader_price        = "#price_" + index;
-        var loader_id           = "#id_" + index;
-        var name                = $(loader_name).val();
-        var description         = $(loader_description).val();
-        var price               = $(loader_price).val();
-        var e_id                = $(loader_id).val()
-
-        load_error_heads("Delete Product", "Are You Sure You Want To Proceed?", "This action is permanent and cannot be undone", "Delete");
-        load_error_message("PRODUCT:", "DESCRIPTION:", "PRICE: $", name, description, price);
-
-        $("#target_id_proddel").val(e_id);
-        $("#obj_action").attr("onClick", "Javascript: submit_delpd();")
-        $("#err" ).hide();
-        $("#err" ).removeClass("hidden");
-        $("#err" ).fadeIn(500);
-    });
     $("#launch_blog_editor").click(function() {
         var index = $("#selected_e").val();
         index = String(index);
