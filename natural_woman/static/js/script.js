@@ -2052,7 +2052,9 @@ function build_auth_user()
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "<div class=\"ua_drop\"><input type=\"email\" name=\"email\" id=\"ua_email\" placeholder=\"Email\" required></div>";
+    html += "<div class=\"ua_drop\"><input type=\"email\" name=\"email\" id=\"ua_email\" placeholder=\"Enter new user email\" required>";
+    html += "<input type=\"email\" name=\"email2\" id=\"ua_email2\" placeholder=\"Confirm new user email\" required>";
+    html += "</div>";
     html += "<div class=\"ua_header ua_drop4\">Permissions</div>";
     html += "<div class=\"permission_slip\">";
     html += "<p>";
@@ -2112,7 +2114,7 @@ function build_auth_user()
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button id=\"auth_new_user\">Authorize</button>";
+    html += "<button onClick=\"javascript: validateModel('new_user');\">Authorize</button>";
     html += "<button id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -2448,7 +2450,40 @@ function ultimateWarningMessageOption(action)
     else if (action === "delete_user")
     {
         deleteUserAccount();
+    }
+    else if (action === "authorize")
+    {
+        sendNewUserRequest()
     }        
+}
+
+function sendNewUserRequest()
+{
+    var permm = "";
+    var flagr = ", ";
+    var fname = $("#ua_fname").val();
+    var lname = $("#ua_lname").val();
+    var email = $("#ua_email").val();
+    var admin = $("#is_admin").val();
+    var blogg = $("#ua_blog_permission").val();
+    var about = $("#ua_about_permission").val();
+    var galle = $("#ua_gallery_permission").val();
+    var produ = $("#ua_product_permission").val();
+    var namef = String(fname) + " " + String(lname);
+
+    if (String(admin) === "1") { permm += "User Information, Company Contact Information, Social Media Links"; }
+    if (String(blogg) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Blog Entries"; }
+    if (String(produ) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Products and Pricing"; }
+    if (String(galle) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Gallery Images"; }
+    if (String(about) === "1") { if (permm.length > 0) { permm += flagr; } permm += "\"About Us\" Statements"; }
+
+    load_error_heads("Authorize User", "Are You Sure You Want To Proceed?", "This action will allow this individual to create an account on the Natural Woman Salon Website. Once they have registered, they will have acces to the information shown below.", "Proceed");
+    load_error_message("USER NAME: ", "USER EMAIL: ", "GRANTED ACCESS TO: ", namef, email, permm);
+
+    $("#obj_action").attr("onClick", "Javascript: submit_auth_user();")
+    $("#msg4" ).hide();
+    $("#msg4" ).removeClass("hidden");
+    $("#msg4" ).fadeIn(500);
 }
 
 function blockUserAccess()
@@ -2875,11 +2910,6 @@ function loadCheckboxData(target)
     if (value === "1") { $(target).val("0"); }
 }
 
-function simple_editor_close()
-{
-    $("#msg3").fadeOut(500);
-}
-
 function submit_auth_user()
 {
     $("#user_authorize_form").submit();
@@ -3154,33 +3184,6 @@ $(document).ready(function() {
         $("#msg3" ).hide();
         $("#msg3" ).removeClass("hidden");
         $("#msg3" ).fadeIn(500);
-    });
-    $("#auth_new_user").click(function() {
-        var permm = "";
-        var flagr = ", ";
-        var fname = $("#ua_fname").val();
-        var lname = $("#ua_lname").val();
-        var email = $("#ua_email").val();
-        var admin = $("#is_admin").val();
-        var blogg = $("#ua_blog_permission").val();
-        var about = $("#ua_about_permission").val();
-        var galle = $("#ua_gallery_permission").val();
-        var produ = $("#ua_product_permission").val();
-        var namef = String(fname) + " " + String(lname);
-
-        if (String(admin) === "1") { permm += "User Information, Company Contact Information, Social Media Links"; }
-        if (String(blogg) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Blog Entries"; }
-        if (String(produ) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Products and Pricing"; }
-        if (String(galle) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Gallery Images"; }
-        if (String(about) === "1") { if (permm.length > 0) { permm += flagr; } permm += "\"About Us\" Statements"; }
-
-        load_error_heads("Authorize User", "Are You Sure You Want To Proceed?", "This action will allow this individual to create an account on the Natural Woman Salon Website. Once they have registered, they will have acces to the information shown below.", "Proceed");
-        load_error_message("USER NAME: ", "USER EMAIL: ", "GRANTED ACCESS TO: ", namef, email, permm);
-
-        $("#obj_action").attr("onClick", "Javascript: submit_auth_user();")
-        $("#err" ).hide();
-        $("#err" ).removeClass("hidden");
-        $("#err" ).fadeIn(500);
     });
 });
 

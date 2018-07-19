@@ -242,7 +242,73 @@ function validateAccess()
 
 function validateNewUser()
 {
-    alert("Validating New User Form")
+    var proceed     = false;
+    var messages    = [];
+    var fname       = $("#ua_fname").val();
+    var lname       = $("#ua_lname").val();
+    var email1      = $("#ua_email").val();
+    var email2      = $("#ua_email2").val();
+    var a           = $("#is_admin").val();
+    var b           = $("#ua_product_permission").val();
+    var c           = $("#ua_about_permission").val();
+    var d           = $("#ua_blog_permission").val();
+    var e           = $("#ua_gallery_permission").val();
+    a = String(a)
+    b = String(b)
+    c = String(c)
+    d = String(d)
+    e = String(e)
+    if (fname.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a first name for the new user to proceed.")
+    }
+    else if (lname.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a last name for the new user to proceed.")
+    }
+    else if (email1.length === 0)
+    {
+        messages.push("Email 1 Is Blank");
+        messages.push("You must enter the email for the new user to proceed.")
+    }
+    else if (email2.length === 0)
+    {
+        messages.push("Email 1 Is Blank");
+        messages.push("You must confirm the new user's email to proceed.")
+    }
+    else if (validate_email(email1) === false)
+    {
+        messages.push("Invalid Email");
+        messages.push("The email address that you entered for email 1 is invalid.")
+    }
+    else if (validate_email(email2) === false)
+    {
+        messages.push("Invalid Email");
+        messages.push("The email address that you entered for email 2 is invalid.")
+    }
+    else if (email1 !== email2)
+    {
+        messages.push("The Email Addresses Do Not Match");
+        messages.push(" ")
+    }
+    else if(a==="0"&&b==="0"&&c==="0"&&d==="0"&&e==="0")
+    {
+        messages.push("No Permissions Granted");
+        messages.push("You cannot authorize a new user without granting any access privileges. If you would like to authorize this user anyway, You must grant at least grant one privilege and when the user has registered, you can block all privileges in the \"User Management\" section of the administration page.");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        //generate a code and send authorizing email
+        ultimateWarningMessageOption("authorize");
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    }
 }
 
 function validatePasswordChange()
