@@ -615,7 +615,7 @@ def getEditSuccessData(user):
 		index 		= 8
 		if target_action == "delete":
 			message = "Product Successfully Deleted"
-		elif target_action == "edit":
+		elif target_action == "update":
 			message = "Product Successfully Updated"
 		elif target_action == "new":
 			message = "A New Product Has Been Created"
@@ -784,15 +784,15 @@ def save_target_model(target, action):
 		elif action == "delete":
 			blog.delete()
 	elif target == "product":
-		name 		= None
-		description = None
-		price 		= None
+		name 		= str(request.form['p_name'])
+		description = str(request.form['p_description'])
+		price 		= str(request.form['p_price'])
 		product 	= None
 		if action == "new":
 			product = Product(name, description, price)
 			product.save()
 		else:
-			pid 	= str(request.form['product_id'])
+			pid 	= str(request.form['target_id'])
 			product = get_product_by_id(pid)
 			if action == "delete":
 				product.delete()

@@ -154,6 +154,7 @@ function validateModel(model)
     model = String(model);
     if (model === "blog") { validateBlogEdit(); }
     else if (model === "new_blog") { validateNewBlog(); }
+    else if (model === "product") { validateProduct(); }
 }
 
 function validateNewBlog()
@@ -197,18 +198,61 @@ function validateBlogEdit()
     if (subject.length === 0 || content.length === 0)
     {
         messages.push("Empty Field");
-        messages.push("You cannot leave any fields blank.")
+        messages.push("You cannot leave any fields blank.");
     }
     else if (prev_sub === subject && prev_con === content)
     {
         messages.push("No Changes Detected");
-        messages.push("No further action will be taken.")
+        messages.push("No further action will be taken.");
     }
     else { proceed = true; }
     if (proceed === true) 
     { 
         $("#changes_detected").val("1");
         $("#blog_editor_form").submit();
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    } 
+}
+
+function validateProduct()
+{
+    var messages        = [];
+    var proceed         = false;
+    var name            = $("#product_name").val();
+    var description     = $("#product_description").val();
+    var price           = $("#product_price").val();
+    var index           = $("#selected_e").val();
+    var c_name          = $("#name_" + index).val();
+    var c_description   = $("#description_" + index).val();
+    var c_price         = $("#price_" + index).val();
+    if (name.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You cannot leave the product name field blank.");
+    }
+    else if (description.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You cannot leave the product description field blank.");
+    }
+    else if (price.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You cannot leave the price field blank.");
+    }
+    else if (name === c_name && description === c_description && price === c_price)
+    {
+        messages.push("No Changes Detected");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        $("#product_edit_form").submit();
     }
     else 
     { 

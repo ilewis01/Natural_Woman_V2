@@ -119,43 +119,6 @@ function deactivate_blog_editor()
     $("#msg3").fadeOut((500));
 }
 
-function open_product_editor(load_data)
-{
-    load_data = String(load_data);
-
-    if (load_data === "0") 
-    {
-        $("#product_form_header").html("New Product");
-        $("#product_editor_btn").html("Save");
-        $("#target_action_prod").val("new");
-    }
-    else if (load_data === "1")
-    {
-        var selected_element        = $("#selected_e").val();
-        selected_element            = String(selected_element)
-        var selector_id             = "#id_" + selected_element;
-        var selector_name           = "#name_" + (selected_element);
-        var selector_description    = "#description_" + selected_element;
-        var selector_price          = "#price_" + selected_element;
-        var target_id               = $(selector_id).val();
-        var name                    = $(selector_name).val();
-        var description             = $(selector_description).val();
-        var price                   = $(selector_price).val();
-
-        $("#target_id_prod").val(target_id);
-        $("#product_name").val(name);
-        $("#product_price").val(price);
-        $("#product_description").val(description);
-        $("#product_form_header").html("Edit Product Details");
-        $("#product_editor_btn").html("Update");
-        $("#target_action_prod").val("edit");
-    }
-
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(500);
-}
-
 function clear_product_fields()
 {
     $("#product_name").val("");
@@ -289,7 +252,7 @@ function build_product_manager(data)
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Product Management</h3>";
     html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-spray-can\"></i></h2>";
+    html += "<h2 class=\"\"><i class=\"fas fa-spray-can\"></i></h2>";
     html += "<h5>Select a product from the list below</h5>";
     html += "<div class=\"generalSteelListWrap\">";
     html += "<ul>";
@@ -327,6 +290,45 @@ function build_product_manager(data)
     return html;
 }
 
+function open_product_editor(load_data)
+{
+    var html    = build_product_editor();
+    load_data   = String(load_data);
+    $("#msg3").html(html);
+
+    if (load_data === "0") 
+    {
+        $("#product_form_header").html("New Product");
+        $("#product_editor_btn").html("Save");
+        $("#target_action_prod").val("new");
+    }
+    else if (load_data === "1")
+    {
+        var selected_element        = $("#selected_e").val();
+        selected_element            = String(selected_element)
+        var selector_id             = "#id_" + selected_element;
+        var selector_name           = "#name_" + (selected_element);
+        var selector_description    = "#description_" + selected_element;
+        var selector_price          = "#price_" + selected_element;
+        var target_id               = $(selector_id).val();
+        var name                    = $(selector_name).val();
+        var description             = $(selector_description).val();
+        var price                   = $(selector_price).val();
+
+        $("#target_id_prod").val(target_id);
+        $("#product_name").val(name);
+        $("#product_price").val(price);
+        $("#product_description").val(description);
+        $("#product_form_header").html("Edit Product Details");
+        $("#product_editor_btn").html("Update");
+        $("#target_action_prod").val("update");
+    }
+
+    $("#msg3").hide();
+    $("#msg3").removeClass("hidden");
+    $("#msg3").fadeIn(500);
+}
+
 function build_product_editor()
 {
     var html = "<div class=\"about_editor_container center_v_mode\">";
@@ -334,25 +336,25 @@ function build_product_editor()
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3 id=\"product_form_header\">Edit Product Details</h3>";
     html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-spray-can\"></i></h2>";
+    html += "<h2 class=\"\"><i class=\"fas fa-spray-can\"></i></h2>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_edit_form\">";
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_prod\" value=\"product\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_prod\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_prod\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
     html += "<div class=\"editme_label\">Product Name:</div>";
-    html += "<input type=\"text\" name=\"name\" id=\"product_name\" placeholder=\"Type product name here\" required>";
+    html += "<input type=\"text\" name=\"p_name\" id=\"product_name\" placeholder=\"Type product name here\" required>";
     html += "<div class=\"product_description_textarea\">";
     html += "<div class=\"editme_label\">Product Description:</div>";
-    html += "<textarea name=\"description\" id=\"product_description\" required></textarea>";
+    html += "<textarea name=\"p_description\" id=\"product_description\" required></textarea>";
     html += "</div>";
     html += "<div class=\"restore_frame\">";
     html += "Price: ";
-    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"price\" id=\"product_price\" value=\"0\">";
+    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"p_price\" id=\"product_price\" value=\"0\">";
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button id=\"product_editor_btn\">Save Changes</button>";
+    html += "<button onClick=\"javascript: validateModel('product');\">Save Changes</button>";
     html += "<button onClick=\"javascript: clear_product_fields();\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -2962,9 +2964,6 @@ $(document).ready(function() {
 
 
     //ADMIN FORM SUBMISSION
-    $("#product_editor_btn").click(function() {
-        $("#product_edit_form").submit();
-    });
 
     $("#prod_btn3").click(function() {
         var index = $("#selected_e").val();
