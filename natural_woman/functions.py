@@ -642,7 +642,6 @@ def getEditSuccessData(user):
 			message = "The Selected Statement Has Been Deleted"
 
 
-
 	elif target_model == "gallery":
 		header 		= "Manage Gallery Images"
 		index 		= 10
@@ -651,14 +650,11 @@ def getEditSuccessData(user):
 			message = "Image Successfully Deleted"
 		elif target_action == "save":
 			message = "Image Successfully Saved"
-
-
 	elif target_model == "company":
 		header 		= "Contact & Company Profile"
 		message 	= "Company Profile Successfully Updated"
 		json_data 	= get_company_content()
 		index 		= 11
-
 
 
 	elif target_model == "user":
@@ -671,6 +667,7 @@ def getEditSuccessData(user):
 			message = "User Privileges Successfully Blocked"
 		elif target_action == "delete":
 			message = "User Successfully Deleted"
+
 	elif target_model == "authorize":
 		header 		= "Authorize New User"
 		message 	= "The Authorization Code Has Been Sent"
@@ -698,6 +695,34 @@ def decodeBoolInteger(val):
 	if str(val) == "0":
 		result = False
 	return result
+
+def attemptChangeAccount(user):
+	content 	= {}
+	header 		= ""
+	message 	= ""
+	action 		= str(request.form['target_action'])
+	if action == "change_password":
+		password_entered = str(request.form['old'])
+		password_request = str(request.form['password1'])
+		isValid = user.password_validated(password_request)
+		if isValid == True:
+			message 	= " "
+			header 		= "Password Successfully Updated"
+			user.set_password(password_entered)
+			user.save()
+		else:
+			header 		= "Incorrect Password Entered"
+			message 	= "You must enter your current password correctly to make any changes to your account. This is for your security. If you do not remember your password, you can retrieve it by clicking on the \"forgot password\" button on the login page."
+
+	content['message'] 		= message
+	content['header'] 		= header
+	content['is_edited'] 	= 1
+	content["btn_index"] 	= 21
+	content['json_data'] 	= get_empty_json_data()
+	content['user'] 		= user
+	content['url'] 			= "admin/editor.html"
+	content['title'] 		= "Natural Woman Salon | Reset Password"
+	return content
 
 def save_target_model(target, action):
 	target = str(target)
@@ -877,6 +902,7 @@ def save_target_model(target, action):
 				user.gallery_permission = decodeBoolInteger(gallery_permission)
 				user.is_admin 			= decodeBoolInteger(is_admin)
 				user.save()
+
 
 
 

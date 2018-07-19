@@ -2131,14 +2131,15 @@ function build_password_setter()
     html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
     html += "<h3><i class=\"fas fa-cog\"></i> Reset Password</h3>";
     html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
-    html += "<input type=\"hidden\" name=\"target_action\" value=\"" + String(index) + "\">";
+    html += "<input type=\"hidden\" id=\"super_index\" value=\"" + String(index) + "\">";
+    html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_password'>";
     html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your current password\" required>";
+    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your current password\" required oninput=\"javascript: completePasswordFields();\">";
     html += "</div>";
-    html += "<input type=\"password\" name=\"password1\" id=\"password1\" placeholder=\"Enter your new password\" required>";
-    html += "<input type=\"password\" name=\"password2\" id=\"password2\" placeholder=\"Re-enter your new password\" required>";
+    html += "<input type=\"password\" name=\"password1\" id=\"password1\" placeholder=\"Enter your new password\" required oninput=\"javascript: completePasswordFields();\">";
+    html += "<input type=\"password\" name=\"password2\" id=\"password2\" placeholder=\"Re-enter your new password\" required oninput=\"javascript: completePasswordFields();\">";
     html += "<div class=\"account-buttons\">";
-    html += "<button type=\"submit\">Save</button>";
+    html += "<button type=\"submit\" id='pwordResetBtn'>Save</button>";
     html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</form>";
@@ -2225,6 +2226,8 @@ function edit_success_builder(btn_index, header, message)
     else if (btn_index === "11") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
     else if (btn_index === "12") { icon = "<i class=\"fas fa-user-cog\"></i>"; }
     else if (btn_index === "13") { icon = "<i class=\"fas fa-user-plus\"></i>"; }
+    else if (btn_index === "21"|| btn_index === "22" || btn_index === "23") 
+    { icon = "<i class='fas fa-cog'></i>"; }
 
     var html    = "<div class='company_contact_set_frame2 center_v_mode'>";
     html += "<div class='company_contact_edit1'>";
@@ -2454,8 +2457,14 @@ function ultimateWarningMessageOption(action)
     else if (action === "authorize")
     {
         sendNewUserRequest()
-    }        
+    } 
+    else if (action === "password")
+    {
+        requestPasswordUpdate()
+    }     
 }
+
+
 
 function sendNewUserRequest()
 {

@@ -45,6 +45,9 @@
             <input type="hidden" id="launchBlogger" value="{{user.blog_permission}}">
             <input type="hidden" id="changes_detected" name="changes_detected" value="0">
             <input type="hidden" id="requested_url" name="requested_url" value="">
+            <input type="hidden" id="first_name" value="{{user.fname}}">
+            <input type="hidden" id="last_name" value="{{user.lname}}">
+            <input type="hidden" id="master_user_email" value="{{user.email}}">
         </form>
 
         <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
@@ -122,6 +125,25 @@
 </style>
 
 <script type="text/javascript">
+
+function requestPasswordUpdate()
+{
+    var name    = $("#first_name").val() + " " + $("#last_name").val();
+    var email   = $("#master_user_email").val();
+
+    load_error_heads("Reset Password", "Are You Sure You Want To Proceed?", "Clicking Reset Will Permanently Change your password", "Reset");
+    load_error_message("USER NAME: ", "USER EMAIL: ", "", name, email, "");
+
+    $("#obj_action").attr("onClick", "Javascript: submitAccountChangeAuthorize();")
+    $("#msg4" ).hide();
+    $("#msg4" ).removeClass("hidden");
+    $("#msg4" ).fadeIn(500);
+}
+
+function submitAccountChangeAuthorize()
+{
+    $("#account_form").submit();
+}
 
 function detectChanges(model, mode)
 {
@@ -313,7 +335,25 @@ function validateNewUser()
 
 function validatePasswordChange()
 {
-    alert("Validating Password Change")
+    var proceed     = false;
+    var messages    = [];
+    var pword1      = $("#password1").val();
+    var pword2      = $("#password2").val();
+    if (pword1 !== pword2)
+    {
+        messages.push("The Passwords Do Not Match");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        ultimateWarningMessageOption('password');
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    } 
+
 }
 
 function validateEmailChange()
@@ -457,6 +497,26 @@ function validatePricingInput()
         result = t;
     }
     $("#product_price").val(result);
+}
+
+function completePasswordFields()
+{
+    var input1 = $("#old").val();
+    var input2 = $("#password1").val();
+    var input3 = $("#password2").val();
+    input1 = String(input1);
+    input2 = String(input2);
+    input3 = String(input3);
+    if(input1.length>0 && input2.length>0 && input3.length>0) 
+    {  
+        $("#pwordResetBtn").attr("type", "button"); 
+        $("#pwordResetBtn").attr("onClick", "javascript: validateModel('password');")
+    }
+    else 
+    { 
+        $("#pwordResetBtn").attr("type", "submit");
+        $("#pwordResetBtn").removeAttr("href");
+    }
 }
 
 </script>

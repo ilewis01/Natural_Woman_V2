@@ -125,6 +125,13 @@ def set_email():
 	content = getSetEmailContent(current_user)
 	return render_template(content['url'], **content)
 
+@app.route('/account_changed', methods=["POST"])
+@login_required
+def account_changed():
+	if request.method == "POST":
+		content = attemptChangeAccount(current_user)
+		return render_template(content['url'], **content)
+	
 @app.route('/logout')
 @login_required
 def logout():
