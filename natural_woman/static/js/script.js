@@ -2253,18 +2253,56 @@ function build_password_setter()
     html += "<input type=\"hidden\" id=\"super_index\" value=\"" + String(index) + "\">";
     html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_password'>";
     html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your current password\" required oninput=\"javascript: completePasswordFields();\">";
+    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your current password\">";
     html += "</div>";
-    html += "<input type=\"password\" name=\"password1\" id=\"password1\" placeholder=\"Enter your new password\" required oninput=\"javascript: completePasswordFields();\">";
-    html += "<input type=\"password\" name=\"password2\" id=\"password2\" placeholder=\"Re-enter your new password\" required oninput=\"javascript: completePasswordFields();\">";
+    html += "<input type=\"password\" name=\"password1\" id=\"password1\" placeholder=\"Enter your new password\">";
+    html += "<input type=\"password\" name=\"password2\" id=\"password2\" placeholder=\"Re-enter your new password\">";
     html += "<div class=\"account-buttons\">";
-    html += "<button type=\"submit\" id='pwordResetBtn'>Save</button>";
+    html += "<button type=\"button\" onClick=\"javascript: pwordResetBtn();\">Save</button>";
     html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
     html += "</div>";
     return html;
+}
+
+function pwordResetBtn()
+{
+    var proceed = false;
+    var messages = [];
+    var currentPW = $("#old").val();
+    var password1 = $("#password1").val();
+    var password2 = $("#password2").val();
+    if (String(currentPW).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter your current password to proceed.");
+    }
+    else if (String(password1).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter a new password to proceed.");
+    }
+    else if (String(password2).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must confirm your new password to proceed.");
+    }
+    else if (String(password1) !== String(password2))
+    {
+        messages.push("Passwords Do Not Match");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        ultimateWarningMessageOption('password');
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    } 
 }
 
 function build_email_setter()
@@ -2278,18 +2316,66 @@ function build_email_setter()
     html += "<input type=\"hidden\" name=\"super_index\" value=\"" + String(index) + "\">";
     html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_email'>";
     html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\" required oninput=\"javascript: completeEmailFields();\">";
+    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\">";
     html += "</div>";
-    html += "<input type=\"email\" name=\"email1\" id=\"email1\" placeholder=\"Enter your new email address\" required oninput=\"javascript: completeEmailFields();\">";
-    html += "<input type=\"email\" name=\"email2\" id=\"email2\" placeholder=\"Re-enter your new email address\" required oninput=\"javascript: completeEmailFields();\">";
+    html += "<input type=\"email\" name=\"email1\" id=\"email1\" placeholder=\"Enter your new email address\">";
+    html += "<input type=\"email\" name=\"email2\" id=\"email2\" placeholder=\"Confirm your new email address\">";
     html += "<div class=\"account-buttons\">";
-    html += "<button type=\"submit\" id='emailResetBtn'>Save</button>";
+    html += "<button type=\"button\" onClick=\"javascript: emailResetBtn();\">Save</button>";
     html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
     html += "</div>";
     return html;
+}
+
+function emailResetBtn()
+{
+    var proceed     = false;
+    var messages    = [];
+    var password    = $("#password").val();
+    var email1      = $("#email1").val();
+    var email2      = $("#email2").val();
+    if (String(password).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter your current password to proceed.");
+    }
+    else if (String(email1).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter a new email address to proceed.");
+    }
+    else if (String(email2).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must confirm your new email to proceed.");
+    }
+    else if (validate_email(email1) === false)
+    {
+        messages.push("Invalid Email Entered");
+        messages.push("The entry for the new email is invalid");
+    }
+    else if (validate_email(email2) === false)
+    {
+        messages.push("Invalid Email Entered");
+        messages.push("The entry for the confirmation email is invalid");
+    }
+    else if (String(email1) !== String(email2))
+    {
+        messages.push("Emails Do Not Match");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        ultimateWarningMessageOption('email');
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    }
 }
 
 function build_name_setter()
@@ -2303,18 +2389,61 @@ function build_name_setter()
     html += "<input type=\"hidden\" name=\"super_index\" value=\"" + String(index) + "\">";
     html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_name'>";
     html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\" required oninput=\"javascript: complateNameFields();\">";
+    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\">";
     html += "</div>";
-    html += "<input type=\"text\" name=\"fname\" id=\"fname\" placeholder=\"First Name\" required oninput=\"javascript: complateNameFields();\">";
-    html += "<input type=\"text\" name=\"lname\" id=\"lname\" placeholder=\"Last Name\" required oninput=\"javascript: complateNameFields();\">";
+    html += "<input type=\"text\" name=\"fname\" id=\"fname\" placeholder=\"First Name\">";
+    html += "<input type=\"text\" name=\"lname\" id=\"lname\" placeholder=\"Last Name\">";
     html += "<div class=\"account-buttons\">";
-    html += "<button type=\"submit\" id='nameResetBtn'>Save</button>";
+    html += "<button type=\"button\" onClick=\"javascript: nameResetBtn();\">Save</button>";
     html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
     html += "</div>";
     return html;
+}
+
+function nameResetBtn()
+{
+    var proceed     = false;
+    var messages    = [];
+    var password    = $("#password").val();
+    var fname       = $("#fname").val();
+    var lname       = $("#lname").val();
+    if (String(password).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter your current password to proceed.");
+    }
+    else if (String(fname).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter a new first name to proceed.");
+    }
+    else if (isLetter(fname) === false)
+    {
+        messages.push("Invalid First Name Entered");
+        messages.push("The first name can only contain letters");
+    }
+    else if (String(lname).length === 0)
+    {
+        messages.push("Empty Fields");
+        messages.push("You must enter a new last name to proceed");
+    }
+    else if (isLetter(lname) === false)
+    {
+        messages.push("Invalid Last Name Entered");
+        messages.push("The last name can only contain letters");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        ultimateWarningMessageOption('name');
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    }
 }
 
 function build_restrictor()
@@ -3498,66 +3627,6 @@ function validatePricingInput()
         result = t;
     }
     $("#product_price").val(result);
-}
-
-function completePasswordFields()
-{
-    var input1 = $("#old").val();
-    var input2 = $("#password1").val();
-    var input3 = $("#password2").val();
-    input1 = String(input1);
-    input2 = String(input2);
-    input3 = String(input3);
-    if(input1.length>0 && input2.length>0 && input3.length>0) 
-    {  
-        $("#pwordResetBtn").attr("type", "button"); 
-        $("#pwordResetBtn").attr("onClick", "javascript: validateModel('password');")
-    }
-    else 
-    { 
-        $("#pwordResetBtn").attr("type", "submit");
-        $("#pwordResetBtn").removeAttr("href");
-    }
-}
-
-function completeEmailFields()
-{
-    var input1 = $("#password").val();
-    var input2 = $("#email1").val();
-    var input3 = $("#email2").val();
-    input1 = String(input1);
-    input2 = String(input2);
-    input3 = String(input3);
-    if(input1.length>0 && input2.length>0 && input3.length>0) 
-    {  
-        $("#emailResetBtn").attr("type", "button"); 
-        $("#emailResetBtn").attr("onClick", "javascript: validateModel('email');")
-    }
-    else 
-    { 
-        $("#emailResetBtn").attr("type", "submit");
-        $("#emailResetBtn").removeAttr("href");
-    }
-}
-
-function complateNameFields()
-{
-    var input1 = $("#password").val();
-    var input2 = $("#fname").val();
-    var input3 = $("#lname").val();
-    input1 = String(input1);
-    input2 = String(input2);
-    input3 = String(input3);
-    if(input1.length>0 && input2.length>0 && input3.length>0) 
-    {  
-        $("#nameResetBtn").attr("type", "button"); 
-        $("#nameResetBtn").attr("onClick", "javascript: validateModel('name');")
-    }
-    else 
-    { 
-        $("#nameResetBtn").attr("type", "submit");
-        $("#nameResetBtn").removeAttr("href");
-    }
 }
 
 function submit_auth_user()
