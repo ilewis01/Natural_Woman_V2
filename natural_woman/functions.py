@@ -78,7 +78,7 @@ def isQueued(target_model, mid):
 	elif target_model == "payment":
 		model_list = Payment.query.all()
 	elif target_model == "blog":
-		target_model = Blog.query.all()
+		model_list = Blog.query.all()
 	for m in model_list:
 		if str(m.id) == str(mid):
 			queued = True
@@ -133,6 +133,14 @@ def send_email(subject, sender, recipients, text_body, html_body):
 # 	thr = Thread(target=send_async_email, args=[msg])
 # 	thr.start()
 
+def cleanInputText(val):
+	result 	= ""
+	val 	= str(val)
+	for v in val:
+		
+		result += v
+	return result
+
 def get_company_model():
 	companies = Company.query.all()
 	return companies[0]
@@ -144,9 +152,11 @@ def json_serialize_blogs():
 	blogs.reverse()
 	for b in blogs:
 		d 				= {}
+		subject 		= cleanInputText(b.subject)
+		content 		= cleanInputText(b.content)
 		date 			= b.getDate()
-		d['subject'] 	= b.subject
-		d['content'] 	= b.content
+		d['subject'] 	= subject
+		d['content'] 	= content
 		d['date'] 		= date['date']
 		d['time'] 		= date['time']
 		d['date_obj'] 	= str(b.date)
@@ -497,6 +507,7 @@ def getEmailContent(current_user):
 	content = {}
 	content['json_data'] 	= get_empty_json_data()
 	content['btn_index'] 	= 20
+	content['restricted'] 	= 0
 	content['title'] 		= "Natural Woman Salon |  Email"
 	content['user'] 		= current_user
 	content['url'] 			= "admin/email.html"

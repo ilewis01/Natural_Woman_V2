@@ -1,4 +1,4 @@
-body {
+ADMIN-Hbody {
     color:#f2f3e5;
     font-family: 'Fira Sans Condensed', sans-serif; 
 }
@@ -1791,8 +1791,10 @@ body {
 
 .admin-item:hover h3{
     font-size: 35px;
-    /*background: linear-gradient(to right, rgba(88, 85, 56, 0.8)0%, rgba(206, 209, 162, 0.8) 50%, rgba(88, 85, 56, 0.8) 100%);*/
-    background: linear-gradient(to right, rgba(85, 85, 85, 0.7)0%, rgba(220, 220, 220, 0.7) 50%, rgba(85, 85, 85, 0.7) 100%);
+    opacity: 0.9;
+    color: #ac9f62;
+    text-shadow: 1px solid #000000;
+    /*background-color: linear-gradient(to right, rgba(85, 85, 85, 0.7)0%, rgba(220, 220, 220, 0.7) 50%, rgba(85, 85, 85, 0.7) 100%);*/
     -webkit-transition: all 0.5s ease-in;
     -moz-transition: all 0.5s ease-in;
     -o-transition: all 0.5s ease-in;

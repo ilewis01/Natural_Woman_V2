@@ -122,12 +122,19 @@
     padding-bottom:5px;
 }
 
+.comingSoonStyle {
+    padding-top: 25%;
+    font-size: 80px;
+    font-weight: 700;
+    font-style: italic;
+    font-family: 'Lovers Quarrel', cursive;
+    text-transform: lowercase;
+    line-height: 0px;
+    color: #d5cda9;
+    text-shadow: 1px 1px #000000;
+}
+
 </style>
-
-<script type="text/javascript">
-    
-
-</script>
 
         <!-- ERROR MESSAGES -->
         <div class='alert4 hidden' id='msg4'></div>
@@ -157,29 +164,6 @@
         </div>
 
         <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
-        <div class='alert6 hidden' id='msg6'>
-            <div class='company_contact_set_frame2 center_v_mode'>
-                <div class='company_contact_edit1'>
-                    <div class='ultimate-error-closer' onClick="javascript: closeIconBtn('6');">
-                        <i class='far fa-window-close'></i>
-                    </div>
-                    <div class='ultimate-error-container'>
-                        <h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>
-                        <div class='ultimate-error-content'>
-                            <h1>This is the message header</h1>
-                            <h2>This is where specific details about the error message that was generated from the user input.</h2>
-                            <div class='ultimate-btn-holder'>
-                                <button onClick="javascript: ultimateSoftClose();">Stay On Page</button>
-                                <button onClick="javascript: ultimateHardClose();">Leave Page</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
             <!--<div class="ua_wrapper center_v_mode">
                 <div class="frame_general_sm">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
@@ -241,89 +225,13 @@
                 </div>
             </nav>
 
-            <div class="content-wrapper btn_background" id="master_admin_fader">
+            <div class="content-wrapper" id="master_admin_fader">
                 <div class="content-a">
                     <div class="admin-content-wrapper">
-                        <div class="v-split-top">
-                            <div class="master_head">administrative tools</div>
-                            <div class="admin-h-split">
-                            </div>
-
-                            <div class="admin-h-split" id="ab1">
-                                <div class="admin-item  atp_lift">
-                                    <h3><i class="fab fa-blogger"></i></h3>
-                                    <div class="admin-h">New Blog Post<br><span>empty</span></div>
-                                </div>
-                            </div>
-
-
-                            <div class="admin-h-split">
-                                <div class="admin-item  atp_lift" id="ab2">
-                                    <h3><i class="fas fa-edit"></i></h3>
-                                    <div class="admin-h">Manage Blogs<br><span>empty</span></div>
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split">
-                                <div class="admin-item  atp_lift" id="ab3">
-                                    <h3><i class="fas fa-spray-can"></i></h3>
-                                    <div class="admin-h">Manage Products<br>& Pricing</div>
-
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split" id="ab4">
-                                <div class="admin-item  atp_lift">
-                                    <h3><i class="fas fa-camera"></i></h3>
-                                    <div class="admin-h">Manage Gallery<br>Images</div>
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split">
-                            </div>
-                        </div>
-
-                        <div class="v-split-bottom">
-                            <div class="admin-h-split">
-                            </div>
-
-                            <div class="admin-h-split">
-                                <div class="admin-item  abm_lift"  id="ab5">
-                                    <h3 class="about_icon">A</h3>
-                                    <div class="admin-h">About Statement<br><span>empty</span></div>
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split">
-                                <div class="admin-item  abm_lift" id="ab6">
-                                    <h3><i class="fas fa-mobile-alt"></i></h3>
-                                    <div class="admin-h">Contact & Profile<br><span>empty</span></div>
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split">
-                                <div class="admin-item  abm_lift" id="ab7">
-                                    <h3><i class="fas fa-user-cog"></i></h3>
-                                    <div class="admin-h">User Management<br><span>empty</span></div>
-
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split">
-                                <div class="admin-item  abm_lift" id="ab8">
-                                    <h3><i class="fas fa-user-plus"></i></h3>
-                                    <div class="admin-h">Authorize New User<br><span>empty</span></div>
-                                </div>
-                            </div>
-
-                            <div class="admin-h-split">
-                            </div>
-                        </div>
-                    </div> <!--END BUTTONS -->
                     {% block content %}
                     {% endblock %}
+                    </div> <!--END BUTTONS -->
                 </div>
-
 
                 <div class="copyright">
                     Copyright &copy; 2018 Natural Woman Salon Detroit. All Rights Reserved.

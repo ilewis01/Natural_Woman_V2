@@ -112,6 +112,39 @@ function initialize_admin_forms()
     }
 }
 
+function cleanTextInput(val)
+{
+    var result  = "";
+    val         = String(val);
+    for (var i = 0; i < val.length; i++)
+    {
+        var c = String(val[i]);
+        if (c === '"')
+        {
+            var t = c;
+            c = '\\"';
+        }
+        result += c;
+    }
+    return result;
+}
+
+function cleanTextInputHtml(val)
+{
+    var result  = "";
+    val         = String(val);
+    for (var i = 0; i < val.length; i++)
+    {
+        var c = String(val[i]);
+        if (c === '"')
+        {
+            c = "''";
+        }
+        result += c;
+    }
+    return result;
+}
+
 function fetchStates()
 {
     s = [];
@@ -228,11 +261,13 @@ function build_blog_manager(data)
 
     for(var i = 0; i < data.length; i++)
     {
+        subject = cleanTextInputHtml(data[i]['subject']);
+        content = cleanTextInputHtml(data[i]['content']);
         html += "<div id=\"div_" + data[i]['index'] + "\">";
         html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
         html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"subject_" + data[i]['index'] + "\" value=\"" + data[i]['subject'] + "\">";
-        html += "<input type=\"hidden\" id=\"content_" + data[i]['index'] + "\" value=\"" + data[i]['content'] + "\">";
+        html += "<input type=\"hidden\" id=\"subject_" + data[i]['index'] + "\" value=\"" + subject + "\">";
+        html += "<input type=\"hidden\" id=\"content_" + data[i]['index'] + "\" value=\"" + content + "\">";
         html += "<input type=\"hidden\" id=\"date_" + data[i]['index'] + "\" value=\"" + data[i]['date'] + "\">";
         html += "<input type=\"hidden\" id=\"time_" + data[i]['index'] + "\" value=\"" + data[i]['time'] + "\">";
         html += "<li id=\"" + data[i]['index'] + "\">";
@@ -321,11 +356,13 @@ function build_product_manager(data)
 
     for(var i = 0; i < data.length; i++)
     {
+        var name = cleanTextInputHtml(data[i]['name']);
+        var desc = cleanTextInputHtml(data[i]['description']);
         html += "<div id=\"div_" + data[i]['index'] + "\">";
         html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
         html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + data[i]['name'] + "\">";
-        html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + data[i]['description'] + "\">";
+        html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + name + "\">";
+        html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + desc + "\">";
         html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
         html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
         html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
@@ -470,9 +507,10 @@ function build_about_manager(inactive, current)
     html += "<div class=\"inactive_list_wrapper\"><div class=\"inactive_list\"><ul>";
     for (var i = 0; i < inactive.length; i++)
     {
+        var statement = cleanTextInputHtml(inactive[i]['statement']);
         html += "<div class=\"\" id=\"div_" + inactive[i]['index'] + "\"><a href=\"javascript: about_selector('" + inactive[i]['index'] + "');\"><li>";
         html += "<input type=\"hidden\" id=\"id_" + inactive[i]['index'] + "\" value=\"" + inactive[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"statement_" + inactive[i]['index'] + "\" value=\"" + inactive[i]['statement'] + "\">";
+        html += "<input type=\"hidden\" id=\"statement_" + inactive[i]['index'] + "\" value=\"" + statement + "\">";
         html += "<span>Statement: </span><em>" + inactive[i]['statement'] + "</em></li></a></div>";
     }
     html += "</ul></div></div>";
@@ -3338,6 +3376,8 @@ function validateNewBlog()
     else { proceed = true; }
     if (proceed === true) 
     { 
+        subject = cleanTextInput(subject);
+        content = cleanTextInput(content);
         $("#changes_detected").val("1");
         $("#new_blog_form").submit();
     }
@@ -3383,6 +3423,7 @@ function validateProduct()
 {
     var messages        = [];
     var proceed         = false;
+    var action          = $("#target_action_prod").val();
     var name            = $("#product_name").val();
     var description     = $("#product_description").val();
     var price           = $("#product_price").val();
@@ -3390,6 +3431,13 @@ function validateProduct()
     var c_name          = $("#name_" + index).val();
     var c_description   = $("#description_" + index).val();
     var c_price         = $("#price_" + index).val();
+
+    if (action === "new")
+    {
+        name = cleanTextInput(name);
+        description = cleanTextInput(description);
+    }
+    
     if (name.length === 0)
     {
         messages.push("Empty Field");
@@ -3696,7 +3744,7 @@ $(document).ready(function() {
         var elem_id = "#id_" + index;
         var subject = $(subj_id).val();
         var content = $(cont_id).val();
-        var e_id    = $(elem_id).val() 
+        var e_id    = $(elem_id).val();
         
         $("#e_target_action").val("update");
         $("#e_target_id").val(e_id);
