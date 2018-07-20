@@ -336,6 +336,12 @@ function ultimateHardClose()
     $("#msg2").fadeOut(500);
 }
 
+function ultimateHardClose2()
+{
+    $("#msg4").fadeOut(500);
+    $("#msg3").fadeOut(500);
+}
+
 function build_product_manager(data)
 {
     var html = "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
@@ -1607,7 +1613,224 @@ function stateValid(val)
     return isValid;
 }
 
-
+function soft_save(target)
+{
+    var proceed     = false;
+    var messages    = [];
+    var data        = {};
+    target          = String(target);
+    if (target === "Facebook" || target === "Twitter" || target === "Instagram")
+    {
+        var target_id   = "#pop_" + target + "_link";
+        var lower       = target.toLowerCase();
+        var current_id  = "#master_" + lower + "_url";
+        var new_link    = $(target_id).val();
+        var old_link    = $(current_id).val();
+        new_link        = String(new_link);
+        old_link        = String(old_link);
+        var m2          = "";
+        var loader      = "";
+        if (new_link.length === 0) 
+        { 
+            m2 = "If you choose not to display a ";
+            m2 += target;
+            m2 += " link, you can simply deactivate it on the main Company Profile Editor in the ";
+            m2 += target;
+            m2 += " section of the page.";
+            messages.push("This value is required"); 
+            messages.push(m2);
+        }
+        else if (new_link === old_link) 
+        { 
+            m2 = "The link that you entered is identical to the current ";
+            m2 += target;
+            m2 += " link. No changes will be applied."
+            messages.push("Identical links detected");
+            messages.push(m2);
+        }
+        else 
+        {
+            proceed = true;
+            loader = "#" + lower + "_site_loader";
+            $(loader).attr("href", new_link);
+            $(current_id).val(new_link);
+        }
+    }
+    else if (target === "hours")
+    {
+        if($('#sp_on').is(':checked')) 
+        {
+            var special_title = $("#pop_special_hours_title").val();
+            special_title = String(special_title);
+            if (special_title.length === 0) {
+                messages.push("You must enter a title for special hours.")
+                m2 = "If you wish to post these hours as regular business hours, simply click \"Off\" for \"Special Hours\". Otherwise, you can choose a title like \"Holiday Hours\", etc."
+                messages.push(m2);
+            }
+            else { 
+                proceed = true; 
+                $("#master_hours_title").val(special_title);
+                $("#master_special_hours").val("True");
+            }
+        }
+        else
+        {
+            proceed = true;
+            $("#master_hours_title").val("Hours of Operation");
+            $("#master_special_hours").val("False");
+            var weekday_status  = $("#weekday_on").val();
+            var weekend_status  = $("#weekend_on").val();
+            weekday_status      = String(weekday_status);
+            weekend_status      = String(weekend_status);
+            $("#master_monday").val(encode_hours("mon"));
+            $("#master_saturday").val(encode_hours("sat"));
+            if (weekday_status === '0')
+            {
+                $("#master_tuesday").val(encode_hours("tue"));
+                $("#master_wednesday").val(encode_hours("wed"));
+                $("#master_thursday").val(encode_hours("thu"));
+                $("#master_friday").val(encode_hours("fri"));
+            }
+            else 
+            {
+                $("#master_tuesday").val("empty");
+                $("#master_wednesday").val("empty");
+                $("#master_thursday").val("empty");
+                $("#master_friday").val("empty");
+            }
+            if (weekend_status === "0")
+            {
+                $("#master_sunday").val(encode_hours("sun"));
+            }
+            else { $("#master_sunday").val("empty"); }
+        }
+    }
+    else if (target === "address")
+    {
+        var address1    = $("#pop_address1").val();
+        var address2    = $("#pop_address2").val();
+        var address3    = $("#pop_address3").val();
+        var city        = $("#pop_city").val();
+        var state       = $("#pop_state").val();
+        var zipcode     = $("#pop_zip").val();
+        address1        = String(address1);
+        address2        = String(address2);
+        address3        = String(address3);
+        city            = String(city);
+        state           = String(state);
+        zipcode         = String(zipcode);
+        if (address1.length === 0 && address2.length === 0 && address3.length === 0)
+        {
+            messages.push("Empty Fields");
+            messages.push("You must enter a valid street no. and street name to proceed.");
+        }
+        else if (city.length === 0)
+        {
+            messages.push("Empty Fields");
+            messages.push("You must enter a valid city to proceed.");
+        }
+        else if (state.length === 0)
+        {
+            messages.push("Empty Fields");
+            messages.push("You must enter a valid state to proceed.");
+        }
+        else if (stateValid(state) === false)
+        {
+            messages.push("State Does Not Exist");
+            messages.push("There is not a U.S. state with the abbreviation \"" + state + "\". Please enter a valid U.S. state.");
+        }
+        else if (zipcode.length < 5)
+        {
+            messages.push("Empty Fields");
+            messages.push("You must enter a valid zip code to proceed.");
+        }
+        else
+        {
+            proceed = true;
+            if (address1.length === 0) { $("#master_address1").val("empty"); }
+            else { $("#master_address1").val(address1); }
+            if (address2.length === 0) { $("#master_address2").val("empty"); }
+            else { $("#master_address2").val(address2); }
+            if (address3.length === 0) { $("#master_address3").val("empty"); }
+            else { $("#master_address3").val(address3); }
+            $("#master_city").val(city);
+            $("#master_state").val(state);
+            $("#master_zip_code").val(zipcode);
+        }
+    }
+    else if (target === "email")
+    {
+        var email1  = $("#pop_email1").val();
+        var email2  = $("#pop_email2").val();
+        email1      = String(email1);
+        email2      = String(email2);
+        if (email1.length === 0)
+        {
+            messages.push("Empty fields");
+            messages.push("You must enter a valid email address to proceed.");
+        }
+        else if (validate_email(email1) === false)
+        {
+            messages.push("The new email address is Invalid");
+            messages.push("Please enter a valid email address in the email 1 field.")
+        }
+        if (email2.length === 0)
+        {
+            messages.push("Empty fields");
+            messages.push("You must confirm the new email address to proceed.");
+        }
+        else if (validate_email(email2) === false)
+        {
+            messages.push("Email 2 is Invalid");
+            messages.push("Please enter a valid email address in the email confirmation field.")
+        }
+        else if (email1 !== email2)
+        {
+            messages.push("The Emails Do Not Match");
+            messages.push(" ");
+        }
+        else
+        {
+            proceed = true;
+            $("#master_email").val(email1);
+        }
+    }
+    else if (target === "phone")
+    {
+        var area    = $("#area_code").val();
+        var pref    = $("#prefix").val();
+        var post    = $("#postfix").val();
+        area        = String(area);
+        pref        = String(pref);
+        post        = String(post);
+        if (area.length === 0 || area.length < 3)
+        {
+            messages.push("Invalid area code");
+            messages.push("You have entered an invalid area code.");
+        }
+        else if (pref.length === 0 || post.length === 0 || pref.length < 3 || post.length < 4)
+        {
+            messages.push("Invalid phone number");
+            messages.push("Please enter a valid phone number to proceed.");
+        }
+        else
+        {
+            proceed = true;
+            var phone = "(" + area + ") " + pref + " - " + post;
+            $("#master_phone").val(phone);
+        }
+    } 
+    if (proceed === true )
+    {
+        flashBtn();
+        $("#changes_detected").val("1");
+        $("#msg3").fadeOut(500);
+    }
+    else { ultimateErrorMessage(messages); }
+    data['proceed'] = proceed;
+    data['messages'] = messages;
+    return data;
+}
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
@@ -1886,35 +2109,35 @@ function build_user_editor()
     html += "<div class=\"access_checkbox_wrap\">";
     html += "<table>";
     html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_admin\" onClick=\"javascript: loadCheckboxData('#m_admin');\"></td>";
+    html += "<td><input type=\"checkbox\" id=\"cb_admin\" onClick=\"javascript: signalAccessChanges('#m_admin');\"></td>";
     html += "<td><span>Administrative Privileges</span></td>";
     html += "<td><a href=\"javascript: load_helper('admin_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
     html += "</tr>";
     html += "</table>";
     html += "<table>";
     html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_blog\" onClick=\"javascript: loadCheckboxData('#m_blog');\"></td>";
+    html += "<td><input type=\"checkbox\" id=\"cb_blog\" onClick=\"javascript: signalAccessChanges('#m_blog');\"></td>";
     html += "<td><span>Blog Access</span></td>";
     html += "<td><a href=\"javascript: load_helper('blog_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
     html += "</tr>";
     html += "</table>";
     html += "<table>";
     html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_product\" onClick=\"javascript: loadCheckboxData('#m_product');\"></td>";
+    html += "<td><input type=\"checkbox\" id=\"cb_product\" onClick=\"javascript: signalAccessChanges('#m_product');\"></td>";
     html += "<td><span>Product Modification</span></td>";
     html += "<td><a href=\"javascript: load_helper('product_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
     html += "</tr>";
     html += "</table>";
     html += "<table>";
     html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_gallery\" onClick=\"javascript: loadCheckboxData('#m_gallery');\"></td>";
+    html += "<td><input type=\"checkbox\" id=\"cb_gallery\" onClick=\"javascript: signalAccessChanges('#m_gallery');\"></td>";
     html += "<td><span>Gallery Editing</span></td>";
     html += "<td><a href=\"javascript: load_helper('gallery_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
     html += "</tr>";
     html += "</table>";
     html += "<table>";
     html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_about\" onClick=\"javascript: loadCheckboxData('#m_about');\"></td>";
+    html += "<td><input type=\"checkbox\" id=\"cb_about\" onClick=\"javascript: signalAccessChanges('#m_about');\"></td>";
     html += "<td><span>About Us Statements</span></td>";
     html += "<td><a href=\"javascript: load_helper('about_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
     html += "</tr>";
@@ -1922,7 +2145,7 @@ function build_user_editor()
     html += "</div>";
     html += "<div class=\"s_edit_btn shrink_s_btn\">";
     html += "<button onClick=\"javascript: validateModel('access');\">Submit</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
+    html += "<button onClick=\"javascript: detectChanges('access', 'exit');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -2423,6 +2646,33 @@ function ultimateErrorMessageOption(messages)
     html += "<div class='ultimate-btn-holder'>";
     html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
     html += "<button onClick=\"javascript: ultimateHardClose();\">Leave Page</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    loadHiddenFrame("msg4", html);
+}
+
+function ultimateErrorMessageOption2(messages)
+{
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<div class='ultimate-error-container'>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
+    html += "<div class='ultimate-error-content'>";
+    html += "<h1>";
+    html += String(messages[0]);
+    html += "<h1>";
+    html += "<h2>";
+    html += String(messages[1]);
+    html += "<h2>";
+    html += "<div class='ultimate-btn-holder'>";
+    html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
+    html += "<button onClick=\"javascript: ultimateHardClose2();\">Leave Page</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -3009,31 +3259,7 @@ function submitAccountChangeAuthorize()
     $("#account_form").submit();
 }
 
-function detectChanges(model, mode)
-{
-    var messages            = [];
-    var changes_detected    = $("#changes_detected").val();
-    changes_detected        = String(changes_detected);
-    model                   = String(model);
-    mode                    = String(mode);
-    if (changes_detected === "1")
-    {
-        messages.push("Changes Detected")
-        if (model === "company")
-        {
-            if(mode==="exit") { messages.push("Are you sure you want to exit this page? All changes will be discarded."); ultimateErrorMessageOption(messages); }
-            else if (mode==="update") { $("#target_action").val(mode); $("#master_company_management_form").submit(); }
-        } 
-    }
-    else
-    {
-        if (model === "company")
-        {
-            if(mode==="exit") { closeIconBtn("2"); }
-            else if (mode==="update") { messages.push("No changes have been detected"); messages.push(' '); ultimateErrorMessage(messages); }
-        }
-    }
-}
+
 
 function validateModel(model)
 {
@@ -3044,9 +3270,9 @@ function validateModel(model)
     else if (model === "about") { validateAboutModel(); }
     else if (model === "access") { validateAccess(); }
     else if (model === "new_user") { validateNewUser(); }
-    else if (model === "password") { validatePasswordChange(); }
-    else if (model === "email") { validateEmailChange(); }
-    else if (model === "name") { validateNameChange(); }
+    // else if (model === "password") { validatePasswordChange(); }
+    // else if (model === "email") { validateEmailChange(); }
+    // else if (model === "name") { validateNameChange(); }
 }
 
 function validateAboutModel()
@@ -3197,81 +3423,81 @@ function validateNewUser()
     }
 }
 
-function validatePasswordChange()
-{
-    var proceed     = false;
-    var messages    = [];
-    var pword1      = $("#password1").val();
-    var pword2      = $("#password2").val();
-    if (pword1 !== pword2)
-    {
-        messages.push("The Passwords Do Not Match");
-        messages.push(" ");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        ultimateWarningMessageOption('password');
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
+// function validatePasswordChange()
+// {
+//     var proceed     = false;
+//     var messages    = [];
+//     var pword1      = $("#password1").val();
+//     var pword2      = $("#password2").val();
+//     if (pword1 !== pword2)
+//     {
+//         messages.push("The Passwords Do Not Match");
+//         messages.push(" ");
+//     }
+//     else { proceed = true; }
+//     if (proceed === true) 
+//     { 
+//         ultimateWarningMessageOption('password');
+//     }
+//     else 
+//     { 
+//         ultimateErrorMessage(messages); 
+//     } 
+// }
 
-function validateEmailChange()
-{
-    alert("Validating Email Change")
-    var proceed     = false;
-    var messages    = [];
-    var email1      = $("#email1").val();
-    var email2      = $("#email2").val();
-    var prev        = $("#master_user_email").val();
-    if (email1 !== email2)
-    {
-        messages.push("The Emails Do Not Match");
-        messages.push(" ");
-    }
-    else if (String(email1) === String(prev))
-    {
-        messages.push("No Changes Detected");
-        messages.push(" ");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        ultimateWarningMessageOption('email');
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
+// function validateEmailChange()
+// {
+//     alert("Validating Email Change")
+//     var proceed     = false;
+//     var messages    = [];
+//     var email1      = $("#email1").val();
+//     var email2      = $("#email2").val();
+//     var prev        = $("#master_user_email").val();
+//     if (email1 !== email2)
+//     {
+//         messages.push("The Emails Do Not Match");
+//         messages.push(" ");
+//     }
+//     else if (String(email1) === String(prev))
+//     {
+//         messages.push("No Changes Detected");
+//         messages.push(" ");
+//     }
+//     else { proceed = true; }
+//     if (proceed === true) 
+//     { 
+//         ultimateWarningMessageOption('email');
+//     }
+//     else 
+//     { 
+//         ultimateErrorMessage(messages); 
+//     } 
+// }
 
-function validateNameChange()
-{
-    alert("Validating Name Change")
-    var proceed     = false;
-    var messages    = [];
-    var fname       = $("#fname").val();
-    var lname       = $("#lname").val();
-    var first_name  = $("#first_name").val();
-    var last_name   = $("#last_name").val();
-    if ((String(fname) === String(first_name)) && (String(lname) === String(last_name)))
-    {
-        messages.push("No Changes Detected");
-        messages.push(" ");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        ultimateWarningMessageOption('name');
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
+// function validateNameChange()
+// {
+//     alert("Validating Name Change")
+//     var proceed     = false;
+//     var messages    = [];
+//     var fname       = $("#fname").val();
+//     var lname       = $("#lname").val();
+//     var first_name  = $("#first_name").val();
+//     var last_name   = $("#last_name").val();
+//     if ((String(fname) === String(first_name)) && (String(lname) === String(last_name)))
+//     {
+//         messages.push("No Changes Detected");
+//         messages.push(" ");
+//     }
+//     else { proceed = true; }
+//     if (proceed === true) 
+//     { 
+//         ultimateWarningMessageOption('name');
+//     }
+//     else 
+//     { 
+//         ultimateErrorMessage(messages); 
+//     } 
+// }
 
 function validateNewBlog()
 {
@@ -3611,6 +3837,8 @@ $(document).ready(function() {
         $("#msg3" ).fadeIn(500);
     });
     $("#edit_user_access").click(function() {
+        var html    = build_user_editor();
+        $("#msg3").html(html); 
         var index   = $("#selected_e").val();
         index       = String(index);
         var sel_id  = "#id_" + index;

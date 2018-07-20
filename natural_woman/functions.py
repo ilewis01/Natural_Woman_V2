@@ -961,7 +961,7 @@ def save_target_model(target, action):
 		if isQueued("user", u_id) == True:
 			user = get_user_by_id(u_id)
 			if user.is_locked == False:
-				if action == "blocked":
+				if action == "block":
 					user.is_admin 			= False
 					user.product_permission = False
 					user.about_permission 	= False
