@@ -33,6 +33,58 @@
         <![endif]-->
     </head>
 
+    <body class="global-style" id="masterAdminManagerFader">
+        <form action="#" method="POST" id="main_admin_form">
+            <input type="hidden" id="btn_index" value="{{btn_index}}">
+            <input type="hidden" id="frame_active" value="0">
+            <input type="hidden" id="blog_active" value="0">
+            <input type="hidden" id="selected_e" value="init_val">
+            <input type="hidden" id="page" value="0">
+            <input type="hidden" id="load_meta_model" value="{{model}}">
+            <input type="hidden" id="is_restricted" value="{{restricted}}">
+            <input type="hidden" id="launchBlogger" value="{{user.blog_permission}}">
+            <input type="hidden" id="changes_detected" name="changes_detected" value="0">
+            <input type="hidden" id="requested_url" name="requested_url" value="">
+            <input type="hidden" id="first_name" value="{{user.fname}}">
+            <input type="hidden" id="last_name" value="{{user.lname}}">
+            <input type="hidden" id="master_user_email" value="{{user.email}}">
+        </form>
+
+        <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
+        <div class="alert1 hidden" id="msg1">
+            <div class="new_blog_wrap center_v_mode">
+                <div class="frame_general_sm ">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>New Blog Post</h3>
+                    <div class="generalSteel-in">
+                        <h2 class=""><i class="fab fa-blogger"></i></h2>
+                        <form action="/edit_success" method="POST" id="new_blog_form">
+                            <input type="hidden" name="target_model" id="target1" value="new_blog">
+                            <input type="hidden" name="target_action" id="taction11" value="new">
+                            <input type="hidden" name="prev_index" value="{{btn_index}}">
+                            <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" oninput="javascript: signalNewBlogChanges();">
+                            <div class="blog_content_wrapper">
+                                <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." oninput="javascript: signalNewBlogChanges();"></textarea>
+                            </div>
+                        </form>
+
+                        <div class="general_editor_btns">
+                            <button id="target_new_blog" onClick="javascript: validateModel('new_blog');">Post</button>
+                            <button onClick="javascript: detectNewBlogChanges();">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MANAGER BUILDER -->
+        <body onLoad="javascript: build_url_frame( {{json_data.inactive}}, {{json_data.active}}, '{{btn_index}}', {{is_edited}}, '{{header}}', '{{message}}', '{{message}}' );" id="frame_builder">
+            <div class="alert2 hidden" id="msg2"></div> 
+        </body>
+
+        <!--EDITOR BUILDER -->
+        <div class="alert3 hidden" id="msg3"></div>
+
 <style type="text/css">
 .dropdown-menu {
     background: linear-gradient(to top, rgba(206, 209, 162, 0.7), rgba(85, 88, 56, 0.7));
@@ -58,249 +110,31 @@
     text-shadow: none;
 }
 
-.account_change_wrap {
-    width:40%;
-    margin: auto;
+.ultimate-btn-holder {
+    width: 100%;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
-.account_set_frame, .company_contact_edit1 {
-    width: 100%;
-    padding-left: 3%;
-    padding-right: 3%;
-    padding-top: 1%;
-    border: 1px solid #333333;
-    border-radius: 6px;
-    box-shadow: 2px 2px 2px #555555;
-    background: linear-gradient(to right, rgba(110, 110, 110, 0.9)0%, rgba(225, 225, 225, 0.9) 50%, rgba(110, 110, 110, 0.9) 100%);
+.ultimate-btn-holder button{
+    width: 45%;
+    padding-top:5px;
+    padding-bottom:5px;
 }
 
 </style>
 
-    <body class="global-style" id="masterAdminManagerFader">
-        <form action="#" method="POST" id="main_admin_form">
-            <input type="hidden" id="btn_index" value="{{btn_index}}">
-            <input type="hidden" id="frame_active" value="0">
-            <input type="hidden" id="blog_active" value="0">
-            <input type="hidden" id="selected_e" value="init_val">
-            <input type="hidden" id="page" value="0">
-            <input type="hidden" id="load_meta_model" value="{{model}}">
-            <input type="hidden" id="is_restricted" value="{{restricted}}">
-            <input type="hidden" id="launchBlogger" value="{{user.blog_permission}}">
-            <input type="hidden" id="changes_detected" name="changes_detected" value="0">
-            <input type="hidden" id="requested_url" name="requested_url" value="">
-            <input type="hidden" id="subLoad" name="subLoad" value="{{load}}">
-        </form>
-
-        <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
-        <div class="alert1 hidden" id="msg1">
-            <div class="new_blog_wrap center_v_mode">
-                <div class="frame_general_sm ">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>New Blog Post</h3>
-                    <div class="generalSteel-in">
-                        <h2 class=""><i class="fab fa-blogger"></i></h2>
-                        <form action="/edit_success" method="POST" id="new_blog_form">
-                            <input type="hidden" name="target_model" id="target1" value="new_blog">
-                            <input type="hidden" name="target_action" id="taction11" value="new">
-                            <input type="hidden" name="prev_index" value="{{btn_index}}">
-                            <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" required>
-                            <div class="blog_content_wrapper">
-                                <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." required></textarea>
-                            </div>
-                        </form>
-
-                        <div class="general_editor_btns">
-                            <button id="target_new_blog" onClick="javascript: validateModel('new_blog');">Post</button>
-                            <button id="close-this-1">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MANAGER BUILDER -->
-        <body onLoad="javascript: build_url_frame({{json_data.inactive}}, {{json_data.active}}, '{{btn_index}}');" id="frame_builder">
-            <div class="alert2 hidden" id="msg2"></div> 
-        </body>
-
-        <!--EDITOR BUILDER -->
-        <div class="alert3 hidden" id="msg3"></div>
-
-        <!-- GALLERY EDITOR - THIS WILL CHANGE AND BECOME DYNAMIC IN ALERT2 -->
-        <div class='alert4 hidden' id='msg4'>
-            <div class='company_contact_set_frame2 center_v_mode'>
-                <div class='company_contact_edit1'>
-                    <div class='super_closer_inverse' onClick="javascript: closeIconBtn('4');">
-                        <i class='far fa-window-close'></i>
-                    </div>
-                    <h3 class='drop_pad_co'>Edit Business Hours</h3>
-                    <div class='hours_table_container'>
-                        <section id='dynamic_weekday'>
-                                <table>
-                                <tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top'>Monday</th>
-                                    <td class='top_left2px'><input type='text' id='mon_open'></td>
-                                    <td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px'><input type='text' id='mon_close'></td>
-                                    <td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top'>Tuesday</th>
-                                    <td class='top_left2px'><input type='text' id='tue_open'></td>
-                                    <td class='border_top'><select id='tue_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px'><input type='text' id='tue_close'></td>
-                                    <td class='top_right'><select id='tue_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top'>Wednesday</th>
-                                    <td class='top_left2px'><input type='text' id='wed_open'></td>
-                                    <td class='border_top'><select id='wed_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px'><input type='text' id='wed_close'></td>
-                                    <td class='top_right'><select id='wed_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top'>Thursday</th>
-                                    <td class='top_left2px'><input type='text' id='thu_open'></td>
-                                    <td class='border_top'><select id='thu_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px'><input type='text' id='thu_close'></td>
-                                    <td class='top_right'><select id='thu_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top'>Friday</th>
-                                    <td class='top_left2px'><input type='text' id='fri_open'></td>
-                                    <td class='border_top'><select id='fri_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px'><input type='text' id='fri_close'></td>
-                                    <td class='top_right'><select id='fri_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top'>Saturday</th>
-                                    <td class='top_left2px'><input type='text' id='sat_open'></td>
-                                    <td class='border_top'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px'><input type='text' id='sat_close'></td>
-                                    <td class='top_right'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                                <tr>
-                                    <th class='hours_label border_left_top border_bottom'>Sunday</th>
-                                    <td class='top_left2px border_bottom'><input type='text' id='sun_open'></td>
-                                    <td class='border_top border_bottom'><select id='sun_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                    <td class='top_left2px border_bottom'><input type='text' id='sun_close'></td>
-                                    <td class='top_right border_bottom'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>
-                                </tr>
-                            </table>
-                        </section>
-                        
-                        <div class='space_10'></div>
-                        <table>
-                            <tr>
-                                <td><input type='checkbox' id='pop_group_weekday' onClick='javascript: groupWeekdays();'></td>
-                                <td>Group Weekdays</td>
-                                <td><a href="javascript: load_helper('group_weekdays');"><i class='far fa-question-circle'></i></a></td>
-                            </tr>
-                            <tr>
-                                <td><input type='checkbox' id='pop_group_weekends' onClick='javascript: groupWeekends();'></td>
-                                <td>Group Weekends</td>
-                                <td><a href="javascript: load_helper('group_weekends');"><i class='far fa-question-circle'></i></a></td>
-                            </tr>
-                        </table>
-
-                        <div class='special_hr_label'>Special Hours: <a href="javascript: load_helper('special_hours');"><i class='far fa-question-circle'></i></a></div>
-
-                        <div class='sp_hr_input_wrap'>
-                            <div class='sp_hr_radio_input'>
-                                <table>
-                                <tr>
-                                    <td><input type='radio' name='pop_special_hours' id='sp_on' onClick="javascript: special_input('show');"></td>
-                                    <td><label for='sp_on'>On</label></td>
-                                    <td><input type='radio' name='pop_special_hours' id='sp_off' onClick="javascript: special_input('hide');" checked></td>
-                                    <td><label for='sp_off'>Off</label></td>
-                                </tr>
-                            </table>
-                            </div>
-                            <div class='sp_hr_title_input'>
-                                <table><tr><td><input type='text' id='pop_special_hours_title' placeholder='Enter title [ex: "Holiday Hours"]' class='hidden'></td></tr></table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p>*Note: These changes will not be permanently stored until you update the company profile.</p>
-                    <div class='company_address_btns'>
-                        <button onClick="javascript: soft_save('address');">Apply Changes</button>
-                        <button onClick="javascript: closeIconBtn('4');">Cancel</button>
-                    </div>
-                </div>
-            </div>
+<script type="text/javascript">
 
 
-            <!--<div class="ua_wrapper center_v_mode">
-                <div class="frame_general_sm">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>Edit Gallery Images</h3>
-                    <div class="generalSteel-in">
-                        <h2 class="blogger_editor"><i class="fas fa-camera"></i></h2>
-                        <form action="/edit_success" method="POST" id="gallery_manager_form">
-                            <input type="hidden" name="target_model" id="target_action_gallery" value="gallery">
-                            <input type="hidden" name="target_action" id="target_gallery">
-                            <input type="hidden" name="target_id" id="target_id_gallery">
-                        </form>
 
-                        <div class="general_editor_btns">
-                            <button id="auth_new_user">Not Active</button>
-                            <button id="close-this-4">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-        </div>
+</script>
 
-        <div class="alert14 hidden" id="msg14">
-            <div class="blog-manager-container">
-                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>{{message}}</h3>
-                
-                <div class="blog-btn-wrapper">
-                    <button id="close-this-14">Close</button>
-                </div>
-            </div>
-        </div>
+        <!-- ERROR MESSAGES -->
+        <div class='alert4 hidden' id='msg4'></div>
 
-        <div class="alert15 hidden" id="err">
-            <div class="error_style center_v_mode">
-                <div class="warning_nav">
-                    <table>
-                        <tr>
-                            <td class="td_left">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <span>warning</span>
-                            </td>
-                            <td class="td_right">
-                                <a href="#" id="close_error_window">
-                                    <i class="far fa-window-close"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="warning_body">
-                        <h1 id="error_header"></h1>
-
-                        <div class="warning_msg_1" id="error_msg_m1"></div>
-                        <div class="warning_msg_2"  id="error_msg_m2"></div>
-
-                        <div class="warn_details">Details:</div>
-                        <div class="warning_items" id="label1"></div>
-                        <div class="warning_items" id="label2"></div>
-                        <div class="warning_items" id="label3"></div>
-
-                        <div class="warning_buttons">
-                            <button id="obj_action"></button>
-                            <button id="close-this-15">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="alert16 hidden" id="helper_element">
+        <!-- HELPER POP-UP -->
+        <div class="alert5 hidden" id="helper_element">
             <div class="helper_container center_v_mode">
                 <div class="helper_data">
                     <table>
@@ -323,6 +157,53 @@
             </div>
         </div>
 
+        <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
+        <div class='alert6 hidden' id='msg6'>
+            <div class='company_contact_set_frame2 center_v_mode'>
+                <div class='company_contact_edit1'>
+                    <div class='ultimate-error-closer' onClick="javascript: closeIconBtn('6');">
+                        <i class='far fa-window-close'></i>
+                    </div>
+                    <div class='ultimate-error-container'>
+                        <h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>
+                        <div class='ultimate-error-content'>
+                            <h1>This is the message header</h1>
+                            <h2>This is where specific details about the error message that was generated from the user input.</h2>
+                            <div class='ultimate-btn-holder'>
+                                <button onClick="javascript: ultimateSoftClose();">Stay On Page</button>
+                                <button onClick="javascript: ultimateHardClose();">Leave Page</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!--<div class="ua_wrapper center_v_mode">
+                <div class="frame_general_sm">
+                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
+                    <h3>Edit Gallery Images</h3>
+                    <div class="generalSteel-in">
+                        <h2 class="blogger_editor"><i class="fas fa-camera"></i></h2>
+                        <form action="/edit_success" method="POST" id="gallery_manager_form">
+                            <input type="hidden" name="target_model" id="target_action_gallery" value="gallery">
+                            <input type="hidden" name="target_action" id="target_gallery">
+                            <input type="hidden" name="target_id" id="target_id_gallery">
+                        </form>
+                        <div class="yo divtoBlink" id="" style='opacity: 0.4;'>yo</div>
+
+                        <div class=''><button class='flash-button' disabled>This is a button</button></div>
+
+                        <div class="general_editor_btns">
+                            <button id="auth_new_user">Not Active</button>
+                            <button id="close-this-6">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
 
         <div id='master-body-fader' class='master-body-fader hidden'>
             <nav class="navbar navbar-expand-sm" role="navigation">
@@ -356,16 +237,12 @@
                                 <div id="ddb3"><a class="dropdown-item" href="/set_name">Change Name</a></div>
                                 <div id="ddb4"><a class="dropdown-item" href="#">Logout</a></div>
                             </div>
-                            <!--<a id="adm2" href="#">
-                                <i class="fas fa-user"></i> 
-                                {{user.fname}} {{user.lname}} <span id="carat"><i class="fas fa-caret-up"></i></span>
-                            </a>-->
                         </li>
                     </ul>
                 </div>
             </nav>
 
-            <div class="content-wrapper btn_background" id="master_admin_fader hidden">
+            <div class="content-wrapper btn_background" id="master_admin_fader">
                 <div class="content-a">
                     <div class="admin-content-wrapper">
                         <div class="v-split-top">

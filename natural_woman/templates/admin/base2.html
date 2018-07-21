@@ -62,15 +62,15 @@
                             <input type="hidden" name="target_model" id="target1" value="new_blog">
                             <input type="hidden" name="target_action" id="taction11" value="new">
                             <input type="hidden" name="prev_index" value="{{btn_index}}">
-                            <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" required>
+                            <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" oninput="javascript: signalNewBlogChanges();">
                             <div class="blog_content_wrapper">
-                                <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." required></textarea>
+                                <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." oninput="javascript: signalNewBlogChanges();"></textarea>
                             </div>
                         </form>
 
                         <div class="general_editor_btns">
                             <button id="target_new_blog" onClick="javascript: validateModel('new_blog');">Post</button>
-                            <button id="close-this-1">Cancel</button>
+                            <button onClick="javascript: detectNewBlogChanges();">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -126,61 +126,7 @@
 
 <script type="text/javascript">
 
-function detectChanges(model, mode)
-{
-    var messages            = [];
-    var changes_detected    = $("#changes_detected").val();
-    changes_detected        = String(changes_detected);
-    model                   = String(model);
-    mode                    = String(mode);
-    if (changes_detected === "1")
-    {
-        messages.push("Changes Detected")
-        if (model === "company")
-        {
-            if(mode==="exit") { messages.push("Are you sure you want to exit this page? All changes will be discarded."); ultimateErrorMessageOption(messages); }
-            else if (mode==="update") { $("#target_action").val(mode); $("#master_company_management_form").submit(); }
-        }
-        if (model === "access")
-        {
-            messages.push("Are you sure you want to leave this page? All changes will be discarded.");
-            ultimateErrorMessageOption2(messages);
-        }
-    }
-    else
-    {
-        if (model === "company")
-        {
-            if(mode==="exit") { closeIconBtn("2"); }
-            else if (mode==="update") { messages.push("No changes have been detected"); messages.push(' '); ultimateErrorMessage(messages); }
-        }
-        if (model === "access") { closeIconBtn("3"); }
-    }
-}
 
-function signalAccessChanges(target)
-{
-    loadCheckboxData(target);
-    selected_e = $("#selected_e").val();
-    selected_e = String(selected_e);
-    aa  = $("#m_admin").val();
-    bb  = $("#m_blog").val();
-    cc  = $("#m_product").val();
-    dd  = $("#m_gallery").val();
-    ee  = $("#m_about").val();
-    a   = $("#admin_" + selected_e).val();
-    b   = $("#blog_" + selected_e).val();
-    c   = $("#product_" + selected_e).val();
-    d   = $("#gallery_" + selected_e).val();
-    e   = $("#about_" + selected_e).val();
-    aaa = isMatch_d(aa, a);
-    bbb = isMatch_d(bb, b);
-    ccc = isMatch_d(cc, c);
-    ddd = isMatch_d(dd, d);
-    eee = isMatch_d(ee, e);
-    if(aaa==false||bbb===false||ccc===false||ddd===false||eee===false) { $("#changes_detected").val("1"); }
-    else { $("#changes_detected").val("0"); }
-}
 
 </script>
 

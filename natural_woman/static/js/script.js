@@ -206,22 +206,6 @@ function fetchStates()
     return s;
 }
 
-function deactivate_blog_editor()
-{
-    $("#editor_subject").val("");
-    $("#super_blog_content").val("");
-    $("#msg3").fadeOut((500));
-}
-
-function clear_product_fields()
-{
-    $("#msg3").fadeOut(500, function() {
-        $("#product_name").val("");
-        $("#product_description").val("");
-        $("#product_price").val("0");
-    });
-}
-
 function load_error_message(labl1, labl2, labl3, obj1, obj2, obj3)
 {
     var entry1 = "<span>" + labl1 + "</span>&nbsp<em>" + obj1 + "</em>";
@@ -310,14 +294,14 @@ function build_blog_editor()
     html += "<input type=\"hidden\" name=\"target_id\" id=\"e_target_id\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"7\">";
     html += "<div class=\"editme_label\">Subject:</div>";
-    html += "<input type=\"text\" name=\"editor_subject\" id=\"editor_subject\" placeholder=\"Type subject here\" style=\"font-size:11px;\">";
+    html += "<input type=\"text\" name=\"editor_subject\" oninput=\"javascript: signalInputChange('blog');\" id=\"editor_subject\" placeholder=\"Type subject here\" style=\"font-size:11px;\">";
     html += "<div class=\"blog_full_editor_content\">";
-    html += "<textarea id=\"super_blog_content\" name=\"content\" required></textarea>";
+    html += "<textarea id=\"super_blog_content\" name=\"content\" oninput=\"javascript: signalInputChange('blog');\"></textarea>";
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
     html += "<button onClick=\"javascript: validateModel('blog');\">Save Changes</button>";
-    html += "<button onClick=\"javascript: deactivate_blog_editor();\">Cancel</button>";
+    html += "<button onClick=\"javascript: detectChanges('blog', 'exit');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -334,6 +318,12 @@ function ultimateHardClose()
 {
     $("#msg4").fadeOut(500);
     $("#msg2").fadeOut(500);
+}
+
+function ultimateHardClose1()
+{
+    $("#msg1").fadeOut(500);
+    $("#msg4").fadeOut(500);
 }
 
 function ultimateHardClose2()
@@ -448,19 +438,19 @@ function build_product_editor()
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_prod\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
     html += "<div class=\"editme_label\">Product Name:</div>";
-    html += "<input type=\"text\" name=\"p_name\" id=\"product_name\" placeholder=\"Type product name here\" required>";
+    html += "<input type=\"text\" name=\"p_name\" id=\"product_name\" placeholder=\"Type product name here\" oninput=\"javascript: signalInputChange('product');\">";
     html += "<div class=\"product_description_textarea\">";
     html += "<div class=\"editme_label\">Product Description:</div>";
-    html += "<textarea name=\"p_description\" id=\"product_description\" required></textarea>";
+    html += "<textarea name=\"p_description\" id=\"product_description\" oninput=\"javascript: signalInputChange('product');\"></textarea>";
     html += "</div>";
     html += "<div class=\"restore_frame\">";
     html += "Price: ";
-    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"p_price\" id=\"product_price\" value=\"0\" oninput=\"javascript: validatePricingInput();\">";
+    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"p_price\" id=\"product_price\" value=\"0\" oninput=\"javascript: validatePricingInput(); signalInputChange('product');\">";
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
     html += "<button onClick=\"javascript: validateModel('product');\">Save Changes</button>";
-    html += "<button onClick=\"javascript: clear_product_fields();\">Cancel</button>";
+    html += "<button onClick=\"javascript: detectChanges('product', 'exit');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -552,10 +542,10 @@ function build_about_editor()
     html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
 
     html += "<div class=\"about_editor_textarea\">";
-    html += "<textarea name=\"master_a_statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" required></textarea>";
+    html += "<textarea name=\"master_a_statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" oninput=\"javascript: signalInputChange('about');\"></textarea>";
     html += "</div>";
     html += "<div class=\"active_setter\">";
-    html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#m_is_active');\" checked>";
+    html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#m_is_active'); signalInputChange('about');\" checked>";
     html += "<label>&nbspSet As Current Statement</label>";
     html += "</div>";
 
@@ -563,7 +553,7 @@ function build_about_editor()
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
     html += "<button onClick=\"javascript: validateModel('about');\">Save Changes</button>";
-    html += "<button onClick=\"javascript: close_about_editor();\">Cancel</button>";
+    html += "<button onClick=\"javascript: detectChanges('about', 'exit');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -2681,6 +2671,33 @@ function ultimateErrorMessageOption2(messages)
     loadHiddenFrame("msg4", html);
 }
 
+function ultimateErrorMessageOption1(messages)
+{
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<div class='ultimate-error-container'>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
+    html += "<div class='ultimate-error-content'>";
+    html += "<h1>";
+    html += String(messages[0]);
+    html += "<h1>";
+    html += "<h2>";
+    html += String(messages[1]);
+    html += "<h2>";
+    html += "<div class='ultimate-btn-holder'>";
+    html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
+    html += "<button onClick=\"javascript: ultimateHardClose1();\">Leave Page</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    loadHiddenFrame("msg4", html);
+}
+
 function ultimateWarningMessageOption(action)
 {
     var html = "";
@@ -2757,6 +2774,202 @@ function ultimateWarningMessageOption(action)
     {
         requestNameUpdate();
     }  
+}
+
+function detectChanges(model, mode)
+{
+    var messages            = [];
+    var changes_detected    = $("#changes_detected").val();
+    changes_detected        = String(changes_detected);
+    model                   = String(model);
+    mode                    = String(mode);
+    if (changes_detected === "1")
+    {
+        messages.push("Changes Detected")
+        if (model === "company")
+        {
+            if(mode==="exit") { messages.push("Are you sure you want to exit this page? All changes will be discarded."); ultimateErrorMessageOption(messages); }
+            else if (mode==="update") { $("#target_action").val(mode); $("#master_company_management_form").submit(); }
+        }
+        else
+        {
+            messages.push("Are you sure you want to leave this page? All changes will be discarded.");
+            ultimateErrorMessageOption2(messages);
+        }
+    }
+    else
+    {
+        if (model === "company")
+        {
+            if(mode==="exit") { closeIconBtn("2"); }
+            else if (mode==="update") { messages.push("No changes have been detected"); messages.push(' '); ultimateErrorMessage(messages); }
+        }
+        else { closeIconBtn("3"); }
+    }
+}
+
+function signalNewBlogChanges()
+{
+    var subject = $("#new_blog_subj").val();
+    var content = $("#new_blog_cont").val();
+    subject     = String(subject);
+    content     = String(content);
+    if(subject.length===0 && content.length===0)
+    {
+        $("#changes_detected").val("0");
+    }
+    else
+    {
+        $("#changes_detected").val("1");
+    }
+}
+
+function detectNewBlogChanges()
+{
+    var changed = $("#changes_detected").val();
+    changed = String(changed);
+    if (changed === "0")
+    {
+        closeIconBtn('1');
+    }
+    else if (changed === "1")
+    {
+        messages = [];
+        messages.push("You've Started A New Blog Post!");
+        messages.push("Are you sure you want to exit this page? All changes will be discarded.");
+        ultimateErrorMessageOption1(messages)
+    }
+}
+
+function getBlogChangeData()
+{
+    var compare     = [];
+    var compare_a   = [];
+    var compare_b   = [];
+    var selected_e  = $("#selected_e").val();
+    selected_e      = String(selected_e);
+    var a           = $("#subject_" + selected_e).val();
+    var b           = $("#content_" + selected_e).val();
+    var aa          = $("#editor_subject").val();
+    var bb          = $("#super_blog_content").val();
+    compare_a.push(a);
+    compare_a.push(aa);
+    compare_b.push(b);
+    compare_b.push(bb);
+    compare.push(compare_a);
+    compare.push(compare_b);
+    return compare;
+}
+
+function getAboutChangeData()
+{
+    var compare         = [];
+    var compare_a       = [];
+    var compare_b       = [];
+    var active_loaded   = $("#active_loaded").val();
+    var a = "";
+    var b = "";
+    var aa = "";
+    var bb = "";
+
+    if (String(active_loaded) === "0")
+    {
+        var selected_e  = $("#selected_e").val();
+        selected_e      = String(selected_e);
+        a               = $("#statement_" + selected_e).val();
+        b               = "0";
+        aa              = $("#editor_statement").val();
+        bb              = $("#m_is_active").val();
+    }
+    else
+    {
+        a               = $("#current_statement_v2").val();
+        b               = "1";
+        aa              = $("#editor_statement").val();
+        bb              = "1";
+    }
+    compare_a.push(a);
+    compare_a.push(aa);
+    compare_b.push(b);
+    compare_b.push(bb);
+    compare.push(compare_a);
+    compare.push(compare_b);
+    return compare;
+}
+
+function getProductChangeData()
+{
+    var compare     = [];
+    var compare_a   = [];
+    var compare_b   = [];
+    var compare_c   = [];
+    var selected_e  = $("#selected_e").val();
+    selected_e      = String(selected_e);
+    var a           = $("#name_" + selected_e).val();
+    var b           = $("#description_" + selected_e).val();
+    var c           = $("#price_" + selected_e).val();
+    var aa          = $("#product_name").val();
+    var bb          = $("#product_description").val();
+    var cc          = $("#product_price").val();
+    compare_a.push(a);
+    compare_a.push(aa);
+    compare_b.push(b);
+    compare_b.push(bb);
+    compare_c.push(c);
+    compare_c.push(cc);
+    compare.push(compare_a);
+    compare.push(compare_b);
+    compare.push(compare_c);
+    return compare;
+}
+
+function signalInputChange(target)
+{
+    var c_list  = null;
+    target      = String(target);
+
+    if (target === "blog") { c_list = getBlogChangeData(); }
+    if (target === "about") { c_list = getAboutChangeData(); }
+    if (target === "product") { c_list = getProductChangeData(); }
+
+    for (var i = 0; i < c_list.length; i++)
+    {
+        var c1 = String(c_list[i][0]);
+        var c2 = String(c_list[i][1]);
+        if (c1 !== c2)
+        {
+            $("#changes_detected").val("1");
+            break;
+        }
+        else
+        {
+            $("#changes_detected").val("0");
+        }
+    }
+}
+
+function signalAccessChanges(target)
+{
+    loadCheckboxData(target);
+    selected_e = $("#selected_e").val();
+    selected_e = String(selected_e);
+    aa  = $("#m_admin").val();
+    bb  = $("#m_blog").val();
+    cc  = $("#m_product").val();
+    dd  = $("#m_gallery").val();
+    ee  = $("#m_about").val();
+    a   = $("#admin_" + selected_e).val();
+    b   = $("#blog_" + selected_e).val();
+    c   = $("#product_" + selected_e).val();
+    d   = $("#gallery_" + selected_e).val();
+    e   = $("#about_" + selected_e).val();
+    aaa = isMatch_d(aa, a);
+    bbb = isMatch_d(bb, b);
+    ccc = isMatch_d(cc, c);
+    ddd = isMatch_d(dd, d);
+    eee = isMatch_d(ee, e);
+    if(aaa==false||bbb===false||ccc===false||ddd===false||eee===false) { $("#changes_detected").val("1"); }
+    else { $("#changes_detected").val("0"); }
 }
 
 function sendNewUserRequest()
@@ -3185,16 +3398,6 @@ function display_about_editor(load_data, query)
     $("#editor_builder").fadeIn(500);
 }
 
-function close_about_editor()
-{
-    // $("#editor_builder").fadeOut(500);    
-    $("#msg3").fadeOut(500, function() {
-        $("#editor_statement").val("");
-        $("#active_check").prop('checked', false);
-        $("#active_check").prop("disabled", false);
-    });
-}
-
 function mod_checkbox(check_id)
 {
     check_id = String(check_id);
@@ -3258,8 +3461,6 @@ function submitAccountChangeAuthorize()
 {
     $("#account_form").submit();
 }
-
-
 
 function validateModel(model)
 {
