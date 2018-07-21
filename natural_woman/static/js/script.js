@@ -3923,17 +3923,17 @@ $(document).ready(function() {
 
 
     $("#btn0").click(function() {
-        $("#master-body-fader").fadeOut(500, function() {
+        $("#master-body-fader").fadeOut(600, function() {
             window.location.href = "/admin_home"; 
         });
     });
     $("#btn1").click(function() {
-        $("#master-body-fader").fadeOut(500, function() {
+        $("#master-body-fader").fadeOut(600, function() {
             window.location.href = "/email"; 
         });
     });
     $("#ddb4").click(function() {
-        $("#master-body-fader").fadeOut(500, function() {
+        $("#master-body-fader").fadeOut(600, function() {
             window.location.href = "/logout"; 
         });
     });

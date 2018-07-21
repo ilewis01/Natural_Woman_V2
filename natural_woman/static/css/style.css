@@ -1867,7 +1867,7 @@ ADMIN-Hbody {
     color: #b1bb57;
 }
 
-.dropdown-menu {
+/*.dropdown-menu {
     background: linear-gradient(to top, rgba(206, 209, 162, 0.7), rgba(85, 88, 56, 0.7));
     margin-left: -43px;
     margin-top: 9px;
@@ -1889,7 +1889,7 @@ ADMIN-Hbody {
     color: #353a07;
     font-weight: bold;
     text-shadow: none;
-}
+}*/
 
 .account_change_wrap {
     width:40%;

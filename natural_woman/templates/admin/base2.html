@@ -110,6 +110,10 @@
     text-shadow: none;
 }
 
+.dropdown {
+    margin-top: -2px;
+}
+
 .ultimate-btn-holder {
     width: 100%;
     margin-bottom: 25px;
@@ -159,37 +163,6 @@
 
         <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
         <div class='alert6 hidden' id='msg6'>
-            
-            <div class='company_contact_set_frame2 center_v_mode'>
-                <form action='/edit_success' method='POST' id='confirm_authorization_form'>
-                    <input type="hidden" name="auth_id" value="auth_id goes here">
-                </form>
-                <div class='company_contact_edit1'>
-                    <div class='edit_success_closer' onClick="javascript: closeIconBtn('6');">
-                        <i class='far fa-window-close'></i>
-                    </div>
-                    <div class='es-options'>
-                        <h3>
-                            <i class='fas fa-user-plus'></i> Authorize New User</h3>
-                        <div class='ultimate-error-content'>
-                            <h1>
-                            This is the message header
-                        </h1>
-                            <h2>
-                            This is where specific details about the error message that was generated from the user input.
-                        </h2>
-                            <div class='ultimate-btn-holder'>
-                                <button onClick="javascript: resendAuthRequest();">Send New Authorization Code</button>
-                                <button onClick="javascript: closeIconBtn('6');">Do Not Send Authorization</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
             <!--<div class="ua_wrapper center_v_mode">
                 <div class="frame_general_sm">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
