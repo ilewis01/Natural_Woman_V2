@@ -83,7 +83,14 @@ function initialize_admin_forms()
         $("#blog_active").val("0");
     }
 
-    if (Number(btn_index) < 20)
+    if (Number(btn_index) === 20)
+    {
+        $("#btn1").addClass("active-item");
+        $("#master-body-fader").hide();
+        $("#master-body-fader").removeClass("hidden");
+        $("#master-body-fader").fadeIn(600);
+    }
+    else if (Number(btn_index) < 20)
     {
         $("#btn0").addClass("selected-item");
     }
@@ -2471,7 +2478,7 @@ function edit_success_builder(btn_index, header, message)
     if (btn_index === "6") { icon = "<i class=\"fab fa-blogger\"></i>"; }
     else if (btn_index === "7") { icon = "<i class=\"fas fa-edit\"></i>"; }
     else if (btn_index === "8") { icon = "<i class=\"fas fa-spray-can\"></i>"; }
-    else if (btn_index === "9") { icon = "<i class=\"fas fa-camera\"></i>"; }
+    else if (btn_index === "9") { icon = "<div class='alone_icon2'>A</div>"; }
     else if (btn_index === "10") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
     else if (btn_index === "11") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
     else if (btn_index === "12") { icon = "<i class=\"fas fa-user-cog\"></i>"; }
@@ -2569,7 +2576,7 @@ function build_url_frame(active, inactive, index, is_edited, header, message)
     }
     else
     {
-        if (index !== "6")
+        if (index !== "6" && index !== "20")
         {
             html = build_restrictor();
             $("#msg2").html(html);
@@ -3848,31 +3855,6 @@ function submit_auth_user()
     $("#user_authorize_form").submit();
 }
 
-function load_admin_master(index)
-{
-    index = Number(index);
-        
-    if (index < 20)
-    {
-        $("#btn0").addClass("selected-item");
-        $("#btn1").removeClass("selected-item");
-        $("#btn2").removeClass("selected-item");
-    }
-    else if (index === 20)
-    {
-        $("#btn0").removeClass("selected-item");
-        $("#btn1").addClass("selected-item");
-        $("#btn2").removeClass("selected-item");
-    }
-    else if (index > 20)
-    {
-        $("#btn0").removeClass("selected-item");
-        $("#btn1").removeClass("selected-item");
-        $("#btn2").addClass("selected-item");
-    }
-}
-
-
 $(document).ready(function() {
     $("#login-btn").click(function() {
         $("#login_form").submit();
@@ -3943,9 +3925,13 @@ $(document).ready(function() {
 
 
 
-
+    $("#btn0").click(function() {
+        $("#master-body-fader").fadeOut(500, function() {
+            window.location.href = "/admin_home"; 
+        });
+    });
     $("#btn1").click(function() {
-        $("#master_admin_fader").fadeOut(500, function() {
+        $("#master-body-fader").fadeOut(500, function() {
             window.location.href = "/email"; 
         });
     });
@@ -3984,34 +3970,6 @@ $(document).ready(function() {
     });
     $("#close-this-6").click(function() {
         $("#msg6").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-7").click(function() {
-        $("#msg7").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-8").click(function() {
-        $("#msg8").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-14").click(function() {
-        $("#msg14").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-10").click(function() {
-        $("#editor_builder").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-11").click(function() {
-        $("#msg11").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-15").click(function() {
-        $("#err").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-15").click(function() {
-        $("#helper_element").fadeOut(500);
         $("#frame_active").val("0");
     });
 

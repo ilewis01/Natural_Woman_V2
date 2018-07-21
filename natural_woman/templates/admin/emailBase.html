@@ -50,41 +50,6 @@
             <input type="hidden" id="master_user_email" value="{{user.email}}">
         </form>
 
-        <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
-        <div class="alert1 hidden" id="msg1">
-            <div class="new_blog_wrap center_v_mode">
-                <div class="frame_general_sm ">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>New Blog Post</h3>
-                    <div class="generalSteel-in">
-                        <h2 class=""><i class="fab fa-blogger"></i></h2>
-                        <form action="/edit_success" method="POST" id="new_blog_form">
-                            <input type="hidden" name="target_model" id="target1" value="new_blog">
-                            <input type="hidden" name="target_action" id="taction11" value="new">
-                            <input type="hidden" name="prev_index" value="{{btn_index}}">
-                            <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" required>
-                            <div class="blog_content_wrapper">
-                                <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." required></textarea>
-                            </div>
-                        </form>
-
-                        <div class="general_editor_btns">
-                            <button id="target_new_blog" onClick="javascript: validateModel('new_blog');">Post</button>
-                            <button id="close-this-1">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MANAGER BUILDER -->
-        <body onLoad="javascript: build_url_frame( {{json_data.inactive}}, {{json_data.active}}, '{{btn_index}}', {{is_edited}}, '{{header}}', '{{message}}', '{{message}}' );" id="frame_builder">
-            <div class="alert2 hidden" id="msg2"></div> 
-        </body>
-
-        <!--EDITOR BUILDER -->
-        <div class="alert3 hidden" id="msg3"></div>
-
 <style type="text/css">
 .dropdown-menu {
     background: linear-gradient(to top, rgba(206, 209, 162, 0.7), rgba(85, 88, 56, 0.7));
@@ -136,59 +101,7 @@
 
 </style>
 
-        <!-- ERROR MESSAGES -->
-        <div class='alert4 hidden' id='msg4'></div>
-
-        <!-- HELPER POP-UP -->
-        <div class="alert5 hidden" id="helper_element">
-            <div class="helper_container center_v_mode">
-                <div class="helper_data">
-                    <table>
-                        <tr>
-                            <td class="td_left">
-                                <div class="help_icon"><i class="far fa-question-circle"></i></div>
-                            </td>
-                            <td class="td_right">
-                                <a href="javascript: close_helper_frame();">
-                                    <i class="far fa-window-close"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="helper_title" id="helper_title"></div>
-                    <div class="helper_content" id="content_message">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
-            <!--<div class="ua_wrapper center_v_mode">
-                <div class="frame_general_sm">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>Edit Gallery Images</h3>
-                    <div class="generalSteel-in">
-                        <h2 class="blogger_editor"><i class="fas fa-camera"></i></h2>
-                        <form action="/edit_success" method="POST" id="gallery_manager_form">
-                            <input type="hidden" name="target_model" id="target_action_gallery" value="gallery">
-                            <input type="hidden" name="target_action" id="target_gallery">
-                            <input type="hidden" name="target_id" id="target_id_gallery">
-                        </form>
-                        <div class="yo divtoBlink" id="" style='opacity: 0.4;'>yo</div>
-
-                        <div class=''><button class='flash-button' disabled>This is a button</button></div>
-
-                        <div class="general_editor_btns">
-                            <button id="auth_new_user">Not Active</button>
-                            <button id="close-this-6">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-        </div>
-
-        <div id='master-body-fader' class='master-body-fader'>
+        <div id='master-body-fader' class='master-body-fader hidden'>
             <nav class="navbar navbar-expand-sm" role="navigation">
                 <div class="navbar-header">
                     <div class="nav-head-wrap">
