@@ -2159,7 +2159,7 @@ function build_auth_user()
     html += "<div class=\"generalSteel-in\">";
     html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-user-plus\"></i></h2>";
     html += "<form action=\"/edit_success\" method=\"POST\" id=\"user_authorize_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_action_prod\" value=\"user\">";
+    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_action_prod\" value=\"authorize\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"authorize\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"13\">";
     html += "<input type=\"hidden\" name=\"is_admin\" id=\"is_admin\" value=\"0\">";
@@ -2171,15 +2171,15 @@ function build_auth_user()
     html += "<div class=\"container\">";
     html += "<div class=\"row\">";
     html += "<div class=\"col-sm-6\" style=\"margin:0; padding:0; padding-right:3%;\">";
-    html += "<input type=\"text\" name=\"fname\" id=\"ua_fname\" placeholder=\"First Name\" required>";
+    html += "<input type=\"text\" name=\"fname\" id=\"ua_fname\" placeholder=\"First Name\" oninput=\"javascript: signalAuthChanges();\">";
     html += "</div>";
     html += "<div class=\"col-sm-6\" style=\"margin:0; padding:0;\">";
-    html += "<input type=\"text\" name=\"lname\" id=\"ua_lname\" placeholder=\"Last Name\" required>";
+    html += "<input type=\"text\" name=\"lname\" id=\"ua_lname\" placeholder=\"Last Name\" oninput=\"javascript: signalAuthChanges();\">";
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "<div class=\"ua_drop\"><input type=\"email\" name=\"email\" id=\"ua_email\" placeholder=\"Enter new user email\" required>";
-    html += "<input type=\"email\" name=\"email2\" id=\"ua_email2\" placeholder=\"Confirm new user email\" required>";
+    html += "<div class=\"ua_drop\"><input type=\"email\" name=\"email\" id=\"ua_email\" placeholder=\"Enter new user email\" oninput=\"javascript: signalAuthChanges();\">";
+    html += "<input type=\"email\" name=\"email2\" id=\"ua_email2\" placeholder=\"Confirm new user\" oninput=\"javascript: signalAuthChanges();\">";
     html += "</div>";
     html += "<div class=\"ua_header ua_drop4\">Permissions</div>";
     html += "<div class=\"permission_slip\">";
@@ -2240,13 +2240,149 @@ function build_auth_user()
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateModel('new_user');\">Authorize</button>";
-    html += "<button id=\"close-this-2\">Cancel</button>";
+    html += "<button onClick=\"javascript: validateNewUser();\">Authorize</button>";
+    html += "<button onClick=\"javascript: alertAuthChanges();\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
     return html;
+}
+
+function resendAuthRequest()
+{
+    var auth_id = $("#resend_id").val();
+    alert("AUTH ID: " + String(auth_id));
+    $("#confirm_authorization_form").submit();
+}
+
+function editSucessOptionBuilder(active, index, header, message)
+{
+    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
+    html += "<form action='/edit_success' method='POST' id='confirm_authorization_form'>";
+    html += "<input type='hidden' name='target_model' id='resend_model' value='reAuth'>";
+    html += "<input type='hidden' name='target_action' id='resend_action' value='reAuth'>";
+    html += "<input type='hidden' name='target_id' id='resend_id' value='";
+    html += String(active);
+    html += "'>";
+    html += "</form>";
+    html += "<div class='company_contact_edit1'>";
+    html += "<div class='edit_success_closer' onClick=\"javascript: closeIconBtn('3');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</div>";
+    html += "<div class='es-options'>";
+    html += "<h3>";
+    html += "<i class='fas fa-user-plus'></i> Authorize New User</h3>";
+    html += "<div class='ultimate-error-content'>";
+    html += "<h1>";
+    html += String(header);
+    html += "</h1>";
+    html += "<h2>";
+    html += String(message);
+    html += "</h2>";
+    html += "<div class='ultimate-btn-holder'>";
+    html += "<button onClick=\"javascript: resendAuthRequest();\">Send New Authorization Code</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('3');\">Do Not Send Authorization</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function signalAuthChanges()
+{
+    var a = $("#ua_fname").val();
+    var b = $("#ua_lname").val();
+    var c = $("#ua_email").val();
+    var d = $("#ua_email2").val();
+    if(a.length===0&&b.length===0&&c.length===0&&d.length===0) { $("#changes_detected").val("0"); }
+    else { $("#changes_detected").val("1"); }
+}
+
+function alertAuthChanges()
+{
+    var changed = $("#changes_detected").val();
+    changed     = String(changed);
+    if(changed === "0") { closeIconBtn("2"); }
+    else if (changed === "1")
+    {
+        var messages = [];
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to leave this page? All changes will be discarded.");
+        ultimateErrorMessageOption(messages);
+    }
+}
+
+function validateNewUser()
+{
+    var proceed     = false;
+    var messages    = [];
+    var fname       = $("#ua_fname").val();
+    var lname       = $("#ua_lname").val();
+    var email1      = $("#ua_email").val();
+    var email2      = $("#ua_email2").val();
+    var a           = $("#is_admin").val();
+    var b           = $("#ua_product_permission").val();
+    var c           = $("#ua_about_permission").val();
+    var d           = $("#ua_blog_permission").val();
+    var e           = $("#ua_gallery_permission").val();
+    a = String(a)
+    b = String(b)
+    c = String(c)
+    d = String(d)
+    e = String(e)
+    if (fname.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a first name for the new user to proceed.")
+    }
+    else if (lname.length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a last name for the new user to proceed.")
+    }
+    else if (email1.length === 0)
+    {
+        messages.push("Email 1 Is Blank");
+        messages.push("You must enter the email for the new user to proceed.")
+    }
+    else if (validate_email(email1) === false)
+    {
+        messages.push("Invalid Email");
+        messages.push("The email address that you entered for email 1 is invalid.")
+    }
+    else if (email2.length === 0)
+    {
+        messages.push("Email 1 Is Blank");
+        messages.push("You must confirm the new user's email to proceed.")
+    }
+    else if (validate_email(email2) === false)
+    {
+        messages.push("Invalid Email");
+        messages.push("The email address that you entered for email 2 is invalid.")
+    }
+    else if (email1 !== email2)
+    {
+        messages.push("The Email Addresses Do Not Match");
+        messages.push(" ")
+    }
+    else if(a==="0"&&b==="0"&&c==="0"&&d==="0"&&e==="0")
+    {
+        messages.push("No Permissions Granted");
+        messages.push("You cannot authorize a new user without granting any access privileges. If you would like to authorize this user anyway, You must grant at least grant one privilege and when the user has registered, you can block all privileges in the \"User Management\" section of the administration page.");
+    }
+    else { proceed = true; }
+    if (proceed === true) 
+    { 
+        $("#changes_detected").val("1");
+        ultimateWarningMessageOption("authorize");
+    }
+    else 
+    { 
+        ultimateErrorMessage(messages); 
+    }
 }
 
 function build_password_setter()
@@ -2506,6 +2642,8 @@ function edit_success_builder(btn_index, header, message)
     return html;
 }
 
+
+
 function multi_company_editor(mode)
 {
     var html = ""
@@ -2590,7 +2728,15 @@ function build_url_frame(active, inactive, index, is_edited, header, message)
     $("#msg2").html(html);
     if (String(is_edited) === "1")
     {
-        var html2   = edit_success_builder(index, header, message);
+        var html2 = "";
+        if(String(message) === "You have already authorized this user. Would you like to send them another authorization code?")
+        {
+            html2 = editSucessOptionBuilder(active, index, header, message);
+        }
+        else
+        {
+            html2 = edit_success_builder(index, header, message);
+        }
         loadHiddenFrame("msg3", html2);
     }
 }
@@ -3477,10 +3623,6 @@ function validateModel(model)
     else if (model === "product") { validateProduct(); }
     else if (model === "about") { validateAboutModel(); }
     else if (model === "access") { validateAccess(); }
-    else if (model === "new_user") { validateNewUser(); }
-    // else if (model === "password") { validatePasswordChange(); }
-    // else if (model === "email") { validateEmailChange(); }
-    // else if (model === "name") { validateNameChange(); }
 }
 
 function validateAboutModel()
@@ -3560,152 +3702,7 @@ function validateAccess()
     } 
 }
 
-function validateNewUser()
-{
-    var proceed     = false;
-    var messages    = [];
-    var fname       = $("#ua_fname").val();
-    var lname       = $("#ua_lname").val();
-    var email1      = $("#ua_email").val();
-    var email2      = $("#ua_email2").val();
-    var a           = $("#is_admin").val();
-    var b           = $("#ua_product_permission").val();
-    var c           = $("#ua_about_permission").val();
-    var d           = $("#ua_blog_permission").val();
-    var e           = $("#ua_gallery_permission").val();
-    a = String(a)
-    b = String(b)
-    c = String(c)
-    d = String(d)
-    e = String(e)
-    if (fname.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You must enter a first name for the new user to proceed.")
-    }
-    else if (lname.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You must enter a last name for the new user to proceed.")
-    }
-    else if (email1.length === 0)
-    {
-        messages.push("Email 1 Is Blank");
-        messages.push("You must enter the email for the new user to proceed.")
-    }
-    else if (email2.length === 0)
-    {
-        messages.push("Email 1 Is Blank");
-        messages.push("You must confirm the new user's email to proceed.")
-    }
-    else if (validate_email(email1) === false)
-    {
-        messages.push("Invalid Email");
-        messages.push("The email address that you entered for email 1 is invalid.")
-    }
-    else if (validate_email(email2) === false)
-    {
-        messages.push("Invalid Email");
-        messages.push("The email address that you entered for email 2 is invalid.")
-    }
-    else if (email1 !== email2)
-    {
-        messages.push("The Email Addresses Do Not Match");
-        messages.push(" ")
-    }
-    else if(a==="0"&&b==="0"&&c==="0"&&d==="0"&&e==="0")
-    {
-        messages.push("No Permissions Granted");
-        messages.push("You cannot authorize a new user without granting any access privileges. If you would like to authorize this user anyway, You must grant at least grant one privilege and when the user has registered, you can block all privileges in the \"User Management\" section of the administration page.");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        $("#changes_detected").val("1");
-        //generate a code and send authorizing email
-        ultimateWarningMessageOption("authorize");
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    }
-}
 
-// function validatePasswordChange()
-// {
-//     var proceed     = false;
-//     var messages    = [];
-//     var pword1      = $("#password1").val();
-//     var pword2      = $("#password2").val();
-//     if (pword1 !== pword2)
-//     {
-//         messages.push("The Passwords Do Not Match");
-//         messages.push(" ");
-//     }
-//     else { proceed = true; }
-//     if (proceed === true) 
-//     { 
-//         ultimateWarningMessageOption('password');
-//     }
-//     else 
-//     { 
-//         ultimateErrorMessage(messages); 
-//     } 
-// }
-
-// function validateEmailChange()
-// {
-//     alert("Validating Email Change")
-//     var proceed     = false;
-//     var messages    = [];
-//     var email1      = $("#email1").val();
-//     var email2      = $("#email2").val();
-//     var prev        = $("#master_user_email").val();
-//     if (email1 !== email2)
-//     {
-//         messages.push("The Emails Do Not Match");
-//         messages.push(" ");
-//     }
-//     else if (String(email1) === String(prev))
-//     {
-//         messages.push("No Changes Detected");
-//         messages.push(" ");
-//     }
-//     else { proceed = true; }
-//     if (proceed === true) 
-//     { 
-//         ultimateWarningMessageOption('email');
-//     }
-//     else 
-//     { 
-//         ultimateErrorMessage(messages); 
-//     } 
-// }
-
-// function validateNameChange()
-// {
-//     alert("Validating Name Change")
-//     var proceed     = false;
-//     var messages    = [];
-//     var fname       = $("#fname").val();
-//     var lname       = $("#lname").val();
-//     var first_name  = $("#first_name").val();
-//     var last_name   = $("#last_name").val();
-//     if ((String(fname) === String(first_name)) && (String(lname) === String(last_name)))
-//     {
-//         messages.push("No Changes Detected");
-//         messages.push(" ");
-//     }
-//     else { proceed = true; }
-//     if (proceed === true) 
-//     { 
-//         ultimateWarningMessageOption('name');
-//     }
-//     else 
-//     { 
-//         ultimateErrorMessage(messages); 
-//     } 
-// }
 
 function validateNewBlog()
 {

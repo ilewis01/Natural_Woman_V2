@@ -66,6 +66,45 @@ class User(db.Model):
 	def __repr__(self):
 		return "<User: " + str(self.fname) + " " + str(self.lname) + ">"
 
+class Authorization(db.Model):
+	__tablename__	= "auths"
+	id				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+	auth_name		= db.Column('name', db.String(120), nullable=False)
+	auth_email		= db.Column('email', db.String(120), nullable=False, unique=True)
+	auth_admin		= db.Column('admin_access', db.Boolean, default=False)
+	auth_product 	= db.Column('product_access', db.Boolean, default=False)
+	auth_about 		= db.Column('about_access', db.Boolean, default=False) 
+	auth_blog		= db.Column('blog_access', db.Boolean, default=False)
+	auth_gallery 	= db.Column('gallery_access', db.Boolean, default=False)
+	auth_code		= db.Column('auth_code', db.String)
+
+	def __init__(self, name, email, admin, blog, product, about, gallery):
+		self.auth_name 		= name
+		self.auth_email 	= email
+		self.auth_admin 	= admin
+		self.auth_blog 		= blog
+		self.auth_product 	= product
+		self.auth_about 	= about
+		self.auth_gallery 	= gallery
+
+	def setCode(self, plaintext_code):
+		self.auth_code = bcrypt.generate_password_hash(plaintext_code)
+		self.save()
+
+	def codeValid(self, plaintext_code):
+		return bcrypt.generate_password_hash(plaintext_code)
+
+	def save(self):
+		db.session.add(self)
+		db.session.commit()
+
+	def delete(self):
+		db.session.delete(self)
+		db.session.commit()
+
+	def __repr__(self):
+		return '<Authorization: %r>' % self.auth_email
+
 class Payment(db.Model):
 	__tablename__ 	= "payment"
 	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)

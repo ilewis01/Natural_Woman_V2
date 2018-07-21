@@ -4,7 +4,21 @@ from natural_woman.models import *
 from . import mail, app
 from flask import request
 import json
-import json as simplejson
+import random
+import string
+
+def generateRandomCode(numberChars):
+	numberChars = int(numberChars)
+	code 		= ""
+	for i in range(numberChars):
+		ANchoice = random.randint(0, 1000)
+		alphaNum = ANchoice % 2
+		if alphaNum == 0:
+			code += random.choice(string.ascii_uppercase)
+		elif alphaNum == 1:
+			code += str(random.randint(0,9))
+	return code
+
 
 def user_exist(email):
 	exist = False
@@ -79,6 +93,8 @@ def isQueued(target_model, mid):
 		model_list = Payment.query.all()
 	elif target_model == "blog":
 		model_list = Blog.query.all()
+	elif target_model == "auth":
+		model_list = Authorization.query.all()
 	for m in model_list:
 		if str(m.id) == str(mid):
 			queued = True
@@ -215,6 +231,22 @@ def json_serialize_users():
 		index += 1
 	return data
 
+def encodeAuthData():
+	data  = {}
+	u_txt = ""
+	a_txt = ""
+	users = User.query.all()
+	auths = Authorization.query.all()
+	for u in users:
+		u_txt += u.email
+		u_txt += "~&|"
+	for a in auths:
+		a_txt += a.auth_email
+		a_txt += "~&|"
+	data['active'] = a_txt
+	data['inactive'] = u_txt
+	return data
+
 def json_serialize_company():
 	data = {}
 	c 						= get_company_model()
@@ -280,7 +312,6 @@ def json_serialize_payments():
 
 def isEmptyMember(literal):
 	literal = str(literal)
-	print("LITERAL VALUE: " + literal)
 	if literal==None or literal=="" or literal=="null" or len(literal)==0 or literal=="None":
 		literal = "empty"
 	return literal
@@ -294,9 +325,9 @@ def get_about_list():
 		if a['is_active'] == False:
 			a_list.append(a)
 		else:
-			current = a
+			current 	= a
 	data['inactive'] 	= json.dumps(a_list)
-	data['active'] 	= json.dumps(current)
+	data['active'] 		= json.dumps(current)
 	return data
 
 def get_blog_content():
@@ -487,7 +518,6 @@ def getUserAccessContent(current_user):
 	content['json_data'] 		= get_empty_json_data()
 	content['user'] 			= current_user
 	if current_user.is_admin == True:
-		content['json_data'] 	= get_empty_json_data()
 		content['btn_index'] 	= 13
 		content['title'] 		= "Natural Woman Salon | User Access"
 		content['user'] 		= current_user
@@ -673,8 +703,6 @@ def getEditSuccessData(user):
 			message = "The Active About Statement Has Been Changed"
 		elif target_action == "delete":
 			message = "The Selected Statement Has Been Deleted"
-
-
 	elif target_model == "gallery":
 		header 		= "Manage Gallery Images"
 		index 		= 10
@@ -688,8 +716,6 @@ def getEditSuccessData(user):
 		message 	= "Company Profile Successfully Updated"
 		json_data 	= get_company_content()
 		index 		= 11
-
-
 	elif target_model == "user":
 		header 		= "User Management"
 		json_data 	= get_user_json_data()
@@ -700,13 +726,48 @@ def getEditSuccessData(user):
 			message = "User Privileges Successfully Blocked"
 		elif target_action == "delete":
 			message = "User Successfully Deleted"
-
 	elif target_model == "authorize":
+		is_edited = 1
+		content['buildOption'] = "0"
 		header 		= "Authorize New User"
-		message 	= "The Authorization Code Has Been Sent"
 		json_data 	= get_empty_json_data()
 		index 		= 13
-
+		requestSent = False
+		auth 		= None
+		ret_email 	= str(request.form['email'])
+		if success == False:
+			a_list 		= Authorization.query.all()
+			for a in a_list:
+				if ret_email == str(a.auth_email):
+					requestSent = True
+					auth = a
+					break
+			if requestSent == True:
+				json_data['active'] = auth.id
+				json_data['inactive'] = auth.id
+				message = "You have already authorized this user. Would you like to send them another authorization code?"
+				content['buildOption'] = "1"
+			else:
+				message = "There is an existing account associated with this email. No further action will be taken. You can manage existing account in \"<b>User Management</b>\""
+		else:
+			alist 	= Authorization.query.all()
+			for a in alist:
+				if ret_email == str(a.auth_email):
+					auth = a
+					break
+			code = generateRandomCode(8)
+			# SEND NEW USER A EMAIL HERE WITH THE AUTHORIZATION CODE
+			auth.setCode(code)
+			auth.save()
+			message = "An Authorization Code Has Been Sent"
+	elif target_model == "reAuth":
+		auth_id = str(request.form['target_id'])
+		header = "Authorize New User"
+		message = "A new authorization code has been sent."
+		json_data = get_empty_json_data()
+		json_data['active'] = auth_id
+		json_data['inactive'] = auth_id
+		index = 13
 	content['user'] 		= user
 	content['header'] 		= header
 	content['message'] 		= message
@@ -982,6 +1043,41 @@ def save_target_model(target, action):
 					user.gallery_permission = decodeBoolInteger(gallery_permission)
 					user.is_admin 			= decodeBoolInteger(is_admin)
 					user.save()
+	elif target == "authorize":
+		email = str(request.form["email"])
+		auths = Authorization.query.all()
+		users = User.query.all()
+		for a in auths:
+			if email == str(a.auth_email):
+				complete = False
+				break
+		for u in users:
+			if email == str(u.email):
+				complete = False
+				break
+		if complete == True:
+			fname = str(request.form["fname"])
+			lname 			= str(request.form["lname"])
+			auth_admin 		= decodeBoolInteger(request.form["is_admin"])
+			auth_product 	= decodeBoolInteger(request.form["product_permission"])
+			auth_about 		= decodeBoolInteger(request.form["about_permission"])
+			auth_blog 		= decodeBoolInteger(request.form["blog_permission"])
+			auth_gallery 	= decodeBoolInteger(request.form["gallery_permission"])
+			name 			= fname + " " + lname
+			authorizer		= Authorization(name, email, auth_admin, auth_blog, auth_product, auth_about, auth_gallery)
+			authorizer.save()
+	elif target == "reAuth":
+		auth_id =str(request.form['target_id'])
+		if isQueued("auth", auth_id) == True:
+			auth 	= None
+			aList 	= Authorization.query.all()
+			for a in aList:
+				if str(a.id) == auth_id:
+					auth = a
+					break
+			code = generateRandomCode(8)
+			# SEND A EMAIL TO USER HERE WITH THE NEW CODE
+			auth.setCode(code)
 	return complete
 
 

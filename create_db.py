@@ -1,5 +1,6 @@
 
 from natural_woman.models import *
+from natural_woman.functions import generateRandomCode
 
 db.drop_all()
 db.create_all()
@@ -28,6 +29,11 @@ a1.is_active = False
 a2.is_active = False
 
 c0.show_twitter = False
+
+code = generateRandomCode(8)
+auth = Authorization("johnny Walker", "johnny@drink.com", True, True, True, False, False)
+auth.auth_code = code
+auth.save()
 
 u1 = User("Deez", "Nutz", "mynutz@gmail.com", "1234" )
 u2 = User("Nasty", "Whore", "hotmess@gmail.com", "password")

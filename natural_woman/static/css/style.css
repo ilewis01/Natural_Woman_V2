@@ -2722,6 +2722,27 @@ input[type="radio"]:checked:after {
     margin-bottom: 25px;
 }
 
+.es-options {
+    width: 100%;
+    color: #444444;
+    text-align: left;
+}
+
+.es-options h3 {
+    color: #373c05;
+    font-size: 17px;
+    font-weight: 700;
+    font-style: italic;
+    border-bottom: 1px solid #777777;
+    padding-bottom: 7px;
+}
+
+.es-options i {
+    color: #bab587;
+    text-shadow: 1px 1px #222222;
+    font-size: 30px;
+}
+
 
 
 

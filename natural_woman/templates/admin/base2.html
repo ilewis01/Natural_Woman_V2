@@ -122,19 +122,6 @@
     padding-bottom:5px;
 }
 
-.alone_icon2 {
-    font-family: 'Marck Script', cursive;
-    background: linear-gradient(to bottom, #d5cda9, #858069);
-    color: #4c511e;
-    border-radius: 6px;
-    font-size: 25px;
-    padding-left:8px;
-    width: 40px;
-    margin-bottom:2%;
-    border: 1px solid #666666;
-    text-shadow: 1px 1px #666666;
-    box-shadow:1px 1px 1px #777777;
-}
 </style>
 
 <script type="text/javascript">
@@ -172,19 +159,28 @@
 
         <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
         <div class='alert6 hidden' id='msg6'>
+            
             <div class='company_contact_set_frame2 center_v_mode'>
+                <form action='/edit_success' method='POST' id='confirm_authorization_form'>
+                    <input type="hidden" name="auth_id" value="auth_id goes here">
+                </form>
                 <div class='company_contact_edit1'>
-                    <div class='ultimate-error-closer' onClick="javascript: closeIconBtn('6');">
+                    <div class='edit_success_closer' onClick="javascript: closeIconBtn('6');">
                         <i class='far fa-window-close'></i>
                     </div>
-                    <div class='ultimate-error-container'>
-                        <h3><i class='fas fa-exclamation-circle'></i> Error Detected</h3>
+                    <div class='es-options'>
+                        <h3>
+                            <i class='fas fa-user-plus'></i> Authorize New User</h3>
                         <div class='ultimate-error-content'>
-                            <h1>This is the message header</h1>
-                            <h2>This is where specific details about the error message that was generated from the user input.</h2>
+                            <h1>
+                            This is the message header
+                        </h1>
+                            <h2>
+                            This is where specific details about the error message that was generated from the user input.
+                        </h2>
                             <div class='ultimate-btn-holder'>
-                                <button onClick="javascript: ultimateSoftClose();">Stay On Page</button>
-                                <button onClick="javascript: ultimateHardClose();">Leave Page</button>
+                                <button onClick="javascript: resendAuthRequest();">Send New Authorization Code</button>
+                                <button onClick="javascript: closeIconBtn('6');">Do Not Send Authorization</button>
                             </div>
                         </div>
                     </div>
