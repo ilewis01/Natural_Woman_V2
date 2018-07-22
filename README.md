@@ -8,4 +8,4 @@ To Kill Server
 	2. ps ax | grep <PID> (To see if it is the one using "flask run")
 	3. kill -QUIT <PID>
 
-li hover hex: #dadeb1 
+li hover hex: #c8bfa1 

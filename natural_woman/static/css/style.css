@@ -200,7 +200,7 @@ ADMIN-Hbody {
 }
 
 .pop_editor_wrap {
-	width:43%;
+	width:48%;
 	margin: auto;
 }
 
@@ -1559,7 +1559,9 @@ ADMIN-Hbody {
 
 .blogger_editor i {
     padding-left: 5px;
-    color: #717102;
+    color: #af987a;
+    text-shadow: 1px 1px #111111;
+    font-size: 25px;
 }
 
 .clear_pm {

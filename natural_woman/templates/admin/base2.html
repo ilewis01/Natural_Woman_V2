@@ -52,7 +52,40 @@
 
         <!-- NEW BLOG FORM (ACTIVE FROM EVERY PAGE) -->
         <div class="alert1 hidden" id="msg1">
-            <div class="new_blog_wrap center_v_mode">
+            <div class='new_blog_wrap center_v_mode'>
+                <div class='frame_general_sm'>
+                    <div class='container'>
+                        <div class='row'>
+                            <div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>
+                                <div class='img-style-editor-left'>
+                                    <h3><i class='fab fa-blogger' style='font-size:28px;'></i> New Blog Post</h3>
+
+                                    <form action="/edit_success" method="POST" id="new_blog_form">
+                                        <input type="hidden" name="target_model" id="target1" value="new_blog">
+                                        <input type="hidden" name="target_action" id="taction11" value="new">
+                                        <input type="hidden" name="prev_index" value="{{btn_index}}">
+                                        <input type="text" name="new_blog_subj" id="new_blog_subj" placeholder="Subject" oninput="javascript: signalNewBlogChanges();">
+                                        <div class="blog_content_wrapper">
+                                            <textarea name="new_blog_cont" id="new_blog_cont" placeholder="Type blog content here..." oninput="javascript: signalNewBlogChanges();"></textarea>
+                                        </div>
+                                    </form>
+                                    <div class="general_editor_btns">
+                                        <button id="target_new_blog" onClick="javascript: validateModel('new_blog');">Post</button>
+                                        <button onClick="javascript: detectNewBlogChanges();">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class='col-sm-1' style='padding:0; margin:0; margin-left:-6px'>
+                                <div class='img-style-editor-right'>
+                                    <div class='transparent-icon'><i class='fab fa-envira'></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="new_blog_wrap center_v_mode">
                 <div class="frame_general_sm ">
                     <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
                     <h3>New Blog Post</h3>
@@ -74,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <!-- MANAGER BUILDER -->
@@ -127,7 +160,6 @@
 }
 
 .img-style-editor-left, .img-style-editor-right {
-    width: 100%;
     margin-top: 10px;
 }
 
@@ -140,6 +172,7 @@
     padding-bottom:2%;
     padding-left:20px;
     padding-right:20px;
+    width:95%;
 }
 
 .img-style-editor-left h3 {
@@ -156,7 +189,7 @@
 .img-style-editor-left i {
     text-shadow: 1px 1px #111111;
     font-size: 23px;
-    color: #555555;
+    color: #af987a;
 }
 
 .img-style-editor-right {
@@ -164,6 +197,8 @@
     text-align: center;
     padding-top: 10px;
     margin-left:5px;
+    width: 100%;
+    margin-left: -6px;
 }
 
 .transparent-icon {
@@ -202,7 +237,7 @@
 }
 
 .master-img-editor-btn-wrap {
-    width: 100%;
+    width: 95%;
     background: linear-gradient(to right, rgba(110, 110, 110, 0.9)0%, rgba(225, 225, 225, 0.9) 50%, rgba(110, 110, 110, 0.9) 100%);
     border-radius: 8px;
     border: 1px solid #444444;
@@ -299,13 +334,18 @@
 }
 
 .user-manageer-wrap {
-    width: 48%;
+    width: 43%;
     margin: auto;
 }
 
 .blog-editor-container {
     width: 60%;
     margin:auto;
+}
+
+.pop_blog_wrap {
+    width: 35%;
+    margin: auto;
 }
 
 </style>

@@ -239,11 +239,11 @@ function build_blog_manager(data)
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
     html += "</form>";
-    html += "<div class='pop_editor_wrap center_v_mode'>";
+    html += "<div class='pop_blog_wrap center_v_mode'>";
     html += "<div class='frame_general_sm'>";
     html += "<div class='container'>";
     html += "<div class='row'>";
-    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
     html += "<div class='img-style-editor-left'>";
     html += "<h3><i class='fas fa-edit'></i> manage blogs</h3>";
     html += "<div class='master-list-edit-wrap'>";
@@ -314,7 +314,7 @@ function build_blog_manager(data)
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='col-sm-1' style='padding:0; margin:0; margin-left: -6px;'>";
     html += "<div class='img-style-editor-right'>";
     html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
     html += "</div>";
@@ -389,7 +389,7 @@ function build_product_manager(data)
     html += "<div class='frame_general_sm'>";
     html += "<div class='container'>";
     html += "<div class='row'>";
-    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
     html += "<div class='img-style-editor-left'>";
     html += "<h3><i class='fas fa-spray-can'></i> manage products & pricing</h3>";
     html += "<div class='master-list-edit-wrap'>";
@@ -457,7 +457,7 @@ function build_product_manager(data)
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='col-sm-1' style='padding:0; margin:0'>";
     html += "<div class='img-style-editor-right'>";
     html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
     html += "</div>";
@@ -2129,7 +2129,7 @@ function build_user_manager(data)
     html += "<div class='frame_general_sm'>";
     html += "<div class='container'>";
     html += "<div class='row'>";
-    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
     html += "<div class='img-style-editor-left'>";
     html += "<h3><i class='fas fa-user-cog'></i> user management</h3>";
     html += "<div class='master-list-edit-wrap'>";
@@ -2264,7 +2264,7 @@ function build_user_manager(data)
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='col-sm-1' style='padding:0; margin:0'>";
     html += "<div class='img-style-editor-right'>";
     html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
     html += "</div>";
@@ -2931,8 +2931,6 @@ function edit_success_builder(btn_index, header, message)
     html += "</div>";
     return html;
 }
-
-
 
 function multi_company_editor(mode)
 {
@@ -3991,8 +3989,6 @@ function validateAccess()
         ultimateErrorMessage(messages); 
     } 
 }
-
-
 
 function validateNewBlog()
 {
