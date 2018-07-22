@@ -126,11 +126,196 @@
     padding-bottom:5px;
 }
 
+.img-style-editor-left, .img-style-editor-right {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.img-style-editor-left {
+    background: linear-gradient(to right, rgba(110, 110, 110, 0.9)0%, rgba(225, 225, 225, 0.9) 50%, rgba(110, 110, 110, 0.9) 100%);
+    border-radius: 8px;
+    border: 1px solid #444444;
+    box-shadow: 2px 2px 2px #222222;
+    padding-top:2%;
+    padding-bottom:2%;
+    padding-left:20px;
+    padding-right:20px;
+}
+
+.img-style-editor-left h3 {
+    color: #474e06;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #777777;
+    font-size: 40px;
+    padding:0;
+    margin:0;
+    text-shadow: none;
+}
+
+.img-style-editor-left i {
+    text-shadow: 1px 1px #111111;
+    font-size: 23px;
+    color: #555555;
+}
+
+.img-style-editor-right {
+    background-color: transparent;
+    text-align: center;
+    padding-top: 10px;
+    margin-left:5px;
+}
+
+.transparent-icon {
+    width: 45px;
+    height:45px;
+    padding-top: 2px;
+    margin: auto;
+    background-color: #7c880e;
+    border-radius: 50%;
+    font-size: 25px;
+    box-shadow: 2px 2px 2px #222222;
+    color: #d4d9a3;
+    border: 2px solid #666666;
+    text-shadow: 1px 1px #000000;
+    background: linear-gradient(to right, rgba(88, 85, 56, 0.8)0%, rgba(206, 209, 162, 0.8) 50%, rgba(88, 85, 56, 0.8) 100%);
+    color: #666666;
+}
+
+.uimg_wrapper {
+    width:35%;
+    margin:auto;
+}
+
+.img-style-editor-btns, .img-style-editor-btns3 {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #555555;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    text-align: center;
+    padding-right:3px;
+}
+
+.img-style-editor-btns button:hover, .master-img-editor-btn button:hover, .img-style-editor-btns3 button:hover {
+    background: linear-gradient(rgba(200, 200, 200, 1), rgba(130, 130, 130, 1));
+}
+
+.master-img-editor-btn-wrap {
+    width: 100%;
+    background: linear-gradient(to right, rgba(110, 110, 110, 0.9)0%, rgba(225, 225, 225, 0.9) 50%, rgba(110, 110, 110, 0.9) 100%);
+    border-radius: 8px;
+    border: 1px solid #444444;
+    box-shadow: 2px 2px 2px #222222;
+    padding-left:20px;
+    padding-right:20px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.master-img-editor-btn {
+    width: 100%;
+    border: 1px solid #444444;
+    border-radius: 6px;
+    padding-left:3px;
+    padding-right:3px;
+    padding-bottom: 5px;
+}
+
+.img-style-editor-btns3 button {
+    width: 31%;
+}
+
+.master-img-editor-btn button {
+    width:100%;
+    margin: 0;
+}
+
+.master-list-edit-wrap {
+    width: 100%;
+    font-size: 11px;
+    color: #333333;
+    background-color: #bbbbbb;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #444444;
+    text-align: left;
+    height: 40vh;
+    overflow-y: auto;
+}
+
+.master-list-edit-wrap ul {
+    padding: 0;
+    margin: 0;
+}
+
+.master-list-edit-wrap i {
+    font-size: 11px;
+    margin-right: 3px;
+}
+
+.master-list-edit-wrap li {
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid #666666;
+    background-color: #eeeeee;
+}
+
+.master-list-edit-wrap li:hover {
+    background-color: #e2e3d7;
+}
+
+.master-list-edit-wrap a {
+    color: #333333;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.master-list-edit-wrap a:hover {
+    color: #888888;
+}
+
+.master-list-edit-wrap a span {
+    font-weight: 700;
+}
+
+.super_select li {
+    background-color: #bdc28f;
+}
+
+.super_select li:hover {
+    background-color: #bdc28f;
+}
+
+.super_select a {
+    color: #303401;
+    font-weight: 500;
+}
+
+.super_select a:hover {
+    color: #303401;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.user-manageer-wrap {
+    width: 48%;
+    margin: auto;
+}
+
+.blog-editor-container {
+    width: 60%;
+    margin:auto;
+}
+
 </style>
 
 <script type="text/javascript">
 
+function get_load_id()
+{
 
+}
 
 </script>
 
@@ -163,24 +348,103 @@
 
         <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
         <div class='alert6 hidden' id='msg6'>
-            <!--<div class="ua_wrapper center_v_mode">
+            <div class="uimg_wrapper center_v_mode">
                 <div class="frame_general_sm">
-                    <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                    <h3>Edit Gallery Images</h3>
-                    <div class="generalSteel-in">
-                        <h2 class="blogger_editor"><i class="fas fa-camera"></i></h2>
-                        <form action="/edit_success" method="POST" id="gallery_manager_form">
-                            <input type="hidden" name="target_model" id="target_action_gallery" value="gallery">
-                            <input type="hidden" name="target_action" id="target_gallery">
-                            <input type="hidden" name="target_id" id="target_id_gallery">
-                        </form>
-                        <div class="yo divtoBlink" id="" style='opacity: 0.4;'>yo</div>
+                    <div class='container'>
+                        <div class='row'>
+                            <div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>
+                                <div class='img-style-editor-left'>
+                                    <h3><i class='fas fa-edit'></i> manage blogs</h3>
+                                    <div class='master-list-edit-wrap'>
+                                        <ul>
+                                            <div id='div_' class='super_select'>
+                                                <li>
+                                                    <a href="javascript: about_selector('0');">
+                                                        <input type='hidden' id='id_' value=''>
+                                                        <input type='hidden' id='subject_' value=''>
+                                                        <input type='hidden' id='content_' value=''>
+                                                        <input type='hidden' id='date_' value=''>
+                                                        <input type='hidden' id='time_' value=''>
+                                                        <div class='sub-li'>
+                                                            <span>Subject: </span>
+                                                            Blog Subject 1
+                                                        </div>
+                                                        <div class='sub-li'>
+                                                            <span>Posted On: </span>
+                                                            Blog Post Date 2
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </div>
 
-                        <div class=''><button class='flash-button' disabled>This is a button</button></div>
+                                            <div id='div_'>
+                                                <li>
+                                                    <a href="javascript: about_selector('0');">
+                                                        <input type='hidden' id='id_' value=''>
+                                                        <input type='hidden' id='subject_' value=''>
+                                                        <input type='hidden' id='content_' value=''>
+                                                        <input type='hidden' id='date_' value=''>
+                                                        <input type='hidden' id='time_' value=''>
+                                                        <div class='sub-li'>
+                                                            <span>Subject: </span>
+                                                            Blog Subject 2
+                                                        </div>
+                                                        <div class='sub-li'>
+                                                            <span>Posted On: </span>
+                                                            Blog Post Date 2
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                    <div class='img-style-editor-btns3'>
+                                        <button id='launch_blog_editor'>Edit Blog Post</button>
+                                        <button onClick="javascript: ultimateWarningMessageOption('blog');">Stuff</button>
+                                        <button>Button</button>
+                                    </div>
+                                </div>
+                                <div class='master-img-editor-btn-wrap'>
+                                    <div class='master-img-editor-btn'>
+                                        <button onClick="javascript: closeIconBtn('6');">Exit</button>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="general_editor_btns">
-                            <button id="auth_new_user">Not Active</button>
-                            <button id="close-this-6">Cancel</button>
+                            <div class='col-sm-2' style='padding:0; margin:0'>
+                                <div class='img-style-editor-right'>
+                                    <div class='transparent-icon'><i class='fab fa-envira'></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="uimg_wrapper center_v_mode">
+                <div class="frame_general_sm">
+                    <div class='container'>
+                        <div class='row'>
+                            <div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>
+                                <div class='img-style-editor-left'>
+                                    <h3><i class='fas fa-camera'></i> manage gallery images</h3>
+                                    <div class='img-style-editor-btns'>
+                                        <button>Upload New Image</button>
+                                        <button>Delete Selected Image</button>
+                                    </div>
+                                </div>
+                                <div class='master-img-editor-btn-wrap'>
+                                    <div class='master-img-editor-btn'>
+                                        <button onClick="javascript: closeIconBtn('6');">Exit</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class='col-sm-2' style='padding:0; margin:0'>
+                                <div class='img-style-editor-right'>
+                                    <div class='transparent-icon'><i class='fab fa-envira'></i></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

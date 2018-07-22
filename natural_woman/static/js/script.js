@@ -238,58 +238,96 @@ function build_blog_manager(data)
     html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
     html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"7\">";
     html += "</form>";
-    html += "<div class=\"blog-manager-container center_v_mode\">";
-    html += "<div class=\"frame_general_sm steel_back\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Blog Management</h3>";
-    html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"\"><i class=\"fas fa-edit\"></i></h2>";
-    html += "<h5>Select a blog from the list below</h5>";
-    html += "<div class=\"generalSteelListWrap\">";
+    html += "<div class='pop_editor_wrap center_v_mode'>";
+    html += "<div class='frame_general_sm'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='img-style-editor-left'>";
+    html += "<h3><i class='fas fa-edit'></i> manage blogs</h3>";
+    html += "<div class='master-list-edit-wrap'>";
     html += "<ul>";
 
-    for(var i = 0; i < data.length; i++)
+    for (var i = 0; i < data.length; i++)
     {
         subject = cleanTextInputHtml(data[i]['subject']);
         content = cleanTextInputHtml(data[i]['content']);
-        html += "<div id=\"div_" + data[i]['index'] + "\">";
-        html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
-        html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"subject_" + data[i]['index'] + "\" value=\"" + subject + "\">";
-        html += "<input type=\"hidden\" id=\"content_" + data[i]['index'] + "\" value=\"" + content + "\">";
-        html += "<input type=\"hidden\" id=\"date_" + data[i]['index'] + "\" value=\"" + data[i]['date'] + "\">";
-        html += "<input type=\"hidden\" id=\"time_" + data[i]['index'] + "\" value=\"" + data[i]['time'] + "\">";
-        html += "<li id=\"" + data[i]['index'] + "\">";
-        html += "<div><span>Subject: </span>" + data[i]['subject'] + "</div>";
-        html += "<div><span>Posted on: </span>" + data[i]['date'] + " at <em>" + data[i]['time'] + "</em></div>";
+        html += "<div id='div_";
+        html += data[i]['index'];
+        html += "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: about_selector('";
+        html += data[i]['index'];
+        html += "');\">";
+        html += "<input type='hidden' id='id_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['id'];
+        html += "'>";
+        html += "<input type='hidden' id='subject_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += subject;
+        html += "'>";
+        html += "<input type='hidden' id='content_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += content;
+        html += "'>";
+        html += "<input type='hidden' id='date_>";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['date'];
+        html += "'>";
+        html += "<input type='hidden' id='time_>";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['time'];
+        html += "'>";
+        html += "<div class='sub-li'>";
+        html += "<span>Subject: </span>";
+        html += data[i]['subject'];
+        html += "</div>";
+        html += "<div class='sub-li'>";
+        html += "<span>Posted On: </span>";
+        html += data[i]['date'];
+        html += " at <em>";
+        html += data[i]['time'];
+        html += "</em>";
+        html += "</div>";
+        html += "</a>";
         html += "</li>";
-        html += "</a></div>";
+        html += "</div>";
     }
 
     html += "</ul>";
     html += "</div>";
-
-    html += "<div class=\"ul_buttons2\">";
-    html += "<button id=\"launch_blog_editor\">Edit Blog</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('blog');\">Delete Selected</button>";
+    html += "<div class='img-style-editor-btns'>";
+    html += "<button id='launch_blog_editor'>Edit Blog Post</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('blog');\">Delete Selected Blog</button>";
     html += "</div>";
     html += "</div>";
-    html += "<div class=\"generalSteel main_exit_btn\">";
-    html += "<div class=\"general_steel_btn1\">";
-    html += "<button id=\"close-this-2\">Exit</button>";
-    html += "</div>";
+    html += "<div class='master-img-editor-btn-wrap'>";
+    html += "<div class='master-img-editor-btn'>";
+    html += "<button onClick=\"javascript: closeIconBtn('2');\">Exit</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    build_blog_editor();
+    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='img-style-editor-right'>";
+    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
     return html;
 }
 
 function build_blog_editor()
 {
-    var html = "<div class=\"about_editor_container center_v_mode\">";
+    var html = "<div class=\"blog-editor-container center_v_mode\">";
     html += "<div class=\"frame_general_sm\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
     html += "<h3>Edit Blog Post</h3>";
@@ -307,7 +345,7 @@ function build_blog_editor()
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateModel('blog');\">Save Changes</button>";
+    html += "<button onClick=\"javascript: validateModel('blog');\">Save</button>";
     html += "<button onClick=\"javascript: detectChanges('blog', 'exit');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -347,49 +385,140 @@ function build_product_manager(data)
     html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
     html += "</form>";
-    html += "<div class=\"pop_editor_wrap center_v_mode\">";
-    html += "<div class=\"frame_general_sm steel_back\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Product Management</h3>";
-    html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"\"><i class=\"fas fa-spray-can\"></i></h2>";
-    html += "<h5>Select a product from the list below</h5>";
-    html += "<div class=\"generalSteelListWrap\">";
+    html += "<div class='pop_editor_wrap center_v_mode'>";
+    html += "<div class='frame_general_sm'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='img-style-editor-left'>";
+    html += "<h3><i class='fas fa-spray-can'></i> manage products & pricing</h3>";
+    html += "<div class='master-list-edit-wrap'>";
     html += "<ul>";
 
-    for(var i = 0; i < data.length; i++)
+    for (var i = 0; i < data.length; i++)
     {
         var name = cleanTextInputHtml(data[i]['name']);
         var desc = cleanTextInputHtml(data[i]['description']);
-        html += "<div id=\"div_" + data[i]['index'] + "\">";
-        html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
-        html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + name + "\">";
-        html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + desc + "\">";
-        html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
-        html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
-        html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
-        html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a></div>";
+        html += "<div id='div_";
+        html += data[i]['index'];
+        html += "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: about_selector('";
+        html += data[i]['index'];
+        html += "');\">";
+        html += "<input type='hidden' id='id_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['id'];
+        html += "'>";
+        html += "<input type='hidden' id='name_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += name;
+        html += "'>";
+        html += "<input type='hidden' id='description_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += desc;
+        html += "'>";
+        html += "<input type='hidden' id='price_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['price'];
+        html += "'>";
+        html += "<div class='sub-li'>";
+        html += "<span>Product Name: </span>";
+        html += data[i]['name'];
+        html += "</div>";
+        html += "<div class='sub-li'>";
+        html += "<span>Description: </span>";
+        html += data[i]['description'];
+        html += "</div>";
+        html += "<div class='sub-li'>";
+        html += "<span>Price: </span> $";
+        html += data[i]['price'];
+        html += "</div>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
     }
 
     html += "</ul>";
     html += "</div>";
-
-    html += "<div class=\"ul_buttons3\">";
-    html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
-    html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
+    html += "<div class='img-style-editor-btns3'>";
+    html += "<button onClick=\"javascript: open_product_editor('0');\">New Product</button>";
+    html += "<button onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
     html += "<button onClick=\"javascript: ultimateWarningMessageOption('product');\">Delete Selected</button>";
     html += "</div>";
     html += "</div>";
-    html += "<div class=\"generalSteel main_exit_btn\">";
-    html += "<div class=\"general_steel_btn1\">";
-    html += "<button id=\"close-this-2\">Exit</button>";
+    html += "<div class='master-img-editor-btn-wrap'>";
+    html += "<div class='master-img-editor-btn'>";
+    html += "<button onClick=\"javascript: closeIconBtn('2');\">Exit</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='img-style-editor-right'>";
+    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    build_product_editor();
+    html += "</div>";
     return html;
+
+
+
+
+    // var html = "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
+    // html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
+    // html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"\">";
+    // html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
+    // html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
+    // html += "</form>";
+    // html += "<div class=\"pop_editor_wrap center_v_mode\">";
+    // html += "<div class=\"frame_general_sm steel_back\">";
+    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    // html += "<h3>Product Management</h3>";
+    // html += "<div class=\"generalSteel\">";
+    // html += "<h2 class=\"\"><i class=\"fas fa-spray-can\"></i></h2>";
+    // html += "<h5>Select a product from the list below</h5>";
+    // html += "<div class=\"generalSteelListWrap\">";
+    // html += "<ul>";
+
+    // for(var i = 0; i < data.length; i++)
+    // {
+    //     var name = cleanTextInputHtml(data[i]['name']);
+    //     var desc = cleanTextInputHtml(data[i]['description']);
+    //     html += "<div id=\"div_" + data[i]['index'] + "\">";
+    //     html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + name + "\">";
+    //     html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + desc + "\">";
+    //     html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
+    //     html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
+    //     html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
+    //     html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a></div>";
+    // }
+
+    // html += "</ul>";
+    // html += "</div>";
+
+    // html += "<div class=\"ul_buttons3\">";
+    // html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
+    // html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
+    // html += "<button onClick=\"javascript: ultimateWarningMessageOption('product');\">Delete Selected</button>";
+    // html += "</div>";
+    // html += "</div>";
+    // html += "<div class=\"generalSteel main_exit_btn\">";
+    // html += "<div class=\"general_steel_btn1\">";
+    // html += "<button id=\"close-this-2\">Exit</button>";
+    // html += "</div>";
+    // html += "</div>";
+    // html += "</div>";
+    // html += "</div>";
+    // build_product_editor();
+    // return html;
 }
 
 function open_product_editor(load_data)
@@ -456,7 +585,7 @@ function build_product_editor()
     html += "</div>";
     html += "</form>";
     html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateModel('product');\">Save Changes</button>";
+    html += "<button onClick=\"javascript: validateModel('product');\">Save</button>";
     html += "<button onClick=\"javascript: detectChanges('product', 'exit');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
@@ -1993,35 +2122,93 @@ function build_user_manager(data)
     html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdManager\" value=\"\">";
     html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
     html += "</form>";
-    html += "<div class=\"blog-manager-container center_v_mode\">";
-    html += "<div class=\"frame_general_sm steel_back\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>User Management</h3>";
-    html += "<div class=\"generalSteel\">";
-    html += "<h2 class=\"\"><i class=\"fas fa-user-cog\"></i></h2>";
-    html += "<h5>Select a user from the list below</h5>";
-    html += "<div class=\"generalSteelListWrap\">";
+
+
+
+    html += "<div class='user-manageer-wrap center_v_mode'>";
+    html += "<div class='frame_general_sm'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='img-style-editor-left'>";
+    html += "<h3><i class='fas fa-user-cog'></i> user management</h3>";
+    html += "<div class='master-list-edit-wrap'>";
     html += "<ul>";
 
-    for(var i = 0; i < data.length; i++)
+    for (var i = 0; i < data.length; i++)
     {
-        html += "<div id=\"div_" + data[i]['index'] + "\">";
-        html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\">";
-        html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"fname_" + data[i]['index'] + "\" value=\"" + data[i]['fname'] + "\">";
-        html += "<input type=\"hidden\" id=\"lname_" + data[i]['index'] + "\" value=\"" + data[i]['lname'] + "\">";
-        html += "<input type=\"hidden\" id=\"email_" + data[i]['index'] + "\" value=\"" + data[i]['email'] + "\">";
-        html += "<input type=\"hidden\" id=\"admin_" + data[i]['index'] + "\" value=\"" + data[i]['is_admin'] + "\">";
-        html += "<input type=\"hidden\" id=\"product_" + data[i]['index'] + "\" value=\"" + data[i]['product_permission'] + "\">";
-        html += "<input type=\"hidden\" id=\"about_" + data[i]['index'] + "\" value=\"" + data[i]['about_permission'] + "\">";
-        html += "<input type=\"hidden\" id=\"blog_" + data[i]['index'] + "\" value=\"" + data[i]['blog_permission'] + "\">";
-        html += "<input type=\"hidden\" id=\"gallery_" + data[i]['index'] + "\" value=\"" + data[i]['gallery_permission'] + "\">";
+        var name = cleanTextInputHtml(data[i]['name']);
+        var desc = cleanTextInputHtml(data[i]['description']);
+        html += "<div id='div_";
+        html += data[i]['index'];
+        html += "'>";
         html += "<li>";
+        html += "<a href=\"javascript: about_selector('";
+        html += data[i]['index'];
+        html += "');\">";
+        html += "<input type='hidden' id='id_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['id'];
+        html += "'>";
+        html += "<input type='hidden' id='fname_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['fname'];
+        html += "'>";
+        html += "<input type='hidden' id='lname_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['lname'];
+        html += "'>";
+        html += "<input type='hidden' id='email_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['email'];
+        html += "'>";
+        html += "<input type='hidden' id='admin_";
+        html += data[i]['is_admin'];
+        html += "' value='";
+        html += data[i]['email'];
+        html += "'>";
+        html += "<input type='hidden' id='product_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['product_permission'];
+        html += "'>";
+        html += "<input type='hidden' id='about_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['about_permission'];
+        html += "'>";
+        html += "<input type='hidden' id='blog_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['blog_permission'];
+        html += "'>";
+        html += "<input type='hidden' id='gallery_";
+        html += data[i]['index'];
+        html += "' value='";
+        html += data[i]['gallery_permission'];
+        html += "'>";
+
+
+        html += "<div class='sub-li'>";
+        html += "<span>User Name: </span>";
+        html += data[i]['fname'];
+        html += " ";
+        html += data[i]['lname'];
+        html += "</div>";
+        html += "<div class='sub-li'>";
+        html += "<span>Email: </span>";
+        html += data[i]['email'];
+        html += "</div>";
+        html += "<div class='sub-li access_drop'>";
+        html += "<span>Permissions: </span>";
+        html += "</div>";
+
         html += "<div class=\"container\">";
         html += "<div class=\"row\">";
-        html += "<div class=\"col-sm-12 clear_pm cap_it\">" + data[i]['fname'] + " " + data[i]['lname'] + "</div>";
-        html += "<div class=\"col-sm-12 clear_pm\"><em>" + data[i]['email'] + "</em></div>";
-        html += "<div class=\"col-sm-12 clear_pm access_drop\">Access Granted To User:</div>";
 
         html += "<div class=\"col-sm-6 clear_pm access_box\">";
         if (String(data[i]['is_admin']) === "True") { html += granted; }
@@ -2052,31 +2239,134 @@ function build_user_manager(data)
         else { html += denied; }
         html += "<p>About Us Statement</p>";
         html += "</div>";
+
         html += "</div>";
         html += "</div>";
-        html += "</li>";
+
+
+
         html += "</a>";
-        html += "</div>";   
+        html += "</li>";
+        html += "</div>";
     }
 
     html += "</ul>";
     html += "</div>";
+    html += "<div class='img-style-editor-btns3'>";
+    html += "<button id='edit_user_access'>Update</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('block_user');\">Suspend</button>";
+    html += "<button onClick=\"javascript: ultimateWarningMessageOption('delete_user');\">Delete</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='master-img-editor-btn-wrap'>";
+    html += "<div class='master-img-editor-btn'>";
+    html += "<button onClick=\"javascript: closeIconBtn('2');\">Exit</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='img-style-editor-right'>";
+    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;    
 
-    html += "<div class=\"ul_buttons3\">";
-    html += "<button id=\"edit_user_access\">Change Access</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('block_user');\">Block All</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('delete_user');\">Delete User</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class=\"generalSteel main_exit_btn\">";
-    html += "<div class=\"general_steel_btn1\">";
-    html += "<button id=\"close-this-2\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    build_user_editor();
-    return html;
+
+    // var granted = "<i class=\"far fa-check-square\"></i> ";
+    // var denied = "<i class=\"far fa-square\"></i> ";
+    // var html = "<form action=\"/edit_success\" method=\"POST\" id=\"user_management_form\">";
+    // html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelManager\" value=\"user\">";
+    // html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionManager\" value=\"\">";
+    // html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdManager\" value=\"\">";
+    // html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
+    // html += "</form>";
+    // html += "<div class=\"blog-manager-container center_v_mode\">";
+    // html += "<div class=\"frame_general_sm steel_back\">";
+    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
+    // html += "<h3>User Management</h3>";
+    // html += "<div class=\"generalSteel\">";
+    // html += "<h2 class=\"\"><i class=\"fas fa-user-cog\"></i></h2>";
+    // html += "<h5>Select a user from the list below</h5>";
+    // html += "<div class=\"generalSteelListWrap\">";
+    // html += "<ul>";
+
+    // for(var i = 0; i < data.length; i++)
+    // {
+    //     html += "<div id=\"div_" + data[i]['index'] + "\">";
+    //     html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\">";
+    //     html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"fname_" + data[i]['index'] + "\" value=\"" + data[i]['fname'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"lname_" + data[i]['index'] + "\" value=\"" + data[i]['lname'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"email_" + data[i]['index'] + "\" value=\"" + data[i]['email'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"admin_" + data[i]['index'] + "\" value=\"" + data[i]['is_admin'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"product_" + data[i]['index'] + "\" value=\"" + data[i]['product_permission'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"about_" + data[i]['index'] + "\" value=\"" + data[i]['about_permission'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"blog_" + data[i]['index'] + "\" value=\"" + data[i]['blog_permission'] + "\">";
+    //     html += "<input type=\"hidden\" id=\"gallery_" + data[i]['index'] + "\" value=\"" + data[i]['gallery_permission'] + "\">";
+    //     html += "<li>";
+    //     html += "<div class=\"container\">";
+    //     html += "<div class=\"row\">";
+    //     html += "<div class=\"col-sm-12 clear_pm cap_it\">" + data[i]['fname'] + " " + data[i]['lname'] + "</div>";
+    //     html += "<div class=\"col-sm-12 clear_pm\"><em>" + data[i]['email'] + "</em></div>";
+    //     html += "<div class=\"col-sm-12 clear_pm access_drop\">Access Granted To User:</div>";
+
+    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
+    //     if (String(data[i]['is_admin']) === "True") { html += granted; }
+    //     else { html += denied; }
+    //     html += "<p>Administrator</p>";
+    //     html += "</div>";
+
+    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
+    //     if (String(data[i]['blog_permission']) === "True") { html += granted; }
+    //     else { html += denied; }
+    //     html += "<p>Blog Access</p>";
+    //     html += "</div>";
+
+    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
+    //     if (String(data[i]['product_permission']) === "True") { html += granted; }
+    //     else { html += denied; }
+    //     html += "<p>Product Access</p>";
+    //     html += "</div>";
+
+    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
+    //     if (String(data[i]['gallery_permission']) === "True") { html += granted; }
+    //     else { html += denied; }
+    //     html += "<p>Gallery Access</p>";
+    //     html += "</div>";
+
+    //     html += "<div class=\"col-sm-12 clear_pm access_box\">";
+    //     if (String(data[i]['about_permission']) === "True") { html += granted; }
+    //     else { html += denied; }
+    //     html += "<p>About Us Statement</p>";
+    //     html += "</div>";
+    //     html += "</div>";
+    //     html += "</div>";
+    //     html += "</li>";
+    //     html += "</a>";
+    //     html += "</div>";   
+    // }
+
+    // html += "</ul>";
+    // html += "</div>";
+
+    // html += "<div class=\"ul_buttons3\">";
+    // html += "<button id=\"edit_user_access\">Change Access</button>";
+    // html += "<button onClick=\"javascript: ultimateWarningMessageOption('block_user');\">Block All</button>";
+    // html += "<button onClick=\"javascript: ultimateWarningMessageOption('delete_user');\">Delete User</button>";
+    // html += "</div>";
+    // html += "</div>";
+    // html += "<div class=\"generalSteel main_exit_btn\">";
+    // html += "<div class=\"general_steel_btn1\">";
+    // html += "<button id=\"close-this-2\">Exit</button>";
+    // html += "</div>";
+    // html += "</div>";
+    // html += "</div>";
+    // html += "</div>";
+    // build_user_editor();
+    // return html;
 }
 
 function build_user_editor()
@@ -3168,7 +3458,7 @@ function blockUserAccess()
     var email   = $(sel_em).val();
     var name    = String(fname) + " " + String(lname);
 
-    load_error_heads("Block All Access", "Are You Sure You Want To Proceed?", "This will block the user from making any changes to the website.<br>This can be undone at any time", "Block");
+    load_error_heads("Suspend All Access", "Are You Sure You Want To Proceed?", "This will block the user from making any changes to the website.<br>This can be undone at any time", "Suspend");
     load_error_message("USER:", "EMAIL:", "", name, email, "");
 
     $("#targetActionManager").val("block");

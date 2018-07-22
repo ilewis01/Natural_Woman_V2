@@ -233,7 +233,7 @@ ADMIN-Hbody {
 
 .blog_full_editor_content {
 	width:100%;
-	height:38vh;
+	height:20vh;
 	margin-bottom: 10px;
 }
 
@@ -424,7 +424,7 @@ ADMIN-Hbody {
 }
 
 .select-editor li:hover {
-	background-color: #f9fdec;
+	background-color: #eff9ca;
 }
 
 .select-editor p {
@@ -693,7 +693,7 @@ ADMIN-Hbody {
 }
 
 .error_style {
-    width: 43%;
+    width: 55%;
     margin: auto;
     color: #000000;
     font-family: 'Fira Sans Condensed', sans-serif;
@@ -966,7 +966,7 @@ ADMIN-Hbody {
 }
 
 .about_editor_container {
-    width: 55%;
+    width: 50%;
     margin: auto;
 }
 
@@ -1529,23 +1529,7 @@ ADMIN-Hbody {
     font-size: 12px;
 }
 
-.super_select li {
-    background-color: #e7e7a1;
-}
 
-.super_select li:hover {
-    background-color: #e7e7a1;
-}
-
-.super_select a {
-    color: #000000;
-    font-weight: 500;
-}
-
-.super_select a:hover {
-    color: #000000;
-    font-weight: 500;
-}
 
 .general_editor_btns {
     width: 100%;
@@ -2281,7 +2265,7 @@ input[type="radio"]:checked:after {
     background: linear-gradient(to right, rgba(170, 170, 170, 1), rgba(100, 100, 100, 1));
 }
 
-.company_btn_container button, .company_address_btns button, .ultimate-btn-holder button {
+.company_btn_container button, .company_address_btns button, .ultimate-btn-holder button, .img-style-editor-btns button, .img-style-editor-btns3 button, .master-img-editor-btn button {
     margin-left: 3px;
     border-color: #777777;
     border-top-color: #888888;

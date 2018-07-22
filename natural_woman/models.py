@@ -295,12 +295,13 @@ class Company(db.Model):
 
 class Image(db.Model):
 	__tablename__ = "images"
-	id 		= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-	url 	= db.Column('url', db.String, nullable=False)
-	active 	= db.Column('active', db.Boolean, default=True, nullable=False)
+	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+	img_url 		= db.Column(db.String, default=None, nullable=True)
+	img_filename 	= db.Column(db.String, default=None, nullable=True)
 
-	def __init__(self):
-		self.url = url
+	def __init__(self, url, filename):
+		self.img_url 		= url
+		self.img_filename 	= filename
 
 	def save(self):
 		db.session.add(self)
@@ -310,16 +311,8 @@ class Image(db.Model):
 		db.session.delete(self)
 		db.session.commit()
 
-	def show(self):
-		self.active = True
-		self.save()
-
-	def hide(self):
-		self.active = False
-		self.save()
-
 	def __repr__(self):
-		return '<Image Post: %r>' % self.url
+		return '<Image: %r>' % self.img_filename
 
 
 
