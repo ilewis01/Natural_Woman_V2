@@ -211,24 +211,25 @@ def json_serialize_abouts():
 		index += 1
 	return data
 
-def json_serialize_users():
+def json_serialize_users(user):
 	data 	= []
 	index 	= 0
 	users 	= User.query.all()
 	for u in users:
-		d 						= {}
-		d['id'] 				= u.id
-		d['fname'] 				= u.fname
-		d['lname'] 				= u.lname
-		d['email'] 				= u.email
-		d['is_admin'] 			= str(u.is_admin)
-		d['product_permission'] = str(u.product_permission)
-		d['about_permission'] 	= str(u.about_permission)
-		d['blog_permission'] 	= str(u.blog_permission)
-		d['gallery_permission'] = str(u.gallery_permission)
-		d['index'] 				= index
-		data.append(d)
-		index += 1
+		if str(user.id) != str(u.id):
+			d 						= {}
+			d['id'] 				= u.id
+			d['fname'] 				= u.fname
+			d['lname'] 				= u.lname
+			d['email'] 				= u.email
+			d['is_admin'] 			= str(u.is_admin)
+			d['product_permission'] = str(u.product_permission)
+			d['about_permission'] 	= str(u.about_permission)
+			d['blog_permission'] 	= str(u.blog_permission)
+			d['gallery_permission'] = str(u.gallery_permission)
+			d['index'] 				= index
+			data.append(d)
+			index += 1
 	return data
 
 def encodeAuthData():
@@ -362,9 +363,9 @@ def get_product_json_data():
 	data['inactive'] 	= []
 	return data
 
-def get_user_json_data():
+def get_user_json_data(current_user):
 	data 				= {}
-	users 				= json_serialize_users()
+	users 				= json_serialize_users(current_user)
 	data['active'] 		= users
 	data['inactive'] 	= []
 	return data
@@ -495,7 +496,7 @@ def getCompanyManagementContent(current_user):
 
 def getUserManagementContent(current_user):
 	content 					= {}
-	content['json_data'] 		= get_user_json_data()
+	content['json_data'] 		= get_user_json_data(current_user)
 	content['user'] 			= current_user
 	if current_user.is_admin == True:
 		content['btn_index'] 	= 12

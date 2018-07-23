@@ -629,7 +629,7 @@ function build_about_manager(inactive, current)
     html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + current['statement'] + "\">";
     html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general_sm steel_back\">";
     html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>About Us Statement</h3>";
-    html += "<div class=\"active_about_wrapper\"><div class=\"alone_icon\">A</div><h4>Active <em>\"About Us\"</em> Statement";
+    html += "<div class=\"active_about_wrapper\"><div class=\"alone_icon2\">A</div><h4>Active <em>\"About Us\"</em> Statement";
     html += "<a href=\"javascript: load_helper('about_active');\"> <i class=\"far fa-question-circle\"></i></a></h4> ";
     html += "<em>" + current['statement'] + "</em><div class=\"s_edit_btn\">";
     html += "<button id=\"new_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('0', 'active');\">New</button>";
