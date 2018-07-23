@@ -197,6 +197,27 @@ def json_serialize_products():
 		index += 1
 	return data
 
+def json_serialize_image_data():
+	data				= {}
+	company				= get_company_model()
+	data['max_images']	= company.max_images
+	data['num_images']	= company.num_uploads
+	return data
+
+def json_serialize_gallery():
+	data 	= []
+	index 	= 0
+	images 	= Image.query.all()
+	for i in images:
+		d = {}
+		d['id'] 	= i.id
+		d['url'] 	= i.img_url
+		d['name'] 	= i.img_filename
+		d['index'] 	= index
+		data.append(d)
+		index += 1
+	return data
+
 def json_serialize_abouts():
 	data 	= []
 	index 	= 0
@@ -372,8 +393,10 @@ def get_user_json_data(current_user):
 
 def get_gallery_json_data():
 	data = {}
-	data['active'] = []
-	data['inactive'] = []
+	gallery 			= json_serialize_gallery()
+	company 			= json_serialize_image_data()
+	data['inactive'] 	= json.dumps(gallery)
+	data['active'] 		= json.dumps(company)
 	return data
 
 def get_empty_json_data():

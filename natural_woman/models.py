@@ -229,6 +229,8 @@ class Blog(db.Model):
 class Company(db.Model):
 	__tablename__ 	= "company"
 	code 			= db.Column('id', db.String, default="nws", primary_key=True)
+	max_images 		= db.Column('max_images', db.Integer, nullable=False, default=30)
+	num_uploads 	= db.Column('price', db.Integer, nullable=False, default=0)
 	address1 		= db.Column('address 1', db.String, nullable=False)
 	address2 		= db.Column('address 2', db.String)
 	address3 		= db.Column('address 3', db.String)
@@ -275,6 +277,8 @@ class Company(db.Model):
 		self.special_hours 	= False
 		self.hours_title 	= "Hours of Operation"
 		self.email 			= "info@naturalwomansalon.com"
+		self.max_images 	= 30
+		self.num_uploads 	= 0
 
 	def setHoursTitle(self, title):
 		is_special = self.special_hours
@@ -293,15 +297,29 @@ class Company(db.Model):
 			saved = True
 		return saved
 
+	def delete(self):
+		db.session.delete(self)
+		db.session.commit()
+
+	def setMax(self, max_images):
+		self.max_images = max_images
+		db.session.add(self)
+		db.session.commit()
+
 class Image(db.Model):
 	__tablename__ = "images"
 	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	img_url 		= db.Column(db.String, default=None, nullable=True)
 	img_filename 	= db.Column(db.String, default=None, nullable=True)
 
-	def __init__(self, url, filename):
-		self.img_url 		= url
-		self.img_filename 	= filename
+	def __init__(self, url):
+		self.img_url = url
+
+	def setName(self):
+		img_id 	= str(self.id)
+		name 	= "img_" + img_id
+		db.session.add(self)
+		db.session.commit()
 
 	def save(self):
 		db.session.add(self)

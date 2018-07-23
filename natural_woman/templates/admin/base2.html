@@ -391,7 +391,7 @@
 }
 
 .image-upload-wrap {
-    width: 35%;
+    width: 30%;
     margin: auto;
 }
 
@@ -473,6 +473,22 @@
     margin-bottom: -5px;
 }
 
+.del-img-lis-wrap {
+    width: 100%;
+    padding: 3%;
+    background-color: #dddddd;
+    border: 1px solid #777777;
+    border-radius: 6px;
+}
+
+.del-img-lis-wrap img {
+    width:75px;
+    height: 75px;
+    object-fit: cover;
+    border:1px solid #777777;
+    border-radius: 5px;
+}
+
 
 </style>
 
@@ -508,14 +524,19 @@ function imageSelector(index)
 
 function addImageID(current_list, image_id)
 {
+    var num_sel     = $("#no_imgs_selected").val();
+    num_sel         = Number(num_sel) + 1;
     current_list    = String(current_list);
     image_id        = String(image_id);
+    $("#no_imgs_selected").val(num_sel);
     return current_list + "~" + image_id;
 }
 
 function removeImageId(current_list, image_id)
 {
     var new_list    = "";
+    var num_sel     = $("#no_imgs_selected").val();
+    num_sel         = Number(num_sel) - 1;
     image_id        = String(image_id);
     current_list    = String(current_list).split("~");
     for (var i = 0; i < current_list.length; i++)
@@ -526,6 +547,7 @@ function removeImageId(current_list, image_id)
             new_list += current_list[i];
         }
     }
+    $("#no_imgs_selected").val(num_sel);
     return new_list;
 }
 
@@ -534,19 +556,24 @@ function submitImageDelete()
     $("#image_delete_form").submit();
 }
 
+function submitImageUpload()
+{
+    $("#image_upload_form").submit();
+}
+
 function searchImageChanges()
 {
     var delete_list = $("#delete_list").val();
     if (String(delete_list).length === 0)
     {
-        messages = [];
-        messages.push("No Image Selected");
-        messages.push(" ");
-        ultimateErrorMessage(messages); 
+        var m =[];
+        m.push("No Image Selected");
+        m.push(" ");
+        ultimateErrorMessage(m);
     }
     else
     {
-        //build a warning pop-up
+        initiateDeleteVerification();
     }
 }
 
@@ -598,7 +625,7 @@ function validateUpload()
     }
     if (proceed === true)
     {
-        submitImageDelete();
+        submitImageUpload();
     }
     else
     {
@@ -653,7 +680,7 @@ function verifyImageExit()
         m.push("Are you sure you want to exit this page? You have marked one or more images for deletion.");
         ultimateErrorMessageOption2(m);
     }
-    else { closeIconBtn('3'); }
+    else { closeIconBtn('2'); }
 }
 
 function buildImageUploader()
@@ -683,10 +710,11 @@ function buildImageUploader()
 function buildImageManager(data, file_data)
 {
     var html = "<form action='/edit_success' method='POST' id='image_delete_form'>";
-    html += "<input type='hidden' name='target_id' id='delete_list' val=''>";
-    html += "<input type='hidden' name='target_model' id='target_model' val='image'>";
-    html += "<input type='hidden' name='target_action' id='target_action' val='delete'>";
-    html += "<input type='hidden' name='file_index' id='file_index' val='";
+    html += "<input type='hidden' name='target_id' id='delete_list' value=''>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='delete'>";
+    html += "<input type='hidden' name='no_imgs_selected' id='no_imgs_selected' value='0'>";
+    html += "<input type='hidden' name='file_index' id='file_index' value='";
     html += String(file_data['num_images']);
     html += "'>";
     html += "<input type='hidden' name='max_index' id='max_index' val='";
@@ -769,7 +797,56 @@ function buildImageManager(data, file_data)
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    return html;
+    return html
+}
+
+function initiateDeleteVerification()
+{
+    var html = "<div class='error_style center_v_mode'>";
+    html += "<div class='warning_nav'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='td_left'>";
+    html += "<i class='fas fa-exclamation-triangle'></i>";
+    html += "<span>warning</span>";
+    html += "</td>";
+    html += "<td class='td_right'>";
+    html += "<a href=\"javascript: closeIconBtn('4');\">";
+    html += "<i class='far fa-window-close'></i>";
+    html += "</a>";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "<div class='warning_body'>";
+    html += "<h1 id='error_header'>Delete Image</h1>";
+    html += "<div class='warning_msg_1' id='error_msg_m1'>Are you sure you want to proceed?</div>";
+    html += "<div class='warning_msg_2' id='error_msg_m2'>This following image(s) will be deleted from the image gallery:</div>";
+    html += "<div class='del-img-lis-wrap'>";
+    //start a for loop here...use the modulus operator to determine when to start a new line. each row has 6 images
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src=\"/static/media/h1.png\"></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src=\"/static/media/h5.jpg\"></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src=\"/static/media/h6.jpg\"></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src=\"/static/media/h7.jpg\"></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src=\"/static/media/h1.png\"></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src=\"/static/media/h5.jpg\"></div>";
+    html += "</div>";
+    html += "</div>";
+    // end the for loop here
+    html += "</div>";
+    html += "<div class='warning_buttons'>";
+    html += "<button onClick=\"javascript: submitImageDelete();\">Delete</button>";
+    html += "<button onClick=\"javascript: closeIconBtn('4');\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#msg6").fadeOut(500);
+    $("#msg4").html(html);
+    $("#msg4").hide();
+    $("#msg4").removeClass("hidden");
+    $("#msg4").fadeIn(500);
 }
 
 </script>
@@ -799,183 +876,6 @@ function buildImageManager(data, file_data)
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- TEMPORARY GALLERY EDITOR...THIS IS ALSO USED FOR TESTING -->
-       
-            <div class='alert6 hidden' id='msg6'>            
-            <form action='/edit_success' method='POST' id='image_delete_form'>
-                <input type='hidden' name='target_id' id='delete_list' val=''>
-                <input type='hidden' name='target_model' id='target_model' val='image'>
-                <input type='hidden' name='target_action' id='target_action' val='delete'>
-            </form>
-            <div class="uimg_wrapper center_v_mode">
-                <div class="frame_general_sm">
-                    <div class='container'>
-                        <div class='row'>
-                            <div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>
-                                <div class='img-style-editor-left'>
-                                    <h3><i class='fas fa-camera'></i> manage gallery images</h3>
-                                    <div class='img_sm_msg'>Click image to view</div>
-                                    <div class='master-list-edit-wrap power-select'>
-                                        <ul>
-                                            <div id='div_0' class=''>
-                                                <li>
-                                                    <a href="javascript: buildExpandedImage('0');">
-                                                        <input type='hidden' id='id_0' value='1'>
-                                                        <input type='hidden' id='url_0' value='/static/media/h1.png'>
-                                                        <div class='container'>
-                                                            <div class='row'>
-                                                                <div class='col-sm-7 edit_img_content' style='padding:0; margin:0;'>
-                                                                    <img src="/static/media/h1.png">
-                                                                </div>
-                                                                <div class='col-sm-5 edit_img_check' style='padding:0; margin:0;'>
-                                                                    <div class='center_v_mode'>
-                                                                        <input type='checkbox' id='box_0' onClick="javascript: imageSelector('0');"> Select Image
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </div>
-
-                                            <div id='div_1' class=''>
-                                                <li>
-                                                    <a href="javascript: buildExpandedImage('1');">
-                                                        <input type='hidden' id='id_1' value='2'>
-                                                        <input type='hidden' id='url_1' value='/static/media/h5.jpg'>
-                                                        <div class='container'>
-                                                            <div class='row'>
-                                                                <div class='col-sm-7 edit_img_content' style='padding:0; margin:0;'>
-                                                                    <img src="/static/media/h5.jpg">
-                                                                </div>
-                                                                <div class='col-sm-5 edit_img_check' style='padding:0; margin:0;'>
-                                                                    <div class='center_v_mode'>
-                                                                        <input type='checkbox' id='box_1' onClick="javascript: imageSelector('1');"> Select Image
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </div>
-
-                                            <div id='div_2' class=''>
-                                                <li>
-                                                    <a href="javascript: buildExpandedImage('2');">
-                                                        <input type='hidden' id='id_2' value='3'>
-                                                        <input type='hidden' id='url_2' value='/static/media/h7.jpg'>
-                                                        <div class='container'>
-                                                            <div class='row'>
-                                                                <div class='col-sm-7 edit_img_content' style='padding:0; margin:0;'>
-                                                                    <img src="/static/media/h7.jpg">
-                                                                </div>
-                                                                <div class='col-sm-5 edit_img_check' style='padding:0; margin:0;'>
-                                                                    <div class='center_v_mode'>
-                                                                        <input type='checkbox' id='box_2' onClick="javascript: imageSelector('2');"> Select Image
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </div>
-
-                                            <div id='div_3' class=''>
-                                                <li>
-                                                    <a href="javascript: buildExpandedImage('3');">
-                                                        <input type='hidden' id='id_3' value='4'>
-                                                        <input type='hidden' id='url_3' value='/static/media/h6.jpg'>
-                                                        <div class='container'>
-                                                            <div class='row'>
-                                                                <div class='col-sm-7 edit_img_content' style='padding:0; margin:0;'>
-                                                                    <img src="/static/media/h6.jpg">
-                                                                </div>
-                                                                <div class='col-sm-5 edit_img_check' style='padding:0; margin:0;'>
-                                                                    <div class='center_v_mode'>
-                                                                        <input type='checkbox' id='box_3' onClick="javascript: imageSelector('3');"> Select Image
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                    <div class='img-style-editor-btns btn-right'>
-                                        <button onClick='javascript: buildImageUploader();'>Upload New Image</button>
-                                        <button onClick='javascript: searchImageChanges();''>Delete Selected</button>
-                                    </div>
-                                </div>
-                                <div class='master-img-editor-btn-wrap'>
-                                    <div class='master-img-editor-btn'>
-                                        <button onClick="javascript: verifyImageExit();">Exit</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class='col-sm-2' style='padding:0; margin:0'>
-                                <div class='img-style-editor-right'>
-                                    <div class='transparent-icon'><i class='fab fa-envira'></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!--<div class='image-upload-wrap center_v_mode'>
-                <div class='frame_general_sm'>
-                    <div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>
-                    <h3>upload images</h3>
-                    <div class='generalSteel-in uploader-style'>
-                        <div class='uploader-style-head'>Select an image</div>
-                        <form action='/edit_success' method='POST' enctype='multipart/form-data' id='image_upload_form'>
-                            <input type='file' name='img_file' id='img_file' accept='.png, .jpg, .jpeg, .gif'>
-                        </form>
-                        <div class='uploader-btns'>
-                            <button onClick="javascript: validateUpload();">Upload</button>
-                            <button onClick="javascript: checkImageQue();">Exit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-            <!--<div class="uimg_wrapper center_v_mode">
-                <div class="frame_general_sm">
-                    <div class='container'>
-                        <div class='row'>
-                            <div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>
-                                <div class='img-style-editor-left'>
-                                    <h3><i class='fas fa-camera'></i> manage gallery images</h3>
-                                    <div class='img-style-editor-btns'>
-                                        <button>Upload New Image</button>
-                                        <button>Delete Selected Image</button>
-                                    </div>
-                                </div>
-                                <div class='master-img-editor-btn-wrap'>
-                                    <div class='master-img-editor-btn'>
-                                        <button onClick="javascript: closeIconBtn('6');">Exit</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class='col-sm-2' style='padding:0; margin:0'>
-                                <div class='img-style-editor-right'>
-                                    <div class='transparent-icon'><i class='fab fa-envira'></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
         </div>
 
         <div id='master-body-fader' class='master-body-fader'>

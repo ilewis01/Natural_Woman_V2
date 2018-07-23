@@ -66,13 +66,13 @@ function initialize_admin_forms()
             $("#div_0").addClass("super_select");
         }
 
-        else if (btn_index === "10") //TEMPORARY GALLERY FRAME
-        {
-            $("#msg2").hide();
-            $("#msg6").hide();
-            $("#msg6").removeClass("hidden");
-            $("#msg6").fadeIn(600);
-        }
+        // else if (btn_index === "10") //TEMPORARY GALLERY FRAME
+        // {
+        //     $("#msg2").hide();
+        //     $("#msg6").hide();
+        //     $("#msg6").removeClass("hidden");
+        //     $("#msg6").fadeIn(600);
+        // }
     }
     else
     {
@@ -2956,6 +2956,8 @@ function multi_company_editor(mode)
 
 function build_url_frame(active, inactive, index, is_edited, header, message)
 {
+    var hasElements     = true;
+    var m               = [];
     var is_restricted   = $("#is_restricted").val();
     var html            = "";
     index               = String(index);
@@ -2963,18 +2965,42 @@ function build_url_frame(active, inactive, index, is_edited, header, message)
     if (index === "7" && is_restricted === 0)
     {
         html = build_blog_manager(inactive);
+        if (inactive.length === 0)
+        {
+            hasElements = false; 
+            m.push("There Are 0 Blog Posts");
+            m.push("You can post a new blog by going to the <b>\"New Blog Post\"</b> page.");
+        }
     }
     else if (index === "8" && is_restricted === 0)
     {
         html = build_product_manager(inactive);
+        if (inactive.length === 0)
+        {
+            hasElements = false; 
+            m.push("There Are 0 Products Saved");
+            m.push("You can add a new product by clicking <b>\"New Product\"</b> on this page.");
+        }
     }
     else if (index ==="9" && is_restricted === 0)
     {
         html = build_about_manager(active, inactive);
+        if (String(active['statement']).length === 0)
+        {
+            hasElements = false; 
+            m.push("You have not written an <em>\"About Us\"</em> statement.");
+            m.push("You can add a new statement by clicking <b>\"New\"</b> on this page.");
+        }
     }
     else if (index ==="10" && is_restricted === 0)
     {
-        //This is where the gallery builder will go once complete
+        html = buildImageManager(active, inactive)
+        if (active.length === 0) 
+        { 
+            hasElements = false; 
+            m.push("There Are 0 Images Uploaded");
+            m.push("You can upload new images by clicking the <b>\"Upload\"</b> button.");
+        }
     }
     else if (index ==="11" && is_restricted === 0)
     {
@@ -2983,6 +3009,12 @@ function build_url_frame(active, inactive, index, is_edited, header, message)
     else if (index ==="12" && is_restricted === 0)
     {
         html = build_user_manager(inactive);
+        if (inactive.length === 0) 
+        { 
+            hasElements = false; 
+            m.push("There Are 0 Authorized Users");
+            m.push("You can authorize new users by going to the  <b>\"Authorize New User\"</b> page.");
+        }
     }
     else if (index ==="13")
     {
@@ -3026,6 +3058,10 @@ function build_url_frame(active, inactive, index, is_edited, header, message)
             html2 = edit_success_builder(index, header, message);
         }
         loadHiddenFrame("msg3", html2);
+    }
+    if (hasElements === false)
+    {
+        ultimateErrorMessage(m);
     }
 }
 
