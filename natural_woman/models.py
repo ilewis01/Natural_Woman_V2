@@ -1,6 +1,7 @@
 
-from . import db, bcrypt
+from . import db, bcrypt, images
 from datetime import datetime
+import os
 
 class User(db.Model):
 	__tablename__ 		= "users"
@@ -312,20 +313,18 @@ class Image(db.Model):
 	img_url 		= db.Column(db.String, default=None, nullable=True)
 	img_filename 	= db.Column(db.String, default=None, nullable=True)
 
-	def __init__(self, url):
-		self.img_url = url
-
-	def setName(self):
-		img_id 	= str(self.id)
-		name 	= "img_" + img_id
-		db.session.add(self)
-		db.session.commit()
+	def __init__(self, url, filename):
+		self.img_url 		= url
+		self.img_filename 	= filename
 
 	def save(self):
 		db.session.add(self)
 		db.session.commit()
 
 	def delete(self):
+		filename = self.img_filename
+		filepath = images.path(filename)
+		os.remove(filepath)
 		db.session.delete(self)
 		db.session.commit()
 

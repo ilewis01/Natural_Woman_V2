@@ -1,11 +1,13 @@
 from flask_mail import Message
 from threading import Thread
 from natural_woman.models import *
-from . import mail, app
-from flask import request
+from . import mail, app, images
+from flask import request, url_for
+from werkzeug.utils import secure_filename
 import json
 import random
 import string
+import os
 
 def generateRandomCode(numberChars):
 	numberChars = int(numberChars)
@@ -79,6 +81,16 @@ def get_user_by_id(uid):
 			break
 	return q
 
+def getImageById(img_id):
+	image = None
+	img_id = str(img_id)
+	i_list = Image.query.all()
+	for i in i_list:
+		if img_id == str(i.id):
+			image = i
+			break
+	return image
+
 def isQueued(target_model, mid):
 	queued = False
 	model_list = None
@@ -95,6 +107,8 @@ def isQueued(target_model, mid):
 		model_list = Blog.query.all()
 	elif target_model == "auth":
 		model_list = Authorization.query.all()
+	elif target_model == "image":
+		model_list = Image.query.all()
 	for m in model_list:
 		if str(m.id) == str(mid):
 			queued = True
@@ -186,6 +200,7 @@ def json_serialize_products():
 	data 		= []
 	index 		= 0
 	products 	= Product.query.all()
+	products.reverse()
 	for p in products:
 		d 					= {}
 		d['id'] 			= p.id
@@ -208,6 +223,7 @@ def json_serialize_gallery():
 	data 	= []
 	index 	= 0
 	images 	= Image.query.all()
+	images.reverse()
 	for i in images:
 		d = {}
 		d['id'] 	= i.id
@@ -222,6 +238,7 @@ def json_serialize_abouts():
 	data 	= []
 	index 	= 0
 	abouts 	= About.query.all()
+	abouts.reverse()
 	for a in abouts:
 		d 				= {}
 		d['id'] 		= a.id
@@ -236,6 +253,7 @@ def json_serialize_users(user):
 	data 	= []
 	index 	= 0
 	users 	= User.query.all()
+	users.reverse()
 	for u in users:
 		if str(user.id) != str(u.id):
 			d 						= {}
@@ -727,13 +745,13 @@ def getEditSuccessData(user):
 			message = "The Active About Statement Has Been Changed"
 		elif target_action == "delete":
 			message = "The Selected Statement Has Been Deleted"
-	elif target_model == "gallery":
+	elif target_model == "image":
 		header 		= "Manage Gallery Images"
 		index 		= 10
-		json_data 	= get_empty_json_data()
+		json_data 	= get_gallery_json_data()
 		if target_action == "delete":
 			message = "Image Successfully Deleted"
-		elif target_action == "save":
+		elif target_action == "upload":
 			message = "Image Successfully Saved"
 	elif target_model == "company":
 		header 		= "Contact & Company Profile"
@@ -1102,6 +1120,21 @@ def save_target_model(target, action):
 			code = generateRandomCode(8)
 			# SEND A EMAIL TO USER HERE WITH THE NEW CODE
 			auth.setCode(code)
+	elif target == "image":
+		if action == "upload":
+			file 		= request.files['img_file']
+			filename 	= images.save(file)
+			url 		= images.url(filename)
+			image 		= Image(url, filename)
+			image.save()
+		elif action == "delete":
+			delete_list = str(request.form['target_id'])
+			ids 		= delete_list.split('~')
+			for i in ids:
+				if len(i)> 0:
+					if isQueued("image", i) == True:
+						image = getImageById(i)
+						image.delete()
 	return complete
 
 
