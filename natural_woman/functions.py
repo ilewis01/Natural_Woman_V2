@@ -760,7 +760,7 @@ def getEditSuccessData(user):
 		index 		= 11
 	elif target_model == "user":
 		header 		= "User Management"
-		json_data 	= get_user_json_data()
+		json_data 	= get_user_json_data(user)
 		index 		= 12
 		if target_action == "update":
 			message = "User Privileges Sucessfully Updated"

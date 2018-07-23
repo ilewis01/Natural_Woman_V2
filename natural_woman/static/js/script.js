@@ -322,6 +322,7 @@ function build_blog_manager(data)
     html += "</div>";
     html += "</div>";
     html += "</div>";
+    build_blog_editor();
     return html;
 }
 
