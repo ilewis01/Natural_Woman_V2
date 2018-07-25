@@ -1,0 +1,108 @@
+{% extends "admin/master/super_base.html" %}
+
+{% block content %}
+
+	<div class="su-main-content-style">
+		<div class="container">
+	    	<div class="row">
+	    		<div class="col-sm-4">
+	    			<div class='su-db-container'>
+	    				<div class="su-db-top">Database</div>
+	    				<div class="su-db-center">
+	    					<div class="container">
+	    						<div class="row">
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('blog', {{blogs}});" checked></td>
+	    										<td><label for=''>Blogs</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('product', {{products}});"></td>
+	    										<td><label for=''>Products</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('image', {{images}});" ></td>
+	    										<td><label for=''>Images</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    						</div>
+	    					</div>
+	    				</div>
+
+	    				<div class="su-db-bottom">
+	    					<div class="su-sub-top">
+	    						<button><i class="fas fa-plus"></i></button>
+	    						<button disabled id='modelDelBtn'><i class="fas fa-minus"></i></button>
+	    					</div>
+	    					<div class="su-sub-bottom-list">
+		    					<ul id='db-builder'></ul>
+	    					</div>
+	    				</div>
+	    			</div>
+	    		</div>
+
+	    		<div class="col-sm-4">
+	    			<div class='su-db-container'>
+	    				<div class="su-db-top">Users</div>
+	    				<div class="su-db-center">
+	    					<div class="container">
+	    						<div class="row">
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('user', {{users}});" checked></td>
+	    										<td><label for=''>Profiles</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('auth', {{auths}});"></td>
+	    										<td><label for=''>Pending</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('question', {{questions}});"></td>
+	    										<td><label for=''>Security</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    						</div>
+	    					</div>
+	    				</div>
+	    				<div class="su-db-bottom">
+	    					<div class="su-sub-top">
+	    						<button><i class="fas fa-plus"></i></button>
+	    						<button disabled id='ursDelBtn'><i class="fas fa-minus"></i></button>
+	    					</div>
+	    					<div class="su-sub-bottom-list">
+	    						<ul id='usr-builder'></ul>
+	    					</div>
+	    				</div>
+	    			</div>
+	    		</div>
+
+	    		<div class="col-sm-4">
+	    			<div class='su-db-container'>
+	    				<div class="su-db-top">Administration</div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>
+
+{% endblock %}

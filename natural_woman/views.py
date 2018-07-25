@@ -46,10 +46,36 @@ def auth():
 	else:
 		return render_template("global/index.html")
 
+@app.route('/suauth', methods=["POST"])
+def suauth():
+	if request.method == "POST":
+		email = str(request.form['email'])
+		password = str(request.form['password'])
+		user = fetch_user_by_email(email)
+		if user is not None and user.password_validated(password):
+			user.authenticated = True
+			user.save()
+			login_user(user)
+			return redirect("/superuser_admin")
+		else:
+			return render_template("global/login_failure.html")
+	else:
+		return render_template("global/index.html")
+
 @app.route('/admin_home')
 @login_required
 def admin_home():
 	content = load_admin_home(current_user)
+	return render_template(content['url'], **content)
+
+@app.route('/superuser')
+def superuser():
+	return render_template("admin/master/superuser.html")
+
+@app.route('/superuser_admin')
+@login_required
+def superuser_admin():
+	content = loadSuperuser()
 	return render_template(content['url'], **content)
 
 @app.route('/blog_editor')

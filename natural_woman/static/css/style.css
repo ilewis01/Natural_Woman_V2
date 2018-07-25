@@ -2805,6 +2805,11 @@ input[type="radio"]:checked:after {
     margin:auto;
 }
 
+.uimg_wrapper_wide {
+	width: 50%;
+	margin:auto;
+}
+
 .img-style-editor-btns, .img-style-editor-btns3 {
     width: 100%;
     border-radius: 6px;
@@ -2849,7 +2854,7 @@ input[type="radio"]:checked:after {
     margin: 0;
 }
 
-.master-list-edit-wrap {
+.master-list-edit-wrap, .master-list-image-wrap {
     width: 100%;
     font-size: 11px;
     color: #333333;
@@ -2858,42 +2863,57 @@ input[type="radio"]:checked:after {
     border-radius: 6px;
     border: 1px solid #444444;
     text-align: left;
-    height: 40vh;
     overflow-y: auto;
 }
 
-.master-list-edit-wrap ul {
+.master-list-edit-wrap {
+	height: 40vh;
+}
+
+.master-list-image-wrap {
+	height: 47vh;
+}
+
+.master-list-edit-wrap ul, .master-list-image-wrap ul {
     padding: 0;
     margin: 0;
 }
 
-.master-list-edit-wrap i {
+.master-list-edit-wrap i, .master-list-image-wrap i {
     font-size: 11px;
     margin-right: 3px;
 }
 
-.master-list-edit-wrap li {
+
+.master-list-edit-wrap li, .master-list-image-wrap li {
     list-style: none;
     padding: 10px;
     border-bottom: 1px solid #666666;
     background-color: #eeeeee;
 }
 
-.master-list-edit-wrap li:hover {
+.master-list-image-wrap li {
+	width:50%;
+	position:relative;
+	float: left;
+	border-right:1px solid #555555;
+}
+
+.master-list-edit-wrap li:hover, .master-list-image-wrap li:hover {
     background-color: #e2e3d7;
 }
 
-.master-list-edit-wrap a {
+.master-list-edit-wrap a, .master-list-image-wrap a {
     color: #333333;
     font-style: italic;
     text-decoration: none;
 }
 
-.master-list-edit-wrap a:hover {
+.master-list-edit-wrap a:hover, .master-list-image-wrap a:hover {
     color: #888888;
 }
 
-.master-list-edit-wrap a span {
+.master-list-edit-wrap a span, .master-list-image-wrap a span {
     font-weight: 700;
 }
 
@@ -2953,8 +2973,8 @@ input[type="radio"]:checked:after {
 }
 
 .edit_img_content img {
-    width: 130px;
-    height: 100px;
+    width: 90px;
+    height: 80px;
     object-fit: cover;
     border-radius: 6px;
     border:1px solid #666666;

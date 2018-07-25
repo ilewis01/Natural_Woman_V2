@@ -182,15 +182,17 @@ def json_serialize_blogs():
 	blogs.reverse()
 	for b in blogs:
 		d 				= {}
-		subject 		= cleanInputText(b.subject)
-		content 		= cleanInputText(b.content)
 		date 			= b.getDate()
-		d['subject'] 	= subject
-		d['content'] 	= content
+		d['subject'] 	= b.subject
+		d['content'] 	= b.content
 		d['date'] 		= date['date']
 		d['time'] 		= date['time']
 		d['date_obj'] 	= str(b.date)
 		d['id'] 		= b.id
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
 		d['index'] 		= index
 		data.append(d)
 		index += 1
@@ -208,6 +210,10 @@ def json_serialize_products():
 		d['price'] 			= p.price
 		d['index'] 			= index
 		d['description'] 	= p.description
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
 		data.append(d)
 		index += 1
 	return data
@@ -230,6 +236,51 @@ def json_serialize_gallery():
 		d['url'] 	= i.img_url
 		d['name'] 	= i.img_filename
 		d['index'] 	= index
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
+		data.append(d)
+		index += 1
+	return data
+
+def json_serialize_security():
+	data = []
+	index = 0
+	questions = SecurityQuestion.query.all()
+	for q in questions:
+		d 				= {}
+		d['id'] 		= q.id
+		d['question'] 	= q.question
+		d['index'] 		= index
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
+		data.append(d)
+		index += 1
+	return data
+
+def json_serialize_auths():
+	data = []
+	index = 0
+	auths = Authorization.query.all()
+	for a in auths:
+		d = {}
+		d['index'] = index
+		d['name'] = a.auth_name
+		d['email'] = a.auth_email
+		d['admin'] = str(a.auth_admin)
+		d['product'] = str(a.auth_product)
+		d['about'] = str(a.auth_about)
+		d['blog'] = str(a.auth_blog)
+		d['image'] = str(a.auth_gallery)
+		d['lock'] = str(a.auth_locked)
+		d['super'] = str(a.auth_super)
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
 		data.append(d)
 		index += 1
 	return data
@@ -245,6 +296,10 @@ def json_serialize_abouts():
 		d['statement'] 	= a.statement
 		d['is_active'] 	= a.is_active
 		d['index'] 		= index
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
 		data.append(d)
 		index += 1
 	return data
@@ -266,9 +321,50 @@ def json_serialize_users(user):
 			d['about_permission'] 	= str(u.about_permission)
 			d['blog_permission'] 	= str(u.blog_permission)
 			d['gallery_permission'] = str(u.gallery_permission)
+			d['isSuper'] 			= str(u.superuser)
+			d['isLocked'] 			= str(u.is_locked)
 			d['index'] 				= index
 			data.append(d)
 			index += 1
+	return data
+
+def json_serialize_users_all():
+	data 	= []
+	index 	= 0
+	users 	= User.query.all()
+	users.reverse()
+	for u in users:
+		d 						= {}
+		d['id'] 				= u.id
+		d['fname'] 				= u.fname
+		d['lname'] 				= u.lname
+		d['email'] 				= u.email
+		d['is_admin'] 			= str(u.is_admin)
+		d['product_permission'] = str(u.product_permission)
+		d['about_permission'] 	= str(u.about_permission)
+		d['blog_permission'] 	= str(u.blog_permission)
+		d['gallery_permission'] = str(u.gallery_permission)
+		d['index'] 				= index
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
+		data.append(d)
+		index += 1
+	return data
+
+def loadSuperuser():
+	data = {}
+	data['users'] 		= json_serialize_users_all()
+	data['blogs'] 		= json_serialize_blogs() 
+	data['products'] 	= json_serialize_products()
+	data['images'] 		= json_serialize_gallery()
+	data['payments']	= json_serialize_payments()
+	data['company'] 	= json_serialize_company()
+	data['abouts'] 		= json_serialize_abouts()
+	data['auths'] 		= json_serialize_auths()
+	data['questions']	= json_serialize_security()
+	data['url'] 		= "admin/master/superuser_admin.html"
 	return data
 
 def encodeAuthData():

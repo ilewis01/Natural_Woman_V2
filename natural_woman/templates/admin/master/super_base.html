@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Natural Woman Salon">
+        <meta name="author" content="Immanuel Lewis">
+
+        <!-- Custom CSS -->
+        <link href="static/css/style.css" rel="stylesheet" type="text/css">
+
+        <!-- Bootstrap Core CSS CHANGE IN PRODUCTION-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+        <!-- Font Awesome CSS CHANGE IN PRODUCTION-->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+        <!-- Custom Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Poiret+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Marck+Script" rel="stylesheet">
+
+        <link rel="shortcut icon" type="image/png" href="/static/images/favicon_super.ico"/>
+
+        <title>NWS | Administration</title>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+<style type="text/css">
+.su_head-style {
+    font-family: Arial;
+    font-weight: 600;
+    color: #dfdbbc;
+    text-shadow: 2px 2px #333333;
+    border-bottom: 1px solid #444444;
+    padding:20px;
+    width: 100%;
+    font-size: 22px;
+    position: absolute;
+    top:0;
+    left:0;
+    background: linear-gradient(rgba(200, 200, 200, 0.7), rgba(88, 85, 56, 0.7));
+    box-shadow: 2px 2px 2px #222222;
+}
+
+.su-body-style {
+    background-color: #dddddd;
+    width: 100%;
+    background-image: url('/static/images/background.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.su-body-style input[type = 'radio'] {
+    width: 20px;
+    font-size: 12px;
+}
+
+.su-body-style input[type = 'checkbox'] {
+    width: 20px;
+    font-size: 11px;
+}
+
+.su-body-style label {
+    font-size: 12px;
+    line-height: 0px;
+    font-style: italic;
+    color: #444444;
+}
+
+.su-content {
+    width: 100%;
+    background-color: transparent;
+    height: 90vh;
+    margin-top:80px;
+    padding:20px;
+    overflow: hidden;
+}
+
+.su-content-wrap {
+    width:100%;
+    height:100%;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.su-login-wrap  {
+    width: 31%;
+    margin: auto;
+    border-radius: 6px;
+    border: 1px solid #555555;
+    box-shadow: 4px 4px 4px #222222;
+    padding: 20px;
+    margin-top: -30px;
+    background: linear-gradient(rgba(200, 200, 200, 0.7), rgba(80, 80, 80, 0.7));
+}
+
+.su-content input {
+    width:100%;
+    border-radius: 5px;
+    padding-left:6px;
+    margin-bottom:4px;
+    font-size: 11px;
+}
+
+.su-content button {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #666666;
+    font-size: 11px;
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+}
+
+.su-content button:hover {
+    background: linear-gradient(rgba(210, 210, 210, 0.9), rgba(120, 120, 120, 1));
+}
+
+.su-logout-btn {
+    text-align: right;
+    font-size: 12px;
+    padding-top: 200px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.su-logout-btn a {
+    color: #333333;
+}
+
+.su-logout-btn a:hover {
+    color: #dddddd;
+    text-decoration: none;
+}
+
+.su-main-content-style {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 30px;
+}
+
+.su-db-container {
+    width: 100%;
+    height: 40%;
+    border-radius: 5px;
+    border: 1px solid #777777;
+    box-shadow: 3px 3px 3px #444444;
+    background: linear-gradient(to right, rgba(88, 85, 56, 0.8)0%, rgba(206, 209, 162, 0.8) 50%, rgba(88, 85, 56, 0.8) 100%);
+    /*background: linear-gradient(to right, rgba(14, 50, 84, 0.8)0%, rgba(186, 205, 222, 0.8) 50%, rgba(14, 50, 84, 0.8) 100%);*/
+    height: 73vh;
+}
+
+.su-db-top, .su-db-center, .su-db-bottom {
+    border-radius: 5px;
+    width: 93%;
+    margin:auto;
+}
+
+.su-db-center, .su-db-bottom {
+    background: linear-gradient(to right, rgba(170, 170, 170, 1)0%, rgba(240, 240, 240, 1) 50%, rgba(170, 170, 170, 1) 100%);
+    border: 1px solid #777777;
+    box-shadow: 3px 3px 3px #444444;
+}
+
+.su-db-top {
+    height: 10%;
+    text-align: left;
+    font-size: 16px;
+    padding-top: 18px;
+    font-weight: 700;
+    color: #dfdbbc;
+    text-shadow: 1px 1px #111111;
+}
+
+.su-db-center {
+    margin-bottom: 7px;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.su-db-bottom {
+    height:78%;
+}
+
+.su-main-content-style ul {
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.su-main-content-style li {
+    list-style: none;
+    font-size: 11px;
+    border-bottom: 1px solid #777777;
+}
+
+.su-main-content-style li:hover {
+    background-color: #d5d5a4;
+}
+
+.su-sub-top {
+    width: 100%;
+    height: 10%;
+    text-align: right;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.su-sub-top button {
+    width: 10%;
+}
+
+.su-sub-bottom-list {
+    width: 100%;
+    height: 90%;
+    border-top:2px solid #666666;
+    text-align: left;
+    overflow-y: auto;
+}
+
+.su-sub-bottom-list a {
+    color: #333333;
+}
+
+.su-sub-bottom-list a:hover {
+    text-decoration: none;
+    color: #6f5205;
+}
+
+.su-sub-bottom-list td {
+    font-style: italic;
+}
+
+.su-sub-bottom-list span {
+    font-weight: 700;
+}
+
+.su-sub-bottom-list img {
+    width: 80px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #5c5f40;
+    box-shadow: 3px 3px 3px #222222;
+}
+
+.su-sub-bottom-list img:hover {
+    opacity: 0.8;
+}
+
+.su-sub-bottom-list p {
+    padding-left: 20px;
+    padding-top: 15px;
+    color: #0000ff;
+}
+
+.td-top {
+    position:relative;
+    vertical-align: top;
+    padding-right: 5px;
+}
+
+.su-border-left {
+    border-left: 1px solid #666666;
+    padding-left: 10px;
+}
+
+.su-sp-top {
+    padding-top :8px;
+}
+
+.su-sp-bottom {
+    padding-bottom :8px;
+}
+
+.li-shade1 li {
+    background-color: #eeeeee;
+}
+
+.li-shade2 li {
+    background-color: #e6e6d6;
+}
+
+.su-sp-right-pad {
+    padding-right: 20px;
+}
+
+.su_ultimate_selector li, .su_ultimate_selector li:hover {
+    background-color: #ccad72;
+}
+
+.su_ultimate_selector a, .su_ultimate_selector a:hover {
+    color: #634305;
+}
+
+
+/*TRANSITIONS*/
+.su-main-content-style li {
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.3s ease-in;
+}
+</style>
+
+<script type="text/javascript">
+function superLaunchBuilder(model, data)
+{
+    var html = null;
+    model = String(model);
+    if (model === "blog") { html = buildBlogs(data); }
+    else if (model === "product") { html = buildProducts(data); }
+    else if (model === "image") { html = buildImages(data); }
+    $("#db-builder").html(html);
+    $("#selected-db").val("");
+}
+
+function superUserLaunch(model, data)
+{
+    var html = null;
+    model = String(model);
+    if (model === "user") { html = buildPermissions(data); }
+    if (model === "auth") { html = buildAuths(data); }
+    if (model === "question") { html = buildSecurity(data); }
+    $("#usr-builder").html(html);
+    $("#selected-usr").val("");
+}
+
+function buildPermissions(data)
+{
+    var html    = "";
+    var fname   = "";
+    var lname   = "";
+    var email   = "";
+    var admin   = "";
+    var locked  = "";
+    var s_user  = "";
+    var admin   = "";
+    var gallery = "";
+    var product = "";
+    var about   = "";
+    var blog    = "";
+    var index   = "";
+    var m_class = "";
+    var u_id    = "";
+    var granted = "<i class='far fa-check-square'></i>"
+    var denied  = "<i class='far fa-square'></i>"
+
+    for (var i = 0; i < data.length; i++)
+    {
+        index   = String(data[i]['index']);
+        fname   = String(data[i]['fname']);
+        lname   = String(data[i]['lname']);
+        email   = String(data[i]['email']);
+        m_clsas = String(data[i]['class']);
+        u_id    = String(data[i]['id']);
+        admin   = String(data[i]['is_admin']);
+        product = String(data[i]['product_permission']);
+        about   = String(data[i]['about_permission']);
+        blog    = String(data[i]['blog_permission']);
+        gallery = String(data[i]['gallery_permission']);
+        s_user  = String(data[i]['isSuper']);
+        locked  = String(data[i]['isLocked']);
+
+        html += "<div id='div1_" + index + "' class='" + m_clsas + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: \">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + u_id + "'>";
+        html += "<input type='hidden' id='m_fname_" + index + "' value='" + fname + "'>";
+        html += "<input type='hidden' id='m_lname_" + index + "' value='" + lname + "'>";
+        html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
+        html += "<input type='hidden' id='m_admin_" + index + "' value='" + admin + "'>";
+        html += "<input type='hidden' id='m_blog_" + index + "' value='" + blog + "'>";
+        html += "<input type='hidden' id='m_product_" + index + "' value='" + product + "'>";
+        html += "<input type='hidden' id='m_image_" + index + "' value='" + gallery + "'>";
+        html += "<input type='hidden' id='m_about_" + index + "' value='" + about + "'>";
+        html += "<input type='hidden' id='m_lock_" + index + "' value='" + locked + "'>";
+        html += "<input type='hidden' id='m_super_" + index + "' value='" + s_user + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectUserItem('" + index + "');\" id='usr_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Name: </span></td>";
+        html += "<td class='su-sp-top'>" + fname + " " + lname + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Email: </span></td>";
+        html += "<td>" + email + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Permissions: </span></td>";
+        html += "</tr>";
+        html += "</table>";
+
+        if (blog === "True") { blog = granted; } else { blog = denied; }
+        if (gallery === "True") { gallery = granted; } else { gallery = denied; }
+        if (about === "True") { about = granted; } else { about = denied; }
+        if (product === "True") { product = granted; } else { product = denied; }
+        if (admin === "True") { admin = granted; } else { admin = denied; }
+        if (locked === "True") { locked = granted; } else { locked = denied; }
+        if (s_user === "True") { s_user = granted; } else { s_user = denied; } 
+
+        html += "<table>";
+        html += "<tr>";
+        html += "<td>" + product + "</td>";
+        html += "<td class='su-sp-right-pad'>Products</td>";
+        html += "<td>" + blog + "</td>";
+        html += "<td class='su-sp-right-pad'>Blogs</td>";
+        html += "<td>" + gallery + "</td>";
+        html += "<td>Images</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td>" + about + "</td>";
+        html += "<td class='su-sp-right-pad'>Statements</td>";
+        html += "<td>" + admin + "</td>";
+        html += "<td class='su-sp-right-pad'>Administration</td>";
+        html += "<td>" + locked + "</td>";
+        html += "<td>Locked</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td>" + s_user + "</td>";
+        html += "<td>Superuser</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildAuths(data)
+{
+    var html    = "";
+    var index   = "";
+    var m_class = "";
+    var a_id    = "";
+    var name    = "";
+    var email   = "";
+    var admin   = "";
+    var product = "";
+    var about   = "";
+    var blog    = "";
+    var image   = "";
+    var lock    = "";
+    var m_super = "";
+
+    for (var i = 0; i < data.length; i++)
+    {
+        index   = String(data[i]['index']);
+        m_class = String(data[i]['class']);
+        a_id    = String(data[i]['id']);
+        name    = String(data[i]['name']);
+        email   = String(data[i]['email']);
+        admin   = String(data[i]['admin']);
+        product = String(data[i]['product']);
+        about   = String(data[i]['about']);
+        blog    = String(data[i]['blog']);
+        image   = String(data[i]['image']);
+        lock    = String(data[i]['lock']);
+        m_super = String(data[i]['super']);
+
+        html += "<div id='div1_" + index + "' class='" + m_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: \">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + a_id + "'>";
+        html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
+        html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
+        html += "<input type='hidden' id='m_admin_" + index + "' value='" + admin + "'>";
+        html += "<input type='hidden' id='m_blog_" + index + "' value='" + blog + "'>";
+        html += "<input type='hidden' id='m_product_" + index + "' value='" + product + "'>";
+        html += "<input type='hidden' id='m_image_" + index + "' value='" +image + "'>";
+        html += "<input type='hidden' id='m_about_" + index + "' value='" + about + "'>";
+        html += "<input type='hidden' id='m_lock_" + index + "' value='" + lock + "'>";
+        html += "<input type='hidden' id='m_super_" + index + "' value='" + m_super + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectUserItem('" + index + "');\" id='usr_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Name: </span></td>";
+        html += "<td class='su-sp-top'>" + name + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-bottom'><span>Email: </span></td>";
+        html += "<td class='su-sp-bottom'>" + email + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildSecurity(data)
+{
+    var html        = "";
+    var index       = "";
+    var e_class     = "";
+    var q_id        = "";
+    var question    = "";
+
+    for (var i = 0; i < data.length; i++)
+    {
+        index       = String(data[i]['index']);
+        e_class     = String(data[i]['class']);
+        q_id        = String(data[i]['id']);
+        question    = String(data[i]['question']);
+        html += "<div id='div1_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: \">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + q_id + "'>";
+        html += "<input type='hidden' id='m_question_" + index + "' value='" + question + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectUserItem('" + index + "');\" id='usr_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='su-sp-top su-sp-bottom'><span>Security Question " + String(i+1) + ": </span></td>";
+        html += "<td>" + question + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += '</table>';
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildBlogs(data)
+{
+    var html = "";
+    for (var i = 0; i < data.length; i++)
+    {
+        var index       = String(data[i]['index']);
+        var e_class     = String(data[i]['class']);
+        var b_id        = String(data[i]['id']);
+        var subject     = String(data[i]['subject']);
+        var date        = String(data[i]['date']);
+        var time        = String(data[i]['time']);
+        var content     = String(data[i]['content']);
+        html += "<div id='div_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: \">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + b_id + "'>";
+        html += "<input type='hidden' id='m_subject_" + index + "' value='" + subject + "'>";
+        html += "<input type='hidden' id='m_content_" + index + "' value='" + content + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Subject: </span></td>";
+        html += "<td class='su-sp-top'>" + subject + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Date: </span></td>";
+        html += "<td>" + date + " <b>@ </b>" + time + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-bottom'><span>Post: </span></td>";
+        html += "<td class='su-sp-bottom'>" + content + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }   
+    return html;
+}
+
+function buildProducts(data)
+{
+    var html = "";
+    for (var i = 0; i < data.length; i++)
+    {
+        var index       = String(data[i]['index']);
+        var e_class     = String(data[i]['class']);
+        var p_id        = String(data[i]['id'])
+        var name        = String(data[i]['name']);
+        var description = String(data[i]['description']);
+        var price       = String(data[i]['price']);
+        html += "<div id='div_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: \">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + p_id + "'>";
+        html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
+        html += "<input type='hidden' id='m_description_" + index + "' value='" + description + "'>";
+        html += "<input type='hidden' id='m_price_" + index + "' value='" + price + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Product: </span></td>";
+        html += "<td class='su-sp-top'>" + name + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Description: </span></td>";
+        html += "<td>" + description + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-bottom'><span>Price: </span></td>";
+        html += "<td class='su-sp-bottom'>$" + price + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }   
+    return html;
+}
+
+function buildImages(data)
+{
+    var html    = "";
+    var index   = "";
+    var url     = "";
+    var img_id  = "";
+    var e_class = "";
+    for (var i  = 0; i < data.length; i++)
+    {
+        index   = String(data[i]['index']);
+        e_class = String(data[i]['class']);
+        img_id  = String(data[i]['id']);
+        url     = String(data[i]['url']);
+        html += "<div id='div_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: \">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + img_id + "'>";
+        html += "<input type='hidden' id='m_url_" + index + "' value='" + url + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='su-sp-top su-sp-bottom'><img src='" + url + "' onClick=\"javascript: expandImage('" + index + "');\"></td>";
+        html += "<td><p>Click image to expand</p></td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += '</table>';
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+   return html;     
+}
+
+function selectModelItem(index)
+{
+    index = String(index);
+    if ($("#db_box_" + index).prop("checked") === true)
+    {
+        $("#div_" + index).addClass("su_ultimate_selector");
+        addModelItem(index);
+    }
+    else
+    {
+        $("#div_" + index).removeClass("su_ultimate_selector");
+        removeModelItem(index);
+    }
+}
+
+function selectUserItem(index)
+{
+    index = String(index);
+    if ($("#usr_box_" + index).prop("checked") === true)
+    {
+        $("#div1_" + index).addClass("su_ultimate_selector");
+        addUserItem(index);
+    }
+    else
+    {
+        $("#div1_" + index).removeClass("su_ultimate_selector");
+        removeUserItem(index);
+    }
+}
+
+function initializeAdmin(blogs, users)
+{
+    superLaunchBuilder("blog", blogs);
+    superUserLaunch("user", users);
+}
+
+function addModelItem(index)
+{
+    var current = $("#selected-db").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-db").val(current);
+    setModelDeleteBtn();
+}
+
+function removeModelItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-db").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-db").val(new_list);
+    setModelDeleteBtn();
+}
+
+function addUserItem(index)
+{
+    var current = $("#selected-usr").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-usr").val(current);
+    setUserDeleteBtn();
+}
+
+function removeUserItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-usr").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-usr").val(new_list);
+    setUserDeleteBtn();
+}
+
+function setModelDeleteBtn()
+{
+    var val = $("#selected-db").val();
+    if (String(val).length > 0) { $("#modelDelBtn").prop("disabled", false); }
+    else { $("#modelDelBtn").prop("disabled", true); }
+}
+
+function setUserDeleteBtn()
+{
+    var val = $("#selected-usr").val();
+    if (String(val).length > 0) { $("#ursDelBtn").prop("disabled", false); }
+    else { $("#ursDelBtn").prop("disabled", true); }
+}
+
+</script>
+
+    <body class='su-body-style' onLoad="javascript: initializeAdmin({{blogs}}, {{users}});">
+        <input type="hidden" id="selected-db" value="">
+        <input type="hidden" id="selected-usr" value="">
+        <div class='su_head-style'>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6" style="padding:0; margin:0;">Natural Woman Salon Site Administration</div>
+                    <div class="col-sm-6 su-logout-btn" style="padding:0; margin:0; padding-top:10px;">
+                        <a href="">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='su-content'>
+            {% block content %}
+            {% endblock %}
+        </div>
+
+    	<!-- JQuery -->
+        <script src="static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        
+        <!-- Bootstrap Core JavaScript change in production-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+        <!-- Custom JS -->
+        <script src="static/js/script.js" type="text/javascript"></script>
+    </body>
+</html>

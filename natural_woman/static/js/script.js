@@ -3803,15 +3803,15 @@ function buildImageManager(data, file_data)
     html += String(file_data['max_images']);
     html += "'>";
     html += "</form>";
-    html += "<div class='uimg_wrapper center_v_mode'>";
+    html += "<div class='uimg_wrapper_wide center_v_mode'>";
     html += "<div class='frame_general_sm'>";
     html += "<div class='container'>";
     html += "<div class='row'>";
-    html += "<div class='col-sm-10' style='padding:0; margin:0; padding-left:1px;'>";
+    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
     html += "<div class='img-style-editor-left'>";
     html += "<h3><i class='fas fa-camera'></i> manage gallery images</h3>";
     html += "<div class='img_sm_msg'>Click image to view</div>";
-    html += "<div class='master-list-edit-wrap power-select'>";
+    html += "<div class='master-list-image-wrap power-select'>";
     html += "<ul>";
     for (var i = 0; i < data.length; i++)
     {
@@ -3835,20 +3835,20 @@ function buildImageManager(data, file_data)
         html += "'>";
         html += "<div class='container'>";
         html += "<div class='row'>";
-        html += " <div class='col-sm-7 edit_img_content' style='padding:0; margin:0;'>";
+        html += " <div class='col-sm-6 edit_img_content' style='padding:0; margin:0;'>";
         html += "<img src='";
         html += url;
         html += "' onClick=\"javascript: buildExpandedImage('";
         html += index;
         html += "');\">";
         html += "</div>";
-        html += "<div class='col-sm-5 edit_img_check' style='padding:0; margin:0;'>";
-        html += "<div class='center_v_mode'>";
+        html += "<div class='col-sm-6 edit_img_check' style='padding:0; margin:0;'>";
+        html += "<div class='bottom_v_mode'>";
         html += "<input type='checkbox' id='box_";
         html += index;
         html += "' onClick=\"javascript: imageSelector('";
         html += index;
-        html += "');\"> Select Image";
+        html += "');\"> Select";
         html += "</div>";
         html += "</div>";
         html += "</div>";
@@ -3870,7 +3870,7 @@ function buildImageManager(data, file_data)
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0'>";
+    html += "<div class='col-sm-1' style='padding:0; margin:0'>";
     html += "<div class='img-style-editor-right'>";
     html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
     html += "</div>";

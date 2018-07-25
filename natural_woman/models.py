@@ -18,13 +18,18 @@ class User(db.Model):
 	gallery_permission 	= db.Column('gallery_permission', db.Boolean, default=False)
 	is_locked 			= db.Column('locked', db.Boolean, default=False)
 	superuser 			= db.Column('superuser', db.Boolean, default=False)
+	question1 			= db.Column('question1', db.Integer, default=0, nullable=True)
+	question2 			= db.Column('question2', db.Integer, default=0, nullable=True)
+	answer1 			= db.Column('answer1', db.Binary(60), default="0000", nullable=False)
+	answer2 			= db.Column('answer2', db.Binary(60), default="0000", nullable=False)
 
 	def __init__(self, fname, lname, email, plaintext_password):
-		self.fname = fname
-		self.lname = lname
-		self.email = email
-		self.password = bcrypt.generate_password_hash(plaintext_password)
-		# self.set_permissions()
+		self.fname 		= fname
+		self.lname 		= lname
+		self.email 		= email
+		self.password 	= bcrypt.generate_password_hash(plaintext_password)
+		self.answer1 	= bcrypt.generate_password_hash("000")
+		self.answer2 	= bcrypt.generate_password_hash("000")
 
 	def save(self):
 		db.session.add(self)
@@ -34,13 +39,52 @@ class User(db.Model):
 		db.session.delete(self)
 		db.session.commit()
 
-	def set_permissions(self):
-		p 						= Permissions.query.filter_by(email=self.email).one()
-		self.is_admin 			= p.is_admin
-		self.product_permission = p.product_permission
-		self.about_permission 	= p.about_permission
-		self.blog_permission 	= p.blog_permission
-		self.gallery_permission = p.gallery_permission
+	def setPermissions(self, admin, product, about, blog, gallery):
+		self.is_admin 			= admin
+		self.product_permission = product
+		self.about_permission 	= about
+		self.blog_permission 	= blog
+		self.gallery_permission = gallery
+		db.session.add(self)
+		db.session.commit()
+
+	def superuser(self):
+		self.superuser = True
+		db.session.add(self)
+		db.session.commit()
+
+	def locK(self):
+		self.is_locked = True
+		db.session.add(self)
+		db.session.commit()
+
+	def setSecurity(self, q1, q2, a1, a2):
+		a1 				= prepareAnswer(a1)
+		a2 				= prepareAnswer(a2)
+		self.question1 	= q1
+		self.question2 	= q2
+		self.answer1 	= bcrypt.generate_password_hash(a1)
+		self.answer2 	= bcrypt.generate_password_hash(a2)
+		db.session.add(self)
+		db.session.commit()
+
+	def securityCleared(self, a1, a2):
+		isCleared = True
+		a1 = prepareAnswer(a1)
+		a2 = prepareAnswer(a2)
+		if bcrypt.check_password_hash(self.answer1, a1) == False:
+			isCleared = False
+		if bcrypt.check_password_hash(self.answer2, a2) == False:
+			isCleared = False
+		return isCleared
+
+	def prepareAnswer(answer):
+		result = ""
+		answer = str(answer).lower()
+		for a in answer:
+			if a != " ":
+				result += a
+		return result
 
 	def name(self):
 		return str(self.fname) + " " + str(self.lname)
@@ -77,7 +121,10 @@ class Authorization(db.Model):
 	auth_about 		= db.Column('about_access', db.Boolean, default=False) 
 	auth_blog		= db.Column('blog_access', db.Boolean, default=False)
 	auth_gallery 	= db.Column('gallery_access', db.Boolean, default=False)
+	auth_locked		= db.Column('islocked', db.Boolean, default=False)
+	auth_super 		= db.Column('isSuper', db.Boolean, default=False)
 	auth_code		= db.Column('auth_code', db.String)
+	sent 			= db.Column('date', db.TIMESTAMP)
 
 	def __init__(self, name, email, admin, blog, product, about, gallery):
 		self.auth_name 		= name
@@ -87,6 +134,9 @@ class Authorization(db.Model):
 		self.auth_product 	= product
 		self.auth_about 	= about
 		self.auth_gallery 	= gallery
+		self.auth_locked 	= False
+		self.auth_super 	= False
+		self.sent 			= datetime.now()
 
 	def setCode(self, plaintext_code):
 		self.auth_code = bcrypt.generate_password_hash(plaintext_code)
@@ -220,7 +270,7 @@ class Blog(db.Model):
 	def getDate(self):
 		date = {}
 		date["date"] = self.date.strftime("%B %d, %Y")
-		date["time"] = self.date.strftime("%I %m %p")
+		date["time"] = self.date.strftime("%I:%M %p")
 		return date
 
 	def __repr__(self):
@@ -310,8 +360,8 @@ class Company(db.Model):
 class Image(db.Model):
 	__tablename__ = "images"
 	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-	img_url 		= db.Column(db.String, default=None, nullable=True)
-	img_filename 	= db.Column(db.String, default=None, nullable=True)
+	img_url 		= db.Column('url', db.String, default=None, nullable=True)
+	img_filename 	= db.Column('filename', db.String, default=None, nullable=True)
 
 	def __init__(self, url, filename):
 		self.img_url 		= url
@@ -330,6 +380,25 @@ class Image(db.Model):
 
 	def __repr__(self):
 		return '<Image: %r>' % self.img_filename
+
+class SecurityQuestion(db.Model):
+	__tablename__ 	= "questions"
+	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+	question 		= db.Column('question', db.String, default=True, nullable=False)
+
+	def __init__(self, question):
+		self.question = question
+
+	def save(self):
+		db.session.add(self)
+		db.session.commit()
+
+	def delete(self):
+		db.session.delete(self)
+		db.session.commit()
+
+	def __repr__(self):
+		return self.question
 
 
 

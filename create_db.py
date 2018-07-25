@@ -14,12 +14,20 @@ p3 = Product("Beat Yo Shit", "Get yo shit tight for the club tonight so you can 
 b1 = Blog("Blog entry 1", "This is just some dumb ass shit that I am typing to create this")
 b2 = Blog("Put it up", "This is just another meaningless sentence")
 c0 = Company()
-
 m1 = Payment("Cash")
 m2 = Payment("visa")
 m3 = Payment("Mastercard")
 m4 = Payment("AMEX")
 m5 = Payment("check")
+i1 = Image("/static/media/i4.jpg", "i4.jpg")
+i2 = Image("/static/media/h2.jpg", "h2.jpg")
+i3 = Image("/static/media/h3.jpg", "h3.jpg")
+i4 = Image("/static/media/h4.jpg", "h4.jpg")
+i5 = Image("/static/media/h7.jpg", "h7.jpg")
+q1 = SecurityQuestion("This is question 1")
+q2 = SecurityQuestion("This is question 2")
+q3 = SecurityQuestion("This is question 3")
+q4 = SecurityQuestion("This is question 4")
 
 m1.is_accepted = True
 m2.is_accepted = True
@@ -68,6 +76,15 @@ m2.save()
 m3.save()
 m4.save()
 m5.save()
+i1.save()
+i2.save()
+i3.save()
+i4.save()
+i5.save()
+q1.save()
+q2.save()
+q3.save()
+q4.save()
 
 
 
