@@ -267,6 +267,15 @@
     color: #0000ff;
 }
 
+.su-sub-bottom {
+    width: 100%;
+    height: 90%;
+    margin:auto;
+    border-top:2px solid #666666;
+    text-align: left;
+    overflow-y: hidden;
+}
+
 .td-top {
     position:relative;
     vertical-align: top;
@@ -315,9 +324,292 @@
     -ms-transition: all 0.5s ease-in;
     transition: all 0.3s ease-in;
 }
+
+.su-admin-content-wrapper {
+    padding-left: 15px
+    padding-right: 15px;
+}
+
+.su-admin-header {
+    font-size: 13px;
+    text-align: left;
+    color: #731d1f;
+    font-weight: 700;
+    letter-spacing: 0px;
+    margin-left: 15px;
+}
+
+.su-admin-header a {
+    color: #000000;
+    font-size: 11px;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.su-admin-header a:hover {
+    color: #417fb4;
+}
+
+.su-topper {
+    padding-top: 7px;
+}
+
+.su-topper2 {
+    padding-top: 28px;
+}
+
+.su-topper3 {
+    padding-top: 20px;
+}
+
+.su-ad-item {
+    padding-left: 15px;
+    font-size: 11px;
+}
+
+.su-ad-item  span {
+    font-weight: 600;
+    font-style: italic;
+}
+
+.su-ad-item-email {
+    padding-left: 15px;
+    font-size: 12px;
+    font-style: italic;
+    color: #2d6696;
+    font-weight: 600;
+}
+
+.su-black {
+    color: #111111;
+    font-size: 12px;
+}
+
+.su-red {
+    color: #c82631;
+    font-size: 12px;
+}
+
+.su-sm-header {
+    padding-left: 15px;
+    font-weight: bold;
+    color: #666666;
+}
+
+.su-sm-manager {
+    width: 93%;
+    margin: auto;
+    border-radius: 5px;
+    background-color: #cccccc;
+    border: 1px solid #777777;
+    padding: 5px;
+}
+
+.su-sm-manager img {
+    width: 18px;
+    height: 18px;
+    box-shadow: 2px 2px 2px #555555;
+}
+
+.su-sm-manager img:hover {
+    opacity: 0.5;
+}
+
+.su-sm-manager button {
+    width: 90px;
+    margin-left: 15px;
+}
+
+.su-sm-manager input[type='radio']
+{
+    width: 14px;
+    line-height: 0;
+}
+
+.su-sm-label-editor {
+    margin-right: 20px;
+}
+
+.rad-left {
+    margin-left: 40px;
+}
 </style>
 
 <script type="text/javascript">
+
+function initializeAdmin(blogs, users, company)
+{
+    superLaunchBuilder("blog", blogs);
+    superUserLaunch("user", users);
+    // superAdminLaunch("contact", company);
+}
+
+function superAdminLaunch(model, data)
+{
+    var html = null;
+    model = String(model);
+    if (model === "contact") { html = buildContact(data); }
+    else if (model === "method") { html = buildPayments(data); }
+    else if (model === "links") { html = buildLinks(data); }
+    $("#administration-builder").html(html);
+    $("#selected-payment").val("");
+}
+
+function buildContact(data)
+{
+    var html = "";
+    var address1 = data['address1'];
+    var address2 = data['address2'];
+    var address3 = data['address3'];
+    var group_weekdays = data['group_weekdays'];
+    var group_weekends = data['group_weekends'];
+
+    if (address1 === "empty") { address1 = "" ;}
+    if (address2 === "empty") { address2 = "" ;}
+    if (address3 === "empty") { address3 = "" ;}
+
+    html += "<input type='hidden' id='m_address1' value='" + address1 + "'>";
+    html += "<input type='hidden' id='m_address2' value='" + address2 + "'>";
+    html += "<input type='hidden' id='m_address3' value='" + address3 + "'>";
+    html += "<input type='hidden' id='m_city' value='" + data['city'] + "'>";
+    html += "<input type='hidden' id='m_state' value='" + data['state'] + "'>";
+    html += "<input type='hidden' id='m_zipcode' value='" + data['zip_code'] + "'>";
+    html += "<input type='hidden' id='m_phone' value='" + data['phone'] + "'>";
+    html += "<input type='hidden' id='m_email' value='" + data['email'] + "'>";
+    html += "<input type='hidden' id='m_weekdays' value='" + group_weekdays + "'>";
+    html += "<input type='hidden' id='m_weekends' value='" + group_weekends + "'>";
+    html += "<input type='hidden' id='m_sunday' value='" + data['sunday'] + "'>";
+    html += "<input type='hidden' id='m_monday' value='" + data['monday'] + "'>";
+    html += "<input type='hidden' id='m_tuesday' value='" + data['tuesday'] + "'>";
+    html += "<input type='hidden' id='m_wednesday' value='" + data['wednesday'] + "'>";
+    html += "<input type='hidden' id='m_thursday' value='" + data['thursday'] + "'>";
+    html += "<input type='hidden' id='m_friday' value='" + data['friday'] + "'>";
+    html += "<input type='hidden' id='m_saturday' value='" + data['saturday'] + "'>";
+    html += "<input type='hidden' id='m_title' value='" + data['hours_title'] + "'>";
+    html += "<input type='hidden' id='m_special_hours' value='" + data['special_hours'] + "'>";
+
+    html += "<div class='su-admin-content-wrapper'>";
+    html += "<div class='su-admin-header su-topper'>Address: &nbsp<a href=\"javascript: launchAdminEditors('address');\">[Edit]</a></div>";
+    html += "<div class='su-ad-item'>" + address1 + "</div>";
+    html += "<div class='su-ad-item'>" + address2 + "</div>";
+    html += "<div class='su-ad-item'>" + address3 + "</div>";
+    html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
+
+    html += "<div class='su-admin-header su-topper2'>Phone: &nbsp<a href=\"javascript: launchAdminEditors('phone');\">[Edit]</a></div>";
+    html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
+
+    html += "<div class='su-admin-header su-topper2'>Email: &nbsp<a href=\"javascript: launchAdminEditors('email');\">[Edit]</a></div>";
+    html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
+
+    html += "<div class='su-admin-header su-topper2'>" + data['hours_title'] + ": &nbsp<a href=\"javascript: launchAdminEditors('hours');\">[Edit]</a></div>";
+
+    if (group_weekdays === "True")
+    {
+        html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
+    }
+    else
+    {
+        html += "<div class='su-ad-item'><span>Monday: </span>" + data["monday"] + "</div>";
+        html += "<div class='su-ad-item'><span>Tuesday: </span>" + data["tuesday"] + "</div>";
+        html += "<div class='su-ad-item'><span>Wednesday: </span>" + data["wednesday"] + "</div>";
+        html += "<div class='su-ad-item'><span>Thursday: </span>" + data["thursday"] + "</div>";
+        html += "<div class='su-ad-item'><span>Friday: </span>" + data["friday"] + "</div>";
+    }
+    if (group_weekends === "True")
+    {
+        html += "<div class='su-ad-item'><span>Weekends: </span>" + data["saturday"] + "</div>";
+    }
+    else
+    {
+        html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
+        html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
+    }
+html += "</div>";
+
+    return html;
+}
+
+function buildPayments(data)
+{
+    var html = "";
+    return html;
+}
+
+function buildLinks(data)
+{
+    var html            = "";
+    var show_facebook   = data['show_facebook'];
+    var show_twitter    = data['show_twitter'];
+    var show_instagram  = data['show_instagram'];
+
+    html += "<div class='su-admin-header su-topper'>Images &nbsp<a href=\"javascript: launchAdminEditors('max_images');\">[Edit]</a></div>";
+    html += "<div class='su-ad-item su-red'><span>Maximum No. Images Allowed: </span'><b class='su-black'>" + data['max_images'] + "</b></div>";
+    html += "<div class='su-ad-item su-black'><span>No. Images Uploaded: </span>" + data['num_uploads'] + "</div>";
+
+    html += "<div class='su-admin-header su-topper2'>Social Media Management</div>";
+    html += "<div class='su-sm-header'>Facebook</div>";
+    html += "<div class='su-sm-manager'>";
+    html += "<a href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
+    html += "<button onClick=\"javascript: launchAdminEditors('social');\">Update Link</button>";
+    if (show_facebook === "True")
+    {
+        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' checked>";
+        html += "<label for='fb-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_facebook' id='fb-off'>";
+        html += "<label for='fb-off'>Off</label>";
+        html += "</div>";
+    }
+    else
+    {
+        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left'>";
+        html += "<label for='fb-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_facebook' id='fb-off' checked>";
+        html += "<label for='fb-off'>Off</label>";
+        html += "</div>";
+    }
+    html += "<div class='su-sm-header su-topper3'>Twitter</div>";
+    html += "<div class='su-sm-manager'>";
+    html += "<a href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
+    html += "<button onClick=\"javascript: launchAdminEditors('social');\">Update Link</button>";
+    if (show_twitter === "True")
+    {
+        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' checked>";
+        html += "<label for='twitter-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_twitter' id='twitter-off'>";
+        html += "<label for='twitter-off'>Off</label>";
+        html += "</div>";
+    }
+    else
+    {
+        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left'>";
+        html += "<label for='twitter-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_twitter' id='twitter-off' checked>";
+        html += "<label for='twitter-off'>Off</label>";
+        html += "</div>";
+    }
+    html += "<div class='su-sm-header su-topper3'>Instagram</div>";
+    html += "<div class='su-sm-manager'>";
+    html += "<a href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
+    html += "<button onClick=\"javascript: launchAdminEditors('social');\">Update Link</button>";
+    if (show_instagram === "True")
+    {
+        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' checked>";
+        html += "<label for='instagram-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_instagram' id='instagram-off'>";
+        html += "<label for='instagram-off'>Off</label>";
+        html += "</div>";
+    }
+    else
+    {
+        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left'>";
+        html += "<label for='instagram-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_instagram' id='instagram-off' checked>";
+        html += "<label for='instagram-off'>Off</label>";
+        html += "</div>";
+    }
+    return html;
+}
+
 function superLaunchBuilder(model, data)
 {
     var html = null;
@@ -378,7 +670,7 @@ function buildPermissions(data)
 
         html += "<div id='div1_" + index + "' class='" + m_clsas + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: \">";
+        html += "<a href=\"javascript: launchAdminEditors('permission');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + u_id + "'>";
         html += "<input type='hidden' id='m_fname_" + index + "' value='" + fname + "'>";
         html += "<input type='hidden' id='m_lname_" + index + "' value='" + lname + "'>";
@@ -483,7 +775,7 @@ function buildAuths(data)
 
         html += "<div id='div1_" + index + "' class='" + m_class + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: \">";
+        html += "<a href=\"javascript: launchAdminEditors('auth');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + a_id + "'>";
         html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
         html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
@@ -534,7 +826,7 @@ function buildSecurity(data)
         question    = String(data[i]['question']);
         html += "<div id='div1_" + index + "' class='" + e_class + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: \">";
+        html += "<a href=\"javascript: launchAdminEditors('security');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + q_id + "'>";
         html += "<input type='hidden' id='m_question_" + index + "' value='" + question + "'>";
         html += "<table>";
@@ -571,7 +863,7 @@ function buildBlogs(data)
         var content     = String(data[i]['content']);
         html += "<div id='div_" + index + "' class='" + e_class + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: \">";
+        html += "<a href=\"javascript: launchAdminEditors('blog');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + b_id + "'>";
         html += "<input type='hidden' id='m_subject_" + index + "' value='" + subject + "'>";
         html += "<input type='hidden' id='m_content_" + index + "' value='" + content + "'>";
@@ -616,7 +908,7 @@ function buildProducts(data)
         var price       = String(data[i]['price']);
         html += "<div id='div_" + index + "' class='" + e_class + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: \">";
+        html += "<a href=\"javascript: launchAdminEditors('product');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + p_id + "'>";
         html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
         html += "<input type='hidden' id='m_description_" + index + "' value='" + description + "'>";
@@ -664,7 +956,7 @@ function buildImages(data)
         url     = String(data[i]['url']);
         html += "<div id='div_" + index + "' class='" + e_class + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: \">";
+        html += "<a href=\"javascript: expandImage('" + index + "');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + img_id + "'>";
         html += "<input type='hidden' id='m_url_" + index + "' value='" + url + "'>";
         html += "<table>";
@@ -673,8 +965,8 @@ function buildImages(data)
         html += "<td class='su-border-left'>";
         html += "<table>";
         html += "<tr>";
-        html += "<td class='su-sp-top su-sp-bottom'><img src='" + url + "' onClick=\"javascript: expandImage('" + index + "');\"></td>";
-        html += "<td><p>Click image to expand</p></td>";
+        html += "<td class='su-sp-top su-sp-bottom'><img src='" + url + "'></td>";
+        html += "<td><p>Click to expand image</p></td>";
         html += "</tr>";
         html += "</table>";
         html += "</td>";
@@ -715,12 +1007,6 @@ function selectUserItem(index)
         $("#div1_" + index).removeClass("su_ultimate_selector");
         removeUserItem(index);
     }
-}
-
-function initializeAdmin(blogs, users)
-{
-    superLaunchBuilder("blog", blogs);
-    superUserLaunch("user", users);
 }
 
 function addModelItem(index)
@@ -815,11 +1101,88 @@ function setUserDeleteBtn()
     else { $("#ursDelBtn").prop("disabled", true); }
 }
 
+function launchAdminEditors(model)
+{
+    var html = "";
+    model = String(model);
+    if (model === "address") { html = buildAddressEditor(); }
+    else if (model === "phone") { html = buildPhoneEditor(); }
+    else if (model === "email") { html = buildEmailEditor(); }
+    else if (model === "hours") { html = buildHoursEditor(); }
+    else if (model === "permission") { html = buildPermissionEditor(); }
+    else if (model === "auth") { html = buildAuthEditor(); }
+    else if (model === "security") { html = buildSecurityEditor(); }
+    else if (model === "blog") { html = buildBlogEditor(); }
+    else if (model === "product") { html = buildProductEditor(); }
+    else if (model === "product") { html = buildMaxEditor(); }
+}
+
+function buildAddressEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildPhoneEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildEmailEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildHoursEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildPermissionEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildAuthEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildSecurityEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildBlogEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildProductEditor()
+{
+    var html = "";
+    return html;
+}
+
+function buildMaxEditor()
+{
+    var html = "";
+    return html;
+}
+
 </script>
 
-    <body class='su-body-style' onLoad="javascript: initializeAdmin({{blogs}}, {{users}});">
+    <body class='su-body-style' onLoad="javascript: initializeAdmin({{blogs}}, {{users}}, {{company}});">
         <input type="hidden" id="selected-db" value="">
         <input type="hidden" id="selected-usr" value="">
+        <input type="hidden" id="selected-payment" value="">
         <div class='su_head-style'>
             <div class="container">
                 <div class="row">

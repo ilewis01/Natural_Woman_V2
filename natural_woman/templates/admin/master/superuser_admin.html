@@ -99,6 +99,45 @@
 	    		<div class="col-sm-4">
 	    			<div class='su-db-container'>
 	    				<div class="su-db-top">Administration</div>
+	    				<div class="su-db-center">
+	    					<div class="container">
+	    						<div class="row">
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('contact', {{company}});" checked></td>
+	    										<td><label for=''>Contact</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('method', {{payments}});"></td>
+	    										<td><label for=''>Payments</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    							<div class="col-md-4" style="padding: 0; margin:0;">
+	    								<table>
+	    									<tr>
+	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('links', {{company}});"></td>
+	    										<td><label for=''>Links/Images</label></td>
+	    									</tr>
+	    								</table>
+	    							</div>
+	    						</div>
+	    					</div>
+	    				</div>
+	    				<div class="su-db-bottom">
+	    					<div class="su-sub-top">
+	    						<button><i class="fas fa-plus"></i></button>
+	    						<button disabled id='adminDelBtn'><i class="fas fa-minus"></i></button>
+	    					</div>
+		    				<div class='su-sub-bottom' id='administration-builder'>
+		    					
+		    				</div>
+	    				</div>
 	    			</div>
 	    		</div>
 	    	</div>

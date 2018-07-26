@@ -37,6 +37,7 @@ a1.is_active = False
 a2.is_active = False
 
 c0.show_twitter = False
+c0.num_uploads = 5
 
 code = generateRandomCode(8)
 auth = Authorization("johnny Walker", "johnny@drink.com", True, True, True, False, False)

@@ -415,6 +415,8 @@ def json_serialize_company():
 	data['special_hours'] 	= str(c.special_hours)
 	data['group_weekdays'] 	= str(group_weekdays)
 	data['group_weekends'] 	= str(group_weekends)
+	data['max_images'] 		= c.max_images
+	data['num_uploads'] 	= c.num_uploads
 
 	if group_weekdays == False:
 		data['tuesday'] 	= c.tuesday
