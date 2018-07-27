@@ -1959,20 +1959,6 @@ function soft_save(target)
     return data;
 }
 
-function isLetter(c) {
-  return c.toLowerCase() != c.toUpperCase();
-}
-
-function isInt(c) {
-    c = String(c);
-    is_integer = false;
-    if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
-    {
-        is_integer = true;
-    }
-    return is_integer;
-}
-
 function format_state()
 {
     var state   = $("#pop_state").val();
