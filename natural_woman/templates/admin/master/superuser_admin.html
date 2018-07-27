@@ -14,7 +14,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('blog', {{blogs}});" checked></td>
+	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('blog', {{blogs}});" id='s_blog' checked></td>
 	    										<td><label for=''>Blogs</label></td>
 	    									</tr>
 	    								</table>
@@ -22,7 +22,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('product', {{products}});"></td>
+	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('product', {{products}});" id='s_product'></td>
 	    										<td><label for=''>Products</label></td>
 	    									</tr>
 	    								</table>
@@ -30,7 +30,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('image', {{images}});" ></td>
+	    										<td><input type="radio" name="db_radio" onClick="javascript: superLaunchBuilder('image', {{images}});" id='s_image'></td>
 	    										<td><label for=''>Images</label></td>
 	    									</tr>
 	    								</table>
@@ -41,11 +41,15 @@
 
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
-	    						<button><i class="fas fa-plus"></i></button>
-	    						<span id='model-del1' class='su-btn-disabled'><button disabled id='modelDelBtn'><i class="fas fa-minus"></i></button></span>
+	    						<button onClick="javascript: fetchModelType('0');"><i class="fas fa-plus"></i></button>
+	    						<span id='model-del1' class='su-btn-disabled'><button disabled id='modelDelBtn' onClick="javascript: fetchModelType('1');"><i class="fas fa-minus"></i></button></span>
 	    					</div>
 	    					<div class="su-sub-bottom-list">
 		    					<ul id='db-builder'></ul>
+	    					</div>
+	    					<div class='su-sub-footer'>
+	    						<button>Select All</button>
+	    						<button>Clear All</button>
 	    					</div>
 	    				</div>
 	    			</div>
@@ -60,7 +64,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('user', {{users}});" checked></td>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('user', {{users}});" id='s_user'checked></td>
 	    										<td><label for=''>Profiles</label></td>
 	    									</tr>
 	    								</table>
@@ -68,7 +72,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('auth', {{auths}});"></td>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('auth', {{auths}});" id='s_auth'></td>
 	    										<td><label for=''>Pending</label></td>
 	    									</tr>
 	    								</table>
@@ -76,7 +80,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('question', {{questions}});"></td>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('question', {{questions}});" id='s_security'></td>
 	    										<td><label for=''>Security</label></td>
 	    									</tr>
 	    								</table>
@@ -86,11 +90,15 @@
 	    				</div>
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
-	    						<button><i class="fas fa-plus"></i></button>
-	    						<span id='user-del1' class='su-btn-disabled'><button disabled id='ursDelBtn'><i class="fas fa-minus"></i></button></span>
+	    						<button onClick="javascript: fetchUserType('0');"><i class="fas fa-plus"></i></button>
+	    						<span id='user-del1' class='su-btn-disabled'><button disabled id='ursDelBtn' onClick="javascript: fetchUserType('1');"><i class="fas fa-minus"></i></button></span>
 	    					</div>
 	    					<div class="su-sub-bottom-list">
 	    						<ul id='usr-builder'></ul>
+	    					</div>
+	    					<div class='su-sub-footer'>
+	    						<button>Select All</button>
+	    						<button>Clear All</button>
 	    					</div>
 	    				</div>
 	    			</div>
@@ -113,7 +121,7 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('method', {{payments}});"></td>
+	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('method', {{payments}});" id='s_payment'></td>
 	    										<td><label for=''>Payments</label></td>
 	    									</tr>
 	    								</table>
@@ -131,7 +139,7 @@
 	    				</div>
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
-	    						<button id='adminAddBtn'><i class="fas fa-plus"></i></button>
+	    						<button id='adminAddBtn' onClick="javascript: launchAdminEditors('payment', 0);"><i class="fas fa-plus"></i></button>
 	    						<span id='admin-del1'><button id='adminDelBtn'><i class="fas fa-minus"></i></button></span>
 	    					</div>
 		    				<div class='su-sub-bottom' id='administration-builder'></div>
