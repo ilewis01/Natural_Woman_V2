@@ -48,8 +48,8 @@
 		    					<ul id='db-builder'></ul>
 	    					</div>
 	    					<div class='su-sub-footer'>
-	    						<button>Select All</button>
-	    						<button>Clear All</button>
+	    						<button onClick="javascript: selectAllModels();">Select All</button>
+	    						<button onClick="javascript: clearAllModels();">Clear All</button>
 	    					</div>
 	    				</div>
 	    			</div>
@@ -97,8 +97,8 @@
 	    						<ul id='usr-builder'></ul>
 	    					</div>
 	    					<div class='su-sub-footer'>
-	    						<button>Select All</button>
-	    						<button>Clear All</button>
+	    						<button onClick="javascript: selectAllUsers();">Select All</button>
+	    						<button onClick="javascript: clearAllUsers();">Clear All</button>
 	    					</div>
 	    				</div>
 	    			</div>
@@ -139,8 +139,8 @@
 	    				</div>
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
-	    						<button id='adminAddBtn' onClick="javascript: launchAdminEditors('payment', 0);"><i class="fas fa-plus"></i></button>
-	    						<span id='admin-del1'><button id='adminDelBtn'><i class="fas fa-minus"></i></button></span>
+	    						<button id='adminAddBtn' onClick="javascript: launchAdminEditors('payment', '0');"><i class="fas fa-plus"></i></button>
+	    						<span id='admin-del1'><button id='adminDelBtn' onClick="javascript: launchDeleteConfirmation('payment');"><i class="fas fa-minus"></i></button></span>
 	    					</div>
 		    				<div class='su-sub-bottom' id='administration-builder'></div>
 	    				</div>
