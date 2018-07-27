@@ -123,6 +123,10 @@
     background: linear-gradient(rgba(210, 210, 210, 0.9), rgba(120, 120, 120, 1));
 }
 
+.su-btn-disabled button {
+    background: linear-gradient(rgba(210, 210, 210, 0.9), rgba(120, 120, 120, 1));
+}
+
 .su-logout-btn {
     text-align: right;
     font-size: 12px;
@@ -405,6 +409,10 @@
     padding: 5px;
 }
 
+.su-sm-manage label {
+    font-size: 11px;
+}
+
 .su-sm-manager img {
     width: 18px;
     height: 18px;
@@ -441,7 +449,7 @@ function initializeAdmin(blogs, users, company)
 {
     superLaunchBuilder("blog", blogs);
     superUserLaunch("user", users);
-    // superAdminLaunch("contact", company);
+    superAdminLaunch("contact", company);
 }
 
 function superAdminLaunch(model, data)
@@ -453,6 +461,43 @@ function superAdminLaunch(model, data)
     else if (model === "links") { html = buildLinks(data); }
     $("#administration-builder").html(html);
     $("#selected-payment").val("");
+    if (model === "contact" || model === "links")
+    {
+        $("#adminAddBtn").prop("disabled", true);
+        $("#adminAddBtn").hide();
+        $("#adminDelBtn").prop("disabled", true);
+        $("#adminDelBtn").hide();
+    }
+    else
+    {
+        $("#adminAddBtn").prop("disabled", false);
+        $("#adminAddBtn").show();
+        $("#adminDelBtn").prop("disabled", true);
+        $("#adminDelBtn").show();
+        $("#admin-del1").addClass("su-btn-disabled");
+    }
+}
+
+function superLaunchBuilder(model, data)
+{
+    var html = null;
+    model = String(model);
+    if (model === "blog") { html = buildBlogs(data); }
+    else if (model === "product") { html = buildProducts(data); }
+    else if (model === "image") { html = buildImages(data); }
+    $("#db-builder").html(html);
+    $("#selected-db").val("");
+}
+
+function superUserLaunch(model, data)
+{
+    var html = null;
+    model = String(model);
+    if (model === "user") { html = buildPermissions(data); }
+    if (model === "auth") { html = buildAuths(data); }
+    if (model === "question") { html = buildSecurity(data); }
+    $("#usr-builder").html(html);
+    $("#selected-usr").val("");
 }
 
 function buildContact(data)
@@ -463,11 +508,9 @@ function buildContact(data)
     var address3 = data['address3'];
     var group_weekdays = data['group_weekdays'];
     var group_weekends = data['group_weekends'];
-
     if (address1 === "empty") { address1 = "" ;}
     if (address2 === "empty") { address2 = "" ;}
     if (address3 === "empty") { address3 = "" ;}
-
     html += "<input type='hidden' id='m_address1' value='" + address1 + "'>";
     html += "<input type='hidden' id='m_address2' value='" + address2 + "'>";
     html += "<input type='hidden' id='m_address3' value='" + address3 + "'>";
@@ -487,22 +530,17 @@ function buildContact(data)
     html += "<input type='hidden' id='m_saturday' value='" + data['saturday'] + "'>";
     html += "<input type='hidden' id='m_title' value='" + data['hours_title'] + "'>";
     html += "<input type='hidden' id='m_special_hours' value='" + data['special_hours'] + "'>";
-
     html += "<div class='su-admin-content-wrapper'>";
     html += "<div class='su-admin-header su-topper'>Address: &nbsp<a href=\"javascript: launchAdminEditors('address');\">[Edit]</a></div>";
     html += "<div class='su-ad-item'>" + address1 + "</div>";
     html += "<div class='su-ad-item'>" + address2 + "</div>";
     html += "<div class='su-ad-item'>" + address3 + "</div>";
     html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
-
     html += "<div class='su-admin-header su-topper2'>Phone: &nbsp<a href=\"javascript: launchAdminEditors('phone');\">[Edit]</a></div>";
     html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
-
     html += "<div class='su-admin-header su-topper2'>Email: &nbsp<a href=\"javascript: launchAdminEditors('email');\">[Edit]</a></div>";
     html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
-
     html += "<div class='su-admin-header su-topper2'>" + data['hours_title'] + ": &nbsp<a href=\"javascript: launchAdminEditors('hours');\">[Edit]</a></div>";
-
     if (group_weekdays === "True")
     {
         html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
@@ -524,14 +562,37 @@ function buildContact(data)
         html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
         html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
     }
-html += "</div>";
-
+    html += "</div>";
     return html;
 }
 
 function buildPayments(data)
 {
     var html = "";
+    html += "<ul>";
+ 
+    for (var i = 0; i < data.length; i++)
+    {
+        var index   = String(data[i]['index']);
+        var method  = String(data[i]['method']);
+        var icon    = String(data[i]['icon']);
+        html += "<a href=\"javascript: launchAdminEditors('payment', 1);\">";
+        html += "<input type='hidden' id='m_method_" + index + "' value='" + method + "'>";
+        html += "<div id='div2_" + index + "' class='" + data[i]['class'] + "'>";
+        html += "<li>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' id='pay_box_" + index + "' onClick=\"javascript: selectPaymentItem('" + index + "');\"></td>";
+        html += "<td id='pmt_icon_" + index + "'></td>";
+        html += "<td class='su-border-left'>" + method + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</li>";
+        html += "</div>";
+        html += "</a>";
+    }
+
+    html += "</ul>";
     return html;
 }
 
@@ -541,11 +602,16 @@ function buildLinks(data)
     var show_facebook   = data['show_facebook'];
     var show_twitter    = data['show_twitter'];
     var show_instagram  = data['show_instagram'];
-
+    html += "<input type='hidden' id='m_facebook_url' value='" + data['facebook_url'] + "'>";
+    html += "<input type='hidden' id='m_twitter_url' value='" + data['twitter_url'] + "'>";
+    html += "<input type='hidden' id='m_instagram_url' value='" + data['instagram_url'] + "'>";
+    html += "<input type='hidden' id='m_show_facebook' value='" + show_facebook + "'>";
+    html += "<input type='hidden' id='m_show_twitter' value='" + show_twitter+ "'>";
+    html += "<input type='hidden' id='m_show_instagram' value='" + show_instagram + "'>";
+    html += "<input type='hidden' id='m_max_images' value='" + data['max_images'] + "'>";
     html += "<div class='su-admin-header su-topper'>Images &nbsp<a href=\"javascript: launchAdminEditors('max_images');\">[Edit]</a></div>";
     html += "<div class='su-ad-item su-red'><span>Maximum No. Images Allowed: </span'><b class='su-black'>" + data['max_images'] + "</b></div>";
     html += "<div class='su-ad-item su-black'><span>No. Images Uploaded: </span>" + data['num_uploads'] + "</div>";
-
     html += "<div class='su-admin-header su-topper2'>Social Media Management</div>";
     html += "<div class='su-sm-header'>Facebook</div>";
     html += "<div class='su-sm-manager'>";
@@ -610,28 +676,6 @@ function buildLinks(data)
     return html;
 }
 
-function superLaunchBuilder(model, data)
-{
-    var html = null;
-    model = String(model);
-    if (model === "blog") { html = buildBlogs(data); }
-    else if (model === "product") { html = buildProducts(data); }
-    else if (model === "image") { html = buildImages(data); }
-    $("#db-builder").html(html);
-    $("#selected-db").val("");
-}
-
-function superUserLaunch(model, data)
-{
-    var html = null;
-    model = String(model);
-    if (model === "user") { html = buildPermissions(data); }
-    if (model === "auth") { html = buildAuths(data); }
-    if (model === "question") { html = buildSecurity(data); }
-    $("#usr-builder").html(html);
-    $("#selected-usr").val("");
-}
-
 function buildPermissions(data)
 {
     var html    = "";
@@ -667,10 +711,9 @@ function buildPermissions(data)
         gallery = String(data[i]['gallery_permission']);
         s_user  = String(data[i]['isSuper']);
         locked  = String(data[i]['isLocked']);
-
         html += "<div id='div1_" + index + "' class='" + m_clsas + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: launchAdminEditors('permission');\">";
+        html += "<a href=\"javascript: launchAdminEditors('permission', 1);\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + u_id + "'>";
         html += "<input type='hidden' id='m_fname_" + index + "' value='" + fname + "'>";
         html += "<input type='hidden' id='m_lname_" + index + "' value='" + lname + "'>";
@@ -701,7 +744,6 @@ function buildPermissions(data)
         html += "<td class='td-top'><span>Permissions: </span></td>";
         html += "</tr>";
         html += "</table>";
-
         if (blog === "True") { blog = granted; } else { blog = denied; }
         if (gallery === "True") { gallery = granted; } else { gallery = denied; }
         if (about === "True") { about = granted; } else { about = denied; }
@@ -709,7 +751,6 @@ function buildPermissions(data)
         if (admin === "True") { admin = granted; } else { admin = denied; }
         if (locked === "True") { locked = granted; } else { locked = denied; }
         if (s_user === "True") { s_user = granted; } else { s_user = denied; } 
-
         html += "<table>";
         html += "<tr>";
         html += "<td>" + product + "</td>";
@@ -1009,6 +1050,21 @@ function selectUserItem(index)
     }
 }
 
+function selectPaymentItem(index)
+{
+    index = String(index);
+    if ($("#pay_box_" + index).prop("checked") === true)
+    {
+        $("#div2_" + index).addClass("su_ultimate_selector");
+        addPayItem(index);
+    }
+    else
+    {
+        $("#div2_" + index).removeClass("su_ultimate_selector");
+        removePayItem(index);
+    }
+}
+
 function addModelItem(index)
 {
     var current = $("#selected-db").val();
@@ -1087,18 +1143,88 @@ function removeUserItem(index)
     setUserDeleteBtn();
 }
 
+function addPayItem(index)
+{
+    var current = $("#selected-payment").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-payment").val(current);
+    setPaymentDeleteBtn();
+}
+
+function removePayItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-payment").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-payment").val(new_list);
+    setPaymentDeleteBtn();
+}
+
 function setModelDeleteBtn()
 {
     var val = $("#selected-db").val();
-    if (String(val).length > 0) { $("#modelDelBtn").prop("disabled", false); }
-    else { $("#modelDelBtn").prop("disabled", true); }
+    if (String(val).length > 0) 
+    { 
+        $("#modelDelBtn").prop("disabled", false); 
+        $("#model-del1").removeClass('su-btn-disabled');
+    }
+    else 
+    { 
+        $("#modelDelBtn").prop("disabled", true); 
+        $("#model-del1").addClass('su-btn-disabled');
+    }
 }
 
 function setUserDeleteBtn()
 {
     var val = $("#selected-usr").val();
-    if (String(val).length > 0) { $("#ursDelBtn").prop("disabled", false); }
-    else { $("#ursDelBtn").prop("disabled", true); }
+    if (String(val).length > 0) 
+    { 
+        $("#ursDelBtn").prop("disabled", false);
+        $("#user-del1").removeClass('su-btn-disabled'); 
+    }
+    else 
+    { 
+        $("#ursDelBtn").prop("disabled", true);
+        $("#user-del1").addClass('su-btn-disabled'); 
+    }
+}
+
+function setPaymentDeleteBtn()
+{
+    var val = $("#selected-payment").val();
+    if (String(val).length > 0) 
+    { 
+        $("#adminDelBtn").prop("disabled", false); 
+        $("#admin-del1").removeClass('su-btn-disabled');
+    }
+    else 
+    { 
+        $("#adminDelBtn").prop("disabled", true); 
+        $("#admin-del1").addClass('su-btn-disabled');
+    }
 }
 
 function launchAdminEditors(model)

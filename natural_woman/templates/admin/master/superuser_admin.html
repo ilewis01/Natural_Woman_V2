@@ -42,7 +42,7 @@
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
 	    						<button><i class="fas fa-plus"></i></button>
-	    						<button disabled id='modelDelBtn'><i class="fas fa-minus"></i></button>
+	    						<span id='model-del1' class='su-btn-disabled'><button disabled id='modelDelBtn'><i class="fas fa-minus"></i></button></span>
 	    					</div>
 	    					<div class="su-sub-bottom-list">
 		    					<ul id='db-builder'></ul>
@@ -87,7 +87,7 @@
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
 	    						<button><i class="fas fa-plus"></i></button>
-	    						<button disabled id='ursDelBtn'><i class="fas fa-minus"></i></button>
+	    						<span id='user-del1' class='su-btn-disabled'><button disabled id='ursDelBtn'><i class="fas fa-minus"></i></button></span>
 	    					</div>
 	    					<div class="su-sub-bottom-list">
 	    						<ul id='usr-builder'></ul>
@@ -122,7 +122,7 @@
 	    								<table>
 	    									<tr>
 	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('links', {{company}});"></td>
-	    										<td><label for=''>Links/Images</label></td>
+	    										<td><label for=''>Links/Gallery</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -131,12 +131,10 @@
 	    				</div>
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
-	    						<button><i class="fas fa-plus"></i></button>
-	    						<button disabled id='adminDelBtn'><i class="fas fa-minus"></i></button>
+	    						<button id='adminAddBtn'><i class="fas fa-plus"></i></button>
+	    						<span id='admin-del1'><button id='adminDelBtn'><i class="fas fa-minus"></i></button></span>
 	    					</div>
-		    				<div class='su-sub-bottom' id='administration-builder'>
-		    					
-		    				</div>
+		    				<div class='su-sub-bottom' id='administration-builder'></div>
 	    				</div>
 	    			</div>
 	    		</div>
