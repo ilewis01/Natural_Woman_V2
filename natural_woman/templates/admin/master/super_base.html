@@ -488,6 +488,11 @@
     margin: auto;
 }
 
+.su-width55 {
+    width: 55%;
+    margin: auto;
+}
+
 .su-width30 {
     width: 30%;
     margin: auto;
@@ -682,6 +687,41 @@ textarea {
     background-repeat: no-repeat;
     background-color: #ffffff;
     background-position: 3px 2px;
+}
+
+.su-image {
+    width: 100%;
+    margin: auto;
+    padding: 5%;
+    padding-bottom: 8%;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    box-shadow: 4px 4px 4px #444444;
+    background: rgba(150, 150, 150, 0.3);
+    height: 550px;
+}
+
+.su-image h3 {
+    width: 100%;
+    text-align: right;
+    line-height: 0;
+    font-family: 'Lovers Quarrel', cursive;
+    font-size: 40px;
+    color: #dddaca;
+    text-shadow: 1px 1px #222222;
+}
+
+.su-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-top: 3%;
+    border-top: 2px solid #555555;
+    border-left: 2px solid #555555;
+    border-right: 2px solid #aaaaaa;
+    border-bottom: 2px solid #888888;
+    border-radius: 8px;
+    box-shadow: 4px 4px 4px #333333;
 }
 
 </style>
@@ -1277,6 +1317,10 @@ function buildImages(data)
     var url     = "";
     var img_id  = "";
     var e_class = "";
+    var max     = data[0]['max'];
+    var uploads = data[0]['uploads'];
+    html += "<input type='hidden' id='gal_max' value='" + max + "'>";
+    html += "<input type='hidden' id='file_index' value='" + uploads + "'>";
     for (var i  = 0; i < data.length; i++)
     {
         index   = String(data[i]['index']);
@@ -1306,6 +1350,23 @@ function buildImages(data)
         html += "</div>";
     }
    return html;     
+}
+
+function expandImage(index)
+{
+    var html = "";
+    index = String(index);
+    var url = $("#m_url_" + index).val();
+    html += "<div class='su-center su-width55'>";
+    html += "<div class='su-image'>";
+    html += "<h3>click image to close...</h3>";
+    html += "<img src='" + url + "' onClick=\"javascript: closeEditor();\">";
+    html += "</div>";
+    html += "</div>";
+    $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass("hidden");
+    $("#pop-up-builder").fadeIn(600);
 }
 
 function selectModelItem(index)
@@ -1670,6 +1731,27 @@ function buildPaymentEditor()
 
 }
 
+function buildImageEditor()
+{
+    var html = "";
+    html += "<form action='\\adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='uplaod'>";
+    html += "</form>";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<h3><i class='fas fa-camera'></i> Upload New Image</h3>";
+    html += "<input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>";
+    html += "<div class='su-sub-top'></div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button onClick=\"javascript: validateSUModel('image');\">Upload</button>";
+    html += "<button onClick=\"javascript: checkPopulatedFields('image', 'model', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
 function buildSocialEditor(media_type)
 {
     media_type = String(media_type);
@@ -1685,6 +1767,7 @@ function validateSUModel(model)
     model = String(model);
     if (model === 'blog') { validateSuBlog(); }
     else if (model === 'product') { validateSubProduct(); }
+    else if (model === 'image') { validateSubImage(); }
 }
 
 function validateSuBlog()
@@ -1741,12 +1824,47 @@ function validateSubProduct()
     else { alert(messages[0]); alert(messages[1]); }
 }
 
+function validateSubImage()
+{
+    var proceed     = false;
+    var messages    = [];
+    var url         = $("#img_url").val();
+    var parts       = String(url).split(".");
+    var last        = String(parts[parts.length - 1]).toLowerCase();
+    var no_imgs     = $("#file_index").val();
+    var max_imgs    = $("#gal_max").val();
+    no_imgs         = Number(no_imgs);
+    max_imgs        = Number(max_imgs);
+    if (String(url).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must select a valid image to proceed.");
+    }
+    else if (last!=="png" || last!=="jpg" || last!=="jpeg" || last!=="gif")
+    {
+        messages.push("Invalid File Type");
+        messages.push("Images must be of types: .png, .jpg, .jpeg, or .gif");
+    }
+    else if (no_imgs >= max_imgs)
+    {
+        messages.push("Maximum Number of Uploads Reached!");
+        messages.push("You must delete at least one image before you can upload a new image.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { alert(messages[0]); alert(messages[1]); }
+}
+
 function checkPopulatedFields(model, mode, index)
 {
     model   = String(model);
     mode    = Number(mode);
     if (model === 'blog') { checkBlogFields(mode, index); }
-    if (model === 'product') { checkProductFields(mode, index); }
+    else if (model === 'product') { checkProductFields(mode, index); }
+    else if (model === 'image') { checkImageFields(); }
 }
 
 function checkBlogFields(mode, index)
@@ -1823,6 +1941,24 @@ function checkProductFields(mode, index)
     }
 }
 
+function checkImageFields(mode, index)
+{
+    var messages    = [];
+    var file        = $("#img_filename").val();
+    file            = String(file);
+    if(file.length > 0)
+    {
+        messages.push("Warning");
+        messages.push("Pending Upload Detected");
+        messages.push("Are you sure you want to close this window? The system has detected a file that has been queued for upload. Would you like to upload this image?");
+        buildWarningError(messages);
+    }
+    else
+    {
+        closeEditor();
+    }
+}
+
 function buildWarningError(messages)
 {
     html = "";
@@ -1857,6 +1993,7 @@ function launchAdminEditors(model, mode, index)
     else if (model === "security") { html = buildSecurityEditor(); }
     else if (model === "blog") { html = buildBlogEditor(mode, index); }
     else if (model === "product") { html = buildProductEditor(mode, index); }
+    else if (model === "image") { html = buildImageEditor(); }
     else if (model === "max_images") { html = buildMaxEditor(); }
     else if (model === "payment") { html = buildPaymentEditor(); }
     else if (model === "facebook") { html = buildSocialEditor("facebook"); }
@@ -2027,24 +2164,18 @@ function suHardClose()
         <input type="hidden" id="payment-count" value="">
 
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <form action='\adminAlt' method='POST' id='pop_form'>
-                <input type='hidden' name='target_model' id='target_model' value='product'>
-                <input type='hidden' name='target_action' id='target_action' value='0'>
-                <input type='hidden' name='target_id' id='target_id' value=''>
+            <form action='\adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>
+                <input type='hidden' name='target_model' id='target_model' value='image'>
+                <input type='hidden' name='target_action' id='target_action' value='uplaod'>
             </form>
-            <div class='su-center su-width35'>
+            <div class='su-center su-width30'>
                 <div class='su-general'>
-                    <h3><i class='fas fa-spray-can'></i> <span id='su-pop-header'>Product Editor</span></h3>
-                    <input type='text' name='name' id='name' placeholder='Product'>
-                    <div class='su-textarea-sm'>
-                        <textarea name='description' id='description' placeholder='Product Description'></textarea>
-                    </div>
-                    <div class='su-number-input'>
-                        Price:  <input type='number' name='price' id='price' value='0' max='9999' min='0'>
-                    </div>
-                    <div class='su-general-btns'>
-                        <button onClick="javascript: validateSUModel('product');">Update</button>
-                        <button onClick="javascript: checkPopulatedFields('product', 'mode', 'index');">Cancel</button>
+                    <h3><i class='fas fa-camera'></i> Upload New Image</h3>
+                    <input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>
+                    <div class='su-sub-top'></div>
+                    <div class='su-error-btns'>
+                        <button onClick="javascript: validateSUModel('image');">Upload</button>
+                        <button onClick="javascript: checkPopulatedFields('image', 'model', 'index');">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -2056,8 +2187,8 @@ function suHardClose()
                 <input type='hidden' name='target_action' id='target_action' value=''>
                 <input type='hidden' name='target_id' id='target_id' value=''>
             </form>
-            <div class='su-center su-width30'>
-                <div class='su-general'>
+            <div class='su-center su-width35'>
+                <div class='su-err'>
                     <div class='su-closer'><a href="javascript: closeError();"><i class='fas fa-window-close su-err'></i></a></div>
                     <div class='su-error-header'><i class="fas fa-exclamation-triangle"></i> <span id='su-error-header'>Error Detected</span></div>
                     <div class='err0' id='err0'>This is the main message</div>

@@ -227,15 +227,18 @@ def json_serialize_image_data():
 
 def json_serialize_gallery():
 	data 	= []
+	profile = json_serialize_image_data();
 	index 	= 0
 	images 	= Image.query.all()
 	images.reverse()
 	for i in images:
 		d = {}
-		d['id'] 	= i.id
-		d['url'] 	= i.img_url
-		d['name'] 	= i.img_filename
-		d['index'] 	= index
+		d['id'] 		= i.id
+		d['url'] 		= i.img_url
+		d['name'] 		= i.img_filename
+		d['index'] 		= index
+		d['max'] 		= profile['max_images']
+		d['uploads']	= profile['num_images']
 		if index % 2 == 1:
 			d['class'] = "li-shade1"
 		else:
