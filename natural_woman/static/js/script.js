@@ -2062,21 +2062,6 @@ function setPhoneInput(element_name, max)
     $(element_id).val(input);
 }
 
-function validate_email(email)
-{
-    test1 = false;
-    test2 = false;
-    is_valid = false;
-    email = String(email);
-    for (var i = 0; i < email.length; i++)
-    {
-        if (email[i] === "@") { test1 = true; }
-        if (email[i] === ".") { test2 = true; }
-    }
-    if (test1 === true && test2 === true) { is_valid = true; }
-    return is_valid;
-}
-
 function encode_hours(target)
 {
     var hours   = null;
