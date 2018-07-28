@@ -729,6 +729,36 @@ textarea {
     box-shadow: 4px 4px 4px #333333;
 }
 
+.su-user-details {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: #165a85;
+    font-style: italic;
+}
+
+.su-user-details h4 {
+    font-size: 18px;
+    font-weight: 700;
+    width: 100%;
+    margin:0;
+    padding: 0;
+    color: #725301;
+}
+
+.su-user-details input[type="text"]
+{
+    width: 49.5%;
+}
+
+.su-checkbox-editor {
+    padding: 2%;
+    background-color: #bbbbbb;
+    border: 1px solid #444444;
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -1044,9 +1074,10 @@ function buildPermissions(data)
         gallery = String(data[i]['gallery_permission']);
         s_user  = String(data[i]['isSuper']);
         locked  = String(data[i]['isLocked']);
+
         html += "<div id='div1_" + index + "' class='" + m_clsas + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: launchAdminEditors('permission', '1');\">";
+        html += "<a href=\"javascript: launchAdminEditors('permission', '1', '" + index + "');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + u_id + "'>";
         html += "<input type='hidden' id='m_fname_" + index + "' value='" + fname + "'>";
         html += "<input type='hidden' id='m_lname_" + index + "' value='" + lname + "'>";
@@ -1605,9 +1636,214 @@ function buildHoursEditor()
     return html;
 }
 
-function buildPermissionEditor()
+function buildPermissionEditor(mode, index)
 {
-    var html = "";
+    var html    = "";
+    var button  = null;
+    var header  = null;
+    var action  = null;
+    var m_id    = "";
+    var fname   = "";
+    var lname   = "";
+    var admin   = "";
+    var product = "";
+    var image   = "";
+    var about   = "";
+    var lock    = "";
+    var blog    = "";
+    var email   = "";
+    var s_user  = "";
+    mode        = Number(mode);
+    index       = String(index);
+
+    if (mode === 0)
+    {
+        action = "0";
+        header = "New User";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action  = "1";
+        header  = "Update User Permissions;"
+        button  = "Update";
+        m_id    = $("#m_id_" + index).val();
+        fname   = $("#m_fname_" + index).val();
+        lname   = $("#m_lname_" + index).val();
+        email   = $("#m_email_" + index).val();
+        admin   = $("#m_admin_" + index).val();
+        blog    = $("#m_blog_" + index).val();
+        product = $("#m_product_" + index).val();
+        image   = $("#m_image_" + index).val();
+        about   = $("#m_about_" + index).val();
+        lock    = $("#m_lock_" + index).val();
+        s_user  = $("#m_super_" + index).val();
+        m_id    = String(m_id);
+        fname   = String(fname);
+        lname   = String(lname);
+        email   = String(email);
+        admin   = String(admin);
+        blog    = String(blog);
+        product = String(product);
+        image   = String(image);
+        about   = String(about);
+        lock    = String(lock);
+        s_user  = String(s_user);
+    }
+    html += "<div class='su-center su-width35'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<input type='hidden' name='is_admin' id='d_is_admin' value='" + admin + "'>";
+    html += "<input type='hidden' name='product_permission' id='d_product_permission' value='" + product + "'>";
+    html += "<input type='hidden' name='about_permission' id='d_about_permission' value='" + about + "'>";
+    html += "<input type='hidden' name='blog_permission' id='d_blog_permission' value='" + blog + "'>";
+    html += "<input type='hidden' name='gallery_permission' id='d_gallery_permission' value='" + image + "'>";
+    html += "<input type='hidden' name='is_locked' id='d_is_locked' value='" + lock + "'>";
+    html += "<input type='hidden' name='is_super' id='d_is_super' value='" + s_user + "'>";
+    html += "<h3><i class='fas fa-user-cog'></i> " + header + "</h3>";
+    if(mode === 0)
+    {
+        html += "<div class='su-user-details'>";
+        html += "<input type='text' name='f_fname' id='f_fname' placeholder='Enter user first name'>";
+        html += "<input type='text' name='f_lname' id='f_lname' placeholder='Enter user last name'>";
+        html += "</div>";
+        html += "<input type='text' name='email1' id='email1' placeholder='Enter user email'>";
+        html += "<input type='text' name='email2' id='email2' placeholder='Confirm user email'>";
+    }
+    else
+    {
+        html += "<div class='su-user-details'>";
+        html += "<h4>" + fname + " " + lname + "</h4>";
+        html += "<span>" + email + "</span>";
+        html += "</div>";
+    }
+    html += "<div class='su-checkbox-editor'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (product === "True")
+    {
+        html += "<td><input type='checkbox' id='f_products' onClick=\"javascript: suCheckbox('#f_products', '#d_product_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_products' onClick=\"javascript: suCheckbox('#f_products', '#d_product_permission');\"></td>";
+    }
+    html += "<td>Products</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (blog === "True")
+    {
+        html += "<td><input type='checkbox' id='f_blogs' onClick=\"javascript: suCheckbox('#f_blogs', '#d_blog_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_blogs' onClick=\"javascript: suCheckbox('#f_blogs', '#d_blog_permission');\"></td>";
+    }
+    
+    html += "<td>Blogs</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (image === "True")
+    {
+        html += "<td><input type='checkbox' id='f_images' onClick=\"javascript: suCheckbox('#f_images', '#d_gallery_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_images' onClick=\"javascript: suCheckbox('#f_images', '#d_gallery_permission');\"></td>";
+    }
+    
+    html += "<td>Images</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (about === "True")
+    {
+        html += "<td><input type='checkbox' id='f_statements' onClick=\"javascript: suCheckbox('#f_statements', '#d_about_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_statements' onClick=\"javascript: suCheckbox('#f_statements', '#d_about_permission');\"></td>";
+    }
+    
+    html += "<td>About Statements</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (admin === "True")
+    {
+        html += "<td><input type='checkbox' id='f_admin' onClick=\"javascript: suCheckbox('#f_admin', '#d_is_admin');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_admin' onClick=\"javascript: suCheckbox('#f_admin', '#d_is_admin');\"></td>";
+    }
+    
+    html += "<td>Administration</td>";
+    html += " </tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (lock === "True")
+    {
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\"></td>";
+    }
+    
+    html += "<td>Locked</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (s_user === "True")
+    {
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\"></td>";
+    }
+    
+    html += "<td>Super User</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('permission');\">Save</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('permission', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
     return html;
 }
 
@@ -1810,6 +2046,7 @@ function validateSUModel(model)
     else if (model === 'product') { validateSubProduct(); }
     else if (model === 'image') { validateSubImage(); }
     else if (model === 'security') { validateSubSecurity(); }
+    else if (model === 'permission') { validateSubPermissions(); }
 }
 
 function validateSuBlog()
@@ -1918,6 +2155,37 @@ function validateSubSecurity()
     else { alert(messages[0]); alert(messages[1]); }
 }
 
+function validateSubPermissions()
+{
+    var proceed     = false;
+    var messages    = [];
+    var amdin       = $("#d_is_admin").val();
+    var product     = $("#d_product_permission").val();
+    var about       = $("#d_about_permission").val();
+    var blog        = $("#d_blog_permission").val();
+    var image       = $("#d_gallery_permission").val();
+    var lock        = $("#d_is_locked").val();
+    var is_super    = $("#d_is_super").val();
+    amdin           = String(amdin);
+    product         = String(product);
+    about           = String(about);
+    blog            = String(blog);
+    image           = String(image);
+    lock            = String(lock);
+    is_super        = String(is_super);
+    if (amdin==="False"||product==="False"||about==="False"||blog==="False"||image==="False"||lock==="False"||is_super==="False")
+    {
+        messages.push("No Permissions Indicated");
+        messages.push("You must select at least one permission to proceed.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { alert(messages[0]); alert(messages[1]); }
+}
+
 function checkPopulatedFields(model, mode, index)
 {
     model   = String(model);
@@ -1926,6 +2194,7 @@ function checkPopulatedFields(model, mode, index)
     else if (model === 'product') { checkProductFields(mode, index); }
     else if (model === 'image') { checkImageFields(); }
     else if (model === 'security') { checkSecurityFields(mode, index); }
+    else if (model === 'permission') {checkPermissionsFields(mode, index); }
 }
 
 function checkBlogFields(mode, index)
@@ -2051,6 +2320,54 @@ function checkSecurityFields(mode, index)
     }
 }
 
+function checkPermissionsFields(mode, index)
+{
+    var messages    = [];
+    var amdin       = $("#d_is_admin").val();
+    var product     = $("#d_product_permission").val();
+    var about       = $("#d_about_permission").val();
+    var blog        = $("#d_blog_permission").val();
+    var image       = $("#d_gallery_permission").val();
+    var lock        = $("#d_is_locked").val();
+    var is_super    = $("#d_is_super").val();
+    amdin           = String(amdin);
+    product         = String(product);
+    about           = String(about);
+    blog            = String(blog);
+    image           = String(image);
+    lock            = String(lock);
+    is_super        = String(is_super);
+    if (mode === 0)
+    {
+        if (amdin==="True"||product==="True"||about==="True"||blog==="True"||image==="True"||lock==="True"||is_super==="True")
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_admin     = $("#m_admin_" + index).val();
+        var m_product   = $("#m_product_" + index).val();
+        var m_about     = $("#m_about_" + index).val();
+        var m_blog      = $("#m_blog_" + index).val();
+        var m_image     = $("#m_image_" + index).val();
+        var m_lock      = $("#m_lock_" + index).val();
+        var m_super     = $("#m_super_" + index).val();
+        if (m_admin!==amdin||m_product!==product||m_about!==about||m_blog!==blog||m_image!==image||m_lock!==lock||m_super!==is_super)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
 function buildWarningError(messages)
 {
     html = "";
@@ -2080,7 +2397,7 @@ function launchAdminEditors(model, mode, index)
     else if (model === "phone") { html = buildPhoneEditor(); }
     else if (model === "email") { html = buildEmailEditor(); }
     else if (model === "hours") { html = buildHoursEditor(); }
-    else if (model === "permission") { html = buildPermissionEditor(); }
+    else if (model === "permission") { html = buildPermissionEditor(mode, index); }
     else if (model === "auth") { html = buildAuthEditor(); }
     else if (model === "security") { html = buildSecurityEditor(mode, index); }
     else if (model === "blog") { html = buildBlogEditor(mode, index); }
@@ -2244,6 +2561,14 @@ function suHardClose()
     $("#su-editor-builder").fadeOut(600);
 }
 
+function suCheckbox(trigger, target)
+{
+    trigger = String(trigger);
+    target  = String(target);
+    if ($(trigger).prop("checked") === true) { $(target).val("True"); }
+    else { $(target).val("False"); }
+}
+
 
 </script>
 
@@ -2254,19 +2579,92 @@ function suHardClose()
         <input type="hidden" id="model-count" value="">
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
-
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <div class='su-center su-width50'>
+            <div class='su-center su-width35'>
                 <div class='su-general'>
                     <form action='/adminAlt' method='POST' id='pop_form'>
                         <input type='hidden' name='target_model' id='target_model' value='security'>
                         <input type='hidden' name='target_action' id='target_action' value=''>
                         <input type='hidden' name='target_id' id='target_id' value=''>
-                        <h3><i class='fas fa-user-lock'></i> User Security</h3>
-                        <input type='text' name='question' id='question' placeholder='Type security question here...'>
+                        <input type='hidden' name='is_admin' id='d_is_admin' value='True'>
+                        <input type='hidden' name='product_permission' id='d_product_permission' value='True'>
+                        <input type='hidden' name='about_permission' id='d_about_permission' value='True'>
+                        <input type='hidden' name='blog_permission' id='d_blog_permission' value='True'>
+                        <input type='hidden' name='gallery_permission' id='d_gallery_permission' value='True'>
+                        <input type='hidden' name='is_locked' id='d_is_locked' value='True'>
+                        <input type='hidden' name='is_super' id='d_is_super' value='True'>
+                        <h3><i class='fas fa-user-cog'></i> User Permissions</h3>
+                        <div class='su-user-details'>
+                            <input type='text' name='f_fname' id='f_fname' placeholder='Enter user first name'>
+                            <input type='text' name='f_lname' id='f_lname' placeholder="Enter user last name">
+                        </div>
+                        <input type='text' name='email1' id='email1' placeholder='Enter user email'>
+                        <input type='text' name='email2' id='email2' placeholder='Confirm user email'>
+                        <div class='su-checkbox-editor'>
+                            <div class='container'>
+                                <div class='row'>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_products' onClick="javascript: suCheckbox('#f_products', '#d_product_permission');"></td>
+                                                <td>Products</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_blogs' onClick="javascript: suCheckbox('#f_blogs', '#d_blog_permission');"></td>
+                                                <td>Blogs</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_images' onClick="javascript: suCheckbox('#f_images', '#d_gallery_permission');"></td>
+                                                <td>Images</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_statements' onClick="javascript: suCheckbox('#f_statements', '#d_about_permission');"></td>
+                                                <td>About Statements</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_admin' onClick="javascript: suCheckbox('#f_admin', '#d_is_admin');"></td>
+                                                <td>Administration</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_lock' onClick="javascript: suCheckbox('#f_lock', '#d_is_locked');"></td>
+                                                <td>Locked</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class='col-md-4' style='padding:0; margin:0;'>
+                                        <table>
+                                            <tr>
+                                                <td><input type='checkbox' id='f_super' onClick="javascript: suCheckbox('#f_super', '#d_is_super');"></td>
+                                                <td>Super User</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class='su-general-btns'>
-                            <button onClick="javascript: validateSUModel('security');">Save</button>
-                            <button onClick="javascript: checkPopulatedFields('security', 'model', 'index');">Cancel</button>
+                            <button type='button' onClick="javascript: validateSUModel('permission');">Save</button>
+                            <button type='button' onClick="javascript: checkPopulatedFields('permission', '1', 'index');">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -2286,8 +2684,8 @@ function suHardClose()
                     <div class='err0' id='err0'>This is the main message</div>
                     <div class='err1' id='err1'>This is a more detailed description of the main error message.</div>
                     <div class='su-error-btns'>
-                        <button onClick="javascript: suHardClose();">Leave Page</button>
-                        <button onClick="javascript: suSoftClose();">Stay On Page</button>
+                        <button type='button' onClick="javascript: suHardClose();">Leave Page</button>
+                        <button type='button' onClick="javascript: suSoftClose();">Stay On Page</button>
                     </div>
                 </div>
             </div>

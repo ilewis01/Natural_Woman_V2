@@ -324,7 +324,7 @@ def json_serialize_users(user):
 			d['about_permission'] 	= str(u.about_permission)
 			d['blog_permission'] 	= str(u.blog_permission)
 			d['gallery_permission'] = str(u.gallery_permission)
-			d['isSuper'] 			= str(u.superuser)
+			d['isSuper'] 			= str(u.is_super)
 			d['isLocked'] 			= str(u.is_locked)
 			d['index'] 				= index
 			data.append(d)
@@ -347,6 +347,8 @@ def json_serialize_users_all():
 		d['about_permission'] 	= str(u.about_permission)
 		d['blog_permission'] 	= str(u.blog_permission)
 		d['gallery_permission'] = str(u.gallery_permission)
+		d['isSuper'] 			= str(u.is_super)
+		d['isLocked'] 			= str(u.is_locked)
 		d['index'] 				= index
 		if index % 2 == 1:
 			d['class'] = "li-shade1"
