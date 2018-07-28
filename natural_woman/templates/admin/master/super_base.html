@@ -513,6 +513,11 @@
     margin: auto;
 }
 
+.su-width40 {
+    width: 40%;
+    margin: auto;
+}
+
 .su-general {
     width: 100%;
     padding: 3%;
@@ -552,6 +557,32 @@
     padding-left: 8px;
     padding-right: 8px;
     margin-bottom: 5px;
+}
+
+.su-ul-item input[type="number"]
+{
+    width: 20%;
+    border-radius: 5px;
+    font-size: 11px;
+    border-color: #aaaaaa;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.su-ul-item {
+    width: 100%;
+    font-size: 11px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: capitalize;
+    color: #333333;
+}
+
+.su-ul-item span {
+    color: #95162e;
 }
 
 .su-general ::placeholder {
@@ -783,6 +814,20 @@ textarea {
     padding-left: 0;
 }
 
+.su-abt-style {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 25px;
+}
+
+.su-abt-style button {
+    font-weight: 600;
+    padding-top:3px;
+    padding-bottom:3px;
+    font-size: 10px;
+    width: 70%;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -965,6 +1010,7 @@ function buildContact(data)
         html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
     }
     html += "</div>";
+    html += "<div class='su-abt-style'><button onClick=\"javascript: launchAdminEditors('about', '1', '1');\">Edit <em>\"About Us\"</em> Statement</button></div>";
     return html;
 }
 
@@ -1011,6 +1057,7 @@ function buildLinks(data)
     html += "<input type='hidden' id='m_show_twitter' value='" + show_twitter+ "'>";
     html += "<input type='hidden' id='m_show_instagram' value='" + show_instagram + "'>";
     html += "<input type='hidden' id='m_max_images' value='" + data['max_images'] + "'>";
+    html += "<input type='hidden' id='m_num_uploads' value='" + data['num_uploads'] + "'>";
     html += "<div class='su-admin-header su-topper'>Images &nbsp<a href=\"javascript: launchAdminEditors('max_images', '1');\">[Edit]</a></div>";
     html += "<div class='su-ad-item su-red'><span>Maximum No. Images Allowed: </span'><b class='su-black'>" + data['max_images'] + "</b></div>";
     html += "<div class='su-ad-item su-black'><span>No. Images Uploaded: </span>" + data['num_uploads'] + "</div>";
@@ -1761,45 +1808,46 @@ function buildEmailEditor()
     return html;
 }
 
-function buildSocialEditor(media)
+function buildMediaEditor(model)
 {
-    alert("building")
-    var html = ""
-    var icon = null;
-    var lin1 = null;
-    var lin2 = null;
-    var link = null;
-    media = String(media);
-    if (media === "facebook")
+    var html = "";
+    var icon = "";
+    var lin1 = "";
+    var lin2 = "";
+    var url  = "";
+    if (model === "facebook")
     {
+        url  = $("#m_facebook_url").val();
         icon = "<h3><i class='fab fa-facebook-square'></i> Facebook Link</h3>";
-        lin1 = "<input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value=''>";
+        lin1 = "<input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value='" + url + "'>";
         lin2 = "<input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>";
     }
-    else if (media === "twitter")
+    else if (model === "twitter")
     {
+        url  = $("#m_twitter_url").val();
         icon = "<h3><i class='fab fa-twitter-square'></i> Twitter Link</h3>";
-        lin1 = "<input type='email' name='twitter_url' id='f_twitter_url' placeholder='Enter New Twitter Link' value=''>";
+        lin1 = "<input type='email' name='twitter_url' id='f_twitter_url' placeholder='Enter New Twitter Link' value='" + url + "'>";
         lin2 = "<input type='email' name='twitter_url2' id='f_twitter_url2' placeholder='Confirm New Twitter Link' value=''>";
     }
-    else if (media === "instagram")
+    else if (model === "instagram")
     {
+        url  = $("#m_instagram_url").val();
         icon = "<h3><i class='fab fa-instagram'></i> Instagram Link</h3>";
-        lin1 = "<input type='email' name='instagram_url' id='f_instagram_url' placeholder='Enter New Instagram Link' value=''>";
+        lin1 = "<input type='email' name='instagram_url' id='f_instagram_url' placeholder='Enter New Instagram Link' value='" + url + "'>";
         lin2 = "<input type='email' name='instagram_url2' id='f_instagram_url2' placeholder='Confirm New Instagram Link' value=''>";
     }
-    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='" + media + "'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
     html += icon;
     html += lin1;
     html += lin2;
     html += "<div class='su-general-btns'>";
-    html += "<button type='button' onClick=\"javascript: validateSUModel('" + media + "');\">Update</button>";
-    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('" + media + "', '1', 'index');\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('" + model + "');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('" + model + "', '1', 'index');\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
@@ -2400,6 +2448,27 @@ function buildProductEditor(mode, index)
 function buildMaxEditor()
 {
     var html = "";
+    var max_images = $("#m_max_images").val();
+    var no_uploads = $("#m_num_uploads").val();
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='max_images'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-file-image'></i> Uploads</h3>";
+    html += "<div class='su-ul-item'>Current no. of uploads: <span>" + no_uploads + "</span></div>";
+    html += "<div class='su-ul-item'>Maximum no. of uploads: <input type='number' name='max_images' id='f_max_images' min='0' max='99' value='" + max_images + "' oninput=\"inputInteger(2, '#f_max_images');\"></div>";
+    html += "<div class='su-general-btns su-txt-left'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('max_images');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('max_images', '1', 'index');\">Cancel</button>";
+    html += "<div class='su-sp-top'></div>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
     return html;
 }
 
@@ -2980,7 +3049,6 @@ function buildWarningError(messages)
 
 function launchAdminEditors(model, mode, index)
 {
-    alert(model)
     var html    = "";
     model       = String(model);
     mode        = String(mode);
@@ -2996,9 +3064,9 @@ function launchAdminEditors(model, mode, index)
     else if (model === "image") { html = buildImageEditor(); }
     else if (model === "max_images") { html = buildMaxEditor(); }
     else if (model === "payment") { html = buildPaymentEditor(); }
-    else if (model === "facebook") { buildSocialEditor('facebook'); }
-    else if (model === "twitter") { html = buildSocialEditor(model); }
-    else if (model === "instagram") { html = buildSocialEditor(model); }
+    else if (model === "facebook") { html = buildMediaEditor(model); }
+    else if (model === "twitter") { html = buildMediaEditor(model); }
+    else if (model === "instagram") { html = buildMediaEditor(model); }
     openEditor(html);
 }
 
@@ -3176,22 +3244,22 @@ function suSendNew ()
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <!--<div class='su-center su-width30'>
+            <div class='su-center su-width30'>
                 <div class='su-general'>
                     <form action='/adminAlt' method='POST' id='pop_form'>
                         <input type='hidden' name='target_model' id='target_model' value='phone'>
                         <input type='hidden' name='target_action' id='target_action' value='update'>
                         <input type='hidden' name='target_id' id='target_id' value=''>
-                        <h3><i class='fab fa-facebook-square'></i> Facebook Link</h3>
-                        <input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value=''>
-                        <input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>
-                        <div class='su-general-btns'>
-                            <button type='button' onClick="javascript: validateSUModel('facebook');">Update</button>
-                            <button type='button' onClick="javascript: checkPopulatedFields('facebook', '1', 'index');">Cancel</button>
+                        <h3><i class='fas fa-file-image'></i> Uploads</h3>
+                        <div class='su-ul-item'>Current no. of uploads: <span>5</span></div>
+                        <div class='su-ul-item'>Maximum no. of uploads: <input type='number' name='max_images' id='f_max_images' min='0' value=''></div>
+                        <div class='su-general-btns su-txt-left'>
+                            <button type='button' onClick="javascript: validateSUModel('max_images');">Update</button>
+                            <button type='button' onClick="javascript: checkPopulatedFields('max_images', '1', 'index');">Cancel</button>
                         </div>
                     </form>
                 </div>
-            </div>-->
+            </div>
         </div>
 
         <div class='su-error-container hidden' id='su-editor-builder'>
