@@ -1660,6 +1660,27 @@ function buildSecurityEditor(mode, index)
     return html;
 }
 
+function buildImageEditor()
+{
+    var html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='uplaod'>";
+    html += "<h3><i class='fas fa-camera'></i> Upload New Image</h3>";
+    html += "<input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>";
+    html += "<div class='su-sub-top'></div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('image');\">Upload</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('image', 'model', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
 function buildBlogEditor(mode, index)
 {
     var html    = "";
@@ -1687,22 +1708,22 @@ function buildBlogEditor(mode, index)
         m_id            = $("#m_id_" + index).val();
     }
 
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='blog'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
-    html += "</form>";
-    html += "<div class='su-center su-width45'>";
-    html += "<div class='su-general'>";
     html += "<h3><i class='fab fa-blogger'></i> <span id='su-pop-header'>" + header + "</span></h3>";
     html += "<input type='text' name='subject' id='subject' placeholder='Subject' value='" + subject + "'>";
     html += "<div class='su-textarea-lg'>";
     html += "<textarea name='content' id='content' placeholder='Blog Body'>" + content + "</textarea>";
     html += "</div>";
     html += "<div class='su-general-btns'>";
-    html += "<button onClick=\"javascript: validateSUModel('blog');\">" + button + "</button>";
-    html += "<button onClick=\"javascript: checkPopulatedFields('blog', '" + String(mode) + "', '" + index + "');\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('blog');\">" + button + "</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('blog', '" + String(mode) + "', '" + index + "');\">Cancel</button>";
     html += "</div>";
+    html += "</form>";
     html += "</div>";
     html += "</div>";
     return html;
@@ -1736,14 +1757,12 @@ function buildProductEditor(mode, index)
         price       = $("#m_price_" + index).val();
         m_id        = $("#m_id_" + index).val();
     }
-
+    html += "<div class='su-center su-width35'>";
+    html += "<div class='su-general'>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='product'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
-    html += "</form>";
-    html += "<div class='su-center su-width35'>";
-    html += "<div class='su-general'>";
     html += "<h3><i class='fas fa-spray-can'></i> <span id='su-pop-header'>" + header + "</span></h3>";
     html += "<input type='text' name='name' id='name' placeholder='Product' value='" + name + "'>";
     html += "<div class='su-textarea-sm'>";
@@ -1753,9 +1772,10 @@ function buildProductEditor(mode, index)
     html += "Price:  <input type='number' name='price' id='price' value='" + price + "' max='9999' min='0' oninput=\"javascript: inputInteger('4', '#price');\">";
     html += "</div>";
     html += "<div class='su-general-btns'>";
-    html += "<button onClick=\"javascript: validateSUModel('product');\">" + button + "</button>";
-    html += "<button onClick=\"javascript: checkPopulatedFields('product', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('product');\">" + button + "</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('product', '" + mode + "', '" + index + "');\">Cancel</button>";
     html += "</div>";
+    html += "</form>";
     html += "</div>";
     html += "</div>";
 
@@ -1771,27 +1791,6 @@ function buildMaxEditor()
 function buildPaymentEditor()
 {
 
-}
-
-function buildImageEditor()
-{
-    var html = "";
-    html += "<form action='/adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
-    html += "<input type='hidden' name='target_action' id='target_action' value='uplaod'>";
-    html += "</form>";
-    html += "<div class='su-center su-width30'>";
-    html += "<div class='su-general'>";
-    html += "<h3><i class='fas fa-camera'></i> Upload New Image</h3>";
-    html += "<input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>";
-    html += "<div class='su-sub-top'></div>";
-    html += "<div class='su-error-btns'>";
-    html += "<button type='button' onClick=\"javascript: validateSUModel('image');\">Upload</button>";
-    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('image', 'model', 'index');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
 }
 
 function buildSocialEditor(media_type)
