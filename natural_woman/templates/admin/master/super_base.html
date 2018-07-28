@@ -344,11 +344,11 @@
 
 /*TRANSITIONS*/
 .su-main-content-style li {
-    -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -o-transition: all 0.5s ease-in;
-    -ms-transition: all 0.5s ease-in;
-    transition: all 0.3s ease-in;
+    -webkit-transition: all 0.6s;
+    -moz-transition: all 0.6s;
+    -o-transition: all 0.6s;
+    -ms-transition: all 0.6s;
+    transition: all 0.6s;
 }
 
 .su-admin-content-wrapper {
@@ -490,6 +490,11 @@
 
 .su-width55 {
     width: 55%;
+    margin: auto;
+}
+
+.su-width50 {
+    width: 50%;
     margin: auto;
 }
 
@@ -1195,7 +1200,7 @@ function buildSecurity(data)
         question    = String(data[i]['question']);
         html += "<div id='div1_" + index + "' class='" + e_class + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: launchAdminEditors('security', '1');\">";
+        html += "<a href=\"javascript: launchAdminEditors('security', '1', '" + index + "');\">";
         html += "<input type='hidden' id='m_id_" + index + "' value='" + q_id + "'>";
         html += "<input type='hidden' id='m_question_" + index + "' value='" + question + "'>";
         html += "<table>";
@@ -1612,9 +1617,46 @@ function buildAuthEditor()
     return html;
 }
 
-function buildSecurityEditor()
+function buildSecurityEditor(mode, index)
 {
-    var html = "";
+    var html        = "";
+    var button      = null;
+    var header      = null;
+    var action      = null;
+    var question    = "";
+    var m_id        = "";
+    mode        = Number(mode);
+    index       = String(index);
+    if (mode === 0)
+    {
+        action = "0";
+        header = "New Security Question";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action          = "1";
+        header          = "User Security";
+        button          = "Update";
+        question        = $("#m_question_" + index).val();
+        m_id            = $("#m_id_" + index).val();
+    }
+
+    html += "<div class='su-center su-width50'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<h3><i class='fas fa-user-lock'></i> " + header+ "</h3>";
+    html += "<input type='text' name='question' id='question' placeholder='Type security question here...' value='" + question + "'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('security');\">" + button + "</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('security', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
     return html;
 }
 
@@ -1645,7 +1687,7 @@ function buildBlogEditor(mode, index)
         m_id            = $("#m_id_" + index).val();
     }
 
-    html += "<form action='\\adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='blog'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
@@ -1695,7 +1737,7 @@ function buildProductEditor(mode, index)
         m_id        = $("#m_id_" + index).val();
     }
 
-    html += "<form action='\\adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='product'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
@@ -1734,7 +1776,7 @@ function buildPaymentEditor()
 function buildImageEditor()
 {
     var html = "";
-    html += "<form action='\\adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
+    html += "<form action='/adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='uplaod'>";
     html += "</form>";
@@ -1744,8 +1786,8 @@ function buildImageEditor()
     html += "<input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>";
     html += "<div class='su-sub-top'></div>";
     html += "<div class='su-error-btns'>";
-    html += "<button onClick=\"javascript: validateSUModel('image');\">Upload</button>";
-    html += "<button onClick=\"javascript: checkPopulatedFields('image', 'model', 'index');\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('image');\">Upload</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('image', 'model', 'index');\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -1768,6 +1810,7 @@ function validateSUModel(model)
     if (model === 'blog') { validateSuBlog(); }
     else if (model === 'product') { validateSubProduct(); }
     else if (model === 'image') { validateSubImage(); }
+    else if (model === 'security') { validateSubSecurity(); }
 }
 
 function validateSuBlog()
@@ -1858,6 +1901,24 @@ function validateSubImage()
     else { alert(messages[0]); alert(messages[1]); }
 }
 
+function validateSubSecurity()
+{
+    var proceed     = false;
+    var messages    = [];
+    var question    = $("#question").val();
+    if (String(question).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a valid security question to proceed.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { alert(messages[0]); alert(messages[1]); }
+}
+
 function checkPopulatedFields(model, mode, index)
 {
     model   = String(model);
@@ -1865,6 +1926,7 @@ function checkPopulatedFields(model, mode, index)
     if (model === 'blog') { checkBlogFields(mode, index); }
     else if (model === 'product') { checkProductFields(mode, index); }
     else if (model === 'image') { checkImageFields(); }
+    else if (model === 'security') { checkSecurityFields(mode, index); }
 }
 
 function checkBlogFields(mode, index)
@@ -1959,6 +2021,37 @@ function checkImageFields(mode, index)
     }
 }
 
+function checkSecurityFields(mode, index)
+{
+    var messages    = [];
+    var question    = $("#question").val();
+    question        = String(question);
+    if (mode === 0)
+    {
+        if (question.length > 0)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_question  = $("#m_question_" + index).val();
+        m_question      = String(m_question);
+        if (m_question !== question)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
 function buildWarningError(messages)
 {
     html = "";
@@ -1990,7 +2083,7 @@ function launchAdminEditors(model, mode, index)
     else if (model === "hours") { html = buildHoursEditor(); }
     else if (model === "permission") { html = buildPermissionEditor(); }
     else if (model === "auth") { html = buildAuthEditor(); }
-    else if (model === "security") { html = buildSecurityEditor(); }
+    else if (model === "security") { html = buildSecurityEditor(mode, index); }
     else if (model === "blog") { html = buildBlogEditor(mode, index); }
     else if (model === "product") { html = buildProductEditor(mode, index); }
     else if (model === "image") { html = buildImageEditor(); }
@@ -2164,19 +2257,19 @@ function suHardClose()
         <input type="hidden" id="payment-count" value="">
 
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <form action='\adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>
-                <input type='hidden' name='target_model' id='target_model' value='image'>
-                <input type='hidden' name='target_action' id='target_action' value='uplaod'>
-            </form>
-            <div class='su-center su-width30'>
+            <div class='su-center su-width50'>
                 <div class='su-general'>
-                    <h3><i class='fas fa-camera'></i> Upload New Image</h3>
-                    <input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>
-                    <div class='su-sub-top'></div>
-                    <div class='su-error-btns'>
-                        <button onClick="javascript: validateSUModel('image');">Upload</button>
-                        <button onClick="javascript: checkPopulatedFields('image', 'model', 'index');">Cancel</button>
-                    </div>
+                    <form action='/adminAlt' method='POST' id='pop_form'>
+                        <input type='hidden' name='target_model' id='target_model' value='security'>
+                        <input type='hidden' name='target_action' id='target_action' value=''>
+                        <input type='hidden' name='target_id' id='target_id' value=''>
+                        <h3><i class='fas fa-user-lock'></i> User Security</h3>
+                        <input type='text' name='question' id='question' placeholder='Type security question here...'>
+                        <div class='su-general-btns'>
+                            <button onClick="javascript: validateSUModel('security');">Save</button>
+                            <button onClick="javascript: checkPopulatedFields('security', 'model', 'index');">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
