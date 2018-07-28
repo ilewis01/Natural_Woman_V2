@@ -17,9 +17,9 @@ class User(db.Model):
 	blog_permission 	= db.Column('blog_permission', db.Boolean, default=False)
 	gallery_permission 	= db.Column('gallery_permission', db.Boolean, default=False)
 	is_locked 			= db.Column('locked', db.Boolean, default=False)
-	superuser 			= db.Column('superuser', db.Boolean, default=False)
-	question1 			= db.Column('question1', db.Integer, default=0, nullable=True)
-	question2 			= db.Column('question2', db.Integer, default=0, nullable=True)
+	is_super 			= db.Column('super', db.Boolean, default=False)
+	question1 			= db.Column('question1', db.String, default="empty", nullable=True)
+	question2 			= db.Column('question2', db.String, default="empty", nullable=True)
 	answer1 			= db.Column('answer1', db.Binary(60), default="0000", nullable=False)
 	answer2 			= db.Column('answer2', db.Binary(60), default="0000", nullable=False)
 
@@ -48,12 +48,12 @@ class User(db.Model):
 		db.session.add(self)
 		db.session.commit()
 
-	def superuser(self):
-		self.superuser = True
+	def setSuperuser(self):
+		self.is_super = True
 		db.session.add(self)
 		db.session.commit()
 
-	def locK(self):
+	def setLocKed(self):
 		self.is_locked = True
 		db.session.add(self)
 		db.session.commit()

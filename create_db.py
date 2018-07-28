@@ -58,6 +58,8 @@ u4.product_permission 	= True
 u4.about_permission 	= True
 u4.blog_permission 		= True
 u4.gallery_permission 	= True
+u4.is_super 			= True
+u4.is_locked 			= True
 
 u1.save()
 u2.save()
