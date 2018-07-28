@@ -503,6 +503,11 @@
     margin: auto;
 }
 
+.su-width20 {
+    width: 20%;
+    margin: auto;
+}
+
 .su-width35 {
     width: 35%;
     margin: auto;
@@ -530,6 +535,16 @@
 }
 
 .su-general input[type="text"] {
+    width: 100%;
+    border-radius: 5px;
+    font-size: 11px;
+    border-color: #aaaaaa;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 5px;
+}
+
+.su-general input[type="email"] {
     width: 100%;
     border-radius: 5px;
     font-size: 11px;
@@ -759,6 +774,15 @@ textarea {
     margin-top: 20px;
 }
 
+.su-txt-left {
+    text-align: left;
+}
+
+.su-input-center input {
+    text-align: center;
+    padding-left: 0;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -798,7 +822,7 @@ function inputInteger(max, target)
             result += value[i];
         }
     }
-    $("#price").val(result);
+    $(target).val(result);
 }
 
 function validate_email(email)
@@ -994,7 +1018,7 @@ function buildLinks(data)
     html += "<div class='su-sm-header'>Facebook</div>";
     html += "<div class='su-sm-manager'>";
     html += "<a href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
-    html += "<button onClick=\"javascript: launchAdminEditors('facebook', '1');\">Update Link</button>";
+    html += "<button onClick=\"javascript: launchAdminEditors('facebook', '1', '0');\">Update Link</button>";
     if (show_facebook === "True")
     {
         html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' checked>";
@@ -1014,7 +1038,7 @@ function buildLinks(data)
     html += "<div class='su-sm-header su-topper3'>Twitter</div>";
     html += "<div class='su-sm-manager'>";
     html += "<a href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
-    html += "<button onClick=\"javascript: launchAdminEditors('twitter', '1');\">Update Link</button>";
+    html += "<button onClick=\"javascript: launchAdminEditors('twitter', '1', '0');\">Update Link</button>";
     if (show_twitter === "True")
     {
         html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' checked>";
@@ -1034,7 +1058,7 @@ function buildLinks(data)
     html += "<div class='su-sm-header su-topper3'>Instagram</div>";
     html += "<div class='su-sm-manager'>";
     html += "<a href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
-    html += "<button onClick=\"javascript: launchAdminEditors('instagram', '1');\">Update Link</button>";
+    html += "<button onClick=\"javascript: launchAdminEditors('instagram', '1', '0');\">Update Link</button>";
     if (show_instagram === "True")
     {
         html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' checked>";
@@ -1627,21 +1651,159 @@ function setPaymentDeleteBtn()
     }
 }
 
-function buildAddressEditor()
+function buildAddressEditor(index)
 {
-    var html = "";
+    var html        = "";
+    var address1    = $("#m_address1").val();
+    var address2    = $("#m_address2").val();
+    var address3    = $("#m_address3").val();
+    var city        = $("#m_city").val();
+    var state       = $("#m_state").val();
+    var zipcode     = $("#m_zipcode").val();
+    address1        = String(address1);
+    address2        = String(address2);
+    address3        = String(address3);
+    city            = String(city);
+    state           = String(state);
+    zipcode         = String(zipcode);
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='address'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-mobile-alt'></i> Contact Information</h3>";
+    html += "<input type='text' name='address1' id='f_address1' placeholder='Address Line 1' value='" + address1 + "'>";
+    html += "<input type='text' name='address2' id='f_address1' placeholder='Address Line 2' value='" + address2 + "'>";
+    html += "<input type='text' name='address3' id='f_address1' placeholder='Address Line 3' value='" + address3 + "'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-7' style='padding:0; margin:0;'><input type='text' name='city' id='f_city' placeholder='City' value='" + city + "'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0; padding-left: 5px; padding-right: 4px;'><input type='text' name='state' id='f_state' placeholder='MI' value='" + state + "'></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin:0;'><input type='text' name='city' id='f_zip' placeholder='Zip Code' value='" + zipcode + "'></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('address');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('address', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
     return html;
 }
 
 function buildPhoneEditor()
 {
-    var html = "";
+    var html    = "";
+    var phone   = $("#m_phone").val();
+    var spl1    = String(phone).split(" ");
+    var area    = spl1[0][1];
+    var spl2    = spl1[1].split("-")
+    var pref    = spl2[0][0];
+    var post    = spl2[1][0];
+    area += spl1[0][2];
+    area += spl1[0][3];
+    pref += spl2[0][1];
+    pref += spl2[0][2];
+    post += spl2[1][1];
+    post += spl2[1][2];
+    post += spl2[1][3];
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-phone-square'></i> Phone</h3>";
+    html += "<div class='container su-input-center'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><input type='text' name='area' id='f_area' oninput=\"javascript: inputInteger('3', '#f_area');\" value='" + area + "'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><input type='text' name='prefix' id='f_pre' oninput=\"javascript: inputInteger('3', '#f_pre');\" value='" + pref + "'></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin:0;'><input type='text' name='postfix' id='f_post' oninput=\"javascript: inputInteger('4', '#f_post');\" value='" + post + "'></div>";
+    html += "<div class='col-sm-5'></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns su-txt-left'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('phone');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('phone', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
     return html;
 }
 
 function buildEmailEditor()
 {
-    var html = "";
+    var html    = "";
+    var email   = $("#m_email").val();
+    email       = String(email);
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='email'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-envelope'></i> Edit Email</h3>";
+    html += "<input type='email' name='email' id='f_email1' placeholder='Enter New Email Address' value='" + email + "'>";
+    html += "<input type='email' name='email' id='f_email2' placeholder='Confirm New Email Address'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('email');\">Update</button>";
+    html += "<button type='button' onClick\"javascript: checkPopulatedFields('email', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
+    return html;
+}
+
+function buildSocialEditor(media)
+{
+    alert("building")
+    var html = ""
+    var icon = null;
+    var lin1 = null;
+    var lin2 = null;
+    var link = null;
+    media = String(media);
+    if (media === "facebook")
+    {
+        icon = "<h3><i class='fab fa-facebook-square'></i> Facebook Link</h3>";
+        lin1 = "<input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value=''>";
+        lin2 = "<input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>";
+    }
+    else if (media === "twitter")
+    {
+        icon = "<h3><i class='fab fa-twitter-square'></i> Twitter Link</h3>";
+        lin1 = "<input type='email' name='twitter_url' id='f_twitter_url' placeholder='Enter New Twitter Link' value=''>";
+        lin2 = "<input type='email' name='twitter_url2' id='f_twitter_url2' placeholder='Confirm New Twitter Link' value=''>";
+    }
+    else if (media === "instagram")
+    {
+        icon = "<h3><i class='fab fa-instagram'></i> Instagram Link</h3>";
+        lin1 = "<input type='email' name='instagram_url' id='f_instagram_url' placeholder='Enter New Instagram Link' value=''>";
+        lin2 = "<input type='email' name='instagram_url2' id='f_instagram_url2' placeholder='Confirm New Instagram Link' value=''>";
+    }
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='" + media + "'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += icon;
+    html += lin1;
+    html += lin2;
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('" + media + "');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('" + media + "', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += '</div>';
     return html;
 }
 
@@ -2818,6 +2980,7 @@ function buildWarningError(messages)
 
 function launchAdminEditors(model, mode, index)
 {
+    alert(model)
     var html    = "";
     model       = String(model);
     mode        = String(mode);
@@ -2833,9 +2996,9 @@ function launchAdminEditors(model, mode, index)
     else if (model === "image") { html = buildImageEditor(); }
     else if (model === "max_images") { html = buildMaxEditor(); }
     else if (model === "payment") { html = buildPaymentEditor(); }
-    else if (model === "facebook") { html = buildSocialEditor("facebook"); }
-    else if (model === "twitter") { html = buildSocialEditor("twitter"); }
-    else if (model === "instagram") { html = buildSocialEditor("instagram"); }
+    else if (model === "facebook") { buildSocialEditor('facebook'); }
+    else if (model === "twitter") { html = buildSocialEditor(model); }
+    else if (model === "instagram") { html = buildSocialEditor(model); }
     openEditor(html);
 }
 
@@ -3013,106 +3176,34 @@ function suSendNew ()
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <div class='su-center su-width35'>
+            <!--<div class='su-center su-width30'>
                 <div class='su-general'>
                     <form action='/adminAlt' method='POST' id='pop_form'>
-                        <input type='hidden' name='target_model' id='target_model' value='security'>
-                        <input type='hidden' name='target_action' id='target_action' value=''>
+                        <input type='hidden' name='target_model' id='target_model' value='phone'>
+                        <input type='hidden' name='target_action' id='target_action' value='update'>
                         <input type='hidden' name='target_id' id='target_id' value=''>
-                        <input type='hidden' name='is_admin' id='d_is_admin' value='True'>
-                        <input type='hidden' name='product_permission' id='d_product_permission' value='True'>
-                        <input type='hidden' name='about_permission' id='d_about_permission' value='True'>
-                        <input type='hidden' name='blog_permission' id='d_blog_permission' value='True'>
-                        <input type='hidden' name='gallery_permission' id='d_gallery_permission' value='True'>
-                        <input type='hidden' name='is_locked' id='d_is_locked' value='True'>
-                        <input type='hidden' name='is_super' id='d_is_super' value='True'>
-                        <h3><i class='fas fa-user-plus'></i> Pending Users</h3>
-                        <div class='su-user-details'>
-                            <h4>User Name</h4>
-                            <span>useremail@email.com</span>
-                            <div class='su-topper'><button>Send New Authorization Code</button></div>
-                        </div>
-                        <div class='su-checkbox-editor'>
-                            <div class='container'>
-                                <div class='row'>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_products' onClick="javascript: suCheckbox('#f_products', '#d_product_permission');"></td>
-                                                <td>Products</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_blogs' onClick="javascript: suCheckbox('#f_blogs', '#d_blog_permission');"></td>
-                                                <td>Blogs</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_images' onClick="javascript: suCheckbox('#f_images', '#d_gallery_permission');"></td>
-                                                <td>Images</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_statements' onClick="javascript: suCheckbox('#f_statements', '#d_about_permission');"></td>
-                                                <td>About Statements</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_admin' onClick="javascript: suCheckbox('#f_admin', '#d_is_admin');"></td>
-                                                <td>Administration</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_lock' onClick="javascript: suCheckbox('#f_lock', '#d_is_locked');"></td>
-                                                <td>Locked</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class='col-md-4' style='padding:0; margin:0;'>
-                                        <table>
-                                            <tr>
-                                                <td><input type='checkbox' id='f_super' onClick="javascript: suCheckbox('#f_super', '#d_is_super');"></td>
-                                                <td>Super User</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <h3><i class='fab fa-facebook-square'></i> Facebook Link</h3>
+                        <input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value=''>
+                        <input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>
                         <div class='su-general-btns'>
-                            <button type='button' onClick="javascript: validateSUModel('permission');">Update</button>
-                            <button type='button' onClick="javascript: checkPopulatedFields('permission', '1', 'index');">Cancel</button>
+                            <button type='button' onClick="javascript: validateSUModel('facebook');">Update</button>
+                            <button type='button' onClick="javascript: checkPopulatedFields('facebook', '1', 'index');">Cancel</button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <div class='su-error-container hidden' id='su-editor-builder'>
             <form action='\adminAlt' method='POST' id='pop_delete_form'>
-                <input type='hidden' name='target_model' id='target_model' value=''>
-                <input type='hidden' name='target_action' id='target_action' value=''>
+                <input type='hidden' name='target_model' id='target_model' value='phone'>
+                <input type='hidden' name='target_action' id='target_action' value='update'>
                 <input type='hidden' name='target_id' id='target_id' value=''>
             </form>
             <div class='su-center su-width35'>
                 <div class='su-err'>
                     <div class='su-closer'><a href="javascript: closeError();"><i class='fas fa-window-close su-err'></i></a></div>
-                    <div class='su-error-header'><i class="fas fa-exclamation-triangle"></i> <span id='su-error-header'>Error Detected</span></div>
+                    <div class='su-error-header'><i class="fab fa-facebook-square"></i> <span id='su-error-header'>Error Detected</span></div>
                     <div class='err0' id='err0'>This is the main message</div>
                     <div class='err1' id='err1'>This is a more detailed description of the main error message.</div>
                     <div class='su-error-btns'>
