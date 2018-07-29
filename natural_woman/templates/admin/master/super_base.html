@@ -162,7 +162,7 @@
     box-shadow: 3px 3px 3px #444444;
     background: linear-gradient(to right, rgba(88, 85, 56, 0.8)0%, rgba(206, 209, 162, 0.8) 50%, rgba(88, 85, 56, 0.8) 100%);
     /*background: linear-gradient(to right, rgba(14, 50, 84, 0.8)0%, rgba(186, 205, 222, 0.8) 50%, rgba(14, 50, 84, 0.8) 100%);*/
-    height: 73vh;
+    height: 76vh;
 }
 
 .su-db-top, .su-db-center, .su-db-bottom {
@@ -1721,8 +1721,8 @@ function buildAddressEditor(index)
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
     html += "<h3><i class='fas fa-mobile-alt'></i> Contact Information</h3>";
     html += "<input type='text' name='address1' id='f_address1' placeholder='Address Line 1' value='" + address1 + "'>";
-    html += "<input type='text' name='address2' id='f_address1' placeholder='Address Line 2' value='" + address2 + "'>";
-    html += "<input type='text' name='address3' id='f_address1' placeholder='Address Line 3' value='" + address3 + "'>";
+    html += "<input type='text' name='address2' id='f_address2' placeholder='Address Line 2' value='" + address2 + "'>";
+    html += "<input type='text' name='address3' id='f_address3' placeholder='Address Line 3' value='" + address3 + "'>";
     html += "<div class='container'>";
     html += "<div class='row'>";
     html += "<div class='col-sm-7' style='padding:0; margin:0;'><input type='text' name='city' id='f_city' placeholder='City' value='" + city + "'></div>";
@@ -1799,12 +1799,11 @@ function buildEmailEditor()
     html += "<input type='email' name='email' id='f_email2' placeholder='Confirm New Email Address'>";
     html += "<div class='su-general-btns'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('email');\">Update</button>";
-    html += "<button type='button' onClick\"javascript: checkPopulatedFields('email', '1', 'index');\">Cancel</button>";
+    html += "<button type='button' onClick=\" javascript: checkPopulatedFields('email');\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
     html += "</div>";
-
     return html;
 }
 
@@ -2462,7 +2461,7 @@ function buildMaxEditor()
     html += "<div class='su-ul-item'>Maximum no. of uploads: <input type='number' name='max_images' id='f_max_images' min='0' max='99' value='" + max_images + "' oninput=\"inputInteger(2, '#f_max_images');\"></div>";
     html += "<div class='su-general-btns su-txt-left'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('max_images');\">Update</button>";
-    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('max_images', '1', 'index');\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('max_images');\">Cancel</button>";
     html += "<div class='su-sp-top'></div>";
     html += "</div>";
     html += "</form>";
@@ -2778,6 +2777,11 @@ function checkPopulatedFields(model, mode, index)
     else if (model === 'security') { checkSecurityFields(mode, index); }
     else if (model === 'permission') {checkPermissionsFields(mode, index); }
     else if (model === 'auth') {checkAuthFields(mode, index); }
+    else if (model === 'address') { checkAddressFields(); }
+    else if (model === 'phone') { checkPhoneFields(); }
+    else if (model === 'email') { checkEmailFields(); }
+    else if (model === 'max_images') { checkMaxField(); }
+    else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { checkMediaFields(model); }
 }
 
 function checkBlogFields(mode, index)
@@ -3025,6 +3029,127 @@ function checkAuthFields(mode, index)
         }
         else { closeEditor(); }
     }
+}
+
+function checkAddressFields()
+{
+    var messages    = [];
+    var address1    = $("#f_address1").val();
+    var address2    = $("#f_address2").val();
+    var address3    = $("#f_address3").val();
+    var city        = $("#f_city").val();
+    var state       = $("#f_state").val();
+    var zipcode     = $("#f_zip").val();
+    var m_address1  = $("#m_address1").val();
+    var m_address2  = $("#m_address2").val();
+    var m_address3  = $("#m_address3").val();
+    var m_city      = $("#m_city").val();
+    var m_state     = $("#m_state").val();
+    var m_zipcode   = $("#m_zipcode").val();
+    address1        = String(address1);
+    address2        = String(address2);
+    address3        = String(address3);
+    city            = String(city);
+    state           = String(state);
+    zipcode         = String(zipcode);
+    m_address1      = String(m_address1);
+    m_address2      = String(m_address2);
+    m_address3      = String(m_address3);
+    m_city          = String(m_city);
+    m_state         = String(m_state);
+    m_zipcode       = String(m_zipcode);
+    if (address1!==m_address1 || address2!==m_address2 || address3!==m_address3 || city!==m_city || state!==m_state || zipcode!==m_zipcode)
+    {
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkPhoneFields()
+{
+    var messages    = [];
+    var area        = $("#f_area").val();
+    var prefix      = $("#f_pre").val();
+    var postfix     = $("#f_post").val();
+    var m_phone     = $("#m_phone").val();
+    area            = String(area);
+    prefix          = String(prefix);
+    postfix         = String(postfix);
+    m_phone         = String(m_phone);
+    old_phone = "(" + area + ")" + " " + prefix + "-" + postfix;
+    if (m_phone!==old_phone)
+    {
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkEmailFields()
+{
+    var messages    = [];
+    var m_email     = $("#m_email").val();
+    var f_email1    = $("#f_email1").val();
+    var f_email2    = $("#f_email2").val();
+    m_email         = String(m_email);
+    f_email1        = String(f_email1);
+    f_email2        = String(f_email2);
+    if (m_email!==f_email1 || f_email2.length > 0)
+    {
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkMaxField()
+{
+    var f_max_images = $("#f_max_images").val();
+    var m_max_images = $("#m_max_images").val();
+    if (String(f_max_images) !== String(m_max_images))
+    {
+        messages = [];
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkMediaFields(model)
+{
+    var url = $("#f_facebook_url").val();
+    var url2 = $("#f_facebook_url2").val();
+    var m_url = $("#m_facebook_url").val();
+    if (model === "twitter")
+    {
+        url = $("#f_twitter_url").val()
+        url2 = $("#f_twitter_url2").val()
+        m_url = $("#m_twitter_url").val();
+    }
+    else if (model === "instagram")
+    {
+        url = $("#f_instagram_url").val()
+        url2 = $("#f_instagram_url2").val()
+        m_url = $("#m_instagram_url").val();
+    }
+    if (String(url)!==String(m_url) || String(url2).length > 0)
+    {
+        messages = [];
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
 }
 
 function buildWarningError(messages)
