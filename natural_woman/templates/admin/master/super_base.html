@@ -1719,7 +1719,7 @@ function buildAddressEditor(index)
     html += "<input type='hidden' name='target_model' id='target_model' value='address'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
-    html += "<h3><i class='fas fa-mobile-alt'></i> Contact Information</h3>";
+    html += "<h3><i class='fas fa-mobile-alt'></i> Update Contact Information</h3>";
     html += "<input type='text' name='address1' id='f_address1' placeholder='Address Line 1' value='" + address1 + "'>";
     html += "<input type='text' name='address2' id='f_address2' placeholder='Address Line 2' value='" + address2 + "'>";
     html += "<input type='text' name='address3' id='f_address3' placeholder='Address Line 3' value='" + address3 + "'>";
@@ -1763,7 +1763,7 @@ function buildPhoneEditor()
     html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
-    html += "<h3><i class='fas fa-phone-square'></i> Phone</h3>";
+    html += "<h3><i class='fas fa-phone-square'></i> Update Phone</h3>";
     html += "<div class='container su-input-center'>";
     html += "<div class='row'>";
     html += "<div class='col-sm-2' style='padding:0; margin:0;'><input type='text' name='area' id='f_area' oninput=\"javascript: inputInteger('3', '#f_area');\" value='" + area + "'></div>";
@@ -1794,7 +1794,7 @@ function buildEmailEditor()
     html += "<input type='hidden' name='target_model' id='target_model' value='email'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
-    html += "<h3><i class='fas fa-envelope'></i> Edit Email</h3>";
+    html += "<h3><i class='fas fa-envelope'></i> Update Email</h3>";
     html += "<input type='email' name='email' id='f_email1' placeholder='Enter New Email Address' value='" + email + "'>";
     html += "<input type='email' name='email' id='f_email2' placeholder='Confirm New Email Address'>";
     html += "<div class='su-general-btns'>";
@@ -1817,21 +1817,21 @@ function buildMediaEditor(model)
     if (model === "facebook")
     {
         url  = $("#m_facebook_url").val();
-        icon = "<h3><i class='fab fa-facebook-square'></i> Facebook Link</h3>";
+        icon = "<h3><i class='fab fa-facebook-square'></i> Update Facebook Link</h3>";
         lin1 = "<input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value='" + url + "'>";
         lin2 = "<input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>";
     }
     else if (model === "twitter")
     {
         url  = $("#m_twitter_url").val();
-        icon = "<h3><i class='fab fa-twitter-square'></i> Twitter Link</h3>";
+        icon = "<h3><i class='fab fa-twitter-square'></i> Update Twitter Link</h3>";
         lin1 = "<input type='email' name='twitter_url' id='f_twitter_url' placeholder='Enter New Twitter Link' value='" + url + "'>";
         lin2 = "<input type='email' name='twitter_url2' id='f_twitter_url2' placeholder='Confirm New Twitter Link' value=''>";
     }
     else if (model === "instagram")
     {
         url  = $("#m_instagram_url").val();
-        icon = "<h3><i class='fab fa-instagram'></i> Instagram Link</h3>";
+        icon = "<h3><i class='fab fa-instagram'></i> Update Instagram Link</h3>";
         lin1 = "<input type='email' name='instagram_url' id='f_instagram_url' placeholder='Enter New Instagram Link' value='" + url + "'>";
         lin2 = "<input type='email' name='instagram_url2' id='f_instagram_url2' placeholder='Confirm New Instagram Link' value=''>";
     }
@@ -2473,12 +2473,8 @@ function buildMaxEditor()
 
 function buildPaymentEditor()
 {
-
-}
-
-function buildSocialEditor(media_type)
-{
-    media_type = String(media_type);
+    var html = "";
+    return html;
 }
 
 function submitEditor()
@@ -2495,6 +2491,173 @@ function validateSUModel(model)
     else if (model === 'security') { validateSubSecurity(); }
     else if (model === 'permission') { validateSubPermissions(); }
     else if (model === 'auth') { validateSubAuth(); }
+    else if (model === 'address') { validatingSubAddress(); }
+    else if (model === 'phone') { validatingSubPhone(); }
+    else if (model === 'email') { validatingSubEmail(); }
+    else if (model === 'max_images') { validatingSubMax(); }
+    else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { validatingSubMedia(model); }
+}
+
+function validatingSubAddress()
+{
+    var proceed     = false;
+    var messages    = [];
+    var address1    = $("#f_address1").val();
+    var address2    = $("#f_address2").val();
+    var address3    = $("#f_address3").val();
+    var city        = $("#f_city").val();
+    var state       = $("#f_state").val();
+    var zipcode     = $("#f_zip").val();
+    address1        = String(address1);
+    address2        = String(address2);
+    address3        = String(address3);
+    city            = String(city);
+    state           = String(state);
+    zipcode         = String(zipcode);
+}
+
+function validatingSubPhone()
+{
+    var proceed     = false;
+    var messages    = [];
+    var area        = $("#f_area").val();
+    var prefix      = $("#f_pre").val();
+    var postfix     = $("#f_post").val();
+    area            = String(area);
+    prefix          = String(prefix);
+    postfix         = String(postfix);
+    if (area.length < 3)
+    {
+        messages.push("Invalid Area Code Detected");
+        messages.push("You must enter a valid area code to proceed");
+    }
+    else if (prefix.length < 3 || postfix.length < 4)
+    {
+        messages.push("Invalid Phone Number Detected");
+        messages.push("You must enter a valid phone number to proceed");
+    }
+    else { proceed = true; }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validatingSubEmail()
+{
+    var proceed     = false;
+    var messages    = [];
+    var email1      = $("#f_email1").val();
+    var email2      = $("#f_email2").val();
+    email1          = String(email1);
+    email2          = String(email2);
+    if (email1.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid email address to proceed");
+    }
+    else if (validate_email(email1) === false)
+    {
+        messages.push("Invalid Email Detected");
+        messages.push("You must enter a valid email address in field 1 to proceed");
+    }
+    else if (email2.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must confirm the new email address to proceed");
+    }
+    else if (validate_email(email2) === false)
+    {
+        messages.push("Invalid Email Detected");
+        messages.push("You must enter a valid confirmation email address to proceed");
+    }
+    else if (email1 !== email2)
+    {
+        messages.push("The Emails Do Not Match!");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validatingSubMax()
+{
+    var max_images  = $("#f_max_images").val();
+    if (String(max_images).length === 0)
+    {
+        var messages    = [];
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid number between 0 and 99 to proceed.");
+        generateErrorWindow(messages);
+    }
+    else { submitEditor(); }
+}
+
+function isValidLink(value)
+{
+    var isValid = false;
+    value       = String(value);
+    for (var i = 0; i < value.length; i++)
+    {
+        if (value[i] === ".") 
+        {
+            isValid = true;
+            break;
+        }
+    }
+    return isValid;
+}
+
+function validatingSubMedia(media)
+{
+    var proceed     = false;
+    var messages    = [];
+    var url         = "";
+    var url2        = "";
+    if (media === "twitter")
+    {
+        url = $("#f_twitter_url").val();
+        url2 = $("#f_twitter_url2").val();
+    }
+    else if (media === "instagram")
+    {
+        url = $("#f_instagram_url").val();
+        url2 = $("#f_instagram_url2").val();
+    }
+    else if (media === "facebook")
+    {
+        url = $("#f_facebook_url").val();
+        url2 = $("#f_facebook_url2").val();
+    }
+    url = String(url);
+    url2 = String(url2);
+    if (url.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid " + media + " link to proceed");
+    }
+    else if (isValidLink(url) === false)
+    {
+        messages.push("Invalid " + media + " link detected");
+        messages.push("You must enter a valid " + media + " link to proceed");
+    }
+    else if (url2.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must confirm the new " + media + " link to proceed");
+    }
+    else if (isValidLink(url2) === false)
+    {
+        messages.push("Invalid " + media + " link detected");
+        messages.push("You must enter a valid " + media + " link to proceed");
+    }
+    else if (url !== url2)
+    {
+        messages.push("The Links Do Not Match!");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
 }
 
 function validateSuBlog()
@@ -2518,7 +2681,7 @@ function validateSuBlog()
         proceed = true;
     }
     if (proceed === true) { submitEditor(); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { generateErrorWindow(messages); }
 }
 
 function validateSubProduct()
@@ -2548,7 +2711,7 @@ function validateSubProduct()
         proceed = true;
     }
     if (proceed === true) { submitEditor(); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { generateErrorWindow(messages); }
 }
 
 function validateSubImage()
@@ -2582,7 +2745,7 @@ function validateSubImage()
         proceed = true;
     }
     if (proceed === true) { submitEditor(); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { generateErrorWindow(messages); }
 }
 
 function validateSubSecurity()
@@ -2600,7 +2763,7 @@ function validateSubSecurity()
         proceed = true;
     }
     if (proceed === true) { submitEditor(); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { generateErrorWindow(messages); }
 }
 
 function validateSubPermissions()
@@ -2688,7 +2851,7 @@ function validateSubPermissions()
         proceed = true;
     }
     if (proceed === true) { submitEditor(); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { generateErrorWindow(messages); }
 }
 
 function validateSubAuth()
@@ -2764,7 +2927,7 @@ function validateSubAuth()
         proceed = true;
     }
     if (proceed === true) { submitEditor(); }
-    else { alert(messages[0]); alert(messages[1]); }
+    else { generateErrorWindow(messages); }
 }
 
 function checkPopulatedFields(model, mode, index)
@@ -3193,6 +3356,12 @@ function launchAdminEditors(model, mode, index)
     else if (model === "twitter") { html = buildMediaEditor(model); }
     else if (model === "instagram") { html = buildMediaEditor(model); }
     openEditor(html);
+}
+
+function generateErrorWindow(messages)
+{
+    alert(messages[0]);
+    alert(messages[1]);
 }
 
 function launchDeleteConfirmation(model)
