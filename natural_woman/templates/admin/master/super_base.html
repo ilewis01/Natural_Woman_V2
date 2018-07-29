@@ -945,6 +945,22 @@ textarea {
     font-weight: 600;
 }
 
+.su-admin-warning-h {
+    font-size: 12px;
+    font-weight:600;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1px solid #888888;
+    margin-bottom: 8px;
+    text-align: right;
+}
+
+.su-admin-warning-i {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-style: italic;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -2766,7 +2782,7 @@ function validatingSubAddress()
         messages.push("You must enter a valid zip code to proceed");
     }
     else { proceed = true; }
-    if (proceed === true) { submitEditor(); }
+    if (proceed === true) { launchSiteAdminWarning("address"); }
     else { generateErrorWindow(messages); }
 }
 
@@ -2791,7 +2807,7 @@ function validatingSubPhone()
         messages.push("You must enter a valid phone number to proceed");
     }
     else { proceed = true; }
-    if (proceed === true) { submitEditor(); }
+    if (proceed === true) { launchSiteAdminWarning("phone"); }
     else { generateErrorWindow(messages); }
 }
 
@@ -2829,7 +2845,7 @@ function validatingSubEmail()
         messages.push(" ");
     }
     else { proceed = true; }
-    if (proceed === true) { submitEditor(); }
+    if (proceed === true) { launchSiteAdminWarning("email"); }
     else { generateErrorWindow(messages); }
 }
 
@@ -2843,7 +2859,7 @@ function validatingSubMax()
         messages.push("You must enter a valid number between 0 and 99 to proceed.");
         generateErrorWindow(messages);
     }
-    else { submitEditor(); }
+    else { launchSiteAdminWarning("max_images"); }
 }
 
 function isValidLink(value)
@@ -2910,7 +2926,7 @@ function validatingSubMedia(media)
         messages.push(" ");
     }
     else { proceed = true; }
-    if (proceed === true) { submitEditor(); }
+    if (proceed === true) { launchSiteAdminWarning(media); }
     else { generateErrorWindow(messages); }
 }
 
@@ -3610,6 +3626,7 @@ function generateErrorWindow(messages)
 function launchAdminEditors(model, mode, index)
 {
     var html    = "";
+    var header  = null;
     model       = String(model);
     mode        = String(mode);
     if (model === "address") { html = buildAddressEditor(); }
@@ -3846,15 +3863,7 @@ function launchDeleteConfirmation(model)
     html += "<div class='su-confirm2'>The following " + mdl_head + " will be permanently deleted:</div>";
     html += "<div class='su-confirm-wrapper'>";
     html += "<table>";
-
     html += details;
-    //                                 {% for b in blogs %}
-    // html += "<tr>";
-    // html += "<td><i class='fas fa-minus-circle'></i></td>";
-    // html += "<td>[{{b.date}}] </td>";
-    // html += "<td class='su-confirm-pull-right'>{{b.subject}}</td>";
-    // html += "</tr>";
-    //                                 {% endfor %}
     html += "</table>";
     html += "</div>";
     html += "<div class='su-confirm-buttons'>";
@@ -3862,6 +3871,103 @@ function launchDeleteConfirmation(model)
     html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass("hidden");
+    $("#su-editor-builder").fadeIn(500);
+}
+
+function launchSiteAdminWarning(model)
+{
+    //set parent form to update
+    var html    = "";
+    var header  = "";
+    var sub_msg = "";
+    var w_type  = "";
+    var details = "";
+    model = String(model);
+    if (model === "address")
+    {
+        header = "<h3><i class='fas fa-map-marker-alt'></i> &nbsp Update Address</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the address on the contact page</div>";
+        w_type = "New Address";
+        var a1 = $("#f_address1").val();
+        var a2 = $("#f_address2").val();
+        var a3 = $("#f_address3").val();
+        var ct = $("#f_city").val();
+        var st = $("#f_state").val();
+        var zc = $("#f_zip").val();
+
+        html += "<div class='su-admin-warning-i'>" + a1 + "</div>";
+        html += "<div class='su-admin-warning-i'>" + a2 + "</div>";
+        html += "<div class='su-admin-warning-i'>" + a3 + "</div>";
+        html += "<div class='su-admin-warning-i'>" + ct + ", " + st + " " + zc + "</div>";
+    }
+    else if (model === "phone")
+    {
+        header = "<h3><i class='fas fa-phone-square'></i> &nbsp Update Phone</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the phone number on the contact page</div>";
+        w_type = "New Phone";
+    }
+    else if (model === "email")
+    {
+        header = "<h3><i class='fas fa-envelope'></i> &nbsp Update Email</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the email address on the contact page</div>";
+        w_type = "New Email";
+    }
+    else if (model === "about")
+    {
+        header = "<h3><i class=\"fas fa-pen-square\"></i> &nbsp <em>\"About Us\"</em></h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the <em>\"About Us\"</em> page</div>";
+        w_type = "New <b><em>\"About Us\"</em></b> Statement";
+    }
+    else if (model === "max_images")
+    {
+        header = "<h3><i class='fas fa-images'></i> &nbsp Update Image Gallery</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the image gallery</div>";
+        w_type = "Maximum Number Of Uploads";
+    }
+    else if (model === "facebook")
+    {
+        header = "<h3><i class=\"fab fa-facebook-square\"></i> &nbsp Update Facebook</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the facebook link</div>";
+        w_type = "New Facebook Link";
+    }
+    else if (model === "twitter")
+    {
+        header = "<h3><i class=\"fab fa-twitter-square\"></i> &nbsp Update Twitter</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the twitter link</div>";
+        w_type = "New Twitter Link";
+    }
+    else if (model === "instagram")
+    {
+        header = "<h3><i class=\"fab fa-instagram\"></i> &nbsp Update Instagram</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the instagram link</div>";
+        w_type = "New Instagram Link";
+    }
+    else if (model === "hours")
+    {
+        header = "<h3><i class='fas fa-clock'></i> &nbsp Update Business Hours</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the hours of operation</div>";
+        w_type = "New Hours Of Operation";
+    }
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-confirm'>";
+    html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
+    html += header;
+    html += "<div class='su-confirm1'>Are you sure you want to proceed?</div>";
+    html += sub_msg;
+    html += "<div class='su-confirm-wrapper'>";
+    html += "<div class='su-admin-warning-h'>" + w_type + "</div>";
+    html += details;
+    html += "</div>";
+    html += "<div class='su-confirm-buttons'>";
+    html += "<button type='button' onClick=\"javascript: submitEditor();\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -4008,26 +4114,22 @@ function suSendNew ()
         </div>
 
         <div class='su-error-container hidden' id='su-editor-builder'>
-            <div class='su-center su-width40'>
+            <div class='su-center su-width30'>
                 <div class='su-confirm'>
                     <form action='\adminAlt' method='POST' id='pop_delete_form'>
                         <input type='hidden' name='target_model' id='target_model' value='get_model'>
                         <input type='hidden' name='target_action' id='target_action' value='delete'>
                         <input type='hidden' name='target_id' id='target_id' value='get_id'>
                         <div class='su-confirm-exit'><i class='fas fa-window-close' onClick="javascript: closeError();"></i></div>
-                        <h3><i class='fab fa-blogger'></i> &nbsp Delete Blog</h3>
+                        <h3><i class='fas fa-map-marker-alt'></i> &nbsp Update Address</h3>
                         <div class='su-confirm1'>Are you sure you want to proceed?</div>
-                        <div class='su-confirm2'>The following blog will be permanently deleted:</div>
+                        <div class='su-confirm2'>This will alter the address on the contact page</div>
                         <div class='su-confirm-wrapper'>
-                            <table>
-                                {% for b in blogs %}
-                                <tr>
-                                    <td><i class='fas fa-minus-circle'></i></td>
-                                    <td>[{{b.date}}] </td>
-                                    <td class='su-confirm-pull-right'>{{b.subject}}</td>
-                                </tr>
-                                {% endfor %}
-                            </table>
+                            <div class='su-admin-warning-h'>New Address</div>
+                            <div class='su-admin-warning-i'>Address Line 1</div>
+                            <div class='su-admin-warning-i'>Address Line 2</div>
+                            <div class='su-admin-warning-i'>Address Line 3</div>
+                            <div class='su-admin-warning-i'>Detroit, MI 48504</div>
                         </div>
                         <div class='su-confirm-buttons'>
                             <button type='button' onClick="javascript: submitDelete();">Delete</button>
