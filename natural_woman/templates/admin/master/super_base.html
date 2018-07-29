@@ -113,7 +113,7 @@
 
 .su-content button, .su-general button {  
     border-radius: 5px;
-    border: 1px solid #666666;
+    border: 1px solid #777777;
     font-size: 11px;
     background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
 }
@@ -682,8 +682,8 @@ textarea {
 }
 
 .su-error-header i {
-    color: #60060c;
-    text-shadow: 1px 1px #666666;
+    color: #c08801;
+    text-shadow: 1px 1px #555555;
 }
 
 .su-err {
@@ -699,7 +699,7 @@ textarea {
     font-size: 18px;
     text-align: center;
     font-weight: 800;
-    color: #685600;
+    color: #745a00;
     margin-top: -10px;
     margin-bottom: 15px;
     /*text-shadow: 1px 1px #444444;*/
@@ -712,6 +712,10 @@ textarea {
     font-style: italic;
     margin-bottom: 15px;
     font-weight: 500;
+}
+
+.su-neg25 {
+    margin-top: -15px;
 }
 
 .su-number-input {
@@ -828,9 +832,224 @@ textarea {
     width: 70%;
 }
 
+.su-confirm {
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 2%;
+    border: 1px solid #cccccc;
+    border-left-color: #aaaaaa;
+    border-right-color: #aaaaaa;
+    border-radius: 8px;
+    background: linear-gradient(to right, rgba(130, 130, 130, 1)0%, rgba(200, 200, 200, 1) 50%, rgba(130, 130, 130, 1) 100%);
+    box-shadow: 4px 4px 4px #444444;
+}
+
+.su-confirm-exit {
+    width: 100%;
+    text-align: right;
+}
+
+.su-confirm-exit i {
+    margin-right: -15px;
+}
+
+.su-confirm-exit i:hover {
+    color: #5c6701;
+    text-shadow: 1px 1px #bbbbbb;
+}
+
+.su-confirm h3 {
+    padding: 0;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #343a00;
+    border-bottom: 2px solid #777777;
+    padding-bottom: 1%;
+    text-transform: capitalize;
+    margin-top: -5px;
+}
+
+.su-confirm i {
+    color: #b4b799;
+    text-shadow: 1px 1px #222222;
+}
+
+.su-confirm1 {
+    width: 100%;
+    text-align: center;
+    font-weight:600;
+    font-size: 15px;
+    margin-top: 3%;
+    color: #444444;
+    font-style: italic;
+}
+
+.su-confirm2 {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 1%;
+    color: #93060c;
+    text-transform: uppercase;
+    margin-bottom: 3%;
+}
+
+.su-confirm-wrapper {
+    width: 100%;
+    border: 1px solid #666666;
+    border-radius: 6px;
+    padding: 2%;
+    background: #bbbbbb;
+    font-size: 11px;
+    max-height: 30vh;
+    overflow-y: auto;
+}
+
+.su-confirm-wrapper i {
+    color: #92232d;
+    padding-right: 5px;
+}
+
+.su-confirm-buttons {
+    width: 100%;
+    padding:0;
+    margin:0;
+    border-radius: 5px;
+    border: 1px solid #777777;
+    text-align: right;
+    padding-bottom:5px;
+    padding-right: 1%;
+    margin-top: 2%;
+}
+
+.su-confirm-buttons button {
+    width:20%;
+    margin:0;
+    border-radius: 5px;
+    font-size:10px;
+    padding:0;
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    border-color: #777777;
+}
+
+.su-confirm-buttons button:hover {
+    background: linear-gradient(rgba(210, 210, 210, 0.9), rgba(120, 120, 120, 1));
+}
+
+.su-confirm-pull-right {
+    padding-left: 12px;
+    font-style: italic;
+    font-weight: 600;
+}
+
 </style>
 
 <script type="text/javascript">
+
+function fetchStates()
+{
+    s = [];
+    s.push("AL");
+    s.push("AK");
+    s.push("AS");
+    s.push("AZ");
+    s.push("AR");
+    s.push("CA");
+    s.push("CO");
+    s.push("DE");
+    s.push("DC");
+    s.push("FL");
+    s.push("GA");
+    s.push("GU");
+    s.push("HI");
+    s.push("ID");
+    s.push("IL");
+    s.push("IN");
+    s.push("IA");
+    s.push("KS");
+    s.push("KY");
+    s.push("LA");
+    s.push("ME");
+    s.push("MD");
+    s.push("MH");
+    s.push("MA");
+    s.push("MI");
+    s.push("MN");
+    s.push("MS");
+    s.push("MO");
+    s.push("MT");
+    s.push("NE");
+    s.push("NV");
+    s.push("NH");
+    s.push("NJ");
+    s.push("NM");
+    s.push("NY");
+    s.push("NC");
+    s.push("ND");
+    s.push("OH");
+    s.push("OK");
+    s.push("OR");
+    s.push("PA");
+    s.push("PR");
+    s.push("RI");
+    s.push("SC");
+    s.push("SD");
+    s.push("TN");
+    s.push("TX");
+    s.push("UT");
+    s.push("VT");
+    s.push("VA");
+    s.push("VI");
+    s.push("WA");
+    s.push("WV");
+    s.push("WI");
+    s.push("WY");
+    return s;
+}
+
+function stateInput(trigger)
+{
+    trigger     = String(trigger);
+    var state   = $(trigger).val();
+    state       = String(state);
+    var len     = state.length;
+    var pos     = len - 1;
+    var c       = state[pos];
+    var result  = "";
+    if (len < 3)
+    {
+        if (isLetter(c) === true) 
+        { 
+            result = state.toUpperCase(); 
+        }
+    }
+    else
+    {
+        for (var i = 0; i < pos; i++)
+        {
+            result += state[i].toUpperCase();
+        }
+    }
+    $(trigger).val(result);
+}
+
+function stateValid(val)
+{
+    isValid = false;
+    states = fetchStates();
+    for (var i = 0; i < states.length; i++)
+    {
+        if (val === states[i])
+        {
+            isValid = true;
+            break;
+        }
+    }
+    return isValid;
+}    
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
@@ -1024,8 +1243,8 @@ function buildPayments(data)
         var index   = String(data[i]['index']);
         var method  = String(data[i]['method']);
         var icon    = String(data[i]['icon']);
-        html += "<a href=\"javascript: launchAdminEditors('payment', 1);\"";
-        html += "<input type='hidden' id='m_method_" + index + "' value='" + method + "'>";
+        html += "<a href=\"javascript: launchAdminEditors('payment', 1);\">";
+        html += "<input type='hidden' id='k_pmt_method_" + index + "' value='" + method + "'>";
         html += "<div id='div2_" + index + "' class='" + data[i]['class'] + "'>";
         html += "<li>";
         html += "<table>";
@@ -1358,6 +1577,8 @@ function buildBlogs(data)
         html += "<input type='hidden' id='m_id_" + index + "' value='" + b_id + "'>";
         html += "<input type='hidden' id='m_subject_" + index + "' value='" + subject + "'>";
         html += "<input type='hidden' id='m_content_" + index + "' value='" + content + "'>";
+        html += "<input type='hidden' id='m_date_" + index + "' value='" + date + "'>";
+        html += "<input type='hidden' id='m_time_" + index + "' value='" + time + "'>";
         html += "<table>";
         html += "<tr>";
         html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
@@ -1726,8 +1947,8 @@ function buildAddressEditor(index)
     html += "<div class='container'>";
     html += "<div class='row'>";
     html += "<div class='col-sm-7' style='padding:0; margin:0;'><input type='text' name='city' id='f_city' placeholder='City' value='" + city + "'></div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0; padding-left: 5px; padding-right: 4px;'><input type='text' name='state' id='f_state' placeholder='MI' value='" + state + "'></div>";
-    html += "<div class='col-sm-3' style='padding:0; margin:0;'><input type='text' name='city' id='f_zip' placeholder='Zip Code' value='" + zipcode + "'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0; padding-left: 5px; padding-right: 4px;'><input type='text' name='state' id='f_state' placeholder='MI' value='" + state + "' oninput=\"javascript: stateInput('#f_state');\"></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin:0;'><input type='text' name='zip_code' id='f_zip' placeholder='Zip Code' value='" + zipcode + "' oninput=\"javascript: inputInteger('5', '#f_zip');\"></div>";
     html += "</div>";
     html += "</div>";
     html += "<div class='su-general-btns'>";
@@ -2482,6 +2703,11 @@ function submitEditor()
     $("#pop_form").submit();
 }
 
+function submitDelete()
+{
+    $("#pop_delete_form").submit();
+}
+
 function validateSUModel(model)
 {
     model = String(model);
@@ -2514,6 +2740,34 @@ function validatingSubAddress()
     city            = String(city);
     state           = String(state);
     zipcode         = String(zipcode);
+    if (address1.length === 0 && address2.length === 0 && address3.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid street name and street no. to proceed");
+    }
+    else if (city.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid city to proceed");
+    }
+    else if (state.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid state to proceed");
+    }
+    else if (stateValid(state) === false || state.length !== 2)
+    {
+        messages.push("Invalid State");
+        messages.push("You must enter a valid U.S. state to proceed");
+    }
+    else if (zipcode.length < 5)
+    {
+        messages.push("Invalid Zip Code");
+        messages.push("You must enter a valid zip code to proceed");
+    }
+    else { proceed = true; }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
 }
 
 function validatingSubPhone()
@@ -3323,10 +3577,28 @@ function buildWarningError(messages)
     // html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
     html += "<div class='su-error-header'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>" + messages[0] + "</span></div>";
     html += "<div class='err0' id='err0'>" + messages[1] + "</div>";
-    html += "<div class='err1' id='err1'>" + messages[2] + "</div>";html += "<div class='su-error-btns'>";
+    html += "<div class='err1' id='err1'>" + messages[2] + "</div>";
+    html += "<div class='su-error-btns'>";
     html += "<button onClick=\"javascript: suHardClose();\">Leave Page</button>";
     html += "<button onClick=\"javascript: suSoftClose();\">Stay On Page</button>";
     html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+function generateErrorWindow(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header su-neg25'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Error</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[0] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[1] + "</div>";
     html += "</div>";
     html += "</div>";
     $("#su-editor-builder").html(html);
@@ -3356,18 +3628,6 @@ function launchAdminEditors(model, mode, index)
     else if (model === "twitter") { html = buildMediaEditor(model); }
     else if (model === "instagram") { html = buildMediaEditor(model); }
     openEditor(html);
-}
-
-function generateErrorWindow(messages)
-{
-    alert(messages[0]);
-    alert(messages[1]);
-}
-
-function launchDeleteConfirmation(model)
-{
-    model = String(model);
-    alert("Deleting: " + model)
 }
 
 function getSelectedModel()
@@ -3418,6 +3678,197 @@ function fetchUserType(mode)
     var model = getSelectedUser();
     if (Number(mode) === 0) { launchAdminEditors(model, 0); }
     else { launchDeleteConfirmation(model); }
+}
+
+function decodeDeleteIndices(encoded)
+{
+    var result  = [];
+    var dlist   = String(encoded).split("~");
+    for (var i = 0; i < dlist.length; i++)
+    {
+        if (dlist[i].length !== 0)
+        {
+            result.push(dlist[i]);
+        }
+    }
+    return result;
+}
+
+function getDeleteIndices(model)
+{
+    var delete_list = null;
+    model = String(model);
+    if (model==="blog" || model==="product" || model==="image") { delete_list = $("#selected-db").val(); }
+    else if (model==="permission" || model==="auth" || model==="security") { delete_list = $("#selected-usr").val(); }
+    else if (model === "payment") { delete_list = $("#selected-payment").val(); }
+    return String(delete_list);
+}
+
+function launchDeleteConfirmation(model)
+{
+    var html = "";
+    var delete_indices  = getDeleteIndices(model);
+    var delete_list     = decodeDeleteIndices(delete_indices);
+    var header          = null;
+    var mdl_head        = null;
+    var details         = "";
+    var id_list         = "~";
+    model               = String(model).toLowerCase();
+    if (model === "blog")
+    {
+        mdl_head        = "blog";
+        if (delete_list.length > 1) { mdl_head = "blogs"; }
+        header          = "<h3><i class='fab fa-blogger'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var subject     = $("#m_subject_" + String(delete_list[i])).val();
+            var m_date      = $("#m_date_" + String(delete_list[i])).val();
+            var m_id        = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>[" + m_date + "]</b> </td>";
+            details += "<td class='su-confirm-pull-right'>" + subject + "</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "product")
+    {
+        mdl_head        = "product";
+        if (delete_list.length > 1) { mdl_head = "products"; }
+        header          = "<h3><i class='fas fa-spray-can'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var p_name      = $("#m_name_" + String(delete_list[i])).val();
+            var p_price     = $("#m_price_" + String(delete_list[i])).val();
+            var m_id        = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b><em>" + p_name + " </em></b></td>";
+            details += "<td class='su-confirm-pull-right'>$" + p_price + "</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "image")
+    {
+        mdl_head        = "image";
+        if (delete_list.length > 1) { mdl_head = "images"; }
+        header          = "<h3><i class='fas fa-camera'></i> &nbsp Delete " + mdl_head + "</h3>";
+    }
+    else if (model === "permission")
+    {
+        mdl_head        = "user";
+        details         = "";
+        if (delete_list.length > 1) { mdl_head = "users"; }
+        header          = "<h3><i class='fas fa-user-times'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var U_fname = $("#m_fname_" + String(delete_list[i])).val();
+            var U_lname = $("#m_lname_" + String(delete_list[i])).val();
+            var U_email = $("#m_email_" + String(delete_list[i])).val();
+            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + U_fname + " " + U_lname + " </b></td>";
+            details += "<td class='su-confirm-pull-right'>[" + U_email + "]</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "auth")
+    {
+        mdl_head        = "authorization";
+        if (delete_list.length > 1) { mdl_head = "authorizations"; }
+        header          = "<h3><i class='fas fa-user-cog'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var a_name = $("#m_name_" + String(delete_list[i])).val();
+            var a_email = $("#m_email_" + String(delete_list[i])).val();
+            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + a_name + " </b></td>";
+            details += "<td class='su-confirm-pull-right'>[" + a_email + "]</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "security")
+    {
+        mdl_head        = "security question";
+        if (delete_list.length > 1) { mdl_head = "security questions"; }
+        header          = "<h3><i class='fas fa-user-lock'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var q_ques  = $("#m_question_" + String(delete_list[i])).val();
+            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + q_ques + " </b></td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "payment")
+    {
+        mdl_head        = "payment method";
+        if (delete_list.length > 1) { mdl_head = "payment methods"; }
+        header          = "<h3><i class='fas fa-shopping-cart'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var trigger = "#k_pmt_method_" + String(delete_list[i]);
+            var k_nth  = $(trigger).val();
+            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + k_nth + " </b></td>";
+            details += "</tr>";
+        }
+    }
+    
+    html += "<div class='su-center su-width40'>";
+    html += "<div class='su-confirm'>";
+    html += "<form action='/adminAlt' method='POST' id='pop_delete_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='delete'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + id_list + "'>";
+    html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
+    html += header;
+    html += "<div class='su-confirm1'>Are you sure you want to proceed?</div>";
+    html += "<div class='su-confirm2'>The following " + mdl_head + " will be permanently deleted:</div>";
+    html += "<div class='su-confirm-wrapper'>";
+    html += "<table>";
+
+    html += details;
+    //                                 {% for b in blogs %}
+    // html += "<tr>";
+    // html += "<td><i class='fas fa-minus-circle'></i></td>";
+    // html += "<td>[{{b.date}}] </td>";
+    // html += "<td class='su-confirm-pull-right'>{{b.subject}}</td>";
+    // html += "</tr>";
+    //                                 {% endfor %}
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='su-confirm-buttons'>";
+    html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
+    html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass("hidden");
+    $("#su-editor-builder").fadeIn(500);
 }
 
 function selectAllModels()
@@ -3557,21 +4008,32 @@ function suSendNew ()
         </div>
 
         <div class='su-error-container hidden' id='su-editor-builder'>
-            <form action='\adminAlt' method='POST' id='pop_delete_form'>
-                <input type='hidden' name='target_model' id='target_model' value='phone'>
-                <input type='hidden' name='target_action' id='target_action' value='update'>
-                <input type='hidden' name='target_id' id='target_id' value=''>
-            </form>
-            <div class='su-center su-width35'>
-                <div class='su-err'>
-                    <div class='su-closer'><a href="javascript: closeError();"><i class='fas fa-window-close su-err'></i></a></div>
-                    <div class='su-error-header'><i class="fab fa-facebook-square"></i> <span id='su-error-header'>Error Detected</span></div>
-                    <div class='err0' id='err0'>This is the main message</div>
-                    <div class='err1' id='err1'>This is a more detailed description of the main error message.</div>
-                    <div class='su-error-btns'>
-                        <button type='button' onClick="javascript: suHardClose();">Leave Page</button>
-                        <button type='button' onClick="javascript: suSoftClose();">Stay On Page</button>
-                    </div>
+            <div class='su-center su-width40'>
+                <div class='su-confirm'>
+                    <form action='\adminAlt' method='POST' id='pop_delete_form'>
+                        <input type='hidden' name='target_model' id='target_model' value='get_model'>
+                        <input type='hidden' name='target_action' id='target_action' value='delete'>
+                        <input type='hidden' name='target_id' id='target_id' value='get_id'>
+                        <div class='su-confirm-exit'><i class='fas fa-window-close' onClick="javascript: closeError();"></i></div>
+                        <h3><i class='fab fa-blogger'></i> &nbsp Delete Blog</h3>
+                        <div class='su-confirm1'>Are you sure you want to proceed?</div>
+                        <div class='su-confirm2'>The following blog will be permanently deleted:</div>
+                        <div class='su-confirm-wrapper'>
+                            <table>
+                                {% for b in blogs %}
+                                <tr>
+                                    <td><i class='fas fa-minus-circle'></i></td>
+                                    <td>[{{b.date}}] </td>
+                                    <td class='su-confirm-pull-right'>{{b.subject}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <div class='su-confirm-buttons'>
+                            <button type='button' onClick="javascript: submitDelete();">Delete</button>
+                            <button type='button' onClick="javascript: closeError();">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
