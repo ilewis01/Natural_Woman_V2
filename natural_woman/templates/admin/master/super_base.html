@@ -533,10 +533,15 @@
     padding: 0;
     margin: 0;
     font-size: 22px;
-    color: #333333;
+    color: #343a00;
     border-bottom: 2px solid #888888;
     padding-bottom: 5px;
     margin-bottom: 20px;
+}
+
+.su-general i {
+    color: #b4b799;
+    text-shadow: 1px 1px #222222;
 }
 
 .su-general input[type="text"] {
@@ -846,9 +851,11 @@ textarea {
     box-shadow: 4px 4px 4px #444444;
 }
 
-.su-confirm-exit {
+.su-confirm-exit, .su-confirm-exit2 {
     width: 100%;
     text-align: right;
+    font-size: 15px;
+    margin-bottom: -10px;
 }
 
 .su-confirm-exit i {
@@ -856,6 +863,11 @@ textarea {
 }
 
 .su-confirm-exit i:hover {
+    color: #5c6701;
+    text-shadow: 1px 1px #bbbbbb;
+}
+
+.su-confirm-exit2 i:hover {
     color: #5c6701;
     text-shadow: 1px 1px #bbbbbb;
 }
@@ -939,6 +951,30 @@ textarea {
     background: linear-gradient(rgba(210, 210, 210, 0.9), rgba(120, 120, 120, 1));
 }
 
+.su-confirm-buttons2 {
+    width: 100%;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #666666;
+    border-radius: 6px;
+}
+
+.su-confirm-buttons2 button {
+    width:25%;
+    margin:0;
+    border-radius: 5px;
+    font-size:10px;
+    background: linear-gradient(rgba(250, 250, 250, 0.9), rgba(150, 150, 150, 1));
+    border-color: #777777;
+}
+
+.su-confirm-buttons2 button:hover {
+    background: linear-gradient(rgba(210, 210, 210, 0.9), rgba(120, 120, 120, 1));
+}
+
 .su-confirm-pull-right {
     padding-left: 12px;
     font-style: italic;
@@ -959,6 +995,89 @@ textarea {
     padding-left: 15px;
     padding-right: 15px;
     font-style: italic;
+}
+
+.su-admin-warning-c {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-style: italic;
+    text-align: center;
+}
+
+.su-admin-warning-b {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-style: italic;
+    text-align: right;
+    font-size: 20px;
+    font-weight: 600;
+    color: #92232d;
+}
+
+.su-hours-container {
+    width: 100%;
+    background-color: #bbbbbb;
+    border: 1px solid #666666;
+    border-radius: 6px;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    padding-left: 8%;
+    padding-right: 8%;
+    margin-bottom: 10px;
+}
+
+.su-hours-container tr, .su-hours-container td {
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.su-hours-container input[type="text"]
+{
+    padding:0;
+    margin: 0;
+    text-align: center;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 3px;
+    margin-right: 3px;
+    width: 50px;
+}
+
+.su-hours-container select {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.su-table-hd-left {
+    text-align: left;
+    padding-right: 8px;
+    padding-left: 8px;
+    border-left: 1px solid #777777;
+    border-top: 1px solid #777777;
+    font-style: italic;
+}
+
+.su-table-hd-center {
+    text-align: center;
+}
+
+.su-table-in {
+    border-left: 2px solid #777777;
+    border-top: 1px solid #777777;
+}
+
+.su-sel-in {
+    border-left: 1px solid #777777;
+    border-top: 1px solid #777777;
+}
+
+.su-sel-end {
+    border-right: 1px solid #777777;
+}
+
+.su-table-btm {
+    border-bottom: 1px solid #777777;
 }
 
 </style>
@@ -1101,6 +1220,49 @@ function inputInteger(max, target)
         {
             result += value[i];
         }
+    }
+    $(target).val(result);
+}
+
+function inputhour(max, target)
+{
+    var result  = "";
+    max         = Number(max);
+    target      = String(target);
+    var value   = $(target).val();
+    value       = String(value);
+    var len     = value.length;
+    var pos     = len - 1;
+    var c       = value[pos];
+    if (isInt(c) === true && len <= max)
+    {
+        result = value;
+    }
+    else
+    {
+        for (var i = 0; i < pos; i++)
+        {
+            result += value[i];
+        }
+    }
+    if (result.length === 2)
+    {
+        if (result[0] === "0")
+        {
+            result = result[1];
+        }
+        else if (Number(result) > 12)
+        {
+            result = result[1];
+        }
+        else if(result[0] === "1" && (c === "0" || c === "1" || c === "2"))
+        {
+            result = "1" + c;
+        }
+    }
+    if (result === "0")
+    {
+        result = "1";
     }
     $(target).val(result);
 }
@@ -1952,11 +2114,12 @@ function buildAddressEditor(index)
     zipcode         = String(zipcode);
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='address'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
-    html += "<h3><i class='fas fa-mobile-alt'></i> Update Contact Information</h3>";
+    html += "<h3><i class='fas fa-map-marker-alt'></i> Update Contact Information</h3>";
     html += "<input type='text' name='address1' id='f_address1' placeholder='Address Line 1' value='" + address1 + "'>";
     html += "<input type='text' name='address2' id='f_address2' placeholder='Address Line 2' value='" + address2 + "'>";
     html += "<input type='text' name='address3' id='f_address3' placeholder='Address Line 3' value='" + address3 + "'>";
@@ -1996,6 +2159,7 @@ function buildPhoneEditor()
 
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
@@ -2027,6 +2191,7 @@ function buildEmailEditor()
 
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='email'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
@@ -2074,6 +2239,7 @@ function buildMediaEditor(model)
     }
     html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
@@ -2153,6 +2319,7 @@ function buildPermissionEditor(mode, index)
     }
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
@@ -2362,6 +2529,7 @@ function buildAuthEditor(mode, index)
     }
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
@@ -2543,6 +2711,7 @@ function buildSecurityEditor(mode, index)
 
     html += "<div class='su-center su-width50'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
@@ -2564,6 +2733,7 @@ function buildImageEditor()
     var html = "";
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='uplaod'>";
@@ -2609,6 +2779,7 @@ function buildBlogEditor(mode, index)
 
     html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='blog'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
@@ -2658,6 +2829,7 @@ function buildProductEditor(mode, index)
     }
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='product'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
@@ -2689,6 +2861,7 @@ function buildMaxEditor()
 
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<form action='/adminAlt' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='max_images'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
@@ -3901,22 +4074,29 @@ function launchSiteAdminWarning(model)
         var st = $("#f_state").val();
         var zc = $("#f_zip").val();
 
-        html += "<div class='su-admin-warning-i'>" + a1 + "</div>";
-        html += "<div class='su-admin-warning-i'>" + a2 + "</div>";
-        html += "<div class='su-admin-warning-i'>" + a3 + "</div>";
-        html += "<div class='su-admin-warning-i'>" + ct + ", " + st + " " + zc + "</div>";
+        details += "<div class='su-admin-warning-i'>" + a1 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + a2 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + a3 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + ct + ", " + st + " " + zc + "</div>";
     }
     else if (model === "phone")
     {
+        var p1 = $("#f_area").val();
+        var p2 = $("#f_pre").val();
+        var p3 = $("#f_post").val();
+        var ph = "(" + p1 + ") " + p2 + "-" + p3;
         header = "<h3><i class='fas fa-phone-square'></i> &nbsp Update Phone</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the phone number on the contact page</div>";
         w_type = "New Phone";
+        details += "<div class='su-admin-warning-c'>" + ph + "</div>";
     }
     else if (model === "email")
     {
+        var em = $("#f_email1").val();
         header = "<h3><i class='fas fa-envelope'></i> &nbsp Update Email</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the email address on the contact page</div>";
         w_type = "New Email";
+        details += "<div class='su-admin-warning-c'>" + em + "</div>";
     }
     else if (model === "about")
     {
@@ -3926,27 +4106,35 @@ function launchSiteAdminWarning(model)
     }
     else if (model === "max_images")
     {
+        var mu = $("#f_max_images").val();
         header = "<h3><i class='fas fa-images'></i> &nbsp Update Image Gallery</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the image gallery</div>";
-        w_type = "Maximum Number Of Uploads";
+        w_type = "Maximum Number Of Uploads:";
+        details += "<div class='su-admin-warning-b'>" + mu + "</div>";
     }
     else if (model === "facebook")
     {
+        var fl = $("#f_facebook_url").val();
         header = "<h3><i class=\"fab fa-facebook-square\"></i> &nbsp Update Facebook</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the facebook link</div>";
         w_type = "New Facebook Link";
+        details += "<div class='su-admin-warning-c'>" + fl + "</div>";
     }
     else if (model === "twitter")
     {
+        var tw = $("#f_twitter_url").val();
         header = "<h3><i class=\"fab fa-twitter-square\"></i> &nbsp Update Twitter</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the twitter link</div>";
         w_type = "New Twitter Link";
+        details += "<div class='su-admin-warning-c'>" + tw + "</div>";
     }
     else if (model === "instagram")
     {
+        var il = $("#f_instagram_url").val();
         header = "<h3><i class=\"fab fa-instagram\"></i> &nbsp Update Instagram</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the instagram link</div>";
         w_type = "New Instagram Link";
+        details += "<div class='su-admin-warning-c'>" + il + "</div>";
     }
     else if (model === "hours")
     {
@@ -4094,19 +4282,154 @@ function suSendNew ()
         <input type="hidden" id="model-count" value="">
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
-        <div class='su-pop-container hidden' id='pop-up-builder'>
+        <div class='su-pop-container' id='pop-up-builder'>
             <div class='su-center su-width30'>
                 <div class='su-general'>
+                    <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
                     <form action='/adminAlt' method='POST' id='pop_form'>
                         <input type='hidden' name='target_model' id='target_model' value='phone'>
                         <input type='hidden' name='target_action' id='target_action' value='update'>
                         <input type='hidden' name='target_id' id='target_id' value=''>
-                        <h3><i class='fas fa-file-image'></i> Uploads</h3>
-                        <div class='su-ul-item'>Current no. of uploads: <span>5</span></div>
-                        <div class='su-ul-item'>Maximum no. of uploads: <input type='number' name='max_images' id='f_max_images' min='0' value=''></div>
-                        <div class='su-general-btns su-txt-left'>
-                            <button type='button' onClick="javascript: validateSUModel('max_images');">Update</button>
-                            <button type='button' onClick="javascript: checkPopulatedFields('max_images', '1', 'index');">Cancel</button>
+                        <h3><i class='fas fa-clock'></i> &nbspBusiness Hours</h3>
+                        <div class='su-hours-container'>
+                            <table>
+                                <tr>
+                                    <th></th>
+                                    <th class='su-table-hd-center'>Open</th>
+                                    <th></th>
+                                    <th class='su-table-hd-center'>Close</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th class='su-table-hd-left'>Monday</th>
+                                    <td class='su-table-in'><input type=text name='monday_open' id='open_mon' oninput="javascript: inputhour('2', '#open_mon');"></td>
+                                    <td class='su-sel-in'>
+                                        <select id='s_open_mon'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in'><input type=text name='monday_close' id='close_mon' oninput="javascript: inputhour('2', '#close_mon');"></td>
+                                    <td class='su-sel-in su-sel-end'>
+                                        <select id='s_close_mon'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class='su-table-hd-left'>Tuesday</th>
+                                    <td class='su-table-in'><input type=text name='tuesday_open' id='open_tue' oninput="javascript: inputhour('2', '#open_tue');"></td>
+                                    <td class='su-sel-in'>
+                                        <select id='s_open_tue'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in'><input type=text name='tuesday_close' id='close_tue' oninput="javascript: inputhour('2', '#close_tue');"></td>
+                                    <td class='su-sel-in su-sel-end'>
+                                        <select id='s_close_tue'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class='su-table-hd-left'>Wednesday</th>
+                                    <td class='su-table-in'><input type=text name='wednesday_open' id='open_wed' oninput="javascript: inputhour('2', '#open_wed');"></td>
+                                    <td class='su-sel-in'>
+                                        <select id='s_open_wed'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in'><input type=text name='wednesday_close' id='close_wed' oninput="javascript: inputhour('2', '#close_wed');"></td>
+                                    <td class='su-sel-in su-sel-end'>
+                                        <select id='s_close_wed'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class='su-table-hd-left'>Thursday</th>
+                                    <td class='su-table-in'><input type=text name='thursday_open' id='open_thu' oninput="javascript: inputhour('2', '#open_thu');"></td>
+                                    <td class='su-sel-in'>
+                                        <select id='s_open_thu'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in'><input type=text name='thursday_close' id='close_thu' oninput="javascript: inputhour('2', '#close_thu');"></td>
+                                    <td class='su-sel-in su-sel-end'>
+                                        <select id='s_close_thu'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class='su-table-hd-left'>Friday</th>
+                                    <td class='su-table-in'><input type=text name='friday_open' id='open_fri' oninput="javascript: inputhour('2', '#open_fri');"></td>
+                                    <td class='su-sel-in'>
+                                        <select id='s_open_fri'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in'><input type=text name='friday_close' id='close_fri' oninput="javascript: inputhour('2', '#close_fri');"></td>
+                                    <td class='su-sel-in su-sel-end'>
+                                        <select id='s_close_fri'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class='su-table-hd-left'>Saturday</th>
+                                    <td class='su-table-in'><input type=text name='saturday_open' id='open_sat' oninput="javascript: inputhour('2', '#open_sat');"></td>
+                                    <td class='su-sel-in'>
+                                        <select id='s_open_sat'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in'><input type=text name='saturday_close' id='close_sat' oninput="javascript: inputhour('2', '#close_sat');"></td>
+                                    <td class='su-sel-in su-sel-end'>
+                                        <select id='s_close_sat'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th class='su-table-hd-left su-table-btm'>Sunday</th>
+                                    <td class='su-table-in su-table-btm'><input type=text name='sunday_open' id='open_sun' oninput="javascript: inputhour('2', '#open_sun');"></td>
+                                    <td class='su-sel-in su-table-btm'>
+                                        <select id='s_open_sun'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                    <td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sun' oninput="javascript: inputhour('2', '#close_sun');"></td>
+                                    <td class='su-sel-in su-sel-end su-table-btm'>
+                                        <select id='s_close_sun'>
+                                            <option value='am'>AM</option>
+                                            <option value='pm'>PM</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class='su-confirm-buttons2'>
+                            <button type='button' onClick="javascript: validateSUModel('hours');">Update</button>
+                            <button type='button' onClick="javascript: checkPopulatedFields('hours', '1');">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -4131,7 +4454,7 @@ function suSendNew ()
                             <div class='su-admin-warning-i'>Address Line 3</div>
                             <div class='su-admin-warning-i'>Detroit, MI 48504</div>
                         </div>
-                        <div class='su-confirm-buttons'>
+                        <div class='su-confirm-buttons18'>
                             <button type='button' onClick="javascript: submitDelete();">Delete</button>
                             <button type='button' onClick="javascript: closeError();">Cancel</button>
                         </div>

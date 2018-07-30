@@ -72,6 +72,12 @@ def admin_home():
 def superuser():
 	return render_template("admin/master/superuser.html")
 
+@app.route('/adminAlt', methods=["POST"])
+@login_required
+def adminAlt():
+	content = loadSuperuser()
+	return render_template("admin/master/adminAlt.html", **content)
+
 @app.route('/superuser_admin')
 @login_required
 def superuser_admin():
