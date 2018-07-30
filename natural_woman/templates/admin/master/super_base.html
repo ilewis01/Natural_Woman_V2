@@ -1026,6 +1026,7 @@ textarea {
     margin-bottom: 10px;
 }
 
+
 .su-hours-container tr, .su-hours-container td {
     padding: 0;
     margin: 0;
@@ -1056,6 +1057,7 @@ textarea {
     border-left: 1px solid #777777;
     border-top: 1px solid #777777;
     font-style: italic;
+    background-color: #bbbda5;
 }
 
 .su-table-hd-center {
@@ -1078,6 +1080,61 @@ textarea {
 
 .su-table-btm {
     border-bottom: 1px solid #777777;
+}
+
+.su-hour-label {
+    font-style: italic;
+    font-weight: 700;
+    color: #42480c;
+    margin-right: 15px;
+}
+
+.su-m-h-lab {
+    font-weight: 600;
+    color:#1d347e;
+}
+
+.sp-su-hour-top {
+    margin-top: 25px;
+}
+
+.su-mk-input100 {
+    width: 100%;
+    height: 30px;
+}
+
+.su-mk-input100 input[type="text"]
+{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.super-sp-check {
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    font-weight: 600;
+    color:#7e1d1d;
+}
+
+.super-sp-check input[type="checkbox"]
+{
+    text-align: left;
+    width: 9px;
+    margin-right: 3px;
+}
+
+.su-grouped-hours {
+    color: #7e1d1d;
+}
+
+.su-table-height {
+    height: 180px;
 }
 
 </style>
@@ -1280,6 +1337,22 @@ function validate_email(email)
     }
     if (test1 === true && test2 === true) { is_valid = true; }
     return is_valid;
+}
+
+function suSpecial()
+{
+    if ($("#k_special_hours").prop("checked") === true)
+    {
+        $("#special_su_input").hide();
+        $("#special_su_input").removeClass("hidden");
+        $("#special_su_input").fadeIn(400);
+        $("#special_check").val("True");
+    }
+    else
+    {
+        $("#special_su_input").fadeOut(400);
+        $("#special_check").val("False");
+    }
 }
 
 function initializeAdmin(blogs, users, company)
@@ -2257,10 +2330,373 @@ function buildMediaEditor(model)
     return html;
 }
 
+function buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, fri, sat, sun)
+{
+    var html    = "";
+    mon         = encodeSuTime(mon);
+    sat         = encodeSuTime(sat);
+    if (group_weekdays === "True")
+    {
+        html += "<tr>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Open</th>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Close</th>";
+        html += "<th></th>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left su-grouped-hours'>Weekdays</th>";
+        html += "<td class='su-table-in'><input type=text name='monday_open' id='open_mon' oninput=\"javascript: inputhour('2', '#open_mon');\" value='" + mon['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='monday_close' id='close_mon' oninput=\"javascript: inputhour('2', '#close_mon');\" value='" + mon['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    else
+    {
+        tue = encodeSuTime(tue);
+        wed = encodeSuTime(wed);
+        thu = encodeSuTime(thu);
+        fri = encodeSuTime(fri);
+        html += "<tr>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Open</th>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Close</th>";
+        html += "<th></th>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Monday</th>";
+        html += "<td class='su-table-in'><input type=text name='monday_open' id='open_mon' oninput=\"javascript: inputhour('2', '#open_mon');\" value='" + mon['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='monday_close' id='close_mon' oninput=\"javascript: inputhour('2', '#close_mon');\" value='" + mon['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Tuesday</th>";
+        html += "<td class='su-table-in'><input type=text name='tuesday_open' id='open_tue' oninput=\"javascript: inputhour('2', '#open_tue');\" value='" + tue['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_tue'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='tuesday_close' id='close_tue' oninput=\"javascript: inputhour('2', '#close_tue');\" value='" + tue['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_tue'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Wednesday</th>";
+        html += "<td class='su-table-in'><input type=text name='wednesday_open' id='open_wed' oninput=\"javascript: inputhour('2', '#open_wed');\" value='" + wed['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_wed'><option value='am'>AM</option> <option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='wednesday_close' id='close_wed' oninput=\"javascript: inputhour('2', '#close_wed');\" value='" + wed['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_wed'> <option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Thursday</th>";
+        html += "<td class='su-table-in'><input type=text name='thursday_open' id='open_thu' oninput=\"javascript: inputhour('2', '#open_thu');\" value='" + thu['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_thu'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='thursday_close' id='close_thu' oninput=\"javascript: inputhour('2', '#close_thu');\" value='" + thu['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_thu'><option value='am'>AM</option><option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Friday</th>";
+        html += "<td class='su-table-in'><input type=text name='friday_open' id='open_fri' oninput=\"javascript: inputhour('2', '#open_fri');\" value='" + fri['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_fri'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='friday_close' id='close_fri' oninput=\"javascript: inputhour('2', '#close_fri');\" value='" + fri['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_fri'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    if (group_weekends === "True")
+    {
+        html += "<tr>";
+        html += "<th class='su-table-hd-left su-grouped-hours su-table-btm'>Weekends</th>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_open' id='open_sun' oninput=\"javascript: inputhour('2', '#open_sun');\" value='" + sat['open'] + "'></td>";
+        html += "<td class='su-sel-in su-table-btm'>";
+        html += "<select id='s_open_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sun' oninput=\"javascript: inputhour('2', '#close_sun');\" value='" + sat['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end su-table-btm'>";
+        html += "<select id='s_close_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    else
+    {
+        sun = encodeSuTime(sun);
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Saturday</th>";
+        html += "<td class='su-table-in'><input type=text name='saturday_open' id='open_sat' oninput=\"javascript: inputhour('2', '#open_sat');\" value='" + sat['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select id='s_open_sat'><option value='am'>AM</option><option value='pm'>PM</option> </select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='saturday_close' id='close_sat' oninput=\"javascript: inputhour('2', '#close_sat');\" value='" + sat['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select id='s_close_sat'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left su-table-btm'>Sunday</th>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_open' id='open_sun' oninput=\"javascript: inputhour('2', '#open_sun');\" value='" + sun['open'] + "'></td>";
+        html += "<td class='su-sel-in su-table-btm'>";
+        html += "<select id='s_open_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sun' oninput=\"javascript: inputhour('2', '#close_sun');\" value='" + sun['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end su-table-btm'>";
+        html += "<select id='s_close_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    return html;
+}
+
+function encodeSuTime(value)
+{
+    var hours           = {};
+    var clean           = "";
+    hours['open']       = "";
+    hours['open_s']     = "";
+    hours['close']      = "";
+    hours['close_s']    = "";
+    value               = String(value);
+    if (value !== "empty")
+    {
+        for (var i= 0; i < value.length; i++)
+        {
+            var c = value[i];
+            if (c === "a" || c === "p") { clean += " " + c; }
+            else { clean += c; }
+        }
+        var elements = clean.split(" ");
+        hours['open'] = elements[0];
+        hours['open_s'] = elements[1];
+        hours['close'] = elements[3];
+        hours['close_s'] = elements[4];
+    }     
+    return hours;
+}
+
+function setHoursIndices(hours, day)
+{
+    var open            = 0;
+    var close           = 0;
+    var trigger_opn     = "#s_open_" + day;
+    var trigger_cls     = "#s_close_" + day; 
+    if (hours['open_s'] === "pm") { open = 1; }
+    if (hours['close_s'] === "pm") { close = 1; }
+    $(trigger_opn).prop("selectedIndex", open);
+    $(trigger_cls).prop("selectedIndex", close);
+}
+
+
+function decodeSuTime(trigger)
+{
+    var a = "#open_" + trigger;
+    var b = "#close_" + trigger;
+    var c = "#s_open_" + trigger;
+    var d = "#s_close_" + trigger;
+    var hours = $(a).val() + $(c).val() + " - " + $(b).val() + $(d).val();
+    return hours;
+}
+
+function setHourSelects()
+{
+    var group_weekdays  = $("#f_group_weekdays").val();
+    var group_weekends  = $("#f_group_weekends").val();
+    var monday          = $("#f_monday").val();
+    var saturday        = $("#f_saturday").val();
+    var indices         = null;
+    group_weekdays      = String(group_weekdays);
+    group_weekends      = String(group_weekends);
+    monday              = encodeSuTime(monday);
+    saturday            = encodeSuTime(saturday);
+    setHoursIndices(monday, 'mon');
+    setHoursIndices(saturday, 'sat');
+    if (group_weekdays === "False")
+    {
+        var tuesday     = $("#f_tuesday").val();
+        var wednesday   = $("#f_wednesday").val();
+        var thursday    = $("#f_thursday").val();
+        var friday      = $("#f_friday").val();
+    }
+    if (group_weekends === "False")
+    {
+        var sunday  = $("#f_sunday").val();
+        sunday      = encodeSuTime(sunday);
+        setHoursIndices(sunday, 'sun');
+    }
+}
+
 function buildHoursEditor()
 {
-    var html = "";
+    var html            = "";
+    var weekday_ck      = "";
+    var weekend_ck      = "";
+    var special_ck      = "";
+    var table           = "";
+    var group_weekdays  = $("#m_weekdays").val();
+    var group_weekends  = $("#m_weekends").val();
+    var monday          = $("#m_monday").val();
+    var tuesday         = $("#m_tuesday").val();
+    var wednesday       = $("#m_wednesday").val();
+    var thursday        = $("#m_thursday").val();
+    var friday          = $("#m_friday").val();
+    var saturday        = $("#m_saturday").val();
+    var sunday          = $("#m_sunday").val();
+    var special_hours   = $("#m_special_hours").val();
+    var hours_title     = $("#m_title").val();
+    group_weekdays      = String(group_weekdays);
+    group_weekends      = String(group_weekends);
+    special_hours       = String(special_hours);
+    table               = buildSuHoursTable(group_weekdays, group_weekends, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
+    if (group_weekdays === "True")
+    {
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_on' value='1' onClick=\"setHourTable();\" checked></td>";
+        weekday_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_off' value='0' onClick=\"setHourTable();\"></td>";
+        weekday_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    else 
+    {
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_on' value='1' onClick=\"setHourTable();\"></td>";
+        weekday_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_off' value='0' onClick=\"setHourTable();\" checked></td>";
+        weekday_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    if (group_weekends === "True")
+    {
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_on' value='1' onClick=\"setHourTable();\" checked></td>";
+        weekend_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_off' value='0' onClick=\"setHourTable();\"></td>";
+        weekend_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    else
+    {
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_on' value='1' onClick=\"setHourTable();\"></td>";
+        weekend_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_off' value='0' onClick=\"setHourTable();\" checked></td>";
+        weekend_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    if (special_hours === "True")
+    {
+        special_ck += "<input type='checkbox' name='k_special_hours' id='k_special_hours' onClick=\"javascript: suSpecial();\" checked>";
+        special_ck += "Special Hours";
+        special_ck += "</div>";
+        special_ck += "<div class='su-mk-input100'><span id='special_su_input' class=''><input type='text' name='special_hours' id='k_special_hours_input' placeholder='Enter Special Hours Title' value='" + hours_title + "'></span></div>";
+    }
+    else
+    {
+        special_ck += "<input type='checkbox' name='k_special_hours' id='k_special_hours' onClick=\"javascript: suSpecial();\">";
+        special_ck += "Special Hours";
+        special_ck += "</div>";
+        special_ck += "<div class='su-mk-input100'><span id='special_su_input' class='hidden'><input type='text' name='special_hours' id='k_special_hours_input' placeholder='Enter Special Hours Title'></span></div>";
+    }
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<input type='hidden' name='special_check' id='special_check' value='" + special_hours + "'>";
+    html += "<input type='hidden' name='group_weekdays' id='f_group_weekdays' value='" + group_weekdays + "'>";
+    html += "<input type='hidden' name='group_weekends' id='f_group_weekends' value='" + group_weekends + "'>";
+    html += "<input type='hidden' name='monday' id='f_monday' value='" + monday + "'>";
+    html += "<input type='hidden' name='tuesday' id='f_tuesday' value='" + tuesday + "'>";
+    html += "<input type='hidden' name='wednesday' id='f_wednesday' value='" + wednesday + "'>";
+    html += "<input type='hidden' name='thursday' id='f_thursday' value='" + thursday + "'>";
+    html += "<input type='hidden' name='friday' id='f_friday' value='" + friday + "'>";
+    html += "<input type='hidden' name='saturday' id='f_saturday' value='" + saturday + "'>";
+    html += "<input type='hidden' name='sunday' id='f_sunday' value='" + sunday + "'>";
+    html += "<input type='hidden' name='special_hours' id='f_special_hours' value='" + special_hours + "'>";
+    html += "<input type='hidden' name='hours_title' id='f_hours_title' value='" + hours_title + "'>";
+    html += "<h3><i class='fas fa-clock'></i> &nbspBusiness Hours</h3>";
+    html += "<div class='su-hours-container'>";
+    html += "<div class='su-table-height'>";
+    html += "<table id='su-hours-builder'>";
+    html += table;
+    html += "</table>";
+    html += "</div>";
+    html += "<table class='sp-su-hour-top'>";
+    html += "<tr>";
+    html += "<td class='su-m-h-lab'>Group Weekdays: </td>";
+    html += weekday_ck;
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-m-h-lab'>Group Weekends: </td>";
+    html += weekend_ck;
+    html += "</tr>";
+    html += "</table>";
+    html += "<div class='super-sp-check'>";
+    html += special_ck;
+    html += "</div>";
+    html += "<div class='su-confirm-buttons2'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('hours');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('hours', '1');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
     return html;
+}
+
+function setHourTable()
+{
+    var group_weekdays  = null;
+    var group_weekends  = null;
+    var mon             = $("#f_monday").val();
+    var tue             = $("#f_tuesday").val();
+    var wed             = $("#f_wednesday").val();
+    var thu             = $("#f_thursday").val();
+    var fri             = $("#f_friday").val();
+    var sat             = $("#f_saturday").val();
+    var sun             = $("#f_sunday").val();
+    if ($("#f_group_weekdays_on").prop("checked") === true) { $("#f_group_weekdays").val("True"); }
+    else { $("#f_group_weekdays").val("False"); }
+    if ($("#f_group_weekends_on").prop("checked") === true) { $("#f_group_weekends").val("True"); }
+    else { $("#f_group_weekends").val("False"); }
+    group_weekdays  = $("#f_group_weekdays").val();
+    group_weekends  = $("#f_group_weekends").val();
+    var table       = buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, fri, sat, sun);
+    $("#su-hours-builder").html(table);
+    setHourSelects();
 }
 
 function buildPermissionEditor(mode, index)
@@ -3388,6 +3824,61 @@ function checkPopulatedFields(model, mode, index)
     else if (model === 'email') { checkEmailFields(); }
     else if (model === 'max_images') { checkMaxField(); }
     else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { checkMediaFields(model); }
+    else if (model === "hours") { checkHoursFields(); }
+}
+
+function checkHoursFields()
+{
+    var proceed         = false;
+    var m               = [];
+    //Original Values
+    var m_mon           = $("#m_monday").val();
+    var m_tue           = $("#m_tuesday").val();
+    var m_wed           = $("#m_wednesday").val();
+    var m_thu           = $("#m_thursday").val();
+    var m_fri           = $("#m_friday").val();
+    var m_sat           = $("#m_saturday").val();
+    var m_sun           = $("#m_sunday").val();
+    var m_title         = $("#m_title").val();
+    var m_weekdays      = $("#m_weekdays").val();
+    var m_weekends      = $("#m_weekends").val();
+    var m_special       = $("#m_special_hours").val();
+    //New Values
+    var group_weekdays  = $("#f_group_weekdays").val();
+    var group_weekends  = $("#f_group_weekends").val();
+    var special         = $("#special_check").val();
+    var mon             = decodeSuTime("mon");
+    var sat             = decodeSuTime("sat");
+    var tue             = "empty";
+    var wed             = "empty";
+    var thu             = "empty";
+    var fri             = "empty";
+    var sun             = "empty";
+    var title           = "Hours of Operation";
+
+    if (group_weekdays === "False")
+    {
+        tue = decodeSuTime("tue");
+        wed = decodeSuTime("wed");
+        thu = decodeSuTime("thu");
+        fri = decodeSuTime("fri");
+    }
+    if (group_weekends === "False")
+    {
+        sun = decodeSuTime("sun")
+    }
+    if (special === "True")
+    {
+        title = $("#k_special_hours_input").val();
+    }
+    if (m_mon!==mon||m_tue!==tue||m_wed!==wed||m_thu!==thu||m_fri!==fri||m_sat!==sat||m_sun!=sun||m_title!==title||m_weekdays!==group_weekdays||m_weekends!==group_weekends)
+    {
+        m.push("Warning");
+        m.push("Changes Detected");
+        m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(m);
+    }
+    else { closeEditor(); }
 }
 
 function checkBlogFields(mode, index)
@@ -3818,6 +4309,7 @@ function launchAdminEditors(model, mode, index)
     else if (model === "twitter") { html = buildMediaEditor(model); }
     else if (model === "instagram") { html = buildMediaEditor(model); }
     openEditor(html);
+    if (model === "hours") { setHourSelects(); }
 }
 
 function getSelectedModel()
@@ -4273,6 +4765,7 @@ function suSendNew ()
 }
 
 
+
 </script>
 
     <body class='su-body-style' onLoad="javascript: initializeAdmin({{blogs}}, {{users}}, {{company}});">
@@ -4282,7 +4775,7 @@ function suSendNew ()
         <input type="hidden" id="model-count" value="">
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
-        <div class='su-pop-container' id='pop-up-builder'>
+        <div class='su-pop-container hidden' id='pop-up-builder'>
             <div class='su-center su-width30'>
                 <div class='su-general'>
                     <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
@@ -4290,143 +4783,9 @@ function suSendNew ()
                         <input type='hidden' name='target_model' id='target_model' value='phone'>
                         <input type='hidden' name='target_action' id='target_action' value='update'>
                         <input type='hidden' name='target_id' id='target_id' value=''>
+
                         <h3><i class='fas fa-clock'></i> &nbspBusiness Hours</h3>
-                        <div class='su-hours-container'>
-                            <table>
-                                <tr>
-                                    <th></th>
-                                    <th class='su-table-hd-center'>Open</th>
-                                    <th></th>
-                                    <th class='su-table-hd-center'>Close</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <th class='su-table-hd-left'>Monday</th>
-                                    <td class='su-table-in'><input type=text name='monday_open' id='open_mon' oninput="javascript: inputhour('2', '#open_mon');"></td>
-                                    <td class='su-sel-in'>
-                                        <select id='s_open_mon'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in'><input type=text name='monday_close' id='close_mon' oninput="javascript: inputhour('2', '#close_mon');"></td>
-                                    <td class='su-sel-in su-sel-end'>
-                                        <select id='s_close_mon'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th class='su-table-hd-left'>Tuesday</th>
-                                    <td class='su-table-in'><input type=text name='tuesday_open' id='open_tue' oninput="javascript: inputhour('2', '#open_tue');"></td>
-                                    <td class='su-sel-in'>
-                                        <select id='s_open_tue'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in'><input type=text name='tuesday_close' id='close_tue' oninput="javascript: inputhour('2', '#close_tue');"></td>
-                                    <td class='su-sel-in su-sel-end'>
-                                        <select id='s_close_tue'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th class='su-table-hd-left'>Wednesday</th>
-                                    <td class='su-table-in'><input type=text name='wednesday_open' id='open_wed' oninput="javascript: inputhour('2', '#open_wed');"></td>
-                                    <td class='su-sel-in'>
-                                        <select id='s_open_wed'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in'><input type=text name='wednesday_close' id='close_wed' oninput="javascript: inputhour('2', '#close_wed');"></td>
-                                    <td class='su-sel-in su-sel-end'>
-                                        <select id='s_close_wed'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th class='su-table-hd-left'>Thursday</th>
-                                    <td class='su-table-in'><input type=text name='thursday_open' id='open_thu' oninput="javascript: inputhour('2', '#open_thu');"></td>
-                                    <td class='su-sel-in'>
-                                        <select id='s_open_thu'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in'><input type=text name='thursday_close' id='close_thu' oninput="javascript: inputhour('2', '#close_thu');"></td>
-                                    <td class='su-sel-in su-sel-end'>
-                                        <select id='s_close_thu'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th class='su-table-hd-left'>Friday</th>
-                                    <td class='su-table-in'><input type=text name='friday_open' id='open_fri' oninput="javascript: inputhour('2', '#open_fri');"></td>
-                                    <td class='su-sel-in'>
-                                        <select id='s_open_fri'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in'><input type=text name='friday_close' id='close_fri' oninput="javascript: inputhour('2', '#close_fri');"></td>
-                                    <td class='su-sel-in su-sel-end'>
-                                        <select id='s_close_fri'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th class='su-table-hd-left'>Saturday</th>
-                                    <td class='su-table-in'><input type=text name='saturday_open' id='open_sat' oninput="javascript: inputhour('2', '#open_sat');"></td>
-                                    <td class='su-sel-in'>
-                                        <select id='s_open_sat'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in'><input type=text name='saturday_close' id='close_sat' oninput="javascript: inputhour('2', '#close_sat');"></td>
-                                    <td class='su-sel-in su-sel-end'>
-                                        <select id='s_close_sat'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th class='su-table-hd-left su-table-btm'>Sunday</th>
-                                    <td class='su-table-in su-table-btm'><input type=text name='sunday_open' id='open_sun' oninput="javascript: inputhour('2', '#open_sun');"></td>
-                                    <td class='su-sel-in su-table-btm'>
-                                        <select id='s_open_sun'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                    <td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sun' oninput="javascript: inputhour('2', '#close_sun');"></td>
-                                    <td class='su-sel-in su-sel-end su-table-btm'>
-                                        <select id='s_close_sun'>
-                                            <option value='am'>AM</option>
-                                            <option value='pm'>PM</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                        
                         <div class='su-confirm-buttons2'>
                             <button type='button' onClick="javascript: validateSUModel('hours');">Update</button>
                             <button type='button' onClick="javascript: checkPopulatedFields('hours', '1');">Cancel</button>
