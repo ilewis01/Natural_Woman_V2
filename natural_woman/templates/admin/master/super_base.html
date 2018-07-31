@@ -343,7 +343,7 @@
 
 
 /*TRANSITIONS*/
-.su-main-content-style li {
+.su-main-content-style li, .su-about3 li {
     -webkit-transition: all 0.6s;
     -moz-transition: all 0.6s;
     -o-transition: all 0.6s;
@@ -477,6 +477,19 @@
     transform-style: preserve-3d;
 }
 
+.su-about-errors {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
 .su-center {
     position: relative;
     top: 50%;
@@ -603,6 +616,11 @@
 .su-textarea-lg {
     width: 100%;
     height: 30vh;
+}
+
+.su-textarea-md {
+    width: 100%;
+    height: 15vh;
 }
 
 .su-textarea-sm {
@@ -1244,6 +1262,11 @@ textarea {
 
 .su-about3 li {
     list-style: none;
+    border-bottom: 1px solid #888888;
+}
+
+.su-about3 li:hover {
+    background: #ccad72;
 }
 
 .su-about3 a {
@@ -1278,6 +1301,21 @@ textarea {
 
 .su-about-exit button {
     width: 100%;
+}
+
+.raise-closer {
+    margin-top: -8px;
+}
+
+.set-active-ck {
+    background-color: #cccccc;
+    text-align: right;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 5px;
 }
 
 
@@ -2260,7 +2298,7 @@ function addPayItem(index)
         current += "~";
     }
     $("#selected-payment").val(current);
-    setPaymentDeleteBtn();
+    setPaymentAbout();
 }
 
 function removePayItem(index)
@@ -2299,7 +2337,6 @@ function addAboutItem(index)
         current += "~";
     }
     $("#selected-payment").val(current);
-    // setPaymentDeleteBtn();
 }
 
 function removeAboutItem(index)
@@ -2320,7 +2357,6 @@ function removeAboutItem(index)
         new_list = "~" + new_list;
     }
     $("#selected-payment").val(new_list);
-    // setPaymentDeleteBtn();
 }
 
 function setModelDeleteBtn()
@@ -3525,7 +3561,6 @@ function buildAboutEditor(data)
     var list_size   = 0;
     var index       = null;
     var statement   = null;
-    var a_id        = null;
     for(i = 0; i < data.length; i++)
     {
         if (data[i]["is_active"] === "False") { inactive.push(data[i]); }
@@ -3541,10 +3576,12 @@ function buildAboutEditor(data)
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<input type='hidden' name='no_inactive' id='no_inactive' value='" + list_size + "'>";
+    html += "<input type='hidden' name='current_id' id='current_id' value='" + a_id + "'>";
+    html += "<input type='hidden' name='current_statement' id='current_statement' value='" + active + "'>";
     html += "<h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>";
-    html += "<div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick=\"javascript: showAboutEditors('mode1');\">Edit</button> <button type='button' onClick=\"javascript: showAboutEditors('mode0');\">New</button></div>";
+    html += "<div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick=\"javascript: showAboutEditors('1');\">Edit</button> <button type='button' onClick=\"javascript: showAboutEditors('0');\">New</button></div>";
     html += "<div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>";
-    html += "<div class='su-about2'>This is the active about us statement</div>";
+    html += "<div class='su-about2'>" + active + "</div>";
     html += "<div class='su-about-head'>Archived Statements &nbsp<i class='fas fa-archive'></i></div>";
     html += "<div class='su-about1'>The statements below can be activated as the current statement at any time.</div>";
     html += "<div class='su-about-list-top'>";
@@ -3560,9 +3597,9 @@ function buildAboutEditor(data)
         a_id        = String(data[i]['id']);
         html += "<div id='div_a" + index + "' class='" + data[i]['class'] + "'>";
         html += "<li>";
-        html += "<a href=\"javascript: launchAdminEditors('about', '1', '" + index + "');\">";
+        html += "<a href=\"javascript: showAboutEditor2('" + index + "');\">";
         html += "<input type='hidden' id='a_id" + index + "' value='" + a_id + "'>";
-        html += "<input type='hidden' id='statement_" + index + "' value='" + statement + "'>";
+        html += "<input type='hidden' id='a_statement_" + index + "' value='" + statement + "'>";
         html += "<table>";
         html += "<tr>";
         html += "<td><input type='checkbox' onClick=\"javascript: selectAboutItem('" + index + "');\" id='ab_box_" + index + "'></td>";
@@ -3576,11 +3613,10 @@ function buildAboutEditor(data)
     html += "</ul>";
     html += "</div>";
     html += "<div class='su-about-list-buttons'>";
-    html += "<button type='button' onClick=\"confirmAboutEditors('set_active')\">Set Active</button>";
-    html += "<button type='button' onClick=\"javascript: showAboutEditors('mode2');\">Update</button>";
-    html += "<span id='su-abtDel-cont'><button onClick=\"javascript: confirmAboutEditors('delete')\" id='su-delAboutBtn'>Delete Selected</button></span>";
+    html += "<button type='button' onClick=\"javascript: showAboutEditors('2');\">Update</button>";
+    html += "<span id='su-abtDel-cont'><button onClick=\"javascript: launchDeleteConfirmation('about')\" id='su-delAboutBtn'>Delete Selected</button></span>";
     html += "</div>";
-    html += "<div class='su-about-exit'><button type='button' onClick=\"javascript: checkPopulatedFields('about', '1');\">Exit</button></div>";
+    html += "<div class='su-about-exit'><button type='button' onClick=\"javascript: closeEditor();\">Exit</button></div>";
     html += "</div>";
     html += "</div>";
     $("#pop-up-builder").html(html);
@@ -3591,22 +3627,114 @@ function buildAboutEditor(data)
 
 function showAboutEditors(mode)
 {
-    alert("Showing About Editor: " + mode)
+    var open = true;
+    mode = Number(mode);
+    if (mode === 0)
+    {
+        $("#about_target_action").val("new");
+        $("#master-abt-header").html("New About Us Statement");
+        $("#su-abt-btn-option").html("Save");
+        $("#f_active_cb").prop("checked", false);
+        $("#f_active_cb").prop("disabled", false);
+        $("#f_is_active").val("False");
+    }
+    else if (mode === 1)
+    {
+        var m_id = $("#current_id").val();
+        var statement = $("#current_statement").val();
+        $("#about_target_action").val("update");
+        $("#about_target_id").val(m_id);
+        $("#f_about_area").html(statement);
+        $("#master-abt-header").html("Update Current About Us Statement");
+        $("#su-abt-btn-option").html("Update");
+        $("#f_active_cb").prop("checked", true);
+        $("#f_active_cb").prop("disabled", true);
+        $("#f_is_active").val("True");
+    }
+    else if (mode === 2)
+    {
+        var indices     = $("#selected-payment").val();
+        indices = String(indices);
+        if (indices.length === 0)
+        {
+            var m = [];
+            open = false;
+            m.push("Nothing Selected");
+            m.push(" ");
+            generateErrorWindow(m);
+        }
+        else if (indices.length > 3)
+        {
+            var m = [];
+            open = false;
+            m.push("Action Prohibited");
+            m.push("You can only select one statement to update");
+            generateErrorWindow(m);
+        }
+        else
+        {
+            var decoded     = decodeDeleteIndices(indices);
+            var m_id        = $("#a_id" + decoded).val();
+            var statement   = $("#a_statement_" + decoded).val();
+            $("#about_target_action").val("update");
+            $("#about_target_id").val(m_id);
+            $("#f_about_area").html(statement);
+            $("#f_active_cb").prop("checked", false);
+            $("#f_active_cb").prop("disabled", false);
+            $("#f_is_active").val("False");
+            $("#master-abt-header").html("Update Inactive About Us Statements");
+            $("#su-abt-btn-option").html("Update");
+        }
+            
+    }
+    if (open === true)
+    {
+        $("#about-editor-builder").hide();
+        $("#about-editor-builder").removeClass('hidden');
+        $("#about-editor-builder").fadeIn(600);
+    }   
 }
 
-function confirmAboutEditors(mode)
+function showAboutEditor2(index)
 {
-    alert("Showing Confirm Window Mode: " + mode)
+    index           = String(index);
+    var m_id        = $("#a_id" + index).val(); 
+    var statement   = $("#a_statement_" + index).val();
+    $("#about_target_action").val("update");
+    $("#about_target_id").val(m_id);
+    $("#f_about_area").html(statement);
+    $("#f_active_cb").prop("checked", false);
+    $("#f_active_cb").prop("disabled", false);
+    $("#f_is_active").val("False");
+    $("#master-abt-header").html("Update Inactive About Us Statements");
+    $("#su-abt-btn-option").html("Update");
+    $("#about-editor-builder").hide();
+    $("#about-editor-builder").removeClass('hidden');
+    $("#about-editor-builder").fadeIn(600);
 }
 
 function selectAllAbouts()
 {
-    alert("Selecting All Abouts")
+    var len = $("#no_inactive").val();
+    len     = Number(len);
+    for (var i = 0; i < len; i++)
+    {
+        index = String(i);
+        $("#ab_box_" + index).prop("checked", true);
+        selectAboutItem(index);
+    }
 }
 
 function clearAllAbouts()
 {
-    alert("Clearing All Abouts")
+    var len = $("#no_inactive").val();
+    len     = Number(len);
+    for (var i = 0; i < len; i++)
+    {
+        index = String(i);
+        $("#ab_box_" + index).prop("checked", false);
+        selectAboutItem(index);
+    }
 }
 
 function buildPaymentEditor()
@@ -4128,7 +4256,18 @@ function validateHoursFields()
 
 function validatingAboutFields()
 {
-    alert("Validating About Fields")
+    var statement = $("#f_about_area").val();
+    if (String(statement).length === 0)
+    {
+        m = [];
+        m.push("Empty Field Detected");
+        m.push("You must enter a new about statement to proceed");
+        generateErrorWindow(m);
+    }
+    else
+    {
+        launchSiteAdminWarning('about');
+    }
 }
 
 function validatingPaymentFields()
@@ -4636,7 +4775,8 @@ function checkPopulatedFields(model, mode, index)
 
 function checkAboutFields()
 {
-    alert("Checking About Fields")
+    alert("Checking about fields")
+    var statement = $("#f_about_area").val();
 }
 
 function checkPaymentFields()
@@ -5214,19 +5354,21 @@ function getDeleteIndices(model)
     model = String(model);
     if (model==="blog" || model==="product" || model==="image") { delete_list = $("#selected-db").val(); }
     else if (model==="permission" || model==="auth" || model==="security") { delete_list = $("#selected-usr").val(); }
-    else if (model === "payment") { delete_list = $("#selected-payment").val(); }
+    else if (model === "payment" || model==="about") { delete_list = $("#selected-payment").val(); }
     return String(delete_list);
 }
 
 function launchDeleteConfirmation(model)
 {
-    var html = "";
+    var open            = true;
+    var html            = "";
     var delete_indices  = getDeleteIndices(model);
     var delete_list     = decodeDeleteIndices(delete_indices);
     var header          = null;
     var mdl_head        = null;
     var details         = "";
     var id_list         = "~";
+    var m               = [];
     model               = String(model).toLowerCase();
     if (model === "blog")
     {
@@ -5347,34 +5489,65 @@ function launchDeleteConfirmation(model)
             details += "</tr>";
         }
     }
+    else if (model === "about")
+    {
+        if (delete_list.length > 1) 
+        { 
+            mdl_head        = "about us statement";
+            mdl_head = "about us statements";
+            header = "<h3><i class='fas fa-edit'></i> &nbsp Delete " + mdl_head + "</h3>";
+            for (var i = 0; i < delete_list.length; i++)
+            {
+                var trigger = "#a_statement_" + String(delete_list[i]);
+                var k_nth  = $(trigger).val();
+                var m_id    = $("#a_id" + String(delete_list[i])).val();
+                id_list += String(m_id);
+                id_list += "~";
+                details += "<tr>";
+                details += "<td><i class='fas fa-minus-circle'></i></td>";
+                details += "<td><b>" + k_nth + " </b></td>";
+                details += "</tr>";
+            }
+        }
+        else 
+        {
+            open = false;
+            m.push("Nothing Has Been Selected");
+            m.push("");
+            generateErrorWindow(m);
+        }   
+    }
     
-    html += "<div class='su-center su-width40'>";
-    html += "<div class='su-confirm'>";
-    html += "<form action='/adminAlt' method='POST' id='pop_delete_form'>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
-    html += "<input type='hidden' name='target_action' id='target_action' value='delete'>";
-    html += "<input type='hidden' name='target_id' id='target_id' value='" + id_list + "'>";
-    html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
-    html += header;
-    html += "<div class='su-confirm1'>Are you sure you want to proceed?</div>";
-    html += "<div class='su-confirm2'>The following " + mdl_head + " will be permanently deleted:</div>";
-    html += "<div class='su-confirm-wrapper'>";
-    html += "<table>";
-    html += details;
-    html += "</table>";
-    html += "</div>";
-    html += "<div class='su-confirm-buttons'>";
-    html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
-    html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
-    html += "</div>";
-    html += "</form>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#su-editor-builder").html(html);
-    $("#su-editor-builder").hide();
-    $("#su-editor-builder").removeClass("hidden");
-    $("#su-editor-builder").fadeIn(500);
+    if (open === true)
+    {
+        html += "<div class='su-center su-width40'>";
+        html += "<div class='su-confirm'>";
+        html += "<form action='/adminAlt' method='POST' id='pop_delete_form'>";
+        html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
+        html += "<input type='hidden' name='target_action' id='target_action' value='delete'>";
+        html += "<input type='hidden' name='target_id' id='target_id' value='" + id_list + "'>";
+        html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
+        html += header;
+        html += "<div class='su-confirm1'>Are you sure you want to proceed?</div>";
+        html += "<div class='su-confirm2'>The following " + mdl_head + " will be permanently deleted:</div>";
+        html += "<div class='su-confirm-wrapper'>";
+        html += "<table>";
+        html += details;
+        html += "</table>";
+        html += "</div>";
+        html += "<div class='su-confirm-buttons'>";
+        html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
+        html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
+        html += "</div>";
+        html += "</form>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+        $("#su-editor-builder").html(html);
+        $("#su-editor-builder").hide();
+        $("#su-editor-builder").removeClass("hidden");
+        $("#su-editor-builder").fadeIn(500);
+    }
 }
 
 function launchSiteAdminWarning(model)
@@ -5424,9 +5597,14 @@ function launchSiteAdminWarning(model)
     }
     else if (model === "about")
     {
-        header = "<h3><i class=\"fas fa-pen-square\"></i> &nbsp <em>\"About Us\"</em></h3>";
-        sub_msg = "<div class='su-confirm2'>This will alter the <em>\"About Us\"</em> page</div>";
-        w_type = "New <b><em>\"About Us\"</em></b> Statement";
+        var sa  = $("#f_is_active").val();
+        var st  = $("#f_about_area").val();
+        var ww  = "This will alter the current About Us Statement";
+        if (sa === "False") { ww = "This will change/add the following about us statement."; }
+        header  = "<h3><i class=\"fas fa-pen-square\"></i> &nbsp <em>\"About Us\"</em></h3>";
+        sub_msg = "<div class='su-confirm2'>" + ww + "</div>";
+        w_type  = "New <b><em>\"About Us\"</em></b> Statement";
+        details += "<div class='su-admin-warning-c'>" + st + "</div>";
     }
     else if (model === "max_images")
     {
@@ -5641,14 +5819,16 @@ function suSendNew ()
     alert("Sending new authorization...")
 }
 
-function editCurrentAbout(index)
+
+function closeAboutError()
 {
-    var html = "";
-    index = String(index);
-    alert("building current about editor")
+    $("#about-editor-builder").fadeOut(600, function() {
+        $("#f_about_area").html("");
+        $("#f_is_active").val("False");
+        $("#f_active_cb").prop("disabled", false);
+        $("#f_active_cb").prop("checked", false);
+    });
 }
-
-
 
 </script>
 
@@ -5664,79 +5844,43 @@ function editCurrentAbout(index)
                 <div class='su-general'>
                     <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
                     <form action='/adminAlt' method='POST' id='pop_form'>
-                        <input type='hidden' name='target_model' id='target_model' value='about'>
-                        <input type='hidden' name='target_action' id='target_action' value=''>
-                        <input type='hidden' name='target_id' id='target_id' value=''>
+                        
                         <input type='hidden' name='no_inactive' id='no_inactive' value=''>
 
                         <h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>
-                        <div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick="javascript: showAboutEditors('mode1');">Edit</button> <button type='button' onClick="javascript: showAboutEditors('mode0');">New</button></div>
-                        <div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>
-                        <div class='su-about2'>This is the active about us statement</div>
-                        <div class='su-about-head'>Archived Statements &nbsp<i class='fas fa-archive'></i></div>
-                        <div class='su-about1'>The statements below can be activated as the current statement at any time.</div>
-                        <div class='su-about-list-top'>
-                            <button type='button' onClick="javascript: selectAllAbouts();">Select All</button>
-                            <button type='button' onClick="javascript: clearAllAbouts();">Clear All</button>
+                        <div class='su-about-exit'><button type='button' onClick="javascript: closeEditor();">Exit</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class='su-about-errors hidden' id='about-editor-builder'>
+            <div class='su-center su-width45'>
+                <div class='su-general'>
+                    <form>
+                        <input type='hidden' name='target_model' id='target_model' value='about'>
+                        <input type='hidden' name='target_action' id='about_target_action' value=''>
+                        <input type='hidden' name='target_id' id='about_target_id' value=''>
+                        <input type='hidden' name='is_active' id='f_is_active' value='False'>
+                        <div class='su-confirm-exit2 raise-closer'><i class='fas fa-window-close' onClick="javascript: closeAboutError();"></i></div>
+                        <h3><i class='fas fa-id-card'></i> &nbsp<span id='master-abt-header'></span></h3>
+                        <div class='su-textarea-md'><textarea name='statement' id='f_about_area' placeholder='Enter About Us Statement Here...'></textarea></div>
+                        <div class='set-active-ck'>
+                            <input type='checkbox' id='f_active_cb' onClick="javascript: suCheckbox('#f_active_cb', '#f_is_active')">
+                            Set As Active
                         </div>
-                        <div class='su-about3'>
-                            <ul>
-                                {% for a in abouts %}
-                                <div id='div_a{{a.index}}' class='{{a.class}}'>
-                                    <li>
-                                        <a href="javascript: launchAdminEditors('about', '1', '{{a.index}}');">
-                                            <input type='hidden' id='a_id{{a.index}}' value='{{a.id}}'>
-                                            <input type='hidden' id='statement_{{a.index}}' value='{{a.statement}}'>
-                                            <input type='hidden' id='active_{{a.index}}' value='{{a.is_active}}'>
-                                            <table>
-                                                <tr>
-                                                    <td><input type='checkbox' onClick="javascript: selectAboutItem('{{a.index}}');" id='ab_box_{{a.index}}'></td>
-                                                    <td class='su-about-list'>{{a.statement}}</td>
-                                                </tr>
-                                            </table>
-                                        </a>
-                                    </li>
-                                </div>
-                                {% endfor %}
-                            </ul>
+                        <div class='su-general-btns'>
+                            <span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick="javascript: validateSUModel('about')">Update</button></span>
+                            <button onClick="javascript: checkPopulatedFields('about', '1');">Cancel</button>
                         </div>
-                        <div class='su-about-list-buttons'>
-                            <button type='button' onClick="confirmAboutEditors('set_active')">Set Active</button>
-                            <button type='button' onClick="javascript: showAboutEditors('mode2');">Update</button>
-                            <span id='su-abtDel-cont'><button onClick="javascript: confirmAboutEditors('delete')" id='su-delAboutBtn'>Delete Selected</button></span>
-                        </div>
-                        <div class='su-about-exit'><button type='button' onClick="javascript: checkPopulatedFields('about', '1');">Exit</button></div>
                     </form>
                 </div>
             </div>
         </div>
 
         <div class='su-error-container hidden' id='su-editor-builder'>
-            <div class='su-center su-width30'>
-                <div class='su-confirm'>
-                    <form action='\adminAlt' method='POST' id='pop_delete_form'>
-                        <input type='hidden' name='target_model' id='target_model' value='get_model'>
-                        <input type='hidden' name='target_action' id='target_action' value='delete'>
-                        <input type='hidden' name='target_id' id='target_id' value='get_id'>
-                        <div class='su-confirm-exit'><i class='fas fa-window-close' onClick="javascript: closeError();"></i></div>
-                        <h3><i class='fas fa-map-marker-alt'></i> &nbsp Update Address</h3>
-                        <div class='su-confirm1'>Are you sure you want to proceed?</div>
-                        <div class='su-confirm2'>This will alter the address on the contact page</div>
-                        <div class='su-confirm-wrapper'>
-                            <div class='su-admin-warning-h'>New Address</div>
-                            <div class='su-admin-warning-i'>Address Line 1</div>
-                            <div class='su-admin-warning-i'>Address Line 2</div>
-                            <div class='su-admin-warning-i'>Address Line 3</div>
-                            <div class='su-admin-warning-i'>Detroit, MI 48504</div>
-                        </div>
-                        <div class='su-confirm-buttons18'>
-                            <button type='button' onClick="javascript: submitDelete();">Delete</button>
-                            <button type='button' onClick="javascript: closeError();">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
+
 
         <div class='su_head-style'>
             <div class="container">
