@@ -2456,13 +2456,13 @@ function buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, f
     {
         html += "<tr>";
         html += "<th class='su-table-hd-left su-grouped-hours su-table-btm'>Weekends</th>";
-        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_open' id='open_sun' oninput=\"javascript: inputhour('2', '#open_sun');\" value='" + sat['open'] + "'></td>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='saturday_open' id='open_sat' oninput=\"javascript: inputhour('2', '#open_sat');\" value='" + sat['open'] + "'></td>";
         html += "<td class='su-sel-in su-table-btm'>";
-        html += "<select id='s_open_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "<select id='s_open_sat'><option value='am'>AM</option><option value='pm'>PM</option></select>";
         html += "</td>";
-        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sun' oninput=\"javascript: inputhour('2', '#close_sun');\" value='" + sat['close'] + "'></td>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sat' oninput=\"javascript: inputhour('2', '#close_sat');\" value='" + sat['close'] + "'></td>";
         html += "<td class='su-sel-in su-sel-end su-table-btm'>";
-        html += "<select id='s_close_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "<select id='s_close_sat'><option value='am'>AM</option><option value='pm'>PM</option></select>";
         html += "</td>";
         html += "</tr>";
     }
@@ -3637,7 +3637,7 @@ function validateHoursFields()
             messages.push("Empty Field Detected");
             messages.push("You must enter a opening time for Weekdays");
         }
-        else if(mon_close.length === 0)
+        else if(mon_clos.length === 0)
         {
             messages.push("Empty Field Detected");
             messages.push("You must enter a closing time for Weekdays");
