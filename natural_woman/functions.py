@@ -358,6 +358,24 @@ def json_serialize_users_all():
 		index += 1
 	return data
 
+def queryAbouts():
+	data 	= []
+	index 	= 0
+	abouts 	= About.query.all()
+	for a in abouts:
+		d = {}
+		d["statement"] 	= a.statement
+		d['is_active'] 	= str(a.is_active)
+		d['id']			= a.id
+		d['index'] 		= index
+		if index % 2 == 1:
+			d['class'] = "li-shade1"
+		else:
+			d['class'] = "li-shade2"
+		data.append(d)
+		index += 1
+	return data
+
 def loadSuperuser():
 	data = {}
 	data['users'] 		= json_serialize_users_all()
@@ -366,7 +384,6 @@ def loadSuperuser():
 	data['images'] 		= json_serialize_gallery()
 	data['payments']	= json_serialize_payments()
 	data['company'] 	= json_serialize_company()
-	data['abouts'] 		= json_serialize_abouts()
 	data['auths'] 		= json_serialize_auths()
 	data['questions']	= json_serialize_security()
 	data['url'] 		= "admin/master/superuser_admin.html"
@@ -437,6 +454,7 @@ def json_serialize_company():
 		data['sunday'] 		= c.sunday
 	else:
 		data['sunday'] 		= "empty"
+	data['abouts'] 			= queryAbouts()
 	return data
 
 def json_serialize_payments():

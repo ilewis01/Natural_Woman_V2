@@ -513,6 +513,11 @@
     margin: auto;
 }
 
+.su-width38 {
+    width: 38%;
+    margin: auto;
+}
+
 .su-width40 {
     width: 40%;
     margin: auto;
@@ -651,7 +656,7 @@ textarea {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 3;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -994,6 +999,7 @@ textarea {
 .su-admin-warning-p {
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 3px;
     font-style: italic;
     color: #2c4093;
     font-weight:700;
@@ -1144,6 +1150,136 @@ textarea {
 .su-table-height {
     height: 180px;
 }
+
+.su-about-head {
+    color: #7e1d1d;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: -10px;
+}
+
+.su-about-head i {
+    color: #265477;
+    text-shadow: none;
+    margin-right: 15px;
+}
+
+.su-about-head button {
+    padding:0;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+}
+
+.su-about1 {
+    color: #1b3c56;
+    
+}
+
+.su-about2 {
+    width: 100%;
+    background-color: #cccccc;
+    border: 1px solid #777777;
+    border-radius: 6px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 6px;
+    font-style: italic;
+    margin-bottom: 38px;
+}
+
+.su-about3 {
+    max-height: 200px;
+    border: 1px solid #666666;
+    overflow-y: auto;
+
+}
+
+.su-about-list-buttons {
+    border-left: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    border-right: 1px solid #666666;
+    border-top: 1px solid #666666;
+    text-align: right;
+    margin-bottom: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #cccccc;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.su-about-list-top {
+    margin-top: 8px;
+    border-left: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    border-right: 1px solid #666666;
+    border-top: 1px solid #666666;
+    text-align: right;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #cccccc;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+.su-about-list-top button {
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 10px;
+}
+
+.su-about3 ul {
+    padding: 0;
+    margin:0;
+    border: 1px solid #666666;
+}
+
+.su-about3 li {
+    list-style: none;
+}
+
+.su-about3 a {
+    color: #444444;
+    font-style: italic;
+}
+
+.su-about3 a:hover {
+    text-decoration: none;
+}
+
+.su-about-list {
+    border-left: 1px solid #666666;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.su-about-exit {
+    width: 100%;
+    padding:0;
+    margin: 0;
+    border: 1px solid #666666;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right:10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #777777;
+}
+
+.su-about-exit button {
+    width: 100%;
+}
+
 
 </style>
 
@@ -1370,7 +1506,7 @@ function initializeAdmin(blogs, users, company)
     superAdminLaunch("contact", company);
 }
 
-function superAdminLaunch(model, data)
+function superAdminLaunch(model, data, data2)
 {
     var html = null;
     model = String(model);
@@ -1488,7 +1624,7 @@ function buildContact(data)
         html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
     }
     html += "</div>";
-    html += "<div class='su-abt-style'><button onClick=\"javascript: launchAdminEditors('about', '1', '1');\">Edit <em>\"About Us\"</em> Statement</button></div>";
+    html += "<div class='su-abt-style'><button onClick=\"javascript: buildAboutEditor({{company.abouts}});\">Update <em>\"About Us\"</em> Statement</button></div>";
     return html;
 }
 
@@ -2016,6 +2152,21 @@ function selectPaymentItem(index)
     }
 }
 
+function selectAboutItem(index)
+{
+    index = String(index);
+    if ($("#ab_box_" + index).prop("checked") === true)
+    {
+        $("#div_a" + index).addClass("su_ultimate_selector");
+        addAboutItem(index);
+    }
+    else
+    {
+        $("#div_a" + index).removeClass("su_ultimate_selector");
+        removeAboutItem(index);
+    }
+}
+
 function addModelItem(index)
 {
     var current = $("#selected-db").val();
@@ -2131,6 +2282,45 @@ function removePayItem(index)
     }
     $("#selected-payment").val(new_list);
     setPaymentDeleteBtn();
+}
+
+function addAboutItem(index)
+{
+    var current = $("#selected-payment").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-payment").val(current);
+    // setPaymentDeleteBtn();
+}
+
+function removeAboutItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-payment").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-payment").val(new_list);
+    // setPaymentDeleteBtn();
 }
 
 function setModelDeleteBtn()
@@ -2532,7 +2722,6 @@ function setHoursIndices(hours, day)
     $(trigger_opn).prop("selectedIndex", open);
     $(trigger_cls).prop("selectedIndex", close);
 }
-
 
 function decodeSuTime(trigger)
 {
@@ -3325,8 +3514,104 @@ function buildMaxEditor()
     return html;
 }
 
+function buildAboutEditor(data)
+{
+    var html        = "";
+    var active      = null;
+    var a_index     = 0;
+    var i           = 0;
+    var a_id        = null;
+    var inactive    = [];
+    var list_size   = 0;
+    var index       = null;
+    var statement   = null;
+    var a_id        = null;
+    for(i = 0; i < data.length; i++)
+    {
+        if (data[i]["is_active"] === "False") { inactive.push(data[i]); }
+        else
+        {
+            active = data[i]['statement'];
+            a_index = data[i]['index'];
+            a_id    = data[i]['id']
+        }
+    }
+    list_size = inactive.length;
+    html += "<div class='su-center su-width38'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<input type='hidden' name='no_inactive' id='no_inactive' value='" + list_size + "'>";
+    html += "<h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>";
+    html += "<div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick=\"javascript: showAboutEditors('mode1');\">Edit</button> <button type='button' onClick=\"javascript: showAboutEditors('mode0');\">New</button></div>";
+    html += "<div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>";
+    html += "<div class='su-about2'>This is the active about us statement</div>";
+    html += "<div class='su-about-head'>Archived Statements &nbsp<i class='fas fa-archive'></i></div>";
+    html += "<div class='su-about1'>The statements below can be activated as the current statement at any time.</div>";
+    html += "<div class='su-about-list-top'>";
+    html += "<button type='button' onClick=\"javascript: selectAllAbouts();\">Select All</button>";
+    html += "<button type='button' onClick=\"javascript: clearAllAbouts();\">Clear All</button>";
+    html += "</div>";
+    html += "<div class='su-about3'>";
+    html += "<ul>";
+    for (i = 0; i < list_size; i++)
+    {
+        index       = String(data[i]['index']);
+        statement   = String(data[i]['statement']);
+        a_id        = String(data[i]['id']);
+        html += "<div id='div_a" + index + "' class='" + data[i]['class'] + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: launchAdminEditors('about', '1', '" + index + "');\">";
+        html += "<input type='hidden' id='a_id" + index + "' value='" + a_id + "'>";
+        html += "<input type='hidden' id='statement_" + index + "' value='" + statement + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectAboutItem('" + index + "');\" id='ab_box_" + index + "'></td>";
+        html += "<td class='su-about-list'>" + statement + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    html += "</ul>";
+    html += "</div>";
+    html += "<div class='su-about-list-buttons'>";
+    html += "<button type='button' onClick=\"confirmAboutEditors('set_active')\">Set Active</button>";
+    html += "<button type='button' onClick=\"javascript: showAboutEditors('mode2');\">Update</button>";
+    html += "<span id='su-abtDel-cont'><button onClick=\"javascript: confirmAboutEditors('delete')\" id='su-delAboutBtn'>Delete Selected</button></span>";
+    html += "</div>";
+    html += "<div class='su-about-exit'><button type='button' onClick=\"javascript: checkPopulatedFields('about', '1');\">Exit</button></div>";
+    html += "</div>";
+    html += "</div>";
+    $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass('hidden');
+    $("#pop-up-builder").fadeIn(600);
+}
+
+function showAboutEditors(mode)
+{
+    alert("Showing About Editor: " + mode)
+}
+
+function confirmAboutEditors(mode)
+{
+    alert("Showing Confirm Window Mode: " + mode)
+}
+
+function selectAllAbouts()
+{
+    alert("Selecting All Abouts")
+}
+
+function clearAllAbouts()
+{
+    alert("Clearing All Abouts")
+}
+
 function buildPaymentEditor()
 {
+    alert("Building Payment Editor")
     var html = "";
     return html;
 }
@@ -4854,6 +5139,7 @@ function launchAdminEditors(model, mode, index)
     else if (model === "facebook") { html = buildMediaEditor(model); }
     else if (model === "twitter") { html = buildMediaEditor(model); }
     else if (model === "instagram") { html = buildMediaEditor(model); }
+    else if (model === "about") { html = buildAboutEditor(); }
     openEditor(html);
     if (model === "hours") { setHourSelects(); }
 }
@@ -5190,7 +5476,7 @@ function launchSiteAdminWarning(model)
         var hours1      = "";
         var hours2      = "";
 
-        if (String(isSpecial) === "True") { title = $("#k_special_hours").val(); }
+        if (String(isSpecial) === "True") { title = $("#k_special_hours_input").val(); }
         if (String(weekdays) === "False")
         {
             tue = decodeSuTime("tue");
@@ -5355,6 +5641,13 @@ function suSendNew ()
     alert("Sending new authorization...")
 }
 
+function editCurrentAbout(index)
+{
+    var html = "";
+    index = String(index);
+    alert("building current about editor")
+}
+
 
 
 </script>
@@ -5367,20 +5660,52 @@ function suSendNew ()
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <div class='su-center su-width30'>
+            <div class='su-center su-width38'>
                 <div class='su-general'>
                     <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
                     <form action='/adminAlt' method='POST' id='pop_form'>
-                        <input type='hidden' name='target_model' id='target_model' value='phone'>
-                        <input type='hidden' name='target_action' id='target_action' value='update'>
+                        <input type='hidden' name='target_model' id='target_model' value='about'>
+                        <input type='hidden' name='target_action' id='target_action' value=''>
                         <input type='hidden' name='target_id' id='target_id' value=''>
+                        <input type='hidden' name='no_inactive' id='no_inactive' value=''>
 
-                        <h3><i class='fas fa-clock'></i> &nbspBusiness Hours</h3>
-                        
-                        <div class='su-confirm-buttons2'>
-                            <button type='button' onClick="javascript: validateSUModel('hours');">Update</button>
-                            <button type='button' onClick="javascript: checkPopulatedFields('hours', '1');">Cancel</button>
+                        <h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>
+                        <div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick="javascript: showAboutEditors('mode1');">Edit</button> <button type='button' onClick="javascript: showAboutEditors('mode0');">New</button></div>
+                        <div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>
+                        <div class='su-about2'>This is the active about us statement</div>
+                        <div class='su-about-head'>Archived Statements &nbsp<i class='fas fa-archive'></i></div>
+                        <div class='su-about1'>The statements below can be activated as the current statement at any time.</div>
+                        <div class='su-about-list-top'>
+                            <button type='button' onClick="javascript: selectAllAbouts();">Select All</button>
+                            <button type='button' onClick="javascript: clearAllAbouts();">Clear All</button>
                         </div>
+                        <div class='su-about3'>
+                            <ul>
+                                {% for a in abouts %}
+                                <div id='div_a{{a.index}}' class='{{a.class}}'>
+                                    <li>
+                                        <a href="javascript: launchAdminEditors('about', '1', '{{a.index}}');">
+                                            <input type='hidden' id='a_id{{a.index}}' value='{{a.id}}'>
+                                            <input type='hidden' id='statement_{{a.index}}' value='{{a.statement}}'>
+                                            <input type='hidden' id='active_{{a.index}}' value='{{a.is_active}}'>
+                                            <table>
+                                                <tr>
+                                                    <td><input type='checkbox' onClick="javascript: selectAboutItem('{{a.index}}');" id='ab_box_{{a.index}}'></td>
+                                                    <td class='su-about-list'>{{a.statement}}</td>
+                                                </tr>
+                                            </table>
+                                        </a>
+                                    </li>
+                                </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class='su-about-list-buttons'>
+                            <button type='button' onClick="confirmAboutEditors('set_active')">Set Active</button>
+                            <button type='button' onClick="javascript: showAboutEditors('mode2');">Update</button>
+                            <span id='su-abtDel-cont'><button onClick="javascript: confirmAboutEditors('delete')" id='su-delAboutBtn'>Delete Selected</button></span>
+                        </div>
+                        <div class='su-about-exit'><button type='button' onClick="javascript: checkPopulatedFields('about', '1');">Exit</button></div>
                     </form>
                 </div>
             </div>
