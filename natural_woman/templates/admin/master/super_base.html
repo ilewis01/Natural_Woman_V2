@@ -991,6 +991,14 @@ textarea {
     text-align: right;
 }
 
+.su-admin-warning-p {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-style: italic;
+    color: #2c4093;
+    font-weight:700;
+}
+
 .su-admin-warning-i {
     padding-left: 15px;
     padding-right: 15px;
@@ -3347,6 +3355,515 @@ function validateSUModel(model)
     else if (model === 'email') { validatingSubEmail(); }
     else if (model === 'max_images') { validatingSubMax(); }
     else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { validatingSubMedia(model); }
+    else if (model === 'hours') { validateHoursFields(); }
+    else if (model === 'about') { validatingAboutFields(); }
+    else if (model === 'payments') { validatingPaymentFields(); }
+    else if (model === 'change_name') { validatingChangeName(); }
+    else if (model === 'change_email') { validatingChangeEmail(); }
+    else if (model === 'change_password') { validatingChangePassword(); }
+}
+
+function validateHoursFields()
+{
+    var proceed     = false;
+    var messages    = [];
+    var weekdays    = $("#f_group_weekdays").val();
+    var weekends    = $("#f_group_weekends").val();
+    var isSpecial   = $("#special_check").val();
+    var mon_open    = $("#open_mon").val();
+    var mon_clos    = $("#close_mon").val();
+    var sat_open    = $("#open_sat").val();
+    var sat_clos    = $("#close_sat").val();
+    weekdays        = String(weekdays);
+    weekends        = String(weekends);
+    isSpecial       = String(isSpecial);
+    mon_open        = String(mon_open);
+    mon_clos        = String(mon_clos);
+    sat_open        = String(sat_open);
+    sat_clos        = String(sat_clos);
+    if (weekdays === "True" && weekends === "True" && isSpecial === "False")
+    {
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "True" && weekends === "False" && isSpecial === "False")
+    {
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "True" && isSpecial === "False")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "False" && isSpecial === "False")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else { proceed = true; }
+    }
+    if (weekdays === "True" && weekends === "True" && isSpecial === "True")
+    {
+        var title = $("#f_hours_title").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "True" && weekends === "False" && isSpecial === "True")
+    {
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        var title = $("#f_hours_title").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_close.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "True" && isSpecial === "True")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        var title    = $("#f_hours_title").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "False" && isSpecial === "True")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        var title    = $("#f_hours_title").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    } 
+    if (proceed === true) { launchSiteAdminWarning("hours"); }
+    else { generateErrorWindow(messages)}; 
+}
+
+function validatingAboutFields()
+{
+    alert("Validating About Fields")
+}
+
+function validatingPaymentFields()
+{
+    alert("Validating Payment Fields")
+}
+
+function validatingChangeName()
+{
+    alert("Validating Change Name Fields")
+}
+
+function validatingChangeEmail()
+{
+    alert("Validating Change Email Fields")
+}
+
+function validatingChangePassword()
+{
+    alert("Validating Change Password Fields")
 }
 
 function validatingSubAddress()
@@ -3825,6 +4342,36 @@ function checkPopulatedFields(model, mode, index)
     else if (model === 'max_images') { checkMaxField(); }
     else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { checkMediaFields(model); }
     else if (model === "hours") { checkHoursFields(); }
+    else if (model === "about") { checkAboutFields(); }
+    else if (model === "payments") { checkPaymentFields(); }
+    else if (model === "change_name") { checkChangeNameFields(); }
+    else if (model === "change_email") { checkChangeEmailFields(); }
+    else if (model === "change_password") { checkChangePasswordFields(); }
+}
+
+function checkAboutFields()
+{
+    alert("Checking About Fields")
+}
+
+function checkPaymentFields()
+{
+    alert("Checking Payment Fields")
+}
+
+function checkChangeNameFields()
+{
+    alert("Checking Change Name Fields")
+}
+
+function checkChangeEmailFields()
+{
+    alert("Checking Change Email Fields")
+}
+
+function checkChangePasswordFields()
+{
+    alert("Checking Change Password Fields")
 }
 
 function checkHoursFields()
@@ -3855,7 +4402,6 @@ function checkHoursFields()
     var fri             = "empty";
     var sun             = "empty";
     var title           = "Hours of Operation";
-
     if (group_weekdays === "False")
     {
         tue = decodeSuTime("tue");
@@ -4630,9 +5176,54 @@ function launchSiteAdminWarning(model)
     }
     else if (model === "hours")
     {
+        var isSpecial   = $("#special_check").val();
+        var weekdays    = $("#f_group_weekdays").val();
+        var weekends    = $("#f_group_weekends").val();
+        var mon         = decodeSuTime("mon");
+        var sat         = decodeSuTime("sat");
+        var tue         = "";
+        var wed         = "";
+        var thu         = "";
+        var fri         = "";
+        var sun         = "";
+        var title       = "Hours of Operation";
+        var hours1      = "";
+        var hours2      = "";
+
+        if (String(isSpecial) === "True") { title = $("#k_special_hours").val(); }
+        if (String(weekdays) === "False")
+        {
+            tue = decodeSuTime("tue");
+            wed = decodeSuTime("wed");
+            thu = decodeSuTime("thu");
+            fri = decodeSuTime("fri");
+            hours1 += "<div class='su-admin-warning-i'><b>Monday: </b>" + mon + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Tuesday: </b>" + tue + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Wednesday: </b>" + wed + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Thursday: </b>" + thu + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Friday: </b>" + fri + "</div>";
+        }
+        else
+        {
+            hours1 += "<div class='su-admin-warning-i'><b>Weekdays: </b>" + mon + "</div>";
+        }
+        if (String(weekends) === "False")
+        {
+            sun = decodeSuTime('sun');
+            hours2 += "<div class='su-admin-warning-i'><b>Saturday: </b>" + sat + "</div>";
+            hours2 += "<div class='su-admin-warning-i'><b>Sunday: </b>" + sun + "</div>";
+        }
+        else
+        {
+            hours2 += "<div class='su-admin-warning-i'><b>Weekends: </b>" + sat + "</div>";
+        }
+
         header = "<h3><i class='fas fa-clock'></i> &nbsp Update Business Hours</h3>";
         sub_msg = "<div class='su-confirm2'>This will alter the hours of operation</div>";
         w_type = "New Hours Of Operation";
+        details += "<div class='su-admin-warning-p'>" + title + ":</div>";
+        details += "<div class='su-admin-warning-i'>" + hours1 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + hours2 + "</div>";
     }
 
     html += "<div class='su-center su-width30'>";
