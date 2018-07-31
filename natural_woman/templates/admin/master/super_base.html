@@ -3599,7 +3599,7 @@ function validateHoursFields()
     }
     if (weekdays === "True" && weekends === "True" && isSpecial === "True")
     {
-        var title = $("#f_hours_title").val();
+        var title = $("#k_special_hours_input").val();
         if(mon_open.length === 0)
         {
             messages.push("Empty Field Detected");
@@ -3631,7 +3631,7 @@ function validateHoursFields()
     {
         var sun_open = $("#open_sun").val();
         var sun_clos = $("#close_sun").val();
-        var title = $("#f_hours_title").val();
+        var title = $("#k_special_hours_input").val();
         if(mon_open.length === 0)
         {
             messages.push("Empty Field Detected");
@@ -3679,7 +3679,7 @@ function validateHoursFields()
         var thu_clos = $("#close_thu").val();
         var fri_open = $("#open_fri").val();
         var fri_clos = $("#close_fri").val();
-        var title    = $("#f_hours_title").val();
+        var title    = $("#k_special_hours_input").val();
         if(mon_open.length === 0)
         {
             messages.push("Empty Field Detected");
@@ -3759,7 +3759,7 @@ function validateHoursFields()
         var fri_clos = $("#close_fri").val();
         var sun_open = $("#open_sun").val();
         var sun_clos = $("#close_sun").val();
-        var title    = $("#f_hours_title").val();
+        var title    = $("#k_special_hours_input").val();
         if(mon_open.length === 0)
         {
             messages.push("Empty Field Detected");
