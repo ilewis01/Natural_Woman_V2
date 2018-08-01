@@ -4766,17 +4766,10 @@ function checkPopulatedFields(model, mode, index)
     else if (model === 'max_images') { checkMaxField(); }
     else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { checkMediaFields(model); }
     else if (model === "hours") { checkHoursFields(); }
-    else if (model === "about") { checkAboutFields(); }
     else if (model === "payments") { checkPaymentFields(); }
     else if (model === "change_name") { checkChangeNameFields(); }
     else if (model === "change_email") { checkChangeEmailFields(); }
     else if (model === "change_password") { checkChangePasswordFields(); }
-}
-
-function checkAboutFields()
-{
-    alert("Checking about fields")
-    var statement = $("#f_about_area").val();
 }
 
 function checkPaymentFields()
@@ -5241,6 +5234,27 @@ function buildWarningError(messages)
     $("#su-editor-builder").fadeIn(600);
 }
 
+function buildWarningError2(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    // html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>" + messages[0] + "</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[1] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[2] + "</div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button onClick=\"javascript: suHardClose2();\">Leave Page</button>";
+    html += "<button onClick=\"javascript: suSoftClose();\">Stay On Page</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
 function generateErrorWindow(messages)
 {
     html = "";
@@ -5280,8 +5294,26 @@ function launchAdminEditors(model, mode, index)
     else if (model === "twitter") { html = buildMediaEditor(model); }
     else if (model === "instagram") { html = buildMediaEditor(model); }
     else if (model === "about") { html = buildAboutEditor(); }
+    else if (model === "change_email") { html = buildNewEmailEditor(); }
+    else if (model === "change_name") { html = buildNewNameEditor(); }
+    else if (model === "change_password") { html = buildNewPasswordEditor(); }
     openEditor(html);
     if (model === "hours") { setHourSelects(); }
+}
+
+function buildNewEmailEditor()
+{
+    alert("Building Change Email Editor")
+}
+
+function buildNewNameEditor()
+{
+    alert("Building Change Name Editor")
+}
+
+function buildNewPasswordEditor()
+{
+    alert("Building Change Password Editor")
 }
 
 function getSelectedModel()
@@ -5806,6 +5838,17 @@ function suHardClose()
     $("#su-editor-builder").fadeOut(600);
 }
 
+function suHardClose2()
+{
+    $("#about-editor-builder").fadeOut(600, function() {
+        $("#su-editor-builder").fadeOut(600);
+        $("#f_about_area").html("");
+        $("#f_is_active").val("False");
+        $("#f_active_cb").prop("disabled", false);
+        $("#f_active_cb").prop("checked", false);
+    }); 
+}
+
 function suCheckbox(trigger, target)
 {
     trigger = String(trigger);
@@ -5871,7 +5914,7 @@ function closeAboutError()
                         </div>
                         <div class='su-general-btns'>
                             <span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick="javascript: validateSUModel('about')">Update</button></span>
-                            <button onClick="javascript: checkPopulatedFields('about', '1');">Cancel</button>
+                            <button type='button' onClick="javascript: closeAboutError();">Cancel</button>
                         </div>
                     </form>
                 </div>
