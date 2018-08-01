@@ -576,6 +576,16 @@
     margin-bottom: 5px;
 }
 
+.su-general input[type="password"] {
+    width: 100%;
+    border-radius: 5px;
+    font-size: 11px;
+    border-color: #aaaaaa;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 5px;
+}
+
 .su-general input[type="email"] {
     width: 100%;
     border-radius: 5px;
@@ -1362,11 +1372,13 @@ textarea {
     padding-right: 20px;
     border-bottom: 1px solid #777777;
     background: rgba(200, 200, 200, 0.4);
+    color: #424903;
 }
 
 .su-drop-window li:hover {
     background: linear-gradient(to top, rgba(170, 164, 130, 0.8), rgba(229, 225, 198, 0.8));
     border-color: #555555;
+    color: #604a09;
 }
 
 </style>
@@ -4327,17 +4339,89 @@ function validatingPaymentFields()
 
 function validatingChangeName()
 {
-    alert("Validating Change Name Fields")
+    var send_msg    = false;
+    var m           = [];
+    var password    = $("#password").val();
+    var fname       = $("#change_fname").val();
+    var lname       = $("#change_lname").val();
+    if (password.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter your current password to proceed");
+    }
+    else if (fname.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new first name to proceed");
+    }
+    else if (lname.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new last name to proceed");
+    }
+    if (send_msg === false) { launchSiteAdminWarning('change_name'); }
+    else { generateErrorWindow(m); }
 }
 
 function validatingChangeEmail()
 {
-    alert("Validating Change Email Fields")
+    var send_msg    = false;
+    var m           = [];
+    var password    = $("#password").val();
+    var email1      = $("#email1").val();
+    var email2      = $("#email2").val();
+    if (password.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter your current password to proceed");
+    }
+    else if (email1.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new email address to proceed");
+    }
+    else if (validate_email(email1) === false)
+    {
+        send_msg = true;
+        m.push("Invalid Email Detected");
+        m.push("You must enter a valid new email address to proceed");
+    }
+    else if (email2.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must confirm your new email address to proceed");
+    }
+    else if (validate_email(email2) === false)
+    {
+        send_msg = true;
+        m.push("Invalid Email Detected");
+        m.push("You must enter a valid confirmation email address to proceed");
+    }
+    else if (email1 !== email2)
+    {
+        send_msg = true;
+        m.push("The Emails Do Not Match!");
+        m.push("");
+    }
+    if (send_msg === false) { launchSiteAdminWarning('change_email'); }
+    else { generateErrorWindow(m); }
 }
 
 function validatingChangePassword()
 {
-    alert("Validating Change Password Fields")
+    var m               = [];
+    var curr_password   = $("#curr_password").val();
+    var password1       = $("#password1").val();
+    var password2       = $("#password2").val();
+    alert(curr_password)
+    alert(password1)
+    alert(password2)
 }
 
 function validatingSubAddress()
@@ -5353,17 +5437,75 @@ function launchAdminEditors(model, mode, index)
 
 function buildNewEmailEditor()
 {
-    alert("Building Change Email Editor")
+    var html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='user_target_model' value='user'>";
+    html += "<input type='hidden' name='target_action' id='user_target_action' value='change_email'>";
+    html += "<h3><i class='fas fa-user-cog'></i> &nbspChange Login Email</h3>";
+    html += "<input type='password' name='password' id='password' placeholder='Enter Password'>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<input type='email' name='email1' id='email1' placeholder='Enter New Email'>";
+    html += "<input type='email' name='email2' id='email2' placeholder='Confirm New Email'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('change_email');\">Submit</button>";
+    html += "<button type='button' onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
 }
 
 function buildNewNameEditor()
 {
-    alert("Building Change Name Editor")
+    var html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='user_target_model' value='user'>";
+    html += "<input type='hidden' name='target_action' id='user_target_action' value='change_name'>";
+    html += "<h3><i class='fas fa-user-cog'></i> &nbspChange User Name</h3>";
+    html += "<input type='password' name='password' id='password' placeholder='Enter Password'>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<input type='text' name='fname' id='change_fname' placeholder='First Name'>";
+    html += "<input type='text' name='lname' id='change_lname' placeholder='Last Name'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('change_name');\">Submit</button>";
+    html += "<button type='button' onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
 }
 
 function buildNewPasswordEditor()
 {
-    alert("Building Change Password Editor")
+    var html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='user_target_model' value='user'>";
+    html += "<input type='hidden' name='target_action' id='user_target_action' value='change_password'>";
+    html += "<h3><i class='fas fa-user-cog'></i> &nbspChange Password</h3>";
+    html += "<input type='password' name='curr_password' id='curr_password' placeholder='Enter Old Password'>";
+    html += "<input type='password' name='password1' id='password1' placeholder='Enter New Password'>";
+    html += "<input type='password' name='password2' id='password2' placeholder='Confirm New Password'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('change_password');\">Submit</button>";
+    html += "<button type='button' onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
 }
 
 function getSelectedModel()
@@ -5720,6 +5862,18 @@ function launchSiteAdminWarning(model)
         w_type = "New Instagram Link";
         details += "<div class='su-admin-warning-c'>" + il + "</div>";
     }
+    else if (model === "change_name")
+    {
+        alert("Building Change Name Warning")
+    }
+    else if (model === "change_email")
+    {
+        alert("Building Change Email Warning")
+    }
+    else if (model === "change_password")
+    {
+        alert("Building Change Password Warning")
+    }
     else if (model === "hours")
     {
         var isSpecial   = $("#special_check").val();
@@ -5951,15 +6105,23 @@ function openSuDropMenu()
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
         <div class='su-pop-container hidden' id='pop-up-builder'>
-            <div class='su-center su-width38'>
+            <div class='su-center su-width30'>
                 <div class='su-general'>
                     <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
                     <form action='/adminAlt' method='POST' id='pop_form'>
-                        
-                        <input type='hidden' name='no_inactive' id='no_inactive' value=''>
+                        <input type='hidden' name='target_model' id='user_target_model' value='user'>
+                        <input type='hidden' name='target_action' id='user_target_action' value='update'>
 
-                        <h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>
-                        <div class='su-about-exit'><button type='button' onClick="javascript: closeEditor();">Exit</button></div>
+                        <h3><i class='fas fa-user-cog'></i> &nbspChange User Name</h3>
+                        <input type='password' name='password' id='password' placeholder='Enter Password'>
+                        <div class='su-sp-top'></div>
+                        <div class='su-sp-top'></div>
+                        <input type='email' name='email1' id='email1' placeholder='Enter New Email'>
+                        <input type='email' name='email2' id='email2' placeholder='Confirm New Email'>
+                        <div class='su-general-btns'>
+                            <button type='button' onClick="javascript: validateSUModel('change_email');">Submit</button>
+                            <button type='button' onClick="javascript: closeEditor();">Cancel</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -5993,14 +6155,13 @@ function openSuDropMenu()
 
         <div class='su-drop-window hidden' id='su-drop-window'>
             <ul>
-                <li><a href="#">View Email</a></li>
-                <li><a href="#">Change Name</a></li>
-                <li><a href="#">Change Email</a></li>
-                <li><a href="#">Change Password</a></li>
-                <li><a href="#">Logout</a></li>
+                <li>My Email</li>
+                <li onClick="javascript: launchAdminEditors('change_name', 0);">Change Name</li>
+                <li onClick="javascript: launchAdminEditors('change_email', 0);">Change Login Email</li>
+                <li onClick="javascript: launchAdminEditors('change_password', 0);">Change Password</li>
+                <li>Logout</li>
             </ul>
         </div>
-
 
         <div class='su_head-style'>
             <div class="container">
