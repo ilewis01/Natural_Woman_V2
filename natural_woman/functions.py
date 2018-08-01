@@ -376,7 +376,7 @@ def queryAbouts():
 		index += 1
 	return data
 
-def loadSuperuser():
+def loadSuperuser(user):
 	data = {}
 	data['users'] 		= json_serialize_users_all()
 	data['blogs'] 		= json_serialize_blogs() 
@@ -386,6 +386,7 @@ def loadSuperuser():
 	data['company'] 	= json_serialize_company()
 	data['auths'] 		= json_serialize_auths()
 	data['questions']	= json_serialize_security()
+	data['c_user'] 		= user
 	data['url'] 		= "admin/master/superuser_admin.html"
 	return data
 

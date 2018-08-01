@@ -40,13 +40,16 @@
     color: #dfdbbc;
     text-shadow: 2px 2px #333333;
     border-bottom: 1px solid #444444;
-    padding:20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     width: 100%;
     font-size: 22px;
     position: absolute;
     top:0;
     left:0;
-    background: linear-gradient(rgba(200, 200, 200, 0.7), rgba(88, 85, 56, 0.7));
+    background: linear-gradient(rgba(206, 209, 162, 0.6), rgba(88, 85, 56, 0.6));
     box-shadow: 2px 2px 2px #222222;
 }
 
@@ -135,12 +138,13 @@
     font-size: 12px;
     padding-top: 200px;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
+    text-shadow: 1px solid #444444;
 }
 
 .su-logout-btn a {
-    color: #333333;
+    color: #dfdbbc;
 }
 
 .su-logout-btn a:hover {
@@ -1318,6 +1322,52 @@ textarea {
     padding-bottom: 5px;
 }
 
+.su-drop-window {
+    position: absolute;
+    z-index: 3;
+    width: 180px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    right: 0;
+    margin-right: 100px;
+    margin-top: -5px;
+    border: 1px solid #666666;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: 3px 3px 3px #333333;
+    font-size:12px;
+    font-weight: 600;
+    background: linear-gradient(to bottom, rgba(85, 88, 56, 0.6), rgba(181, 184, 139, 0.8));
+}
+
+.su-drop-window ul {
+    margin: 0;
+    padding: 0;
+}
+
+.su-drop-window a {
+    color: #424903;
+    /*color: #dfdbbc;*/
+}
+
+.su-drop-window a:hover {
+    text-decoration: none;
+}
+
+.su-drop-window li {
+    list-style: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 1px solid #777777;
+    background: rgba(200, 200, 200, 0.4);
+}
+
+.su-drop-window li:hover {
+    background: linear-gradient(to top, rgba(170, 164, 130, 0.8), rgba(229, 225, 198, 0.8));
+    border-color: #555555;
+}
 
 </style>
 
@@ -5873,6 +5923,24 @@ function closeAboutError()
     });
 }
 
+function openSuDropMenu()
+{
+    var current = $("#su-carat").html();
+    current = String(current);
+    if (current === "<i class=\"fas fa-caret-down\"></i>")
+    {
+        $("#su-carat").html("<i class=\"fas fa-caret-up\"></i>");
+        $("#su-drop-window").fadeOut(500);
+    }
+    else
+    {
+        $("#su-carat").html("<i class=\"fas fa-caret-down\"></i>");
+        $("#su-drop-window").hide();
+        $("#su-drop-window").removeClass('hidden');
+        $("#su-drop-window").fadeIn(500);
+    }
+}
+
 </script>
 
     <body class='su-body-style' onLoad="javascript: initializeAdmin({{blogs}}, {{users}}, {{company}});">
@@ -5921,7 +5989,16 @@ function closeAboutError()
             </div>
         </div>
 
-        <div class='su-error-container hidden' id='su-editor-builder'>
+        <div class='su-error-container hidden' id='su-editor-builder'></div>
+
+        <div class='su-drop-window hidden' id='su-drop-window'>
+            <ul>
+                <li><a href="#">View Email</a></li>
+                <li><a href="#">Change Name</a></li>
+                <li><a href="#">Change Email</a></li>
+                <li><a href="#">Change Password</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
         </div>
 
 
@@ -5930,7 +6007,7 @@ function closeAboutError()
                 <div class="row">
                     <div class="col-sm-6" style="padding:0; margin:0;">Natural Woman Salon Site Administration</div>
                     <div class="col-sm-6 su-logout-btn" style="padding:0; margin:0; padding-top:10px;">
-                        <a href="">Logout</a>
+                        <a href="javascript: openSuDropMenu();"><i class="fas fa-user"></i> {{c_user.fname}} {{c_user.lname}} <span id='su-carat'><i class="fas fa-caret-up"></i></span></a>
                     </div>
                 </div>
             </div>

@@ -75,13 +75,13 @@ def superuser():
 @app.route('/adminAlt', methods=["POST"])
 @login_required
 def adminAlt():
-	content = loadSuperuser()
+	content = loadSuperuser(current_user)
 	return render_template("admin/master/adminAlt.html", **content)
 
 @app.route('/superuser_admin')
 @login_required
 def superuser_admin():
-	content = loadSuperuser()
+	content = loadSuperuser(current_user)
 	return render_template(content['url'], **content)
 
 @app.route('/blog_editor')
