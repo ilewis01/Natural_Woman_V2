@@ -293,7 +293,7 @@ def que(m_type, m_id):
 		models = Product.query.all()
 	elif m_type == "image":
 		models = Image.query.all()
-	elif m_type == "permission":
+	elif m_type == "user":
 		models = User.query.all()
 	elif m_type == "auth":
 		models = Authorization.query.all()
@@ -317,6 +317,22 @@ def decodeID(m_id):
 		if len(p) != 0:
 			d_list.append(p)
 	return d_list
+
+def decodeBool(val):
+	result = False
+	if (str(val) == "True"):
+		result = True
+	return result
+
+def userExist(email):
+	u_list 	= User.query.all()
+	exist 	= False
+	email 	= str(email)
+	for u in u_list:
+		if str(u.email) == email:
+			exist = True
+			break
+	return exist
 
 def alterDb(user, action):
 	model 	= request.form['target_model']
@@ -391,6 +407,55 @@ def alterDb(user, action):
 					num_uploads -= 1
 			company.num_uploads = num_uploads
 			company.save()
+	elif model == "permission":
+		action = request.form['target_action']
+		if action == "0":
+			email 		= request.form['email1']
+			emailExist 	= userExist(email)
+			if emailExist == False:
+				admin 		= decodeBool(request.form['is_admin'])
+				product 	= decodeBool(request.form['product_permission'])
+				about 		= decodeBool(request.form['about_permission'])
+				blog 		= decodeBool(request.form['blog_permission'])
+				gallery 	= decodeBool(request.form['gallery_permission'])
+				locked 		= decodeBool(request.form['is_locked'])
+				is_super 	= decodeBool(request.form['is_super'])
+				fname 		= request.form['f_fname']
+				lname 		= request.form['f_lname']
+				password 	= "1234"
+				user 					= User(fname, lname, email, password)
+				user.is_admin 			= admin
+				user.product_permission = product
+				user.about_permission 	= about
+				user.blog_permission 	= blog
+				user.gallery_permission = gallery
+				user.is_locked 			= locked
+				user.is_super 			= is_super
+				user.save()
+		elif action == "1":
+			m_id = request.form['target_id']
+			q = que(model, m_id)
+			if q['isQueued'] == True:
+				admin 		= decodeBool(request.form['is_admin'])
+				product 	= decodeBool(request.form['product_permission'])
+				about 		= decodeBool(request.form['about_permission'])
+				blog 		= decodeBool(request.form['blog_permission'])
+				gallery 	= decodeBool(request.form['gallery_permission'])
+				locked 		= decodeBool(request.form['is_locked'])
+				is_super 	= decodeBool(request.form['is_super'])
+				user 		= q['item']
+				user.setPermissions(admin, product, about, blog, gallery)
+				if locked == True:
+					user.setLocKed()
+				if is_super == True:
+					user.setLocKed()
+					user.setSuperuser()
+		elif action == "2":
+			m_id = decodeID(request.form['target_id'])
+			for m in m_id:
+				q = que("user", m)
+				if q['isQueued'] == True:
+					q['item'].delete()
 	data = loadSuperuser(user);
 	return data
 

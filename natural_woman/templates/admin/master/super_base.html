@@ -1891,7 +1891,7 @@ function buildPermissions(data)
         html += "<div id='div1_" + index + "' class='" + m_clsas + "'>";
         html += "<li>";
         html += "<a href=\"javascript: launchAdminEditors('permission', '1', '" + index + "');\">";
-        html += "<input type='hidden' id='m_id_" + index + "' value='" + u_id + "'>";
+        html += "<input type='hidden' id='u_id_" + index + "' value='" + u_id + "'>";
         html += "<input type='hidden' id='m_fname_" + index + "' value='" + fname + "'>";
         html += "<input type='hidden' id='m_lname_" + index + "' value='" + lname + "'>";
         html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
@@ -3045,7 +3045,7 @@ function buildPermissionEditor(mode, index)
         action  = "1";
         header  = "Update User Permissions;"
         button  = "Update";
-        m_id    = $("#m_id_" + index).val();
+        m_id    = $("#u_id_" + index).val();
         fname   = $("#m_fname_" + index).val();
         lname   = $("#m_lname_" + index).val();
         email   = $("#m_email_" + index).val();
@@ -5702,7 +5702,7 @@ function launchDeleteConfirmation(model)
             var U_fname = $("#m_fname_" + String(delete_list[i])).val();
             var U_lname = $("#m_lname_" + String(delete_list[i])).val();
             var U_email = $("#m_email_" + String(delete_list[i])).val();
-            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            var m_id    = $("#u_id_" + String(delete_list[i])).val();
             id_list += String(m_id);
             id_list += "~";
             details += "<tr>";
