@@ -302,7 +302,8 @@ def que(m_type, m_id):
 	elif m_type == "auth":
 		models = Authorization.query.all()
 	elif m_type == "security":
-		models == SecurityQuestion.query,all()
+		print("GETTING SECURITY MODELS")
+		models == SecurityQuestion.query.all()
 	elif m_type == "payment":
 		models == Payment.query.all()
 	elif m_type == "about":
@@ -347,6 +348,15 @@ def authExist(email):
 			exist = True
 			break
 	return exist
+
+def fetchSecurityById(s_id):
+	sec = None
+	s_list = SecurityQuestion.query.all()
+	for s in s_list:
+		if str(s.id) == str(s_id):
+			sec = s
+			break
+	return sec
 
 def getAccessList(auth):
 	a_list = []
@@ -579,6 +589,25 @@ def alterDb(user, action):
 				q = que(model, m_id)
 				if q["isQueued"] == True:
 					sendUserAuthorization(q['item'], "dev")
+	elif model == "security":
+		action = request.form['target_action']
+		if action == "0":
+			question 	= request.form['question']
+			sec 		= SecurityQuestion(question)
+			sec.save()
+		else:
+			m_id = request.form['target_id']
+			if action == "1":
+				q = que(model, m_id)
+				if q["isQueued"] == True:
+					q['item'].question = request.form['question']
+					q['item'].save()
+			elif action == "2":
+				m_id = decodeID(m_id)
+				for m in m_id:
+					s = fetchSecurityById(m)
+					if s != None:
+						s.delete()
 	data = loadSuperuser(user);
 	return data
 

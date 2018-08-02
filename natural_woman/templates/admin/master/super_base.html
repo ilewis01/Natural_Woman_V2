@@ -1394,6 +1394,10 @@ textarea {
     border-radius: 7px;
 }
 
+.su-set-sec-width {
+    width: 125px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -2045,7 +2049,7 @@ function buildSecurity(data)
         html += "<div id='div1_" + index + "' class='" + e_class + "'>";
         html += "<li>";
         html += "<a href=\"javascript: launchAdminEditors('security', '1', '" + index + "');\">";
-        html += "<input type='hidden' id='m_id_" + index + "' value='" + q_id + "'>";
+        html += "<input type='hidden' id='u_id_" + index + "' value='" + q_id + "'>";
         html += "<input type='hidden' id='m_question_" + index + "' value='" + question + "'>";
         html += "<table>";
         html += "<tr>";
@@ -2053,7 +2057,7 @@ function buildSecurity(data)
         html += "<td class='su-border-left'>";
         html += "<table>";
         html += "<tr>";
-        html += "<td class='su-sp-top su-sp-bottom'><span>Security Question " + String(i+1) + ": </span></td>";
+        html += "<td class='su-sp-top su-sp-bottom su-set-sec-width'><span>Security Question " + String(i+1) + ": </span></td>";
         html += "<td>" + question + "</td>";
         html += "</tr>";
         html += "</table>";
@@ -3466,7 +3470,7 @@ function buildSecurityEditor(mode, index)
         header          = "User Security";
         button          = "Update";
         question        = $("#m_question_" + index).val();
-        m_id            = $("#m_id_" + index).val();
+        m_id            = $("#u_id_" + index).val();
     }
 
     html += "<div class='su-center su-width50'>";
