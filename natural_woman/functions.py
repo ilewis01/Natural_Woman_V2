@@ -140,6 +140,7 @@ def json_serialize_payments():
 	data 		= []
 	index 		= 0
 	payments 	= Payment.query.all()
+	payments.reverse()
 	for p in payments:
 		d = {}
 		d['method'] 		= str(p.method).lower()
@@ -210,6 +211,7 @@ def json_serialize_auths():
 	data = []
 	index = 0
 	auths = Authorization.query.all()
+	auths.reverse()
 	for a in auths:
 		d = {}
 		d['index'] 		= index
@@ -222,6 +224,7 @@ def json_serialize_auths():
 		d['image'] 		= str(a.auth_gallery)
 		d['lock'] 		= str(a.auth_locked)
 		d['super'] 		= str(a.auth_super)
+		d['id'] 		= a.id
 		if index % 2 == 1:
 			d['class'] = "li-shade1"
 		else:
@@ -234,6 +237,7 @@ def json_serialize_security():
 	data = []
 	index = 0
 	questions = SecurityQuestion.query.all()
+	questions.reverse()
 	for q in questions:
 		d 				= {}
 		d['id'] 		= q.id
@@ -333,6 +337,72 @@ def userExist(email):
 			exist = True
 			break
 	return exist
+
+def authExist(email):
+	a_list 	= Authorization.query.all()
+	exist 	= False
+	email 	= str(email)
+	for a in a_list:
+		if str(a.auth_email) == email:
+			exist = True
+			break
+	return exist
+
+def getAccessList(auth):
+	a_list = []
+	if auth.auth_admin == True:
+		a_list.append("Administrative permission")
+	if auth.auth_product == True:
+		a_list.append("Permission to edit Natural Woman Salon products")
+	if auth.auth_about == True:
+		a_list.append("Permission to edit the ABout Us statement")
+	if auth.auth_blog == True:
+		a_list.append("Permission to edit blogs")
+	if auth.auth_gallery == True:
+		a_list.append("Permission to edit the photo gallery")
+	return a_list
+
+def sendUserAuthorization(auth, mode):
+	# Remember top change sender information when in production
+	code = generateRandomCode(8)
+	perm = getAccessList(auth)
+	subject = "Message from Natural Woman Salon"
+	sender = "redd.app.dev@gmail.com"
+	recipient = auth.auth_email
+	text = auth.auth_name + ",\n"
+	text += "You have been given access to the Natural Woman Salon website administration page. \n"
+	text += "The following permissions have been granted: \n\n"
+	for p in perm:
+		text += p
+		text += "\n"
+	text += "\nplease visit register@naturalwomansalon.com and enter the acceess code provided below to complete your registration. \n"
+	text += "Access Code: " + code + "\n"
+	text += "We look forward to your input and extertise \n"
+	text += "NWS web services"
+	html = auth.auth_name + ",<br>"
+	html += "<div>You have been given access to the Natural Woman Salon website administration page.</div>"
+	html += "The following permissions have been granted:"
+	html += "<ul>"
+	for p in perm:
+		html += "<li>"
+		html += p
+		html += "</li>"
+	html += "</ul>"
+	html += "Please visit register@naturalwomansalon.com and enter the acceess code provided below to complete your registration. <br>"
+	html += "<b><em>Access Code:</em></b> " + code + "<br>"
+	html += "We look forward to your input and extertise <br>"
+	html += "NWS web services"
+	if mode == "dev":
+		print(text)
+	else:
+		send_email(subject, sender, recipient, text, html)
+	auth.setCode(code)
+
+def send_email(subject, sender, recipients, text_body, html_body):
+	msg = Message(subject, sender=sender, recipients=recipients)
+	msg.body = text_body
+	msg.html = html_body
+	mail.send(msg)
 
 def alterDb(user, action):
 	model 	= request.form['target_model']
@@ -456,8 +526,62 @@ def alterDb(user, action):
 				q = que("user", m)
 				if q['isQueued'] == True:
 					q['item'].delete()
+	elif model == "auth":
+		# REMEMBER TO CHANGE AUTHORIZATION TO prod IN PRODUCTION
+		action = request.form['target_action']
+		if action == "0":
+			users = User.query.all()
+			auths = Authorization.query.all()
+			email = str(request.form['email1'])
+			uExist = userExist(email)
+			aExist = authExist(email)
+			if uExist == False and aExist == False:
+				fname 		= request.form['f_fname']
+				lname 		= request.form['f_lname']
+				admin 		= decodeBool(request.form['is_admin'])
+				product 	= decodeBool(request.form['product_permission'])
+				about 		= decodeBool(request.form['about_permission'])
+				blog 		= decodeBool(request.form['blog_permission'])
+				gallery 	= decodeBool(request.form['gallery_permission'])
+				locked 		= decodeBool(request.form['is_locked'])
+				is_super 	= decodeBool(request.form['is_super'])
+				name 		= str(fname) + " " + str(lname)
+				au 			= Authorization(name, email, admin, blog, product, about, gallery)
+				au.save()
+				sendUserAuthorization(au, "dev")
+		else:
+			m_id = request.form['target_id']
+			if action == "1":
+				q = que(model, m_id)
+				if q['isQueued'] == True:
+					admin 		= decodeBool(request.form['is_admin'])
+					product 	= decodeBool(request.form['product_permission'])
+					about 		= decodeBool(request.form['about_permission'])
+					blog 		= decodeBool(request.form['blog_permission'])
+					gallery 	= decodeBool(request.form['gallery_permission'])
+					locked 		= decodeBool(request.form['is_locked'])
+					is_super 	= decodeBool(request.form['is_super'])
+					q['item'].auth_admin 	= admin
+					q['item'].auth_product 	= product
+					q['item'].auth_blog 	= blog
+					q['item'].auth_about 	= about
+					q['item'].auth_gallery 	= gallery
+					q['item'].auth_locked 	= locked
+					q['item'].auth_super 	= is_super
+					q['item'].save()
+			elif action == "2":
+				m_id = decodeID(m_id)
+				for m in m_id:
+					q = que(model, m)
+					if q["isQueued"] == True:
+						q['item'].delete()
+			elif action == "3":
+				q = que(model, m_id)
+				if q["isQueued"] == True:
+					sendUserAuthorization(q['item'], "dev")
 	data = loadSuperuser(user);
 	return data
+
 
 
 

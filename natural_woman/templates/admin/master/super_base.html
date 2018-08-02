@@ -1994,7 +1994,7 @@ function buildAuths(data)
         html += "<div id='div1_" + index + "' class='" + m_class + "'>";
         html += "<li>";
         html += "<a href=\"javascript: launchAdminEditors('auth', '1', '" + index + "');\">";
-        html += "<input type='hidden' id='m_id_" + index + "' value='" + a_id + "'>";
+        html += "<input type='hidden' id='u_id_" + index + "' value='" + a_id + "'>";
         html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
         html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
         html += "<input type='hidden' id='m_admin_" + index + "' value='" + admin + "'>";
@@ -3258,7 +3258,7 @@ function buildAuthEditor(mode, index)
         action  = "1";
         header  = "Authorization Editor"
         button  = "Update";
-        m_id    = $("#m_id_" + index).val();
+        m_id    = $("#u_id_" + index).val();
         name    = $("#m_name_" + index).val();
         email   = $("#m_email_" + index).val();
         admin   = $("#m_admin_" + index).val();
@@ -3297,7 +3297,14 @@ function buildAuthEditor(mode, index)
     html += "<h3><i class='fas fa-user-plus''></i> " + header + "</h3>";
     if(mode === 0)
     {
-        html += "<input type='text' name='f_name' id='f_name' placeholder='Enter user name'>";
+        html += "<div class='container'><div class='row'>";
+        html += "<div class='col-sm-6' style='padding: 0; margin:0;'>";
+        html += "<input type='text' name='f_fname' id='f_fname' placeholder='User First Name'>";
+        html += "</div>";
+        html += "<div class='col-sm-6' style='padding: 0; margin:0;'>";
+        html += "<input type='text' name='f_lname' id='f_lname' placeholder='User Last Name'>";
+        html += "</div>";
+        html += "</div></div>";
         html += "<input type='text' name='email1' id='email1' placeholder='Enter user email'>";
         html += "<input type='text' name='email2' id='email2' placeholder='Confirm user email'>";
     }
@@ -3306,7 +3313,7 @@ function buildAuthEditor(mode, index)
         html += "<div class='su-user-details'>";
         html += "<h4>" + name + "</h4>";
         html += "<span>" + email + "</span>";
-        html += "<div class='su-topper' onClick=\"javascript: suSendNew Auth('" + m_id + "');\"><button>Send New Authorization Code</button></div>";
+        html += "<div class='su-topper' onClick=\"javascript: suSendNewAuth('" + m_id + "');\"><button>Send New Authorization Code</button></div>";
         html += "</div>";
     }
     html += "<div class='su-checkbox-editor'>";
@@ -4886,16 +4893,23 @@ function validateSubAuth()
     }
     else if (isOld === 0)
     {
-        var f_name  = $("#f_name").val();
+        var fname   = $("#f_fname").val();
+        var lname   = $("#f_lname").val();
         var email1  = $("#email1").val();
         var email2  = $("#email2").val();
-        f_name      = String(f_name);
+        fname       = String(fname);
+        lname       = String(lname);
         email1      = String(email1);
         email2      = String(email2);
-        if (f_name.length === 0)
+        if (fname.length === 0)
         {
             messages.push("Empty Field");
             messages.push("You must enter a valid first name to proceed.");
+        }
+        else if (lname.length === 0)
+        {
+            messages.push("Empty Field");
+            messages.push("You must enter a valid last name to proceed.");
         }
         else if (email1.length === 0)
         {
@@ -5721,7 +5735,7 @@ function launchDeleteConfirmation(model)
         {
             var a_name = $("#m_name_" + String(delete_list[i])).val();
             var a_email = $("#m_email_" + String(delete_list[i])).val();
-            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            var m_id    = $("#u_id_" + String(delete_list[i])).val();
             id_list += String(m_id);
             id_list += "~";
             details += "<tr>";
@@ -5739,7 +5753,7 @@ function launchDeleteConfirmation(model)
         for (var i = 0; i < delete_list.length; i++)
         {
             var q_ques  = $("#m_question_" + String(delete_list[i])).val();
-            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            var m_id    = $("#u_id_" + String(delete_list[i])).val();
             id_list += String(m_id);
             id_list += "~";
             details += "<tr>";
@@ -6126,9 +6140,10 @@ function suCheckbox(trigger, target)
     else { $(target).val("False"); }
 }
 
-function suSendNew ()
+function suSendNewAuth()
 {
-    alert("Sending new authorization...")
+    $("#target_action").val("3");
+    submitEditor();
 }
 
 

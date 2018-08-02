@@ -140,7 +140,8 @@ class Authorization(db.Model):
 
 	def setCode(self, plaintext_code):
 		self.auth_code = bcrypt.generate_password_hash(plaintext_code)
-		self.save()
+		db.session.add(self)
+		db.session.commit()
 
 	def codeValid(self, plaintext_code):
 		return bcrypt.generate_password_hash(plaintext_code)
