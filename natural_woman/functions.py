@@ -608,6 +608,129 @@ def alterDb(user, action):
 					s = fetchSecurityById(m)
 					if s != None:
 						s.delete()
+	elif model == "address":
+		address1 	= request.form['address1']
+		address2 	= request.form['address2']
+		address3 	= request.form['address3']
+		city 		= request.form['city']
+		state 		= request.form['state']
+		zip_code 	= request.form['zip_code']
+		company 	= get_company_model()
+		if len(address1) == 0:
+			address1 = "empty"
+		if len(address2) == 0:
+			address2 = "empty"
+		if len(address3) == 0:
+			address3 = "empty"
+		company.address1 	= address1
+		company.address2 	= address2
+		company.address3 	= address3
+		company.city 		= city
+		company.state 		= state
+		company.zip_code 	= zip_code
+		company.save()
+	elif model == "phone":
+		area 	= request.form['area']
+		pref 	= request.form['prefix']
+		post 	= request.form['postfix']
+		phone 	= "(" + area + ") " + pref + "-" + post
+		company = get_company_model()
+		company.phone = phone
+		company.save() 
+	elif model == "email":
+		email 			= request.form['email']
+		company 		= get_company_model()
+		company.email 	= email
+		company.save()
+	elif model == "max_images":
+		max_images 			= int(request.form['max_images'])
+		company 			= get_company_model()
+		company.max_images 	= max_images
+		company.save()
+	elif model == "facebook":
+		facebook_url 			= request.form['facebook_url']
+		show_facebook			= decodeBool(request.form['show_facebook'])
+		company 				= get_company_model()
+		company.facebook_url 	= facebook_url
+		company.show_facebook 	= show_facebook
+		company.save()
+	elif model == "twitter":
+		twitter_url 			= request.form['twitter_url']
+		show_twitter			= decodeBool(request.form['show_twitter'])
+		company 				= get_company_model()
+		company.twitter_url 	= twitter_url
+		company.show_twitter 	= show_twitter
+		company.save()
+	elif model == "instagram":
+		instagram_url 			= request.form['instagram_url']
+		show_instagram			= decodeBool(request.form['show_instagram'])
+		company 				= get_company_model()
+		company.instagram_url 	= instagram_url
+		company.show_instagram 	= show_instagram
+		company.save()
+	elif model == "change_name":
+		password = request.form['password']
+		if user.password_validated(password) == True:
+			fname = request.form['fname']
+			lname = request.form['lname']
+			user.fname = fname
+			user.lname = lname
+			user.save()
+		else:
+			print("BAD PASSWORD")
+	elif model == "change_email":
+		password = request.form['password']
+		if user.password_validated(password) == True:
+			email = request.form['email1']
+			if userExist(email) == False:
+				user.email = email
+				user.save()
+			else:
+				print("ALREADY ACCOUNT ASSOCIATED WITH THAT EMAIL")
+		else:
+			print("BAD PASSWORD")
+	elif model == "change_password":
+		password = request.form['curr_password']
+		if user.password_validated(password) == True:
+			p1 = request.form['password1']
+			user.set_password(p1)
+			user.save()
+		else:
+			print("BAD PASSWORD")
+	elif model == "hours":
+		company 		= get_company_model()
+		group_weekdays 	= decodeBool(request.form['group_weekdays'])
+		group_weekends 	= decodeBool(request.form['group_weekends'])
+		special_hours  	= decodeBool(request.form['special_check'])
+		mon 			= request.form['monday_open'] + request.form['s_open_mon'] + "-" + request.form['monday_close'] + request.form['s_close_mon']
+		tue 			= 'empty'
+		wed 			= 'empty'
+		thu 			= 'empty'
+		fri 			= 'empty'
+		sat 			= request.form['saturday_open'] + request.form['s_open_sat'] + "-" + request.form['saturday_close'] + request.form['s_close_sat']
+		sun 			= 'empty'
+		title 			= "Hours of Operation"
+		if group_weekdays == False:
+			tue = request.form['tuesday_open'] + request.form['s_open_tue'] + "-" + request.form['tuesday_close'] + request.form['s_close_tue']
+			wed = request.form['wednesday_open'] + request.form['s_open_wed'] + "-" + request.form['wednesday_close'] + request.form['s_close_wed']
+			thu = request.form['thursday_open'] + request.form['s_open_thu'] + "-" + request.form['thursday_close'] + request.form['s_close_thu']
+			fri = request.form['friday_open'] + request.form['s_open_fri'] + "-" + request.form['friday_close'] + request.form['s_close_fri']
+		if group_weekends == False:
+			sun = request.form['sunday_open'] + request.form['s_open_sun'] + "-" + request.form['sunday_close'] + request.form['s_close_sun']
+		if special_hours == True:
+			title = request.form['k_special_hours_input']
+		company.monday 			= mon
+		company.tuesday 		= tue
+		company.wednesday 		= wed
+		company.thursday 		= thu
+		company.friday 			= fri
+		company.saturday 		= sat
+		company.sunday 			= sun
+		company.group_weekdays 	= group_weekdays
+		company.group_weekends 	= group_weekends
+		company.special_hours 	= special_hours
+		company.hours_title 	= title
+		company.save()
 	data = loadSuperuser(user);
 	return data
 

@@ -94,7 +94,8 @@ class User(db.Model):
 
 	def set_password(self, plaintext_password):
 		self.password = bcrypt.generate_password_hash(plaintext_password)
-		self.save()
+		db.session.add(self)
+		db.session.commit()
 
 	def is_authenticated(self):
 		return self.authenticated
