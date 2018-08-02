@@ -1381,6 +1381,19 @@ textarea {
     color: #604a09;
 }
 
+.su_del_image_table {
+    width: 100px;
+    height: 100px;
+}
+
+.su_del_image_table img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border:1px solid #666666;
+    border-radius: 7px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -1637,9 +1650,9 @@ function superLaunchBuilder(model, data)
 {
     var html = null;
     model = String(model);
-    if (model === "blog") { html = buildBlogs(data); }
-    else if (model === "product") { html = buildProducts(data); }
-    else if (model === "image") { html = buildImages(data); }
+    if (model === "blog") { html = buildBlogs(data, action_url); }
+    else if (model === "product") { html = buildProducts(data, action_url); }
+    else if (model === "image") { html = buildImages(data, action_url); }
     $("#db-builder").html(html);
     $("#selected-db").val("");
     $("#modelDelBtn").prop("disabled", true);
@@ -1647,7 +1660,7 @@ function superLaunchBuilder(model, data)
     $("#model-count").val(data.length);
 }
 
-function superUserLaunch(model, data)
+function superUserLaunch(model, data, action_url)
 {
     var html = null;
     model = String(model);
@@ -2074,6 +2087,7 @@ function buildBlogs(data)
         html += "<input type='hidden' id='m_content_" + index + "' value='" + content + "'>";
         html += "<input type='hidden' id='m_date_" + index + "' value='" + date + "'>";
         html += "<input type='hidden' id='m_time_" + index + "' value='" + time + "'>";
+        html += "<input type='hidden' id='m_time_" + index + "' value='" + time + "'>";
         html += "<table>";
         html += "<tr>";
         html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
@@ -2475,6 +2489,7 @@ function buildAddressEditor(index)
     var city        = $("#m_city").val();
     var state       = $("#m_state").val();
     var zipcode     = $("#m_zipcode").val();
+    var action_url  = $("#action_url").val();
     address1        = String(address1);
     address2        = String(address2);
     address3        = String(address3);
@@ -2484,7 +2499,7 @@ function buildAddressEditor(index)
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='address'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
@@ -2518,6 +2533,7 @@ function buildPhoneEditor()
     var spl2    = spl1[1].split("-")
     var pref    = spl2[0][0];
     var post    = spl2[1][0];
+    var action_url = $("#action_url").val();
     area += spl1[0][2];
     area += spl1[0][3];
     pref += spl2[0][1];
@@ -2529,7 +2545,7 @@ function buildPhoneEditor()
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
@@ -2556,12 +2572,13 @@ function buildEmailEditor()
 {
     var html    = "";
     var email   = $("#m_email").val();
+    var action_url = $("#action_url").val();
     email       = String(email);
 
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='email'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
@@ -2585,6 +2602,7 @@ function buildMediaEditor(model)
     var lin1 = "";
     var lin2 = "";
     var url  = "";
+    var action_url = $("#action_url").val();
     if (model === "facebook")
     {
         url  = $("#m_facebook_url").val();
@@ -2609,7 +2627,7 @@ function buildMediaEditor(model)
     html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
@@ -2877,6 +2895,7 @@ function buildHoursEditor()
     var sunday          = $("#m_sunday").val();
     var special_hours   = $("#m_special_hours").val();
     var hours_title     = $("#m_title").val();
+    var action_url      = $("#action_url").val();
     group_weekdays      = String(group_weekdays);
     group_weekends      = String(group_weekends);
     special_hours       = String(special_hours);
@@ -2926,7 +2945,7 @@ function buildHoursEditor()
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
@@ -3011,6 +3030,7 @@ function buildPermissionEditor(mode, index)
     var blog    = "False";
     var email   = "";
     var s_user  = "False";
+    var action_url = $("#action_url").val();
     mode        = Number(mode);
     index       = String(index);
 
@@ -3051,8 +3071,8 @@ function buildPermissionEditor(mode, index)
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='permission'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
     html += "<input type='hidden' name='is_admin' id='d_is_admin' value='" + admin + "'>";
@@ -3223,6 +3243,7 @@ function buildAuthEditor(mode, index)
     var lock    = "False";
     var blog    = "False";
     var s_user  = "False";
+    var action_url = $("#action_url").val();
     mode        = Number(mode);
     index       = String(index);
 
@@ -3261,8 +3282,8 @@ function buildAuthEditor(mode, index)
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='auth'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
     html += "<input type='hidden' name='is_admin' id='d_is_admin' value='" + admin + "'>";
@@ -3423,6 +3444,7 @@ function buildSecurityEditor(mode, index)
     var action      = null;
     var question    = "";
     var m_id        = "";
+    var action_url = $("#action_url").val();
     mode        = Number(mode);
     index       = String(index);
     if (mode === 0)
@@ -3443,7 +3465,7 @@ function buildSecurityEditor(mode, index)
     html += "<div class='su-center su-width50'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
@@ -3462,12 +3484,13 @@ function buildSecurityEditor(mode, index)
 function buildImageEditor()
 {
     var html = "";
+    var action_url = $("#action_url").val();
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' enctype='multipart/form-data' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' enctype='multipart/form-data' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
-    html += "<input type='hidden' name='target_action' id='target_action' value='uplaod'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='0'>";
     html += "<h3><i class='fas fa-camera'></i> Upload New Image</h3>";
     html += "<input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>";
     html += "<div class='su-sub-top'></div>";
@@ -3490,6 +3513,7 @@ function buildBlogEditor(mode, index)
     var subject = "";
     var content = "";
     var m_id    = "";
+    var action_url = $("#action_url").val();
     mode        = Number(mode);
     index       = String(index);
     if (mode === 0)
@@ -3511,7 +3535,7 @@ function buildBlogEditor(mode, index)
     html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='blog'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
@@ -3540,6 +3564,7 @@ function buildProductEditor(mode, index)
     var description = "";
     var price       = "0";
     var m_id        = "";
+    var action_url = $("#action_url").val();
     mode            = Number(mode);
     index           = String(index);
     if (mode === 0)
@@ -3561,7 +3586,7 @@ function buildProductEditor(mode, index)
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='product'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
@@ -3589,11 +3614,12 @@ function buildMaxEditor()
     var html = "";
     var max_images = $("#m_max_images").val();
     var no_uploads = $("#m_num_uploads").val();
+    var action_url = $("#action_url").val();
 
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='target_model' value='max_images'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
     html += "<input type='hidden' name='target_id' id='target_id' value=''>";
@@ -3803,6 +3829,7 @@ function buildPaymentEditor()
 {
     alert("Building Payment Editor")
     var html = "";
+    var action_url = $("#action_url").val();
     return html;
 }
 
@@ -4415,13 +4442,37 @@ function validatingChangeEmail()
 
 function validatingChangePassword()
 {
+    var send_msg        = false;
     var m               = [];
     var curr_password   = $("#curr_password").val();
     var password1       = $("#password1").val();
     var password2       = $("#password2").val();
-    alert(curr_password)
-    alert(password1)
-    alert(password2)
+    if (curr_password.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter your current password to proceed");
+    }
+    else if (password1.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new password to proceed");
+    }
+    else if (password2.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter confirm your new password to proceed");
+    }
+    else if (password1 !== password2)
+    {
+        send_msg = true;
+        m.push("The Passwords Do Not Match!");
+        m.push("");
+    }
+    if (send_msg === false) { launchSiteAdminWarning('change_password'); }
+    else { generateErrorWindow(m); }
 }
 
 function validatingSubAddress()
@@ -4672,7 +4723,7 @@ function validateSubImage()
 {
     var proceed     = false;
     var messages    = [];
-    var url         = $("#img_url").val();
+    var url         = $("#img_filename").val();
     var parts       = String(url).split(".");
     var last        = String(parts[parts.length - 1]).toLowerCase();
     var no_imgs     = $("#file_index").val();
@@ -4684,7 +4735,7 @@ function validateSubImage()
         messages.push("Empty Field");
         messages.push("You must select a valid image to proceed.");
     }
-    else if (last!=="png" || last!=="jpg" || last!=="jpeg" || last!=="gif")
+    else if (last!=="png" && last!=="jpg" && last!=="jpeg" && last!=="gif")
     {
         messages.push("Invalid File Type");
         messages.push("Images must be of types: .png, .jpg, .jpeg, or .gif");
@@ -4901,29 +4952,11 @@ function checkPopulatedFields(model, mode, index)
     else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { checkMediaFields(model); }
     else if (model === "hours") { checkHoursFields(); }
     else if (model === "payments") { checkPaymentFields(); }
-    else if (model === "change_name") { checkChangeNameFields(); }
-    else if (model === "change_email") { checkChangeEmailFields(); }
-    else if (model === "change_password") { checkChangePasswordFields(); }
 }
 
 function checkPaymentFields()
 {
     alert("Checking Payment Fields")
-}
-
-function checkChangeNameFields()
-{
-    alert("Checking Change Name Fields")
-}
-
-function checkChangeEmailFields()
-{
-    alert("Checking Change Email Fields")
-}
-
-function checkChangePasswordFields()
-{
-    alert("Checking Change Password Fields")
 }
 
 function checkHoursFields()
@@ -5438,10 +5471,11 @@ function launchAdminEditors(model, mode, index)
 function buildNewEmailEditor()
 {
     var html = "";
+    var action_url = $("#action_url").val();
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
-    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeDropEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='user_target_model' value='user'>";
     html += "<input type='hidden' name='target_action' id='user_target_action' value='change_email'>";
     html += "<h3><i class='fas fa-user-cog'></i> &nbspChange Login Email</h3>";
@@ -5452,7 +5486,7 @@ function buildNewEmailEditor()
     html += "<input type='email' name='email2' id='email2' placeholder='Confirm New Email'>";
     html += "<div class='su-general-btns'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('change_email');\">Submit</button>";
-    html += "<button type='button' onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: closeDropEditor();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
@@ -5463,10 +5497,11 @@ function buildNewEmailEditor()
 function buildNewNameEditor()
 {
     var html = "";
+    var action_url = $("#action_url").val();
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
-    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeDropEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='user_target_model' value='user'>";
     html += "<input type='hidden' name='target_action' id='user_target_action' value='change_name'>";
     html += "<h3><i class='fas fa-user-cog'></i> &nbspChange User Name</h3>";
@@ -5477,7 +5512,7 @@ function buildNewNameEditor()
     html += "<input type='text' name='lname' id='change_lname' placeholder='Last Name'>";
     html += "<div class='su-general-btns'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('change_name');\">Submit</button>";
-    html += "<button type='button' onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: closeDropEditor();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
@@ -5488,10 +5523,11 @@ function buildNewNameEditor()
 function buildNewPasswordEditor()
 {
     var html = "";
+    var action_url = $("#action_url").val();
     html += "<div class='su-center su-width30'>";
     html += "<div class='su-general'>";
-    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
-    html += "<form action='/adminAlt' method='POST' id='pop_form'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeDropEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
     html += "<input type='hidden' name='target_model' id='user_target_model' value='user'>";
     html += "<input type='hidden' name='target_action' id='user_target_action' value='change_password'>";
     html += "<h3><i class='fas fa-user-cog'></i> &nbspChange Password</h3>";
@@ -5500,12 +5536,18 @@ function buildNewPasswordEditor()
     html += "<input type='password' name='password2' id='password2' placeholder='Confirm New Password'>";
     html += "<div class='su-general-btns'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('change_password');\">Submit</button>";
-    html += "<button type='button' onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: closeDropEditor();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
     html += "</div>";
     return html;
+}
+
+function closeDropEditor()
+{
+    $("#pop-up-builder").fadeOut(600);
+    $("#su-drop-window ").delay(300).fadeOut(500);
 }
 
 function getSelectedModel()
@@ -5593,6 +5635,7 @@ function launchDeleteConfirmation(model)
     var details         = "";
     var id_list         = "~";
     var m               = [];
+    var action_url      = $("#action_url").val();
     model               = String(model).toLowerCase();
     if (model === "blog")
     {
@@ -5637,6 +5680,16 @@ function launchDeleteConfirmation(model)
         mdl_head        = "image";
         if (delete_list.length > 1) { mdl_head = "images"; }
         header          = "<h3><i class='fas fa-camera'></i> &nbsp Delete " + mdl_head + "</h3>";
+        details += "<div class='container'><div class='row'>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var url     = $("#m_url_" + String(delete_list[i])).val();
+            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<div class='col-sm-3 su_del_image_table' style='padding:1px; margin:0;'><img src='" + url + "'></div>";
+        }
+        details += "</div></div>";
     }
     else if (model === "permission")
     {
@@ -5746,9 +5799,9 @@ function launchDeleteConfirmation(model)
     {
         html += "<div class='su-center su-width40'>";
         html += "<div class='su-confirm'>";
-        html += "<form action='/adminAlt' method='POST' id='pop_delete_form'>";
+        html += "<form action='" + action_url + "' method='POST' id='pop_delete_form'>";
         html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
-        html += "<input type='hidden' name='target_action' id='target_action' value='delete'>";
+        html += "<input type='hidden' name='target_action' id='target_action' value='2'>";
         html += "<input type='hidden' name='target_id' id='target_id' value='" + id_list + "'>";
         html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
         html += header;
@@ -5864,15 +5917,27 @@ function launchSiteAdminWarning(model)
     }
     else if (model === "change_name")
     {
-        alert("Building Change Name Warning")
+        var cf = $("#change_fname").val();
+        var cl = $("#change_lname").val();
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Update User Name</h3>";
+        sub_msg = "<div class='su-confirm2'>This will permanently alter your user name</div>";
+        w_type  = "New User Name";
+        details += "<div class='su-admin-warning-c'>" + cf + " " + cl + "</div>";
     }
     else if (model === "change_email")
     {
-        alert("Building Change Email Warning")
+        var ce = $("#email1").val();
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Update User Email</h3>";
+        sub_msg = "<div class='su-confirm2'>This will permanently alter your user email</div>";
+        w_type  = "New Login Email";
+        details += "<div class='su-admin-warning-c'>" + ce + "</div>";
     }
     else if (model === "change_password")
     {
-        alert("Building Change Password Warning")
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Reset Password</h3>";
+        sub_msg = "<div class='su-confirm2'>This will permanently alter your password</div>";
+        w_type  = "Important Information";
+        details += "<div class='su-admin-warning-i'>" + "If you proceed, you will no longer be allowed to login with your current credentials. You must use your new password to login." + "</div>";
     }
     else if (model === "hours")
     {
@@ -6104,6 +6169,10 @@ function openSuDropMenu()
         <input type="hidden" id="model-count" value="">
         <input type="hidden" id="user-count" value="">
         <input type="hidden" id="payment-count" value="">
+        <input type="hidden" id="u_f" value="{{c_user.fname}}">
+        <input type="hidden" id="u_l" value="{{c_user.lname}}">
+        <input type="hidden" id="u_e" value="{{c_user.email}}">
+        <input type="hidden" id="action_url" value="{{action_url}}">
         <div class='su-pop-container hidden' id='pop-up-builder'>
             <div class='su-center su-width30'>
                 <div class='su-general'>
@@ -6130,7 +6199,7 @@ function openSuDropMenu()
         <div class='su-about-errors hidden' id='about-editor-builder'>
             <div class='su-center su-width45'>
                 <div class='su-general'>
-                    <form>
+                    <form action="{{action_url}}" method="POST" id="about_form">
                         <input type='hidden' name='target_model' id='target_model' value='about'>
                         <input type='hidden' name='target_action' id='about_target_action' value=''>
                         <input type='hidden' name='target_id' id='about_target_id' value=''>

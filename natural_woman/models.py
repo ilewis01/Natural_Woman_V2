@@ -281,7 +281,7 @@ class Company(db.Model):
 	__tablename__ 	= "company"
 	code 			= db.Column('id', db.String, default="nws", primary_key=True)
 	max_images 		= db.Column('max_images', db.Integer, nullable=False, default=30)
-	num_uploads 	= db.Column('price', db.Integer, nullable=False, default=0)
+	num_uploads 	= db.Column('uploads', db.Integer, nullable=False, default=0)
 	address1 		= db.Column('address 1', db.String, nullable=False)
 	address2 		= db.Column('address 2', db.String)
 	address3 		= db.Column('address 3', db.String)
