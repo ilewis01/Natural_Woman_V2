@@ -1398,6 +1398,20 @@ textarea {
     width: 125px;
 }
 
+.su-ultimate-onOff {
+    background-color: #cccccc;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border: 1px solid #555555;
+    border-radius: 6px;
+}
+
+.su-utl-rd-item {
+   padding-right: 20px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -1799,17 +1813,17 @@ function buildLinks(data)
     html += "<button onClick=\"javascript: launchAdminEditors('facebook', '1', '0');\">Update Link</button>";
     if (show_facebook === "True")
     {
-        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' checked value='True'>";
+        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' checked value='True' disabled>";
         html += "<label for='fb-on' class='su-sm-label-editor'>On</label>";
-        html += "<input type='radio' name='show_facebook' id='fb-off' value='False'>";
+        html += "<input type='radio' name='show_facebook' id='fb-off' value='False' disabled>";
         html += "<label for='fb-off'>Off</label>";
         html += "</div>";
     }
     else
     {
-        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' value='True'>";
+        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' value='True' disabled>";
         html += "<label for='fb-on' class='su-sm-label-editor'>On</label>";
-        html += "<input type='radio' name='show_facebook' id='fb-off' checked value='False'>";
+        html += "<input type='radio' name='show_facebook' id='fb-off' checked value='False' disabled>";
         html += "<label for='fb-off'>Off</label>";
         html += "</div>";
     }
@@ -1819,17 +1833,17 @@ function buildLinks(data)
     html += "<button onClick=\"javascript: launchAdminEditors('twitter', '1', '0');\">Update Link</button>";
     if (show_twitter === "True")
     {
-        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' checked value='True'>";
+        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' checked value='True' disabled>";
         html += "<label for='twitter-on' class='su-sm-label-editor'>On</label>";
-        html += "<input type='radio' name='show_twitter' id='twitter-off' value='False'>";
+        html += "<input type='radio' name='show_twitter' id='twitter-off' value='False' disabled>";
         html += "<label for='twitter-off'>Off</label>";
         html += "</div>";
     }
     else
     {
-        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' value='True'>";
+        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' value='True' disabled>";
         html += "<label for='twitter-on' class='su-sm-label-editor'>On</label>";
-        html += "<input type='radio' name='show_twitter' id='twitter-off' checked value='False'>";
+        html += "<input type='radio' name='show_twitter' id='twitter-off' checked value='False' disabled>";
         html += "<label for='twitter-off'>Off</label>";
         html += "</div>";
     }
@@ -1839,17 +1853,17 @@ function buildLinks(data)
     html += "<button onClick=\"javascript: launchAdminEditors('instagram', '1', '0');\">Update Link</button>";
     if (show_instagram === "True")
     {
-        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' checked value='True'>";
+        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' checked value='True' disabled>";
         html += "<label for='instagram-on' class='su-sm-label-editor'>On</label>";
-        html += "<input type='radio' name='show_instagram' id='instagram-off' value='False'>";
+        html += "<input type='radio' name='show_instagram' id='instagram-off' value='False' disabled>";
         html += "<label for='instagram-off'>Off</label>";
         html += "</div>";
     }
     else
     {
-        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' value='True'>";
+        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' value='True' disabled>";
         html += "<label for='instagram-on' class='su-sm-label-editor'>On</label>";
-        html += "<input type='radio' name='show_instagram' id='instagram-off' checked value='False'>";
+        html += "<input type='radio' name='show_instagram' id='instagram-off' checked value='False' disabled>";
         html += "<label for='instagram-off'>Off</label>";
         html += "</div>";
     }
@@ -2605,6 +2619,7 @@ function buildMediaEditor(model)
     var icon = "";
     var lin1 = "";
     var lin2 = "";
+    var btn_mode = false;
     var url  = "";
     var action_url = $("#action_url").val();
     if (model === "facebook")
@@ -2613,6 +2628,10 @@ function buildMediaEditor(model)
         icon = "<h3><i class='fab fa-facebook-square'></i> Update Facebook Link</h3>";
         lin1 = "<input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value='" + url + "'>";
         lin2 = "<input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>";
+        if ($("#fb-on").prop("checked") == true)
+        {
+            btn_mode = true;
+        }
     }
     else if (model === "twitter")
     {
@@ -2620,6 +2639,10 @@ function buildMediaEditor(model)
         icon = "<h3><i class='fab fa-twitter-square'></i> Update Twitter Link</h3>";
         lin1 = "<input type='email' name='twitter_url' id='f_twitter_url' placeholder='Enter New Twitter Link' value='" + url + "'>";
         lin2 = "<input type='email' name='twitter_url2' id='f_twitter_url2' placeholder='Confirm New Twitter Link' value=''>";
+        if ($("#twitter-on").prop("checked") == true)
+        {
+            btn_mode = true;
+        }
     }
     else if (model === "instagram")
     {
@@ -2627,6 +2650,10 @@ function buildMediaEditor(model)
         icon = "<h3><i class='fab fa-instagram'></i> Update Instagram Link</h3>";
         lin1 = "<input type='email' name='instagram_url' id='f_instagram_url' placeholder='Enter New Instagram Link' value='" + url + "'>";
         lin2 = "<input type='email' name='instagram_url2' id='f_instagram_url2' placeholder='Confirm New Instagram Link' value=''>";
+        if ($("#instagram-on").prop("checked") == true)
+        {
+            btn_mode = true;
+        }
     }
     html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
@@ -2638,6 +2665,34 @@ function buildMediaEditor(model)
     html += icon;
     html += lin1;
     html += lin2;
+    if (btn_mode === true)
+    {
+        mo1 = "<input type='radio' name='link_on' value='True' id='turn_on' checked>";
+        mo2 = "<input type='radio' name='link_on' value='False' id='turn_off'>";
+    }
+    else
+    {
+        mo1 = "<input type='radio' name='link_on' value='True' id='turn_on'>";
+        mo2 = "<input type='radio' name='link_on' value='False' id='turn_off' checked>";
+    }
+    html += "<div class='su-ultimate-onOff'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td>";
+    html += mo1;
+    html += "</td>";
+    html += "<td class='su-utl-rd-item'>";
+    html += "On";
+    html += "</td>";
+    html += "<td>";
+    html += mo2
+    html += "</td>";
+    html += "<td class='su-utl-rd-item'>";
+    html += "Off";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
     html += "<div class='su-general-btns'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('" + model + "');\">Update</button>";
     html += "<button type='button' onClick=\"javascript: checkPopulatedFields('" + model + "', '1', 'index');\">Cancel</button>";

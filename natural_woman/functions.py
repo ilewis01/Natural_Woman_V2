@@ -649,21 +649,21 @@ def alterDb(user, action):
 		company.save()
 	elif model == "facebook":
 		facebook_url 			= request.form['facebook_url']
-		show_facebook			= decodeBool(request.form['show_facebook'])
+		show_facebook			= decodeBool(request.form['link_on'])
 		company 				= get_company_model()
 		company.facebook_url 	= facebook_url
 		company.show_facebook 	= show_facebook
 		company.save()
 	elif model == "twitter":
 		twitter_url 			= request.form['twitter_url']
-		show_twitter			= decodeBool(request.form['show_twitter'])
+		show_twitter			= decodeBool(request.form['link_on'])
 		company 				= get_company_model()
 		company.twitter_url 	= twitter_url
 		company.show_twitter 	= show_twitter
 		company.save()
 	elif model == "instagram":
 		instagram_url 			= request.form['instagram_url']
-		show_instagram			= decodeBool(request.form['show_instagram'])
+		show_instagram			= decodeBool(request.form['link_on'])
 		company 				= get_company_model()
 		company.instagram_url 	= instagram_url
 		company.show_instagram 	= show_instagram
