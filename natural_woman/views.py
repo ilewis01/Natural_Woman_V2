@@ -74,17 +74,21 @@ def adminAltb():
 	content['action_url'] = action
 	return render_template(content['url'], **content)
 
+@app.route('/email', methods=["GET"])
+@login_required
+def email():
+	content = {}
+	content['company'] = {}
+	content['c_user'] = current_user
+	return render_template("admin/master/masterEmail.html", **content)
+
 @app.route('/logout')
 @login_required
 def logout():
-	content = {}
-	content["title"] = "Natural Woman Salon | Logout"
-	content['user'] = current_user
-	content['btn_index'] = 40
 	current_user.authenticated = False
 	current_user.save()
 	logout_user()
-	return render_template("admin/logout.html", **content)
+	return render_template("admin/master/logout.html")
 
 
 

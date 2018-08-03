@@ -1412,6 +1412,30 @@ textarea {
    padding-right: 20px;
 }
 
+.coming-soon-style {
+    font-family: 'Lovers Quarrel', cursive;
+    font-size: 70px;
+    text-align: center;
+    text-shadow: 1px 1px #222222;
+    color: #dfdbbc;
+    line-height: 0;
+    margin-top: 20%;
+}
+
+.temp-exit {
+    text-align:center;
+    font-family: 'Fira Sans Condensed', sans-serif; 
+    margin-top: 50px;
+}
+
+.temp-exit a {
+    color: #dfdbbc;
+}
+
+.temp-exit a:hover {
+    color: #eeeeee;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -6243,6 +6267,31 @@ function openSuDropMenu()
     }
 }
 
+function renderEmailPage()
+{
+   window.location.href = "/email";
+}
+
+function returnToAdministrator()
+{
+    window.location.href = "/adminAlt";
+}
+
+function logout()
+{
+    window.location.href = "/logout";
+}
+
+function returnToLogin()
+{
+    window.location.href = "/admin";
+}
+
+function returnToIndex()
+{
+    window.location.href = "/";
+}
+
 </script>
 
     <body class='su-body-style' onLoad="javascript: initializeAdmin({{blogs}}, {{users}}, {{company}});">
@@ -6307,11 +6356,11 @@ function openSuDropMenu()
 
         <div class='su-drop-window hidden' id='su-drop-window'>
             <ul>
-                <li>My Email</li>
+                <li onClick="javascript: renderEmailPage();">My Email</li>
                 <li onClick="javascript: launchAdminEditors('change_name', 0);">Change Name</li>
                 <li onClick="javascript: launchAdminEditors('change_email', 0);">Change Login Email</li>
                 <li onClick="javascript: launchAdminEditors('change_password', 0);">Change Password</li>
-                <li>Logout</li>
+                <li onClick="javascript: logout();">Logout</li>
             </ul>
         </div>
 
