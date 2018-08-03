@@ -2860,82 +2860,6 @@ function buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, f
     return html;
 }
 
-function encodeSuTime(value)
-{
-    var hours           = {};
-    var clean           = "";
-    hours['open']       = "";
-    hours['open_s']     = "";
-    hours['close']      = "";
-    hours['close_s']    = "";
-    value               = String(value);
-    if (value !== "empty")
-    {
-        for (var i= 0; i < value.length; i++)
-        {
-            var c = value[i];
-            if (c === "a" || c === "p") { clean += " " + c; }
-            else { clean += c; }
-        }
-        var elements = clean.split(" ");
-        hours['open'] = elements[0];
-        hours['open_s'] = elements[1];
-        hours['close'] = elements[3];
-        hours['close_s'] = elements[4];
-    }     
-    return hours;
-}
-
-function setHoursIndices(hours, day)
-{
-    var open            = 0;
-    var close           = 0;
-    var trigger_opn     = "#s_open_" + day;
-    var trigger_cls     = "#s_close_" + day; 
-    if (hours['open_s'] === "pm") { open = 1; }
-    if (hours['close_s'] === "pm") { close = 1; }
-    $(trigger_opn).prop("selectedIndex", open);
-    $(trigger_cls).prop("selectedIndex", close);
-}
-
-function decodeSuTime(trigger)
-{
-    var a = "#open_" + trigger;
-    var b = "#close_" + trigger;
-    var c = "#s_open_" + trigger;
-    var d = "#s_close_" + trigger;
-    var hours = $(a).val() + $(c).val() + " - " + $(b).val() + $(d).val();
-    return hours;
-}
-
-function setHourSelects()
-{
-    var group_weekdays  = $("#f_group_weekdays").val();
-    var group_weekends  = $("#f_group_weekends").val();
-    var monday          = $("#f_monday").val();
-    var saturday        = $("#f_saturday").val();
-    var indices         = null;
-    group_weekdays      = String(group_weekdays);
-    group_weekends      = String(group_weekends);
-    monday              = encodeSuTime(monday);
-    saturday            = encodeSuTime(saturday);
-    setHoursIndices(monday, 'mon');
-    setHoursIndices(saturday, 'sat');
-    if (group_weekdays === "False")
-    {
-        var tuesday     = $("#f_tuesday").val();
-        var wednesday   = $("#f_wednesday").val();
-        var thursday    = $("#f_thursday").val();
-        var friday      = $("#f_friday").val();
-    }
-    if (group_weekends === "False")
-    {
-        var sunday  = $("#f_sunday").val();
-        sunday      = encodeSuTime(sunday);
-        setHoursIndices(sunday, 'sun');
-    }
-}
-
 function buildHoursEditor()
 {
     var html            = "";
@@ -3070,6 +2994,82 @@ function setHourTable()
     var table       = buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, fri, sat, sun);
     $("#su-hours-builder").html(table);
     setHourSelects();
+}
+
+function encodeSuTime(value)
+{
+    var hours           = {};
+    var clean           = "";
+    hours['open']       = "";
+    hours['open_s']     = "";
+    hours['close']      = "";
+    hours['close_s']    = "";
+    value               = String(value);
+    if (value !== "empty")
+    {
+        for (var i= 0; i < value.length; i++)
+        {
+            var c = value[i];
+            if (c === "a" || c === "p") { clean += " " + c; }
+            else { clean += c; }
+        }
+        var elements = clean.split(" ");
+        hours['open'] = elements[0];
+        hours['open_s'] = elements[1];
+        hours['close'] = elements[3];
+        hours['close_s'] = elements[4];
+    }     
+    return hours;
+}
+
+function setHoursIndices(hours, day)
+{
+    var open            = 0;
+    var close           = 0;
+    var trigger_opn     = "#s_open_" + day;
+    var trigger_cls     = "#s_close_" + day; 
+    if (hours['open_s'] === "pm") { open = 1; }
+    if (hours['close_s'] === "pm") { close = 1; }
+    $(trigger_opn).prop("selectedIndex", open);
+    $(trigger_cls).prop("selectedIndex", close);
+}
+
+function decodeSuTime(trigger)
+{
+    var a = "#open_" + trigger;
+    var b = "#close_" + trigger;
+    var c = "#s_open_" + trigger;
+    var d = "#s_close_" + trigger;
+    var hours = $(a).val() + $(c).val() + " - " + $(b).val() + $(d).val();
+    return hours;
+}
+
+function setHourSelects()
+{
+    var group_weekdays  = $("#f_group_weekdays").val();
+    var group_weekends  = $("#f_group_weekends").val();
+    var monday          = $("#f_monday").val();
+    var saturday        = $("#f_saturday").val();
+    var indices         = null;
+    group_weekdays      = String(group_weekdays);
+    group_weekends      = String(group_weekends);
+    monday              = encodeSuTime(monday);
+    saturday            = encodeSuTime(saturday);
+    setHoursIndices(monday, 'mon');
+    setHoursIndices(saturday, 'sat');
+    if (group_weekdays === "False")
+    {
+        var tuesday     = $("#f_tuesday").val();
+        var wednesday   = $("#f_wednesday").val();
+        var thursday    = $("#f_thursday").val();
+        var friday      = $("#f_friday").val();
+    }
+    if (group_weekends === "False")
+    {
+        var sunday  = $("#f_sunday").val();
+        sunday      = encodeSuTime(sunday);
+        setHoursIndices(sunday, 'sun');
+    }
 }
 
 function buildPermissionEditor(mode, index)
@@ -5427,22 +5427,31 @@ function checkMaxField()
 
 function checkMediaFields(model)
 {
-    var url = $("#f_facebook_url").val();
-    var url2 = $("#f_facebook_url2").val();
-    var m_url = $("#m_facebook_url").val();
+    var url     = $("#f_facebook_url").val();
+    var url2    = $("#f_facebook_url2").val();
+    var m_url   = $("#m_facebook_url").val();
+    var on      = "False";
+    var link_on = "False";
+    if ($("#turn_on").prop("checked") === true) { link_on = "True"; }
+    if (model === "facebook")
+    {
+        if ($("#fb-on").prop("checked") === true) { on = "True"; }
+    }
     if (model === "twitter")
     {
-        url = $("#f_twitter_url").val()
-        url2 = $("#f_twitter_url2").val()
-        m_url = $("#m_twitter_url").val();
+        url     = $("#f_twitter_url").val()
+        url2    = $("#f_twitter_url2").val()
+        m_url   = $("#m_twitter_url").val();
+        if ($("#twitter-on").prop("checked") === true) { on = "True"; }
     }
     else if (model === "instagram")
     {
-        url = $("#f_instagram_url").val()
-        url2 = $("#f_instagram_url2").val()
-        m_url = $("#m_instagram_url").val();
+        url     = $("#f_instagram_url").val()
+        url2    = $("#f_instagram_url2").val()
+        m_url   = $("#m_instagram_url").val();
+        if ($("#instagram-on").prop("checked") === true) { on = "True"; }
     }
-    if (String(url)!==String(m_url) || String(url2).length > 0)
+    if (String(url)!==String(m_url) || String(url2).length > 0 || link_on !== on)
     {
         messages = [];
         messages.push("Warning");
