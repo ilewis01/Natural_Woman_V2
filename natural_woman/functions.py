@@ -31,17 +31,81 @@ def fetch_user_by_email(email):
 	return user
 
 def loadSuperuser(user):
-	data = {}
-	data['users'] 		= json_serialize_users_all()
-	data['blogs'] 		= json_serialize_blogs() 
-	data['products'] 	= json_serialize_products()
-	data['images'] 		= json_serialize_gallery()
-	data['payments']	= json_serialize_payments()
-	data['company'] 	= json_serialize_company()
-	data['auths'] 		= json_serialize_auths()
-	data['questions']	= json_serialize_security()
-	data['c_user'] 		= user
-	data['url'] 		= "admin/master/adminAlt.html"
+	data 				= {}
+	data['users'] 		= {}
+	data['blogs'] 		= {}
+	data['products'] 	= {}
+	data['images'] 		= {}
+	data['payments']	= {}
+	data['company'] 	= {}
+	data['auths'] 		= {}
+	data['questions']	= {}
+	query_bl 			= 0
+	query_ab 			= 0
+	query_pr 			= 0
+	query_im 			= 0
+	query_pm 			= 0
+	query_co 			= 0
+	query_mx 			= 0
+	query_sm 			= 0
+	query_au 			= 0
+	query_sq 			= 0
+	query_uu 			= 0
+	if user.blog_permission == True:
+		data['blogs'] 	= json_serialize_blogs()
+		query_bl 		= 1
+	if user.product_permission == True:
+		data['products'] 	= json_serialize_products()
+		query_pr 			= 1
+	if user.gallery_permission == True:
+		data['images'] 	= json_serialize_gallery()
+		query_im 		= 1
+	if user.about_permission == True:
+		data['company'] = json_serialize_company()
+		query_ab 		= 1
+	if user.is_admin == True:
+		if user.is_locked == False and user.is_super == False:
+			data['users'] 	= json_serialize_users_exclude(user)
+			data['company'] = json_serialize_company()
+			query_au = 1
+			query_co = 1
+			query_sm = 1
+			query_uu = 1
+		elif user.is_locked == True and user.is_super == False:
+			data['users'] 		= json_serialize_users_all()
+			data['payments'] 	= json_serialize_payments()
+			data['auths'] 		= json_serialize_auths()
+			query_au = 1
+			query_co = 1
+			query_sm = 1
+			query_uu = 1
+			query_pm = 1
+		elif user.is_locked == True and user.is_super == True:
+			data['users'] 		= json_serialize_users_all()
+			data['payments'] 	= json_serialize_payments()
+			data['auths'] 		= json_serialize_auths()
+			data['questions']	= json_serialize_security()
+			query_au = 1
+			query_co = 1
+			query_sm = 1
+			query_uu = 1
+			query_pm = 1
+			query_sq = 1
+			query_mx = 1
+	data['c_user'] 			= user
+	data['qblog'] 			= query_bl
+	data['qabout'] 			= query_ab
+	data['qproduct'] 		= query_pr
+	data['qimage'] 			= query_im
+	data['qpayment']		= query_pm
+	data['qsocial']			= query_sm
+	data['quserInclusive']	= query_uu
+	data['qauth']			= query_au
+	data['qsecurity'] 		= query_sq
+	data['qcompany'] 		= query_co
+	data['qmax'] 			= query_mx
+	data['url'] 			= "admin/master/adminAlt.html"
+	data['altered'] 		= 0
 	return data
 
 def json_serialize_users_all():
@@ -69,6 +133,34 @@ def json_serialize_users_all():
 			d['class'] = "li-shade2"
 		data.append(d)
 		index += 1
+	return data
+
+def json_serialize_users_exclude(user):
+	data 	= []
+	index 	= 0
+	users 	= User.query.all()
+	users.reverse()
+	for u in users:
+		if str(u.id) != str(user.id):
+			d 						= {}
+			d['id'] 				= u.id
+			d['fname'] 				= u.fname
+			d['lname'] 				= u.lname
+			d['email'] 				= u.email
+			d['is_admin'] 			= str(u.is_admin)
+			d['product_permission'] = str(u.product_permission)
+			d['about_permission'] 	= str(u.about_permission)
+			d['blog_permission'] 	= str(u.blog_permission)
+			d['gallery_permission'] = str(u.gallery_permission)
+			d['isSuper'] 			= str(u.is_super)
+			d['isLocked'] 			= str(u.is_locked)
+			d['index'] 				= index
+			if index % 2 == 1:
+				d['class'] = "li-shade1"
+			else:
+				d['class'] = "li-shade2"
+			data.append(d)
+			index += 1
 	return data
 
 def json_serialize_blogs():
@@ -418,9 +510,11 @@ def alterDb(user, action):
 	model 	= request.form['target_model']
 	action 	= None
 	m_id 	= None
+	m1 		= None
 	if model == "blog":
 		action = request.form['target_action']
 		if action == "0":
+			m1 = "A new blog has been posted"
 			subject = request.form['subject']
 			content = request.form['content']
 			blog 	= Blog(subject, content)
@@ -429,14 +523,21 @@ def alterDb(user, action):
 			m_id 	= decodeID(request.form['target_id'])
 			queued 	= que(model, m_id)
 			if queued['isQueued'] == True:
+				m1 = "Blog post successfully updated"
 				subject = request.form['subject']
 				content = request.form['content']
 				blog 	= queued['item']
 				blog.subject = subject
 				blog.content = content
 				blog.save()
+			else:
+				m1 = "Unsuccessful blog update"
 		elif action == "2":
 			m_id = decodeID(request.form['target_id'])
+			if len(m_id) == 0:
+				m1 = "Blog successfully deleted"
+			else:
+				m1 = "Blogs successfully deleted"
 			for m in m_id:
 				queued = que(model, m)
 				if queued['isQueued'] == True:
@@ -444,12 +545,14 @@ def alterDb(user, action):
 	elif model == "product":
 		action = request.form['target_action']
 		if action == "0":
+			m1 			= "New product successfully created"
 			name 		= request.form['name']
 			description = request.form['description']
 			price 		= request.form['price']
 			product 	= Product(name, description, price)
 			product.save()
 		elif action == "1":
+			m1 	 	= "Product successfully updated"
 			m_id 	= decodeID(request.form['target_id'])
 			queued 	= que(model, m_id)
 			if queued['isQueued'] == True:
@@ -460,6 +563,10 @@ def alterDb(user, action):
 				product.save()
 		elif action == "2":
 			m_id = decodeID(request.form['target_id'])
+			if len(m_id) == 0:
+				m1 = "Product sucessfullt deleted"
+			else:
+				m_id = "Products successfully deleted"
 			for m in m_id:
 				queued = que(model, m)
 				if queued['isQueued'] == True:
@@ -467,6 +574,7 @@ def alterDb(user, action):
 	elif model == "image":
 		action = request.form['target_action']
 		if action == "0":
+			m1 			= "Image sucessfully uploaded"
 			file 		= request.files['img_filename']
 			filename 	= images.save(file)
 			url 		= images.url(filename)
@@ -480,6 +588,10 @@ def alterDb(user, action):
 			company 	= get_company_model()
 			num_uploads = company.num_uploads
 			m_id = decodeID(request.form['target_id'])
+			if len(m_id) == 0:
+				m1 = "Image successfully deleted"
+			else:
+				m1 = "Images successfully deleted"
 			for m in m_id:
 				q = que(model, m)
 				if q['isQueued'] == True:
@@ -490,6 +602,7 @@ def alterDb(user, action):
 	elif model == "permission":
 		action = request.form['target_action']
 		if action == "0":
+			m1 			= "New user successfully created"
 			email 		= request.form['email1']
 			emailExist 	= userExist(email)
 			if emailExist == False:
@@ -513,8 +626,9 @@ def alterDb(user, action):
 				user.is_super 			= is_super
 				user.save()
 		elif action == "1":
+			m1 	 = "User permissions successfully updated for: " + user.name()
 			m_id = request.form['target_id']
-			q = que(model, m_id)
+			q = que("user", m_id)
 			if q['isQueued'] == True:
 				admin 		= decodeBool(request.form['is_admin'])
 				product 	= decodeBool(request.form['product_permission'])
@@ -532,6 +646,10 @@ def alterDb(user, action):
 					user.setSuperuser()
 		elif action == "2":
 			m_id = decodeID(request.form['target_id'])
+			if len(m_id) == 0:
+				m1 = "User successfully deleted"
+			else:
+				m1 = "Users successfully deleted"
 			for m in m_id:
 				q = que("user", m)
 				if q['isQueued'] == True:
@@ -540,11 +658,12 @@ def alterDb(user, action):
 		# REMEMBER TO CHANGE AUTHORIZATION TO prod IN PRODUCTION
 		action = request.form['target_action']
 		if action == "0":
-			users = User.query.all()
-			auths = Authorization.query.all()
-			email = str(request.form['email1'])
-			uExist = userExist(email)
-			aExist = authExist(email)
+			users 	= User.query.all()
+			auths 	= Authorization.query.all()
+			email 	= str(request.form['email1'])
+			uExist 	= userExist(email)
+			aExist 	= authExist(email)
+			m1 		= "New authorization sent to: " + str(email)
 			if uExist == False and aExist == False:
 				fname 		= request.form['f_fname']
 				lname 		= request.form['f_lname']
@@ -559,9 +678,15 @@ def alterDb(user, action):
 				au 			= Authorization(name, email, admin, blog, product, about, gallery)
 				au.save()
 				sendUserAuthorization(au, "dev")
+			else:
+				if uExist == True:
+					m1 = "This user already has an active account"
+				if aExist == True:
+					m1 = "A authorization has already been sent to this user. "
 		else:
 			m_id = request.form['target_id']
 			if action == "1":
+				m1 = "Authorization request successfully updated"
 				q = que(model, m_id)
 				if q['isQueued'] == True:
 					admin 		= decodeBool(request.form['is_admin'])
@@ -581,22 +706,29 @@ def alterDb(user, action):
 					q['item'].save()
 			elif action == "2":
 				m_id = decodeID(m_id)
+				if len(m_id) == 0:
+					m1 = "Authorization successfully deleted"
+				else:
+					m1 = "Authorizations successfully deleted"
 				for m in m_id:
 					q = que(model, m)
 					if q["isQueued"] == True:
 						q['item'].delete()
 			elif action == "3":
+				m1 = "A new authorization code has been sent to: " + str(email)
 				q = que(model, m_id)
 				if q["isQueued"] == True:
 					sendUserAuthorization(q['item'], "dev")
 	elif model == "security":
 		action = request.form['target_action']
 		if action == "0":
+			m1 			= "New security question created"
 			question 	= request.form['question']
 			sec 		= SecurityQuestion(question)
 			sec.save()
 		else:
 			m_id = request.form['target_id']
+			m1 = "Security question successfully updated"
 			if action == "1":
 				q = que(model, m_id)
 				if q["isQueued"] == True:
@@ -604,11 +736,16 @@ def alterDb(user, action):
 					q['item'].save()
 			elif action == "2":
 				m_id = decodeID(m_id)
+				if len(m_id) == 0:
+					m1 = "Security question successfully deleted"
+				else:
+					m1 = "Security questions successfully deleted"
 				for m in m_id:
 					s = fetchSecurityById(m)
 					if s != None:
 						s.delete()
 	elif model == "address":
+		m1 			= "Address successfully updated"
 		address1 	= request.form['address1']
 		address2 	= request.form['address2']
 		address3 	= request.form['address3']
@@ -630,6 +767,7 @@ def alterDb(user, action):
 		company.zip_code 	= zip_code
 		company.save()
 	elif model == "phone":
+		m1 		= "NWS Phone number successfully updated"
 		area 	= request.form['area']
 		pref 	= request.form['prefix']
 		post 	= request.form['postfix']
@@ -638,6 +776,7 @@ def alterDb(user, action):
 		company.phone = phone
 		company.save() 
 	elif model == "email":
+		m1 				= "NWS email address successfully updated"
 		email 			= request.form['email']
 		company 		= get_company_model()
 		company.email 	= email
@@ -646,8 +785,10 @@ def alterDb(user, action):
 		max_images 			= int(request.form['max_images'])
 		company 			= get_company_model()
 		company.max_images 	= max_images
+		m1 					= "The maximum allowed uploads have been set at: " + str(max_images)
 		company.save()
 	elif model == "facebook":
+		m1 						= "The facebook link has been successfully updated"
 		facebook_url 			= request.form['facebook_url']
 		show_facebook			= decodeBool(request.form['link_on'])
 		company 				= get_company_model()
@@ -660,6 +801,7 @@ def alterDb(user, action):
 		company 				= get_company_model()
 		company.twitter_url 	= twitter_url
 		company.show_twitter 	= show_twitter
+		m1 						= "The twitter link has been successfully updated"
 		company.save()
 	elif model == "instagram":
 		instagram_url 			= request.form['instagram_url']
@@ -667,37 +809,42 @@ def alterDb(user, action):
 		company 				= get_company_model()
 		company.instagram_url 	= instagram_url
 		company.show_instagram 	= show_instagram
+		m1 						= "The instagram link has been successfully updated"
 		company.save()
 	elif model == "change_name":
 		password = request.form['password']
 		if user.password_validated(password) == True:
+			m1 	  = "Your account name has been successfully changed"
 			fname = request.form['fname']
 			lname = request.form['lname']
 			user.fname = fname
 			user.lname = lname
 			user.save()
 		else:
-			print("BAD PASSWORD")
+			m1 = "The password that you entered was not correct"
 	elif model == "change_email":
 		password = request.form['password']
 		if user.password_validated(password) == True:
 			email = request.form['email1']
 			if userExist(email) == False:
-				user.email = email
+				m1 			= "Account login email address successfully updated"
+				user.email 	= email
 				user.save()
 			else:
-				print("ALREADY ACCOUNT ASSOCIATED WITH THAT EMAIL")
+				m1 = "There is already an account associated with the email address that you've entered"
 		else:
-			print("BAD PASSWORD")
+			m1 = "The password that you entered was not correct"
 	elif model == "change_password":
 		password = request.form['curr_password']
 		if user.password_validated(password) == True:
+			m1 = "You password was successfully updated"
 			p1 = request.form['password1']
 			user.set_password(p1)
 			user.save()
 		else:
-			print("BAD PASSWORD")
+			m1 = "The password that you entered was not correct"
 	elif model == "hours":
+		m1 				= "Business hours have been successfully updated"
 		company 		= get_company_model()
 		group_weekdays 	= decodeBool(request.form['group_weekdays'])
 		group_weekends 	= decodeBool(request.form['group_weekends'])
@@ -732,6 +879,9 @@ def alterDb(user, action):
 		company.hours_title 	= title
 		company.save()
 	data = loadSuperuser(user);
+	data['altered'] = 1
+	data['message'] = m1
+	data['model'] 	= model
 	return data
 
 
