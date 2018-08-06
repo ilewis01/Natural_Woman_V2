@@ -50,6 +50,7 @@ class User(db.Model):
 
 	def setSuperuser(self):
 		self.is_super = True
+		self.is_locked = True
 		db.session.add(self)
 		db.session.commit()
 

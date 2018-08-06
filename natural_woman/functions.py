@@ -37,7 +37,7 @@ def loadSuperuser(user):
 	data['products'] 	= {}
 	data['images'] 		= {}
 	data['payments']	= {}
-	data['company'] 	= {}
+	data['company'] 	= json_serialize_company()
 	data['auths'] 		= {}
 	data['questions']	= {}
 	query_bl 			= 0
@@ -61,16 +61,14 @@ def loadSuperuser(user):
 		data['images'] 	= json_serialize_gallery()
 		query_im 		= 1
 	if user.about_permission == True:
-		data['company'] = json_serialize_company()
 		query_ab 		= 1
 	if user.is_admin == True:
 		if user.is_locked == False and user.is_super == False:
-			data['users'] 	= json_serialize_users_exclude(user)
 			data['company'] = json_serialize_company()
-			query_au = 1
+			data['payments'] 	= json_serialize_payments()
 			query_co = 1
 			query_sm = 1
-			query_uu = 1
+			query_pm = 1
 		elif user.is_locked == True and user.is_super == False:
 			data['users'] 		= json_serialize_users_all()
 			data['payments'] 	= json_serialize_payments()
@@ -616,20 +614,21 @@ def alterDb(user, action):
 				fname 		= request.form['f_fname']
 				lname 		= request.form['f_lname']
 				password 	= "1234"
-				user 					= User(fname, lname, email, password)
-				user.is_admin 			= admin
-				user.product_permission = product
-				user.about_permission 	= about
-				user.blog_permission 	= blog
-				user.gallery_permission = gallery
-				user.is_locked 			= locked
-				user.is_super 			= is_super
-				user.save()
+				u 						= User(fname, lname, email, password)
+				u.is_admin 				= admin
+				u.product_permission 	= product
+				u.about_permission 		= about
+				u.blog_permission 		= blog
+				u.gallery_permission 	= gallery
+				u.is_locked 			= locked
+				u.is_super 				= is_super
+				u.save()
 		elif action == "1":
-			m1 	 = "User permissions successfully updated for: " + user.name()
 			m_id = request.form['target_id']
 			q = que("user", m_id)
 			if q['isQueued'] == True:
+				u = q['item']
+				m1 = "User permissions successfully updated for: " + u.name()
 				admin 		= decodeBool(request.form['is_admin'])
 				product 	= decodeBool(request.form['product_permission'])
 				about 		= decodeBool(request.form['about_permission'])
@@ -637,13 +636,11 @@ def alterDb(user, action):
 				gallery 	= decodeBool(request.form['gallery_permission'])
 				locked 		= decodeBool(request.form['is_locked'])
 				is_super 	= decodeBool(request.form['is_super'])
-				user 		= q['item']
-				user.setPermissions(admin, product, about, blog, gallery)
+				u.setPermissions(admin, product, about, blog, gallery)
 				if locked == True:
-					user.setLocKed()
+					u.setLocKed()
 				if is_super == True:
-					user.setLocKed()
-					user.setSuperuser()
+					u.setSuperuser()
 		elif action == "2":
 			m_id = decodeID(request.form['target_id'])
 			if len(m_id) == 0:

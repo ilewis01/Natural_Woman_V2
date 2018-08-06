@@ -64,8 +64,8 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('user', {{users}});" id='s_user'checked></td>
-	    										<td><label for=''>Profiles</label></td>
+	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('user', {{users}});" id='s_user'></td>
+	    										<td><label id='s_usr_label_users'>Profiles</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -73,7 +73,7 @@
 	    								<table>
 	    									<tr>
 	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('auth', {{auths}});" id='s_auth'></td>
-	    										<td><label for=''>Pending</label></td>
+	    										<td><label id='s_usr_label_auths'>Pending</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -81,7 +81,7 @@
 	    								<table>
 	    									<tr>
 	    										<td><input type="radio" name="user_radio" onClick="javascript: superUserLaunch('question', {{questions}});" id='s_security'></td>
-	    										<td><label for=''>Security</label></td>
+	    										<td><label id='s_usr_label_quest'>Security</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -90,13 +90,13 @@
 	    				</div>
 	    				<div class="su-db-bottom">
 	    					<div class="su-sub-top">
-	    						<button onClick="javascript: fetchUserType('0');"><i class="fas fa-plus"></i></button>
+	    						<span id="user-del2"><button id="userPlusBtn" onClick="javascript: fetchUserType('0');"><i class="fas fa-plus"></i></button></span>
 	    						<span id='user-del1' class='su-btn-disabled'><button disabled id='ursDelBtn' onClick="javascript: fetchUserType('1');"><i class="fas fa-minus"></i></button></span>
 	    					</div>
 	    					<div class="su-sub-bottom-list">
 	    						<ul id='usr-builder'></ul>
 	    					</div>
-	    					<div class='su-sub-footer'>
+	    					<div class='su-sub-footer' id="mst_sel_btn_2">
 	    						<button onClick="javascript: selectAllUsers();">Select All</button>
 	    						<button onClick="javascript: clearAllUsers();">Clear All</button>
 	    					</div>
@@ -113,8 +113,8 @@
 	    							<div class="col-md-4" style="padding: 0; margin:0;">
 	    								<table>
 	    									<tr>
-	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('contact', {{company}});" id="s_admin_multi_1" checked></td>
-	    										<td><label for=''>Contact</label></td>
+	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('contact', {{company}});" id="s_admin_multi_1"></td>
+	    										<td><label id='s_admin_label_contact'>Contact</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -122,7 +122,7 @@
 	    								<table>
 	    									<tr>
 	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('method', {{payments}});" id='s_payment'></td>
-	    										<td><label for=''>Payments</label></td>
+	    										<td><label id='s_admin_label_payment'>Payments</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -130,7 +130,7 @@
 	    								<table>
 	    									<tr>
 	    										<td><input type="radio" name="admin_radio" onClick="javascript: superAdminLaunch('links', {{company}});" id="s_admin_multi_2"></td>
-	    										<td><label for=''>Links/Gallery</label></td>
+	    										<td><label id='s_admin_label_links'>Links/Gallery</label></td>
 	    									</tr>
 	    								</table>
 	    							</div>
@@ -138,7 +138,7 @@
 	    					</div>
 	    				</div>
 	    				<div class="su-db-bottom">
-	    					<div class="su-sub-top">
+	    					<div class="su-sub-top" id='master_admin_lockout'>
 	    						<button id='adminAddBtn' onClick="javascript: launchAdminEditors('payment', '0');"><i class="fas fa-plus"></i></button>
 	    						<span id='admin-del1'><button id='adminDelBtn' onClick="javascript: launchDeleteConfirmation('payment');"><i class="fas fa-minus"></i></button></span>
 	    					</div>

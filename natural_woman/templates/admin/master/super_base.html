@@ -1730,6 +1730,9 @@ function buildContact(data)
     var address3 = data['address3'];
     var group_weekdays = data['group_weekdays'];
     var group_weekends = data['group_weekends'];
+    var about_permission = $("#qabout").val();
+    var admin_permission = $("#qcompany").val();
+
     if (address1 === "empty") { address1 = "" ;}
     if (address2 === "empty") { address2 = "" ;}
     if (address3 === "empty") { address3 = "" ;}
@@ -1753,39 +1756,85 @@ function buildContact(data)
     html += "<input type='hidden' id='m_title' value='" + data['hours_title'] + "'>";
     html += "<input type='hidden' id='m_special_hours' value='" + data['special_hours'] + "'>";
     html += "<div class='su-admin-content-wrapper'>";
-    html += "<div class='su-admin-header su-topper' id='mas_ult_1'>Address: &nbsp<a href=\"javascript: launchAdminEditors('address', '1');\">[Edit]</a></div>";
-    html += "<div class='su-ad-item'>" + address1 + "</div>";
-    html += "<div class='su-ad-item'>" + address2 + "</div>";
-    html += "<div class='su-ad-item'>" + address3 + "</div>";
-    html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
-    html += "<div class='su-admin-header su-topper2' id='mas_ult_2'>Phone: &nbsp<a href=\"javascript: launchAdminEditors('phone', '1');\">[Edit]</a></div>";
-    html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
-    html += "<div class='su-admin-header su-topper2' id='mas_ult_3'>Email: &nbsp<a href=\"javascript: launchAdminEditors('email', '1');\">[Edit]</a></div>";
-    html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
-    html += "<div class='su-admin-header su-topper2' id='mas_ult_4'>" + data['hours_title'] + ": &nbsp<a href=\"javascript: launchAdminEditors('hours', '1');\">[Edit]</a></div>";
-    if (group_weekdays === "True")
+    if (Number(admin_permission) === 0)
     {
-        html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
+        html += "<div class='su-admin-header su-topper' id='mas_ult_1'>Address:</div>";
+        html += "<div class='su-ad-item'>" + address1 + "</div>";
+        html += "<div class='su-ad-item'>" + address2 + "</div>";
+        html += "<div class='su-ad-item'>" + address3 + "</div>";
+        html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_2'>Phone:</div>";
+        html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_3'>Email:</div>";
+        html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_4'>" + data['hours_title'] + ":</div>";
+        if (group_weekdays === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Monday: </span>" + data["monday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Tuesday: </span>" + data["tuesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Wednesday: </span>" + data["wednesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Thursday: </span>" + data["thursday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Friday: </span>" + data["friday"] + "</div>";
+        }
+        if (group_weekends === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekends: </span>" + data["saturday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
+        }
+        html += "</div>";
     }
     else
     {
-        html += "<div class='su-ad-item'><span>Monday: </span>" + data["monday"] + "</div>";
-        html += "<div class='su-ad-item'><span>Tuesday: </span>" + data["tuesday"] + "</div>";
-        html += "<div class='su-ad-item'><span>Wednesday: </span>" + data["wednesday"] + "</div>";
-        html += "<div class='su-ad-item'><span>Thursday: </span>" + data["thursday"] + "</div>";
-        html += "<div class='su-ad-item'><span>Friday: </span>" + data["friday"] + "</div>";
-    }
-    if (group_weekends === "True")
+        html += "<div class='su-admin-header su-topper' id='mas_ult_1'>Address: &nbsp<a href=\"javascript: launchAdminEditors('address', '1');\">[Edit]</a></div>";
+        html += "<div class='su-ad-item'>" + address1 + "</div>";
+        html += "<div class='su-ad-item'>" + address2 + "</div>";
+        html += "<div class='su-ad-item'>" + address3 + "</div>";
+        html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_2'>Phone: &nbsp<a href=\"javascript: launchAdminEditors('phone', '1');\">[Edit]</a></div>";
+        html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_3'>Email: &nbsp<a href=\"javascript: launchAdminEditors('email', '1');\">[Edit]</a></div>";
+        html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_4'>" + data['hours_title'] + ": &nbsp<a href=\"javascript: launchAdminEditors('hours', '1');\">[Edit]</a></div>";
+        if (group_weekdays === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Monday: </span>" + data["monday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Tuesday: </span>" + data["tuesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Wednesday: </span>" + data["wednesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Thursday: </span>" + data["thursday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Friday: </span>" + data["friday"] + "</div>";
+        }
+        if (group_weekends === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekends: </span>" + data["saturday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
+        }
+        html += "</div>";
+    }    
+    if (Number(about_permission) === 0)
     {
-        html += "<div class='su-ad-item'><span>Weekends: </span>" + data["saturday"] + "</div>";
+        html += "<div class='su-abt-style su-btn-disabled'><button disabled id='master_ultra_about_button' onClick=\"javascript: buildAboutEditor({{company.abouts}});\">Update <em>\"About Us\"</em> Statement</button></div>";
     }
     else
     {
-        html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
-        html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
+        html += "<div class='su-abt-style'><button id='master_ultra_about_button' onClick=\"javascript: buildAboutEditor({{company.abouts}});\">Update <em>\"About Us\"</em> Statement</button></div>";
+
     }
-    html += "</div>";
-    html += "<div class='su-abt-style'><button id='master_ultra_about_button' onClick=\"javascript: buildAboutEditor({{company.abouts}});\">Update <em>\"About Us\"</em> Statement</button></div>";
     return html;
 }
 
@@ -1825,6 +1874,16 @@ function buildLinks(data)
     var show_facebook   = data['show_facebook'];
     var show_twitter    = data['show_twitter'];
     var show_instagram  = data['show_instagram'];
+    var max_permission  = $("#qmax").val();
+    var max_button      = null;
+    if (Number(max_permission) === 0)
+    {
+        max_button = "<div class='su-admin-header su-topper' id='mst_ult_admin_5'>Images</div>";
+    }
+    else
+    {
+        max_button = "<div class='su-admin-header su-topper' id='mst_ult_admin_5'>Images &nbsp<a href=\"javascript: launchAdminEditors('max_images', '1');\">[Edit]</a></div>";
+    }
     html += "<input type='hidden' id='m_facebook_url' value='" + data['facebook_url'] + "'>";
     html += "<input type='hidden' id='m_twitter_url' value='" + data['twitter_url'] + "'>";
     html += "<input type='hidden' id='m_instagram_url' value='" + data['instagram_url'] + "'>";
@@ -1833,7 +1892,7 @@ function buildLinks(data)
     html += "<input type='hidden' id='m_show_instagram' value='" + show_instagram + "'>";
     html += "<input type='hidden' id='m_max_images' value='" + data['max_images'] + "'>";
     html += "<input type='hidden' id='m_num_uploads' value='" + data['num_uploads'] + "'>";
-    html += "<div class='su-admin-header su-topper' id='mst_ult_admin_5'>Images &nbsp<a href=\"javascript: launchAdminEditors('max_images', '1');\">[Edit]</a></div>";
+    html += max_button;
     html += "<div class='su-ad-item su-red'><span>Maximum No. Images Allowed: </span'><b class='su-black'>" + data['max_images'] + "</b></div>";
     html += "<div class='su-ad-item su-black'><span>No. Images Uploaded: </span>" + data['num_uploads'] + "</div>";
     html += "<div class='su-admin-header su-topper2'>Social Media Management</div>";
@@ -3276,7 +3335,7 @@ function buildPermissionEditor(mode, index)
     html += "<tr>";
     if (lock === "True")
     {
-        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\" checked></td>";
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\" checked disabled></td>";
     }
     else
     {
@@ -3292,7 +3351,7 @@ function buildPermissionEditor(mode, index)
     html += "<tr>";
     if (s_user === "True")
     {
-        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\" checked></td>";
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\" checked disabled></td>";
     }
     else
     {
@@ -6349,25 +6408,31 @@ function loadUserData(users, auths, questions)
     query_perm      = Number(query_perm);
     query_auth      = Number(query_auth);
     query_secu      = Number(query_secu);
-    if (query_perm===0) { $("#s_user").prop("disabled", true); }
-    if (query_auth===0) { $("#s_auth").prop("disabled", true); }
-    if (query_secu===0) { $("#s_security").prop("disabled", true); }
-    if (query_perm===1) { superUserLaunch("user", users); }
+    if (query_perm===0) { $("#s_user").prop("disabled", true); $("#s_usr_label_users").addClass("low_opacity"); }
+    if (query_auth===0) { $("#s_auth").prop("disabled", true); $("#s_usr_label_auths").addClass("low_opacity"); }
+    if (query_secu===0) { $("#s_security").prop("disabled", true); $("#s_usr_label_quest").addClass("low_opacity"); }
+    if (query_perm===1) { superUserLaunch("user", users); $("#s_user").click(); }
     else
     {
-        if (query_auth===1) { superUserLaunch("auth", auths); }
+        if (query_auth===1) { superUserLaunch("auth", auths); $("#s_auth").click(); }
         else
         {
-            if (query_secu===1) { superUserLaunch("question", questions); }
+            if (query_secu===1) { superUserLaunch("question", questions); $("#s_security").click(); }
         }
+    }
+    if (query_perm===0 && query_auth===0 && query_secu===0)
+    {
+        $("#userPlusBtn").prop("disabled", true);
+        $("#user-del2").addClass("su-btn-disabled");
+        $("#mst_sel_btn_2").html("");
     }
 }
 
 function loadAdminData(company, payments)
 {
-    var query_comp  = $("#quserInclusive").val();
-    var query_paym  = $("#qauth").val();
-    var query_abou  = $("#qsecurity").val();
+    var query_comp  = $("#qcompany").val();
+    var query_paym  = $("#qpayment").val();
+    var query_abou  = $("#qabout").val();
     var query_maxi  = $("#qmax").val();
     var query_socm  = $("#qsocial").val();
     query_comp      = Number(query_comp);
@@ -6375,9 +6440,9 @@ function loadAdminData(company, payments)
     query_abou      = Number(query_abou);
     query_maxi      = Number(query_maxi);
     query_socm      = Number(query_socm);
-    if (query_abou===0 && query_comp===0) { $("#s_admin_multi_1").prop("disabled", true); }
-    if (query_paym===0) { $("#s_payment").prop("disabled", true); }
-    if (query_maxi===0 && query_socm===0) { $("#s_admin_multi_2").prop("disabled", true); }
+    if (query_abou===0 && query_comp===0) { $("#s_admin_multi_1").prop("disabled", true); $("#s_admin_label_contact").addClass("low_opacity"); }
+    if (query_paym===0) { $("#s_payment").prop("disabled", true); $("#s_admin_label_payment").addClass("low_opacity"); }
+    if (query_maxi===0 && query_socm===0) { $("#s_admin_multi_2").prop("disabled", true); $("#s_admin_label_links").addClass("low_opacity"); }
     if (query_comp===1) { superAdminLaunch("contact", company); }
     if (query_abou===1 || query_comp===1)
     {
@@ -6405,6 +6470,10 @@ function loadAdminData(company, payments)
                 $("#mst_ult_admin_8").prop("disabled", true);
             }
         }
+    }
+    if (query_comp===0&&query_paym===0&&query_abou===0&&query_maxi===0&&query_socm===0)
+    {
+        $("#master_admin_lockout").html("");
     }
 }
 
