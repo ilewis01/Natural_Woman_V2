@@ -6863,7 +6863,7 @@ function loadAdminData(company, payments)
     if (query_abou===0 && query_comp===0) { $("#s_admin_multi_1").prop("disabled", true); $("#s_admin_label_contact").addClass("low_opacity"); }
     if (query_paym===0) { $("#s_payment").prop("disabled", true); $("#s_admin_label_payment").addClass("low_opacity"); }
     if (query_maxi===0 && query_socm===0) { $("#s_admin_multi_2").prop("disabled", true); $("#s_admin_label_links").addClass("low_opacity"); }
-    if (query_comp===1) { superAdminLaunch("contact", company); }
+    if (query_comp===1) { superAdminLaunch("contact", company); $("#s_admin_multi_1").click(); }
     if (query_abou===1 || query_comp===1)
     {
         superAdminLaunch('contact', company);
@@ -6878,10 +6878,10 @@ function loadAdminData(company, payments)
     }
     else
     {
-        if (query_paym===1) { superAdminLaunch("method", payments); }
+        if (query_paym===1) { superAdminLaunch("method", payments); $("#s_payment").click(); }
         else
         {
-            if(query_maxi===1 || query_socm===1) { superAdminLaunch("links", company); }
+            if(query_maxi===1 || query_socm===1) { superAdminLaunch("links", company); $("#s_admin_label_links").click(); }
             if (query_maxi===0) { $("#mst_ult_admin_5").html("Images:"); }
             else if (query_socm===0)
             {
@@ -6980,6 +6980,12 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
             superAdminLaunch('contact', company);
             loadDBdata(blogs, products, images);
             loadUserData(users, auths, questions);
+        }
+        else
+        {
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
         }
     }   
 }
