@@ -889,6 +889,8 @@ def alterDb(user, action):
 				payment = Payment(method, icon)
 				m1 = method.upper() + " payment method successfully added"
 				payment.save()
+	elif model == "about":
+		print("UPDATING ABOUT MODELS")
 	elif model == "hours":
 		m1 				= "Business hours have been successfully updated"
 		company 		= get_company_model()

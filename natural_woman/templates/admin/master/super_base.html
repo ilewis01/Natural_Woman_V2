@@ -4162,6 +4162,7 @@ function showAboutEditors(mode)
         button      = "Update";
         checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\" checked disabled>";
         active      = "<input type='hidden' name='is_active' id='f_is_active' value='True'>";
+        $("#selected-payment").val("~");
     }
     else if (mode === 2)
     {
@@ -4213,8 +4214,8 @@ function showAboutEditors(mode)
     html += "Set As Active";
     html += "</div>";
     html += "<div class='su-general-btns'>";
-    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingPaymentFields('about')\">" + button + "</button></span>";
-    html += "<button type='button' onClick=\"javascript: closeAboutError();\">Cancel</button>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validateSUModel('about')\">" + button + "</button></span>";
+    html += "<button type='button' onClick=\"javascript: checkAboutFields();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
@@ -4241,6 +4242,7 @@ function showAboutEditor2(index)
     var checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
     var active      = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
     var url         = $("#action_url").val();
+    $("#selected-payment").val("~" + index + "~");
 
     html += "<div class='su-center su-width45'>";
     html += "<div class='su-general'>";
@@ -4258,7 +4260,7 @@ function showAboutEditor2(index)
     html += "</div>";
     html += "<div class='su-general-btns'>";
     html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingPaymentFields('about')\">" + button + "</button></span>";
-    html += "<button type='button' onClick=\"javascript: closeAboutError();\">Cancel</button>";
+    html += "<button type='button' onClick=\"javascript: checkAboutFields();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
     html += "</div>";
@@ -5546,6 +5548,46 @@ function checkPopulatedFields(model, mode, index)
     else if (model === "payments") { checkPaymentFields(); }
 }
 
+function checkAboutFields()
+{
+    var show    = false;
+    var action  = $("#about_target_action").val();
+    var st      = $("#f_about_area").val();
+    var act     = $("#f_is_active").val();
+    if (action === "update")
+    {
+        var o_st    = null;
+        var o_at    = "True";
+        var i       = $("#selected-payment").val();
+        if (i === "~")
+        {
+            //get current id
+            o_st    = $("#current_statement").val();
+        }
+        else
+        {
+            //decode selected inactive index3
+            i       = decodeDeleteIndices(i);
+            o_st    = $("#a_statement_" + i).val();
+            o_at    = "False";
+        }
+        if (o_st!==st || o_at!==act) { show = true; }
+    }
+    else if (action === "new")
+    {
+        if (st.length > 0 || act !== "False") { show = true; } 
+    }
+    if (show === true) 
+    { 
+        var m = [];
+        m.push("Warning");
+        m.push("Changes Detected");
+        m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError2(m); 
+    }
+    else { closeAboutError(); }
+}
+
 function checkPaymentFields()
 {
     var action  = $("#pmt_target_action").val();
@@ -6411,7 +6453,7 @@ function launchDeleteConfirmation(model)
     }
     else if (model === "about")
     {
-        if (delete_list.length > 1) 
+        if (delete_list.length > 0) 
         { 
             mdl_head        = "about us statement";
             mdl_head = "about us statements";
@@ -6766,13 +6808,8 @@ function suHardClose()
 
 function suHardClose2()
 {
-    $("#about-editor-builder").fadeOut(600, function() {
-        $("#su-editor-builder").fadeOut(600);
-        $("#f_about_area").html("");
-        $("#f_is_active").val("False");
-        $("#f_active_cb").prop("disabled", false);
-        $("#f_active_cb").prop("checked", false);
-    }); 
+    $("#about-editor-builder").fadeOut(500);
+    $("#su-editor-builder").fadeOut(500);
 }
 
 function suCheckbox(trigger, target)
@@ -6792,12 +6829,7 @@ function suSendNewAuth()
 
 function closeAboutError()
 {
-    $("#about-editor-builder").fadeOut(600, function() {
-        $("#f_about_area").html("");
-        $("#f_is_active").val("False");
-        $("#f_active_cb").prop("disabled", false);
-        $("#f_active_cb").prop("checked", false);
-    });
+    $("#about-editor-builder").fadeOut(500);
 }
 
 function openSuDropMenu()
