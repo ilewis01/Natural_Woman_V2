@@ -237,6 +237,7 @@ def json_serialize_payments():
 		d['is_accepted'] 	= str(p.is_accepted)
 		d['icon'] 			= p.icon
 		d['index'] 			= index
+		d['id'] 			= p.id
 		if index % 2 == 1:
 			d['class'] 		= "li-shade1"
 		else:

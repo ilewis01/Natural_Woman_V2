@@ -1449,6 +1449,56 @@ textarea {
     opacity: 0.4;
 }
 
+.mst-fa-check {
+    color: #555555;
+    font-size: 12px;
+    padding-right:3px;
+    padding-left: 6px;
+}
+
+.mst-fa-button button {
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+    width: 80px;
+}
+
+.su-sp-even {
+    width: 200px;
+}
+
+.single-payment-btn button {
+    width: 150px;
+}
+
+.su-payment-types {
+    width: 100%;
+    background-color: #cccccc;
+    border: 1px solid #555555;
+    border-radius: 6px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sel-pmt-msg {
+    font-size: 11px;
+    height: 25px;
+    font-style: italic;
+    color: #0000ff;
+}
+
+.su-payment-types i {
+    font-size: 30px;
+    text-shadow: none;
+    color: #444444;
+}
+
+.su-sp-icon {
+    padding-bottom: 15px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -1838,9 +1888,40 @@ function buildContact(data)
     return html;
 }
 
+function setPaymentButton(mode, index)
+{
+    var method  = $("#k_pmt_method_" + index).val();
+    var m_id    = $("#k_pmt_id_" + index).val();
+    var message = null;
+    var details = null;
+    if (Number(mode) === 0)
+    {
+        message = "This action will disable the " + method + " payment method";
+        details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " is <em><b>NOT</b></em> accepted as a viable payment method at Natural Woman Salon.";
+    }
+    else if (Number(mode) === 1)
+    {
+        message = "This action will enable the " + method + " payment method";
+        details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " <em><b>IS</b></em> accepted as a viable payment method at Natural Woman Salon.";
+    }
+    launchSiteAdminWarning("payment");
+    $('#su-payment-sub-message').html(message);
+    $('#su-payment-sub-details').html(details);
+    $('#pmt_target_id').val(m_id);
+    $('#pmt_target_action').val(mode)
+}
+
 function buildPayments(data)
 {
+    var action_url = $("#action_url").val();
     var html = "";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='pmt_target_model' value='payment'>";
+    html += "<input type='hidden' name='target_action' id='pmt_target_action' value=''>";
+    html += "<input type='hidden' name='target_id' id='pmt_target_id' value=''>";
+    html += "<input type='hidden' name='m_payment_method' id='m_payment_method'>";
+    html += "<input type='hidden' name='m_payment_icon' id='m_payment_icon'>";
+    html += "</form>";
     html += "<ul>";
  
     for (var i = 0; i < data.length; i++)
@@ -1848,20 +1929,34 @@ function buildPayments(data)
         var index   = String(data[i]['index']);
         var method  = String(data[i]['method']);
         var icon    = String(data[i]['icon']);
-        html += "<a href=\"javascript: launchAdminEditors('payment', 1);\">";
+        var active  = String(data[i]['is_accepted']);
+        var m_id    = String(data[i]['id']);
+        var check   = "<i class='fas fa-check-square'></i>";
+        var no_ch   = "<i class='far fa-square'></i>";
+        var button  = null;
         html += "<input type='hidden' id='k_pmt_method_" + index + "' value='" + method + "'>";
+        html += "<input type='hidden' id='k_pmt_id_" + index + "' value='" + m_id + "'>";
         html += "<div id='div2_" + index + "' class='" + data[i]['class'] + "'>";
         html += "<li>";
         html += "<table>";
         html += "<tr>";
-        html += "<td><input type='checkbox' id='pay_box_" + index + "' onClick=\"javascript: selectPaymentItem('" + index + "');\"></td>";
+        if (active === "True")
+        {
+            html += "<td class='mst-fa-check'>" + check + "</td>";
+            button = "<td class='mst-fa-button'><button onClick=\"javascript: setPaymentButton('0', " + index + ");\">Disable</button></td>";
+        }
+        else if (active === "False")
+        {
+            html += "<td class='mst-fa-check'>" + no_ch + "</td>";
+            button = "<td class='mst-fa-button'><button onClick=\"javascript: setPaymentButton('1', " + index + ");\">Set Active</button></td>";
+        }
         html += "<td id='pmt_icon_" + index + "'></td>";
-        html += "<td class='su-border-left su-sp-top su-sp-bottom'>" + method + "</td>";
+        html += "<td class='su-border-left su-sp-top su-sp-bottom su-sp-even'><em>" + method + "</em></td>";
+        html += button;
         html += "</tr>";
         html += "</table>";
         html += "</li>";
         html += "</div>";
-        html += "</a>";
     }
 
     html += "</ul>";
@@ -3980,11 +4075,103 @@ function clearAllAbouts()
     }
 }
 
+function load_pmt_radio_data(m_class)
+{
+    m_class = String(m_class);
+    $("#m_payment_icon").val(m_class);
+}
+
 function buildPaymentEditor()
 {
-    alert("Building Payment Editor")
+    $("#pmt_target_action").val("new");
     var html = "";
-    var action_url = $("#action_url").val();
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<h3><i class='fas fa-money-bill-alt'></i> &nbspNew Payment Method</h3>";
+    html += "<input type='text' id='f_payment_method' placeholder='Enter Payment Method Name' oninput=\"javascript: mirrorInput('#f_payment_method', '#m_payment_method');\">";
+    html += "<div class='su-payment-types'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12 sel-pmt-msg' style='padding:0; margin: 0;'>Select an icon from the list below</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-apple-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-apple-pay');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-apple-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-cc-amazon-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-amazon-pay');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-amazon-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-bitcoin' onClick=\"javascript: load_pmt_radio_data('fab fa-bitcoin');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-bitcoin'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fas fa-money-check' onClick=\"javascript: load_pmt_radio_data('fas fa-money-check');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-check'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' value='fas fa-shopping-bag' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-bag');\"></td>";
+    html += "<td><i class='fas fa-shopping-bag'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-cc-discover' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-discover');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-discover'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-paypal' onClick=\"javascript: load_pmt_radio_data('fab fa-paypal');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-paypal'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='far fa-credit-card' onClick=\"javascript: load_pmt_radio_data('far fa-credit-card');\"></td>";
+    html += "<td class='su-sp-icon'><i class='far fa-credit-card'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fas fa-dollar-sign' onClick=\"javascript: load_pmt_radio_data('fas fa-dollar-sign');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-dollar-sign'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' value='fas fa-shopping-cart' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-cart');\"></td>";
+    html += "<td><i class='fas fa-shopping-cart'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-cc-diners-club' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-diners-club');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-diners-club'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-google-wallet' onClick=\"javascript: load_pmt_radio_data('fab fa-google-wallet');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-google-wallet'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fas fa-money-bill' onClick=\"javascript: load_pmt_radio_data('fas fa-money-bill');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-bill'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' value='fas fa-gift' onClick=\"javascript: load_pmt_radio_data('fas fa-gift');\"></td>";
+    html += "<td><i class='fas fa-gift'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button onClick=\"javascript: validatingPaymentFields();\">Submit</button>";
+    html += "<button onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+
     return html;
 }
 
@@ -6125,6 +6312,13 @@ function launchSiteAdminWarning(model)
         w_type  = "Important Information";
         details += "<div class='su-admin-warning-i'>" + "If you proceed, you will no longer be allowed to login with your current credentials. You must use your new password to login." + "</div>";
     }
+    else if (model === "payment")
+    {
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Update Payment Method</h3>";
+        sub_msg = "<div class='su-confirm2' id='su-payment-sub-message'></div>";
+        w_type  = "Important Information";
+        details += "<div class='su-admin-warning-i' id='su-payment-sub-details'></div>";
+    }
     else if (model === "hours")
     {
         var isSpecial   = $("#special_check").val();
@@ -6477,6 +6671,12 @@ function loadAdminData(company, payments)
     }
 }
 
+function mirrorInput(trigger, target)
+{
+    var value = $(trigger).val();
+    $(target).val(value);
+}
+
 function initializeAdmin(blogs, users, company, images, products, payments, auths, questions)
 {
     var altered = $("#altered").val();
@@ -6534,7 +6734,6 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
         <input type="hidden" id="altered" value="{{altered}}">
         <input type="hidden" id="mm_msg" value="{{message}}">
         <input type="hidden" id="mm_mdl" value="{{model}}">
-
         <input type="hidden" id="qblog" value="{{qblog}}">
         <input type="hidden" id="qabout" value="{{qabout}}">
         <input type="hidden" id="qproduct" value="{{qproduct}}">
@@ -6547,28 +6746,7 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
         <input type="hidden" id="qcompany" value="{{qcompany}}">
         <input type="hidden" id="qmax" value="{{qmax}}">
 
-        <div class='su-pop-container hidden' id='pop-up-builder'>
-            <div class='su-center su-width30'>
-                <div class='su-general'>
-                    <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
-                    <form action='/adminAlt' method='POST' id='pop_form'>
-                        <input type='hidden' name='target_model' id='user_target_model' value='user'>
-                        <input type='hidden' name='target_action' id='user_target_action' value='update'>
-
-                        <h3><i class='fas fa-user-cog'></i> &nbspChange User Name</h3>
-                        <input type='password' name='password' id='password' placeholder='Enter Password'>
-                        <div class='su-sp-top'></div>
-                        <div class='su-sp-top'></div>
-                        <input type='email' name='email1' id='email1' placeholder='Enter New Email'>
-                        <input type='email' name='email2' id='email2' placeholder='Confirm New Email'>
-                        <div class='su-general-btns'>
-                            <button type='button' onClick="javascript: validateSUModel('change_email');">Submit</button>
-                            <button type='button' onClick="javascript: closeEditor();">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div class='su-pop-container hidden' id='pop-up-builder'></div>
 
         <div class='su-about-errors hidden' id='about-editor-builder'>
             <div class='su-center su-width45'>
@@ -6586,7 +6764,7 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
                             Set As Active
                         </div>
                         <div class='su-general-btns'>
-                            <span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick="javascript: validateSUModel('about')">Update</button></span>
+                            <span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick="javascript: validatingPaymentFields('about')">Update</button></span>
                             <button type='button' onClick="javascript: closeAboutError();">Cancel</button>
                         </div>
                     </form>
@@ -6594,15 +6772,7 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
             </div>
         </div>
 
-        <div class='su-error-container hidden' id='su-editor-builder'>
-            <div class='su-center su-width30'>
-                <div class='su-general'>
-                    <div class='su-confirm-exit2'><i class='fas fa-window-close' onClick="javascript: closeEditor();"></i></div>
-                    <h3><i class='fas fa-exclamation-circle'></i> &nbspMessage</h3>
-                    <div class='alter-message'>The message will go here</div>
-                </div>
-            </div>
-        </div>
+        <div class='su-error-container hidden' id='su-editor-builder'></div>
 
         <div class='su-drop-window hidden' id='su-drop-window'>
             <ul>
