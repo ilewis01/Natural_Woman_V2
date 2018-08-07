@@ -1916,6 +1916,7 @@ function setPaymentButton(mode, index)
         message = "This action will enable the " + method + " payment method";
         details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " <em><b>IS</b></em> accepted as a viable payment method at Natural Woman Salon.";
     }
+    $("#pop-up-builder").html("");
     launchSiteAdminWarning("payment");
     $('#su-payment-sub-message').html(message);
     $('#su-payment-sub-details').html(details);
@@ -3123,14 +3124,19 @@ function buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, f
         html += "<th class='su-table-hd-left'>Wednesday</th>";
         html += "<td class='su-table-in'><input type=text name='wednesday_open' id='open_wed' oninput=\"javascript: inputhour('2', '#open_wed');\" value='" + wed['open'] + "'></td>";
         html += "<td class='su-sel-in'>";
-        html += "<select name='s_open_wed' id='s_open_wed'><option value='am'>AM</option> <option value='pm'>PM</option></select>";
+        html += "<select name='s_open_wed' id='s_open_wed'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
         html += "</td>";
         html += "<td class='su-table-in'><input type=text name='wednesday_close' id='close_wed' oninput=\"javascript: inputhour('2', '#close_wed');\" value='" + wed['close'] + "'></td>";
         html += "<td class='su-sel-in su-sel-end'>";
-        html += "<select name='s_close_wed' d='s_close_wed'> <option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "<select name='s_close_wed' id='s_close_wed'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
         html += "</td>";
         html += "</tr>";
-        html += "<tr>";
         html += "<th class='su-table-hd-left'>Thursday</th>";
         html += "<td class='su-table-in'><input type=text name='thursday_open' id='open_thu' oninput=\"javascript: inputhour('2', '#open_thu');\" value='" + thu['open'] + "'></td>";
         html += "<td class='su-sel-in'>";
@@ -3347,14 +3353,24 @@ function encodeSuTime(value)
         for (var i= 0; i < value.length; i++)
         {
             var c = value[i];
-            if (c === "a" || c === "p") { clean += " " + c; }
+            if (c === "a" || c === "p" || c ==="-") { clean += " " + c; }
             else { clean += c; }
         }
-        var elements = clean.split(" ");
+        var elements    = clean.split(" ");
+        var close       = elements[2];
+        var f           = "";
+        for (var j = 0; j < close.length; j++)
+        {
+            var k = close[j];
+            if (isInt(k) === true)
+            {
+                f += k;
+            }
+        }
         hours['open'] = elements[0];
         hours['open_s'] = elements[1];
-        hours['close'] = elements[3];
-        hours['close_s'] = elements[4];
+        hours['close'] = f;
+        hours['close_s'] = elements[3];
     }     
     return hours;
 }
@@ -6891,7 +6907,13 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
 {
     var altered = $("#altered").val();
     altered = Number(altered);
-    if (altered === 1)
+    if (altered === 0)
+    {
+        loadDBdata(blogs, products, images);
+        loadUserData(users, auths, questions);
+        loadAdminData(company, payments); 
+    }
+    else if (altered === 1)
     {
         var mdl = $("#mm_mdl").val();
         var msg = $("#mm_msg").val();
@@ -6900,33 +6922,66 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
         { 
             $("#s_blog").click(); 
             superLaunchBuilder('blog', blogs);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
         }
         else if (mdl === "product") 
         { 
             $("#s_product").click(); 
             superLaunchBuilder('product', products);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
         }
         else if (mdl === "image") 
         { 
             $("#s_image").click(); 
             superLaunchBuilder('image', images);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
         }
         else if (mdl === "permission")
         {
-            superLaunchBuilder('user', users);
+            $("#s_user").click();
+            superUserLaunch('user', users);
+            loadDBdata(blogs, products, images);
+            loadAdminData(company, payments); 
         }
         else if (mdl === "auth")
         {
-            superLaunchBuilder('auth', auths);
+            $("#s_auth").click();
+            superUserLaunch('auth', auths);
+            loadDBdata(blogs, products, images);
+            loadAdminData(company, payments); 
         }
         else if (mdl === "security")
         {
-            superLaunchBuilder('question', questions);
+            $("#s_security").click();
+            superUserLaunch('question', questions);
+            loadDBdata(blogs, products, images);
+            loadAdminData(company, payments); 
         }
-    }
-    loadDBdata(blogs, products, images);
-    loadUserData(users, auths, questions);
-    loadAdminData(company, payments);    
+        else if (mdl === "payment")
+        {
+            $("#s_payment").click();
+            superAdminLaunch('method', payments);
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+        }
+        else if (mdl==="facebook" || mdl==="twitter" || mdl==="instagram" || mdl==="max_images")
+        {
+            $("#s_admin_multi_2").click();
+            superAdminLaunch('links', company);
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+        }
+        else if (mdl==="about" || mdl==='hours' || mdl==='address' || mdl==='phone' || mdl==="email")
+        {
+            $("#s_admin_multi_1").click();
+            superAdminLaunch('contact', company);
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+        }
+    }   
 }
 </script>
 
