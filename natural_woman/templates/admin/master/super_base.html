@@ -4134,29 +4134,34 @@ function buildAboutEditor(data)
 
 function showAboutEditors(mode)
 {
-    var open = true;
-    mode = Number(mode);
+    var html        = "";
+    var action      = null;
+    var header      = null;
+    var button      = null;
+    var checkb      = null;
+    var active      = null;
+    var m_id        = "";
+    var statement   = "";
+    var open        = true;
+    var url         = $("#action_url").val();
+    mode            = Number(mode);
     if (mode === 0)
     {
-        $("#about_target_action").val("new");
-        $("#master-abt-header").html("New About Us Statement");
-        $("#su-abt-btn-option").html("Save");
-        $("#f_active_cb").prop("checked", false);
-        $("#f_active_cb").prop("disabled", false);
-        $("#f_is_active").val("False");
+        action = "new";
+        header = "New About Us Statement";
+        button = "Save";
+        checkb = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+        active = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
     }
     else if (mode === 1)
     {
-        var m_id = $("#current_id").val();
-        var statement = $("#current_statement").val();
-        $("#about_target_action").val("update");
-        $("#about_target_id").val(m_id);
-        $("#f_about_area").html(statement);
-        $("#master-abt-header").html("Update Current About Us Statement");
-        $("#su-abt-btn-option").html("Update");
-        $("#f_active_cb").prop("checked", true);
-        $("#f_active_cb").prop("disabled", true);
-        $("#f_is_active").val("True");
+        m_id        = $("#current_id").val();
+        statement   = $("#current_statement").val();
+        action      = "update";
+        header      = "Update Current About Us Statement";
+        button      = "Update";
+        checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\" checked disabled>";
+        active      = "<input type='hidden' name='is_active' id='f_is_active' value='True'>";
     }
     else if (mode === 2)
     {
@@ -4164,16 +4169,16 @@ function showAboutEditors(mode)
         indices = String(indices);
         if (indices.length === 0)
         {
-            var m = [];
             open = false;
+            var m = [];
             m.push("Nothing Selected");
             m.push(" ");
             generateErrorWindow(m);
         }
         else if (indices.length > 3)
         {
-            var m = [];
             open = false;
+            var m = [];
             m.push("Action Prohibited");
             m.push("You can only select one statement to update");
             generateErrorWindow(m);
@@ -4181,25 +4186,47 @@ function showAboutEditors(mode)
         else
         {
             var decoded     = decodeDeleteIndices(indices);
-            var m_id        = $("#a_id" + decoded).val();
-            var statement   = $("#a_statement_" + decoded).val();
-            $("#about_target_action").val("update");
-            $("#about_target_id").val(m_id);
-            $("#f_about_area").html(statement);
-            $("#f_active_cb").prop("checked", false);
-            $("#f_active_cb").prop("disabled", false);
-            $("#f_is_active").val("False");
-            $("#master-abt-header").html("Update Inactive About Us Statements");
-            $("#su-abt-btn-option").html("Update");
+            var isChecked   = $("#" + decoded).val();
+            m_id            = $("#a_id" + decoded).val();
+            statement       = $("#a_statement_" + decoded).val();
+            action          = "update";
+            header          = "Update Inactive About Us Statements";
+            button          = "Update";
+            checkb          = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+            active          = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
         }
             
     }
+
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
+    html += "<form action='" + url + "' method='POST' id='about_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='about'>";
+    html += "<input type='hidden' name='target_action' id='about_target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='about_target_id' value='" + m_id + "'>";
+    html += active;
+    html += "<div class='su-confirm-exit2 raise-closer'><i class='fas fa-window-close' onClick=\"javascript: closeAboutError();\"></i></div>";
+    html += " <h3><i class='fas fa-id-card'></i> &nbsp<span id='master-abt-header'>" + header + "</span></h3>";
+    html += "<div class='su-textarea-md'><textarea name='statement' id='f_about_area' placeholder='Enter About Us Statement Here...'>" + statement + "</textarea></div>";
+    html += "<div class='set-active-ck'>";
+    html += checkb;
+    html += "Set As Active";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingPaymentFields('about')\">" + button + "</button></span>";
+    html += "<button type='button' onClick=\"javascript: closeAboutError();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
     if (open === true)
     {
+        $("#about-editor-builder").html(html);
         $("#about-editor-builder").hide();
         $("#about-editor-builder").removeClass('hidden');
         $("#about-editor-builder").fadeIn(600);
-    }   
+    }
 }
 
 function showAboutEditor2(index)
@@ -4207,14 +4234,38 @@ function showAboutEditor2(index)
     index           = String(index);
     var m_id        = $("#a_id" + index).val(); 
     var statement   = $("#a_statement_" + index).val();
-    $("#about_target_action").val("update");
-    $("#about_target_id").val(m_id);
-    $("#f_about_area").html(statement);
-    $("#f_active_cb").prop("checked", false);
-    $("#f_active_cb").prop("disabled", false);
-    $("#f_is_active").val("False");
-    $("#master-abt-header").html("Update Inactive About Us Statements");
-    $("#su-abt-btn-option").html("Update");
+    var html        = "";
+    var action      = "update";
+    var header      = "Update Inactive About Us Statements";
+    var button      = "Update";
+    var checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+    var active      = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
+    var url         = $("#action_url").val();
+
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
+    html += "<form action='" + url + "' method='POST' id='about_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='about'>";
+    html += "<input type='hidden' name='target_action' id='about_target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='about_target_id' value='" + m_id + "'>";
+    html += active;
+    html += "<div class='su-confirm-exit2 raise-closer'><i class='fas fa-window-close' onClick=\"javascript: closeAboutError();\"></i></div>";
+    html += " <h3><i class='fas fa-id-card'></i> &nbsp<span id='master-abt-header'>" + header + "</span></h3>";
+    html += "<div class='su-textarea-md'><textarea name='statement' id='f_about_area' placeholder='Enter About Us Statement Here...'>" + statement + "</textarea></div>";
+    html += "<div class='set-active-ck'>";
+    html += checkb;
+    html += "Set As Active";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingPaymentFields('about')\">" + button + "</button></span>";
+    html += "<button type='button' onClick=\"javascript: closeAboutError();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
+
+    $("#about-editor-builder").html(html);
     $("#about-editor-builder").hide();
     $("#about-editor-builder").removeClass('hidden');
     $("#about-editor-builder").fadeIn(600);
@@ -7019,29 +7070,7 @@ function initializeAdmin(blogs, users, company, images, products, payments, auth
 
         <div class='su-pop-container hidden' id='pop-up-builder'></div>
 
-        <div class='su-about-errors hidden' id='about-editor-builder'>
-            <div class='su-center su-width45'>
-                <div class='su-general'>
-                    <form action="{{action_url}}" method="POST" id="about_form">
-                        <input type='hidden' name='target_model' id='target_model' value='about'>
-                        <input type='hidden' name='target_action' id='about_target_action' value=''>
-                        <input type='hidden' name='target_id' id='about_target_id' value=''>
-                        <input type='hidden' name='is_active' id='f_is_active' value='False'>
-                        <div class='su-confirm-exit2 raise-closer'><i class='fas fa-window-close' onClick="javascript: closeAboutError();"></i></div>
-                        <h3><i class='fas fa-id-card'></i> &nbsp<span id='master-abt-header'></span></h3>
-                        <div class='su-textarea-md'><textarea name='statement' id='f_about_area' placeholder='Enter About Us Statement Here...'></textarea></div>
-                        <div class='set-active-ck'>
-                            <input type='checkbox' id='f_active_cb' onClick="javascript: suCheckbox('#f_active_cb', '#f_is_active')">
-                            Set As Active
-                        </div>
-                        <div class='su-general-btns'>
-                            <span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick="javascript: validatingPaymentFields('about')">Update</button></span>
-                            <button type='button' onClick="javascript: closeAboutError();">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div class='su-about-errors hidden' id='about-editor-builder'></div>
 
         <div class='su-error-container hidden' id='su-editor-builder'></div>
 
