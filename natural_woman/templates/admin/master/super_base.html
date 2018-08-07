@@ -1452,7 +1452,7 @@ textarea {
 .mst-fa-check {
     color: #555555;
     font-size: 12px;
-    padding-right:3px;
+    padding-right:8px;
     padding-left: 6px;
 }
 
@@ -1460,11 +1460,11 @@ textarea {
     padding: 0;
     margin: 0;
     font-size: 11px;
-    width: 80px;
+    width: 70px;
 }
 
 .su-sp-even {
-    width: 200px;
+    width: 130px;
 }
 
 .single-payment-btn button {
@@ -1497,6 +1497,16 @@ textarea {
 
 .su-sp-icon {
     padding-bottom: 15px;
+}
+
+.lg-ico {
+    width: 55px;
+}
+
+.lg-ico i {
+    font-size: 25px;
+    color: #074065;
+    padding-right: 10px;
 }
 
 </style>
@@ -1896,11 +1906,13 @@ function setPaymentButton(mode, index)
     var details = null;
     if (Number(mode) === 0)
     {
+        $("#pmt_target_action").val("disable");
         message = "This action will disable the " + method + " payment method";
         details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " is <em><b>NOT</b></em> accepted as a viable payment method at Natural Woman Salon.";
     }
     else if (Number(mode) === 1)
     {
+        $("#pmt_target_action").val("enable");
         message = "This action will enable the " + method + " payment method";
         details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " <em><b>IS</b></em> accepted as a viable payment method at Natural Woman Salon.";
     }
@@ -1908,7 +1920,146 @@ function setPaymentButton(mode, index)
     $('#su-payment-sub-message').html(message);
     $('#su-payment-sub-details').html(details);
     $('#pmt_target_id').val(m_id);
-    $('#pmt_target_action').val(mode)
+}
+
+function preparePaymentDelete(index)
+{
+    var m_id = $("#k_pmt_id_" + index).val();
+    $("#pmt_target_action").val("delete");
+    $("#pmt_target_id").val(m_id);
+    launchDeleteConfirmation('payment');
+}
+
+function updatePaymentIcno(index)
+{
+    var t           = "#";
+    var html        = "";
+    var m_id        = $("#k_pmt_id_" + index).val();
+    var method      = $("#k_pmt_method_" + index).val();
+    var icon        = $("#k_pmt_icon_" + index).val();
+    var is_super    = $("#qmax").val();
+    is_super        = Number(is_super);
+    $("#pmt_target_action").val("icon");
+    $("#pmt_target_id").val(m_id);
+    $("#selected-payment").val(index);
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<h3><i class='fas fa-money-bill-alt'></i> &nbspUpdate Payment Method</h3>";
+    html += "<input type='text' id='f_payment_method' placeholder='Enter Payment Method Name' oninput=\"javascript: mirrorInput('#f_payment_method', '#m_payment_method');\" value='" + method + "'>";
+    html += "<div class='su-payment-types'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12 sel-pmt-msg' style='padding:0; margin: 0;'>Select an icon from the list below</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-visa' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-visa');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-cc-visa'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-apple-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-apple-pay');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-apple-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-amazon-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-amazon-pay');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-amazon-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-bitcoin' onClick=\"javascript: load_pmt_radio_data('fab fa-bitcoin');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-bitcoin'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fasfa-money-check' onClick=\"javascript: load_pmt_radio_data('fas fa-money-check');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-check'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' id='fasfa-shopping-bag' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-bag');\"></td>";
+    html += "<td><i class='fas fa-shopping-bag'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-mastercard' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-mastercard');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-cc-mastercard'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-discover' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-discover');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-discover'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-paypal' onClick=\"javascript: load_pmt_radio_data('fab fa-paypal');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-paypal'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='farfa-credit-card' onClick=\"javascript: load_pmt_radio_data('far fa-credit-card');\"></td>";
+    html += "<td class='su-sp-icon'><i class='far fa-credit-card'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fasfa-dollar-sign' onClick=\"javascript: load_pmt_radio_data('fas fa-dollar-sign');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-dollar-sign'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' id='fasfa-shopping-cart' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-cart');\"></td>";
+    html += "<td><i class='fas fa-shopping-cart'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-amex' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-amex');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-amex'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-diners-club' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-diners-club');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-diners-club'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-google-wallet' onClick=\"javascript: load_pmt_radio_data('fab fa-google-wallet');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-google-wallet'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fasfa-money-bill-alt' onClick=\"javascript: load_pmt_radio_data('fas fa-money-bill-alt');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-bill-alt'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' id='fasfa-gift' onClick=\"javascript: load_pmt_radio_data('fas fa-gift');\"></td>";
+    html += "<td><i class='fas fa-gift'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button onClick=\"javascript: validatingPaymentFields();\">Submit</button>";
+    if (is_super === 1)
+    {
+        html += "<button onClick=\"javascript: preparePaymentDelete('" + index + "');\">Delete</button>";
+    }
+    html += "<button onClick=\"javascript: checkPaymentFields();\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    for (var i = 0; i < icon.length; i++)
+    {
+        var c = icon[i];
+        if (c !== " ")
+        {
+            t += c;
+        }
+    }
+    $("#m_payment_icon").val(icon);
+    $("#m_payment_method").val(method);
+    $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass("hidden");
+    $("#pop-up-builder").fadeIn(500);
+    $(t).prop("checked", true);
 }
 
 function buildPayments(data)
@@ -1936,8 +2087,10 @@ function buildPayments(data)
         var button  = null;
         html += "<input type='hidden' id='k_pmt_method_" + index + "' value='" + method + "'>";
         html += "<input type='hidden' id='k_pmt_id_" + index + "' value='" + m_id + "'>";
+        html += "<input type='hidden' id='k_pmt_icon_" + index + "' value='" + icon + "'>";
+        html += "<input type='hidden' id='k_pmt_accepted_" + index + "' value='" + active + "'>";
         html += "<div id='div2_" + index + "' class='" + data[i]['class'] + "'>";
-        html += "<li>";
+        html += "<li onClick=\"javascript: updatePaymentIcno('" + index + "');\">";
         html += "<table>";
         html += "<tr>";
         if (active === "True")
@@ -1950,8 +2103,8 @@ function buildPayments(data)
             html += "<td class='mst-fa-check'>" + no_ch + "</td>";
             button = "<td class='mst-fa-button'><button onClick=\"javascript: setPaymentButton('1', " + index + ");\">Set Active</button></td>";
         }
-        html += "<td id='pmt_icon_" + index + "'></td>";
-        html += "<td class='su-border-left su-sp-top su-sp-bottom su-sp-even'><em>" + method + "</em></td>";
+        html += "<td class='su-border-left lg-ico'><i id='pmt_icon_" + index + "' class='" + icon + "'></i></td>";
+        html += "<td class='su-sp-top su-sp-bottom su-sp-even'><em>" + method + "</em></td>";
         html += button;
         html += "</tr>";
         html += "</table>";
@@ -4167,7 +4320,7 @@ function buildPaymentEditor()
     html += "</div>";
     html += "<div class='su-general-btns'>";
     html += "<button onClick=\"javascript: validatingPaymentFields();\">Submit</button>";
-    html += "<button onClick=\"javascript: closeEditor();\">Cancel</button>";
+    html += "<button onClick=\"javascript: checkPaymentFields();\">Cancel</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -4703,7 +4856,30 @@ function validatingAboutFields()
 
 function validatingPaymentFields()
 {
-    alert("Validating Payment Fields")
+    var send_msg    = false;
+    var m           = [];
+    var method      = $("#m_payment_method").val();
+    var icon        = $("#m_payment_icon").val();
+    if (method.length === 0)
+    {
+        send_msg = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter a valid payment method name to proceed.");
+    }
+    else if (icon.length === 0)
+    {
+        send_msg = true;
+        m.push("No Icon Selected");
+        m.push("You must select a payment icon to proceed.");
+    }
+    if (send_msg === true)
+    {
+        generateErrorWindow(m);
+    }
+    else
+    {
+        submitEditor();
+    }
 }
 
 function validatingChangeName()
@@ -5305,7 +5481,41 @@ function checkPopulatedFields(model, mode, index)
 
 function checkPaymentFields()
 {
-    alert("Checking Payment Fields")
+    var action  = $("#pmt_target_action").val();
+    var method  = $("#m_payment_method").val();
+    var icon    = $("#m_payment_icon").val();
+    method      = method.toLowerCase();
+    if (action === "new")
+    {
+        if (method.length!==0 || icon.length!==0) 
+        {
+            var m = [];
+            m.push("Warning");
+            m.push("Changes Detected");
+            m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(m);
+        }
+        else { closeEditor(); }
+    }
+    else if (action === "update")
+    {
+        var index           = $("#selected-payment").val();
+        var k_pmt_id        = $("#k_pmt_id_" + index).val();
+        var k_pmt_method    = $("#k_pmt_method_" + index).val();
+        var k_pmt_icon      = $("#k_pmt_icon_" + index).val();
+        k_pmt_method        = k_pmt_method.toLowerCase();
+        $("#pmt_target_id").val(k_pmt_id);
+        if (k_pmt_method!==method || k_pmt_icon!==icon)
+        {
+            var m = [];
+            m.push("Warning");
+            m.push("Changes Detected");
+            m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(m);
+        }
+        else { closeEditor(); }
+    }
+    else { closeEditor(); }
 }
 
 function checkHoursFields()
@@ -6123,21 +6333,14 @@ function launchDeleteConfirmation(model)
     }
     else if (model === "payment")
     {
-        mdl_head        = "payment method";
-        if (delete_list.length > 1) { mdl_head = "payment methods"; }
-        header          = "<h3><i class='fas fa-shopping-cart'></i> &nbsp Delete " + mdl_head + "</h3>";
-        for (var i = 0; i < delete_list.length; i++)
-        {
-            var trigger = "#k_pmt_method_" + String(delete_list[i]);
-            var k_nth  = $(trigger).val();
-            var m_id    = $("#m_id_" + String(delete_list[i])).val();
-            id_list += String(m_id);
-            id_list += "~";
-            details += "<tr>";
-            details += "<td><i class='fas fa-minus-circle'></i></td>";
-            details += "<td><b>" + k_nth + " </b></td>";
-            details += "</tr>";
-        }
+        mdl_head    = "payment method";
+        header      = "<h3><i class='fas fa-shopping-cart'></i> &nbsp Delete " + mdl_head + "</h3>";
+        method      = $("#m_payment_method").val() 
+        icon        = $("#m_payment_icon").val();
+        details += "<tr>"; 
+        details += "<td><i class='fas fa-minus-circle'></i></td>"; 
+        details += "<td><b>" + method + " </b></td>";
+        details += "</tr>"; 
     }
     else if (model === "about")
     {
@@ -6186,7 +6389,14 @@ function launchDeleteConfirmation(model)
         html += "</table>";
         html += "</div>";
         html += "<div class='su-confirm-buttons'>";
-        html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
+        if (model === "payment")
+        {
+            html += "<button type='button' onClick=\"javascript: submitEditor();\">Delete</button>";
+        }
+        else
+        {
+            html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
+        }
         html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
         html += "</div>";
         html += "</form>";
@@ -6314,7 +6524,7 @@ function launchSiteAdminWarning(model)
     }
     else if (model === "payment")
     {
-        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Update Payment Method</h3>";
+        header = "<h3><i class='fas fa-money-bill-alt'></i> &nbsp Update Payment Method</h3>";
         sub_msg = "<div class='su-confirm2' id='su-payment-sub-message'></div>";
         w_type  = "Important Information";
         details += "<div class='su-admin-warning-i' id='su-payment-sub-details'></div>";

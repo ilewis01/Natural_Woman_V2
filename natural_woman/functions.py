@@ -393,10 +393,9 @@ def que(m_type, m_id):
 	elif m_type == "auth":
 		models = Authorization.query.all()
 	elif m_type == "security":
-		print("GETTING SECURITY MODELS")
-		models == SecurityQuestion.query.all()
+		models = SecurityQuestion.query.all()
 	elif m_type == "payment":
-		models == Payment.query.all()
+		models = Payment.query.all()
 	elif m_type == "about":
 		models = About.query.all()
 	for m in models:
@@ -841,6 +840,55 @@ def alterDb(user, action):
 			user.save()
 		else:
 			m1 = "The password that you entered was not correct"
+	elif model == "payment":
+		action = request.form['target_action']
+		if action == "update":
+			m_id = request.form['target_id']
+			q = que("payment", m_id)
+			if q['isQueued'] == True:
+				payment = q['item']
+				m1 = str(payment.method).upper() + " payment method successfully "
+				if payment.is_accepted == True:
+					payment.is_accepted = False
+					m1 += " disabled"
+				elif payment.is_accepted == False:
+					payment.is_accepted = True
+					m1 += "enabled"
+				payment.save()
+		elif action == "icon":
+			m_id = request.form['target_id']
+			q = que("payment", m_id)
+			if q['isQueued'] == True:
+				payment = q['item']
+				method 			= request.form['m_payment_method']
+				icon 			= request.form['m_payment_icon']
+				m1 				= str(method).upper() + " payment method sucessfully updated"
+				payment.method 	= method
+				payment.icon 	= icon
+				payment.save()
+		elif action == "delete":
+			m_id = request.form['target_id']
+			q = que("payment", m_id)
+			if q['isQueued'] == True:
+				pname = q['item'].method
+				q['item'].delete()
+				m1 = pname + " payment method successfully deleted"
+		elif action == "new":
+			addThis = True
+			method 	= request.form['m_payment_method']
+			method 	= str(method).lower()
+			p_list 	= Payment.query.all()
+			for p in p_list:
+				if str(p.method) == str(method):
+					addThis = False
+					break
+			if addThis == False:
+				m1 = str(method).upper() + " already exist"
+			else:
+				icon 	= request.form['m_payment_icon']
+				payment = Payment(method, icon)
+				m1 = method.upper() + " payment method successfully added"
+				payment.save()
 	elif model == "hours":
 		m1 				= "Business hours have been successfully updated"
 		company 		= get_company_model()

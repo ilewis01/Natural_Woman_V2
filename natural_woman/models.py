@@ -166,20 +166,29 @@ class Payment(db.Model):
 	is_accepted 	= db.Column('is_accepted', db.Boolean, default=False, nullable=False)
 	icon 			= db.Column('icon', db.String(120), default="Cash")
 
-	def __init__(self, method):
-		icon 				= "<i class='fas fa-money-bill-alt'></i>"
+	def __init__(self, method, icon):
+		i 					= None
 		self.method 		= method
-		self.is_accepted 	= False
+		self.is_accepted 	= True
 		method 				= method.lower()
 		if method == "visa":
-			icon = "<i class='fab fa-cc-visa'></i>"
+			i = "fab fa-cc-visa"
 		elif method == "mastercard":
-			icon = "<i class='fab fa-cc-mastercard'></i>"
+			i = "fab fa-cc-mastercard"
 		elif method == "amex":
-			icon = "<i class='fab fa-cc-amex'></i>"
+			i = "fab fa-cc-amex"
 		elif method == "check":
-			icon = "<i class='fas fa-money-check'></i>"
+			i = "fas fa-money-check"
+		elif method == "cash":
+			i = "fas fa-money-bill-alt"
+		else:
+			i = icon
+		self.icon = i
+
+	def updateIcon(self, icon):
 		self.icon = icon
+		db.session.add(self)
+		db.session.commit()
 
 	def save(self):
 		db.session.add(self)
