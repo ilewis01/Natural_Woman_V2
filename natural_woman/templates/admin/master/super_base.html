@@ -2628,11 +2628,13 @@ function selectAboutItem(index)
     if ($("#ab_box_" + index).prop("checked") === true)
     {
         $("#div_a" + index).addClass("su_ultimate_selector");
+        $("#abt_selected").val("1");
         addAboutItem(index);
     }
     else
     {
         $("#div_a" + index).removeClass("su_ultimate_selector");
+        $("#abt_selected").val("0");
         removeAboutItem(index);
     }
 }
@@ -4085,6 +4087,7 @@ function buildAboutEditor(data)
     html += "<input type='hidden' name='no_inactive' id='no_inactive' value='" + list_size + "'>";
     html += "<input type='hidden' name='current_id' id='current_id' value='" + a_id + "'>";
     html += "<input type='hidden' name='current_statement' id='current_statement' value='" + active + "'>";
+    html += "<input type='hidden' id='abt_selected' value='0'>";
     html += "<h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>";
     html += "<div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick=\"javascript: showAboutEditors('1');\">Edit</button> <button type='button' onClick=\"javascript: showAboutEditors('0');\">New</button></div>";
     html += "<div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>";
@@ -4166,28 +4169,61 @@ function showAboutEditors(mode)
     }
     else if (mode === 2)
     {
-        var indices     = $("#selected-payment").val();
-        indices = String(indices);
-        if (indices.length === 0)
+        var indices         = $("#selected-payment").val();
+        indices             = String(indices);
+        var abt_selected    = $("#abt_selected").val();
+        abt_selected        = Number(abt_selected);
+        if (abt_selected === 0)
         {
             open = false;
             var m = [];
             m.push("Nothing Selected");
-            m.push(" ");
+            m.push("You must make a selection from the inactive list to proceed");
             generateErrorWindow(m);
         }
-        else if (indices.length > 3)
+        else if (indices.length > 1)
         {
-            open = false;
-            var m = [];
-            m.push("Action Prohibited");
-            m.push("You can only select one statement to update");
-            generateErrorWindow(m);
+            var no_inactive = $("#no_inactive").val();
+            var located_sel = 0;
+            var choose_i    = null;
+            no_inactive = Number(no_inactive);
+            for (var j = 0; j < no_inactive; j++)
+            {
+                if ($("#ab_box_" + j).prop("checked") === true)
+                {
+                    located_sel += 1;
+                    if (located_sel === 2)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        choose_i = j;
+                    }
+                }
+            }
+            if (located_sel > 1)
+            {
+                open = false;
+                var m = [];
+                m.push("Action Prohibited");
+                m.push("You can only select one statement to update");
+                generateErrorWindow(m);
+            }
+            else
+            {
+                m_id        = $("#a_id" + choose_i).val();
+                statement   = $("#a_statement_" + choose_i).val();
+                action      = "update";
+                header      = "Update Inactive About Us Statements";
+                button      = "Update";
+                checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+                active      = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
+            }   
         }
         else
         {
             var decoded     = decodeDeleteIndices(indices);
-            var isChecked   = $("#" + decoded).val();
             m_id            = $("#a_id" + decoded).val();
             statement       = $("#a_statement_" + decoded).val();
             action          = "update";
