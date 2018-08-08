@@ -6529,40 +6529,7 @@ function launchDeleteConfirmation(model)
             m.push("");
             generateErrorWindow(m);
 
-        }
-        // if (delete_list.length > 0) 
-        // { 
-        //     mdl_head        = "about us statement";
-        //     mdl_head        = "about us statements";
-        //     header          = "<h3><i class='fas fa-edit'></i> &nbsp Delete " + mdl_head + "</h3>";
-        //     var no_items    = $("#no_inactive").val()
-        //     for (var i = 0; i < delete_list.length; i++)
-        //     {
-        //         var t_name  = "#ab_box_" + String(i);
-        //         var trigger = null;
-        //         if ($(t_name).prop("checked") === true)
-        //         {
-        //             var this_id = $("#a_id" + String(i)).val();
-        //             var trigger = "";
-        //             var s_nth   = null;
-        //             id_list += String(this_id);
-        //             id_list += "~";
-        //             trigger = '#a_statement_' + String(i);
-        //             s_nth   = $(trigger).val();
-        //             details += "<tr>";
-        //             details += "<td><i class='fas fa-minus-circle'></i></td>";
-        //             details += "<td><b>" + s_nth + " </b></td>";
-        //             details += "</tr>";
-        //         }
-        //     }
-        // }
-        // else 
-        // {
-        //     open = false;
-        //     m.push("Nothing Has Been Selected");
-        //     m.push("");
-        //     generateErrorWindow(m);
-        // }   
+        }  
     }
     
     if (open === true)
@@ -6587,10 +6554,6 @@ function launchDeleteConfirmation(model)
         {
             html += "<button type='button' onClick=\"javascript: submitEditor();\">Delete</button>";
         }
-        // else if (model === "about")
-        // {
-        //     html += "<button type='button' onClick=\"javascript: submitAbout();\">Delete</button>";
-        // }
         else
         {
             html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";

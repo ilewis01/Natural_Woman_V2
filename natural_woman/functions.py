@@ -31,6 +31,7 @@ def fetch_user_by_email(email):
 	return user
 
 def loadSuperuser(user):
+	url 				= "admin/master/adminAlt.html"
 	data 				= {}
 	data['users'] 		= {}
 	data['blogs'] 		= {}
@@ -51,6 +52,9 @@ def loadSuperuser(user):
 	query_au 			= 0
 	query_sq 			= 0
 	query_uu 			= 0
+	if user.is_registered == False:
+		data['questions'] = json_serialize_security()
+		url = "admin/master/completeRegistration.html"
 	if user.blog_permission == True:
 		data['blogs'] 	= json_serialize_blogs()
 		query_bl 		= 1
@@ -102,7 +106,7 @@ def loadSuperuser(user):
 	data['qsecurity'] 		= query_sq
 	data['qcompany'] 		= query_co
 	data['qmax'] 			= query_mx
-	data['url'] 			= "admin/master/adminAlt.html"
+	data['url'] 			= url
 	data['altered'] 		= 0
 	return data
 
