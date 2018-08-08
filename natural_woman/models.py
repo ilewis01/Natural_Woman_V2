@@ -63,13 +63,31 @@ class User(db.Model):
 		db.session.add(self)
 		db.session.commit()
 
+	def prepareAnswer(answer):
+		result = ""
+		answer = str(answer).lower()
+		for a in answer:
+			if a != " ":
+				result += a
+		return result
+
 	def setSecurity(self, q1, q2, a1, a2):
-		a1 				= prepareAnswer(a1)
-		a2 				= prepareAnswer(a2)
-		self.question1 	= q1
-		self.question2 	= q2
-		self.answer1 	= bcrypt.generate_password_hash(a1)
-		self.answer2 	= bcrypt.generate_password_hash(a2)
+		prepped1 = ""
+		prepped2 = ""
+		a1 = str(a1).lower()
+		a2 = str(a2).lower()
+		for c in a1:
+			if c != " ":
+				prepped1 += c
+
+		for d in a2:
+			if d != " ":
+				prepped2 += d
+		self.question1 		= q1
+		self.question2 		= q2
+		self.answer1 		= bcrypt.generate_password_hash(prepped1)
+		self.answer2 		= bcrypt.generate_password_hash(prepped2)
+		self.is_registered 	= True
 		db.session.add(self)
 		db.session.commit()
 
@@ -82,14 +100,6 @@ class User(db.Model):
 		if bcrypt.check_password_hash(self.answer2, a2) == False:
 			isCleared = False
 		return isCleared
-
-	def prepareAnswer(answer):
-		result = ""
-		answer = str(answer).lower()
-		for a in answer:
-			if a != " ":
-				result += a
-		return result
 
 	def name(self):
 		return str(self.fname) + " " + str(self.lname)

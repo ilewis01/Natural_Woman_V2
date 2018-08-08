@@ -28,11 +28,11 @@
 .q_container {
 	width: 45%;
 	margin: auto;
-	border: 1px solid #cccccc;
+	border: 1px solid #444444;
 	border-radius: 6px;
 	padding: 1%;
 	box-shadow: 4px 4px 4px #444444;
-	background: linear-gradient(to right, rgba(140, 140, 140, 0.8)0%, rgba(190, 190, 190, 0.8)50%, rgba(140, 140, 140, 0.8)100%);
+	background: linear-gradient(rgba(200, 200, 200, 0.7), rgba(80, 80, 80, 0.7));
 	font-family: 'Fira Sans Condensed', sans-serif;
 	font-size: 12px;
 }
@@ -55,19 +55,21 @@
 
 .q_container h3 {
 	text-align: left;
-	font-size: 20px;
+	font-size: 18px;
 	text-shadow: none;
-	color: #555555;
+	color: #222222;
 	text-transform: none;
 	border-bottom: 1px solid #777777;
 	padding-bottom: 5px;
 	margin-bottom: 20px;
+	font-weight: 400;
+	margin-top: 10px;
 }
 
 .q_container h5 {
 	text-transform: none;
 	text-align: left;
-	color: #383e03;
+	color: #222222;
 	font-size: 13px;
 	text-shadow: none;
 	padding: 0;
@@ -179,7 +181,14 @@ function validateRegistration()
 		m.push("You must provide an answer to security question 2 to proceed");
 	}
 	if (has_error === true) { generateErrorWindow(m); }
-	else { alert("Submitting Form...") }
+	else 
+	{ 
+		var sq1 = $("#sq1").val();
+		var sq2 = $("#sq2").val();
+		$("#question1").val(sq1);
+		$("#question2").val(sq2);
+		$("#security_form").submit(); 
+	}
 }
 
 function checkRegistrationFields()
@@ -214,6 +223,8 @@ function checkRegistrationFields()
 	<div class="q_container">
 		<form action="/adminAlta" method="POST" id="security_form">
 			<input type="hidden" name="target_model" value="registration">
+			<input type="hidden" name="sq1" id="question1" value="">
+			<input type="hidden" name="sq2" id="question2" value="">
 			<h3>Please select security questions from the lists below</h3>
 			<h5>Security Question 1:</h5>
 			<select id='sq1'>

@@ -981,6 +981,15 @@ def alterDb(user, action):
 		company.special_hours 	= special_hours
 		company.hours_title 	= title
 		company.save()
+	elif model == "registration":
+		m1 = "Registration Complete!"
+		sq1 = request.form['sq1']
+		sq2 = request.form['sq2']
+		an1 = request.form['answer1']
+		an2 = request.form['answer2']
+		q = que("user", user.id)
+		if q["isQueued"] == True:
+			q['item'].setSecurity(sq1, sq2, an1, an2)
 	data = loadSuperuser(user);
 	data['altered'] = 1
 	data['message'] = m1
