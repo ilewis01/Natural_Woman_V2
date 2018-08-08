@@ -363,6 +363,7 @@ def queryAbouts():
 	data 	= []
 	index 	= 0
 	abouts 	= About.query.all()
+	abouts.reverse()
 	for a in abouts:
 		d = {}
 		d["statement"] 	= a.statement
@@ -447,6 +448,12 @@ def fetchSecurityById(s_id):
 			sec = s
 			break
 	return sec
+
+def clearAboutStatements():
+	a_list = About.query.all()
+	for a in a_list:
+		a.is_active = False
+		a.save()
 
 def getAccessList(auth):
 	a_list = []
@@ -890,7 +897,51 @@ def alterDb(user, action):
 				m1 = method.upper() + " payment method successfully added"
 				payment.save()
 	elif model == "about":
-		print("UPDATING ABOUT MODELS")
+		phrase = "";
+		action = request.form['target_action']
+		if action == "new":
+			statement 	= request.form['statement']
+			is_active 	= decodeBool(request.form['is_active'])
+			about 		= About(statement)
+			about.save()
+			if is_active == True:
+				phrase = "active"
+				clearAboutStatements()
+				about.is_active = True
+				about.save()
+			else:
+				phrase = "inactive"
+				about.is_active = False
+				about.save()
+			m1 = "A new " + phrase + " about statement has beenh created"
+		elif action == "update":
+			m_id = request.form['target_id']
+			q = que(model, m_id)
+			if q["isQueued"] == True:
+				statement = request.form['statement']
+				is_active = decodeBool(request.form['is_active'])
+				if is_active == True:
+					clearAboutStatements()
+					phrase = "active"
+					q['item'].statement = statement
+					q['item'].is_active = True
+					q['item'].save()
+				else:
+					phrase = "inactive"
+					q['item'].statement = statement
+					q['item'].is_active = False
+					q['item'].save()
+				m1 = "Successfully updated " + phrase + " about statement"
+		elif action == "2":
+			m_id = decodeID(request.form['target_id'])
+			phrase = "statement"
+			if len(m_id) != 1:
+				phrase = "statements"
+			for m in m_id:
+				q = que(model, m)
+				if q["isQueued"] == True:
+					q['item'].delete()
+			m1 = "Successfully deleted " + str(len(m_id)) + " \"<em><b>About Us</b></em>\" " + phrase
 	elif model == "hours":
 		m1 				= "Business hours have been successfully updated"
 		company 		= get_company_model()

@@ -35,6 +35,7 @@ m3.is_accepted = True
 
 a1.is_active = False
 a2.is_active = False
+a3.is_active = True
 
 c0.show_twitter = False
 c0.num_uploads = 5

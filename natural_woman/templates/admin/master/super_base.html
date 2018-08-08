@@ -4072,26 +4072,28 @@ function buildAboutEditor(data)
     var statement   = null;
     for(i = 0; i < data.length; i++)
     {
-        if (data[i]["is_active"] === "False") { inactive.push(data[i]); }
+        if (String(data[i]['is_active']) === "False")
+        {
+            inactive.push(data[i]);
+        }
         else
         {
-            active = data[i]['statement'];
-            a_index = data[i]['index'];
-            a_id    = data[i]['id']
+            active = data[i]
         }
     }
+
     list_size = inactive.length;
     html += "<div class='su-center su-width38'>";
     html += "<div class='su-general'>";
     html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
     html += "<input type='hidden' name='no_inactive' id='no_inactive' value='" + list_size + "'>";
-    html += "<input type='hidden' name='current_id' id='current_id' value='" + a_id + "'>";
-    html += "<input type='hidden' name='current_statement' id='current_statement' value='" + active + "'>";
+    html += "<input type='hidden' name='current_id' id='current_id' value='" + active['id'] + "'>";
+    html += "<input type='hidden' name='current_statement' id='current_statement' value='" + active['statement'] + "'>";
     html += "<input type='hidden' id='abt_selected' value='0'>";
     html += "<h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>";
     html += "<div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick=\"javascript: showAboutEditors('1');\">Edit</button> <button type='button' onClick=\"javascript: showAboutEditors('0');\">New</button></div>";
     html += "<div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>";
-    html += "<div class='su-about2'>" + active + "</div>";
+    html += "<div class='su-about2'>" + active['statement'] + "</div>";
     html += "<div class='su-about-head'>Archived Statements &nbsp<i class='fas fa-archive'></i></div>";
     html += "<div class='su-about1'>The statements below can be activated as the current statement at any time.</div>";
     html += "<div class='su-about-list-top'>";
@@ -4102,10 +4104,10 @@ function buildAboutEditor(data)
     html += "<ul>";
     for (i = 0; i < list_size; i++)
     {
-        index       = String(data[i]['index']);
-        statement   = String(data[i]['statement']);
-        a_id        = String(data[i]['id']);
-        html += "<div id='div_a" + index + "' class='" + data[i]['class'] + "'>";
+        index       = String(i);
+        statement   = String(inactive[i]['statement']);
+        a_id        = String(inactive[i]['id']);
+        html += "<div id='div_a" + index + "' class='" + inactive[i]['class'] + "'>";
         html += "<li>";
         html += "<a href=\"javascript: showAboutEditor2('" + index + "');\">";
         html += "<input type='hidden' id='a_id" + index + "' value='" + a_id + "'>";
@@ -4250,7 +4252,7 @@ function showAboutEditors(mode)
     html += "Set As Active";
     html += "</div>";
     html += "<div class='su-general-btns'>";
-    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validateSUModel('about')\">" + button + "</button></span>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingAboutFields()\">" + button + "</button></span>";
     html += "<button type='button' onClick=\"javascript: checkAboutFields();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
@@ -4264,6 +4266,11 @@ function showAboutEditors(mode)
         $("#about-editor-builder").removeClass('hidden');
         $("#about-editor-builder").fadeIn(600);
     }
+}
+
+function submitAbout()
+{
+    $("#about_form").submit();
 }
 
 function showAboutEditor2(index)
@@ -4295,7 +4302,7 @@ function showAboutEditor2(index)
     html += "Set As Active";
     html += "</div>";
     html += "<div class='su-general-btns'>";
-    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingPaymentFields('about')\">" + button + "</button></span>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingAboutFields()\">" + button + "</button></span>";
     html += "<button type='button' onClick=\"javascript: checkAboutFields();\">Cancel</button>";
     html += "</div>";
     html += "</form>";
@@ -6489,31 +6496,73 @@ function launchDeleteConfirmation(model)
     }
     else if (model === "about")
     {
-        if (delete_list.length > 0) 
-        { 
-            mdl_head        = "about us statement";
-            mdl_head = "about us statements";
-            header = "<h3><i class='fas fa-edit'></i> &nbsp Delete " + mdl_head + "</h3>";
-            for (var i = 0; i < delete_list.length; i++)
+        mdl_head        = "about us statement";
+        var no_items    = $("#no_inactive").val();
+        no_items        = Number(no_items);
+        header          = "<h3><i class='fas fa-edit'></i> &nbsp Delete " + mdl_head + "</h3>";
+        if (no_items !== 1) { mdl_head = "about us statements"}
+        if (no_items > 0)
+        {
+            for (var i = 0; i < no_items; i++)
             {
-                var trigger = "#a_statement_" + String(delete_list[i]);
-                var k_nth  = $(trigger).val();
-                var m_id    = $("#a_id" + String(delete_list[i])).val();
-                id_list += String(m_id);
-                id_list += "~";
-                details += "<tr>";
-                details += "<td><i class='fas fa-minus-circle'></i></td>";
-                details += "<td><b>" + k_nth + " </b></td>";
-                details += "</tr>";
+                var t_name  = "#ab_box_" + String(i);
+                var trigger = null;
+                if ($(t_name).prop("checked") === true)
+                {
+                    var this_id = $("#a_id" + String(i)).val();
+                    var s_nth   = null;
+                    id_list += String(this_id);
+                    id_list += "~";
+                    trigger = '#a_statement_' + String(i);
+                    s_nth   = $(trigger).val();
+                    details += "<tr>";
+                    details += "<td><i class='fas fa-minus-circle'></i></td>";
+                    details += "<td><b>" + s_nth + " </b></td>";
+                    details += "</tr>";
+                }
             }
         }
-        else 
+        else
         {
             open = false;
             m.push("Nothing Has Been Selected");
             m.push("");
             generateErrorWindow(m);
-        }   
+
+        }
+        // if (delete_list.length > 0) 
+        // { 
+        //     mdl_head        = "about us statement";
+        //     mdl_head        = "about us statements";
+        //     header          = "<h3><i class='fas fa-edit'></i> &nbsp Delete " + mdl_head + "</h3>";
+        //     var no_items    = $("#no_inactive").val()
+        //     for (var i = 0; i < delete_list.length; i++)
+        //     {
+        //         var t_name  = "#ab_box_" + String(i);
+        //         var trigger = null;
+        //         if ($(t_name).prop("checked") === true)
+        //         {
+        //             var this_id = $("#a_id" + String(i)).val();
+        //             var trigger = "";
+        //             var s_nth   = null;
+        //             id_list += String(this_id);
+        //             id_list += "~";
+        //             trigger = '#a_statement_' + String(i);
+        //             s_nth   = $(trigger).val();
+        //             details += "<tr>";
+        //             details += "<td><i class='fas fa-minus-circle'></i></td>";
+        //             details += "<td><b>" + s_nth + " </b></td>";
+        //             details += "</tr>";
+        //         }
+        //     }
+        // }
+        // else 
+        // {
+        //     open = false;
+        //     m.push("Nothing Has Been Selected");
+        //     m.push("");
+        //     generateErrorWindow(m);
+        // }   
     }
     
     if (open === true)
@@ -6538,6 +6587,10 @@ function launchDeleteConfirmation(model)
         {
             html += "<button type='button' onClick=\"javascript: submitEditor();\">Delete</button>";
         }
+        // else if (model === "about")
+        // {
+        //     html += "<button type='button' onClick=\"javascript: submitAbout();\">Delete</button>";
+        // }
         else
         {
             html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
@@ -6737,7 +6790,15 @@ function launchSiteAdminWarning(model)
     html += details;
     html += "</div>";
     html += "<div class='su-confirm-buttons'>";
-    html += "<button type='button' onClick=\"javascript: submitEditor();\">Update</button>";
+    if (model === "about")
+    {
+        html += "<button type='button' onClick=\"javascript: submitAbout();\">Update</button>";
+    }
+    else
+    {
+        html += "<button type='button' onClick=\"javascript: submitEditor();\">Update</button>";
+    }
+    
     html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
     html += "</div>";
     html += "</div>";

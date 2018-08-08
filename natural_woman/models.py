@@ -20,16 +20,20 @@ class User(db.Model):
 	is_super 			= db.Column('super', db.Boolean, default=False)
 	question1 			= db.Column('question1', db.String, default="empty", nullable=True)
 	question2 			= db.Column('question2', db.String, default="empty", nullable=True)
-	answer1 			= db.Column('answer1', db.Binary(60), default="0000", nullable=False)
-	answer2 			= db.Column('answer2', db.Binary(60), default="0000", nullable=False)
+	answer1 			= db.Column('answer1', db.String, default="empty", nullable=False)
+	answer2 			= db.Column('answer2', db.String, default="empty", nullable=False)
+	is_registered 		= db.Column('registered', db.Boolean, default=False)
 
 	def __init__(self, fname, lname, email, plaintext_password):
-		self.fname 		= fname
-		self.lname 		= lname
-		self.email 		= email
-		self.password 	= bcrypt.generate_password_hash(plaintext_password)
-		self.answer1 	= bcrypt.generate_password_hash("000")
-		self.answer2 	= bcrypt.generate_password_hash("000")
+		self.fname 				= fname
+		self.lname 				= lname
+		self.email 				= email
+		self.password 			= bcrypt.generate_password_hash(plaintext_password)
+		self.answer1 			= bcrypt.generate_password_hash("000")
+		self.answer2 			= bcrypt.generate_password_hash("000")
+		self.is_registered 		= False
+		self.answer1 			= "empty"
+		self.answer2 			= "empty"
 
 	def save(self):
 		db.session.add(self)
