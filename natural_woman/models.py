@@ -20,8 +20,8 @@ class User(db.Model):
 	is_super 			= db.Column('super', db.Boolean, default=False)
 	question1 			= db.Column('question1', db.String, default="empty", nullable=True)
 	question2 			= db.Column('question2', db.String, default="empty", nullable=True)
-	answer1 			= db.Column('answer1', db.String, default="empty", nullable=False)
-	answer2 			= db.Column('answer2', db.String, default="empty", nullable=False)
+	answer1 			= db.Column('answer1', db.Binary(60), nullable=True)
+	answer2 			= db.Column('answer2', db.Binary(60), nullable=True)
 	is_registered 		= db.Column('registered', db.Boolean, default=False)
 
 	def __init__(self, fname, lname, email, plaintext_password):
@@ -29,11 +29,9 @@ class User(db.Model):
 		self.lname 				= lname
 		self.email 				= email
 		self.password 			= bcrypt.generate_password_hash(plaintext_password)
-		self.answer1 			= bcrypt.generate_password_hash("000")
-		self.answer2 			= bcrypt.generate_password_hash("000")
 		self.is_registered 		= False
-		self.answer1 			= "empty"
-		self.answer2 			= "empty"
+		self.answer1 			= None
+		self.answer2 			= None
 
 	def save(self):
 		db.session.add(self)
@@ -63,14 +61,6 @@ class User(db.Model):
 		db.session.add(self)
 		db.session.commit()
 
-	def prepareAnswer(answer):
-		result = ""
-		answer = str(answer).lower()
-		for a in answer:
-			if a != " ":
-				result += a
-		return result
-
 	def setSecurity(self, q1, q2, a1, a2):
 		prepped1 = ""
 		prepped2 = ""
@@ -92,12 +82,20 @@ class User(db.Model):
 		db.session.commit()
 
 	def securityCleared(self, a1, a2):
-		isCleared = True
-		a1 = prepareAnswer(a1)
-		a2 = prepareAnswer(a2)
-		if bcrypt.check_password_hash(self.answer1, a1) == False:
+		isCleared 	= True
+		p1 			= ""
+		p2 			= ""
+		a1 			= str(a1).lower()
+		a2 			= str(a2).lower()
+		for c in a1:
+			if c != " ":
+				p1 += c
+		for d in a2:
+			if d != " ":
+				p2 += d
+		if bcrypt.check_password_hash(self.answer1, p1) == False:
 			isCleared = False
-		if bcrypt.check_password_hash(self.answer2, a2) == False:
+		if bcrypt.check_password_hash(self.answer2, p2) == False:
 			isCleared = False
 		return isCleared
 
@@ -160,7 +158,7 @@ class Authorization(db.Model):
 		db.session.commit()
 
 	def codeValid(self, plaintext_code):
-		return bcrypt.generate_password_hash(plaintext_code)
+		return bcrypt.check_password_hash(plaintext_code)
 
 	def save(self):
 		db.session.add(self)
@@ -172,6 +170,37 @@ class Authorization(db.Model):
 
 	def __repr__(self):
 		return '<Authorization: %r>' % self.auth_email
+
+class Recovery(db.Model):
+	__tablename__ 	= "recovery"
+	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+	target_email 	= db.Column('email', db.String(120), nullable=False, unique=True)
+	recovery_code 	= db.Column('code', db.Binary(60), nullable=True, unique=False)
+
+	def __init__(self, email, plaintext_code):
+		self.target_email 	= email
+		self.recovery_code 	= bcrypt.generate_password_hash(plaintext_code)
+		db.session.add(self)
+		db.session.commit()
+
+	def save(self):
+		db.session.add(self)
+		db.session.commit()
+
+	def delete(self):
+		db.session.delete(self)
+		db.session.commit()
+
+	def setCode(self, plaintext_code):
+		self.recovery_code = bcrypt.generate_password_hash(plaintext_code)
+
+	def validate(self, plaintext_code):
+		return bcrypt.check_password_hash(plaintext_code)
+
+
+
+	def __repr__(self):
+		return "<Password Recovery: %r>" % self.target_email
 
 class Payment(db.Model):
 	__tablename__ 	= "payment"

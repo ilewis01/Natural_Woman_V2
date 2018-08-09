@@ -509,11 +509,61 @@ def sendUserAuthorization(auth, mode):
 		send_email(subject, sender, recipient, text, html)
 	auth.setCode(code)
 
+def sendPasswordReset(user, mode):
+	code 		= generateRandomCode(10)
+	subject 	= "Natural Woman Salon Password Reset"
+	sender 		= "redd.app.dev@gmail.com"
+	recipient 	= user.email
+	text 		= "Hello " + user.fname + ",\n"
+	html 		= "Hello " + user.fname + ",<br>"
+	text += "Our records indicate that you have requested a password reset.\n"
+	html += "<div>Our records indicate that you have requested a password reset.</div>"
+	text += "If you did not make this request, please contact us at info@naturalwomansalon.com.\n"
+	html += "<div>If you did not make this request, please contact us at info@naturalwomansalon.com.</div>"
+	text += "Otherwise, copy the security link below and visit naturalwomansalon.com/validateIdentity to reset your password."
+	html += "<div>Otherwise, copy the security link below and visit naturalwomansalon.com/validateIdentity to reset your password.</div>"
+	text += "SECURITY CODE: "
+	text += code
+	text += "\n\n"
+	html += "<div><b>SECURITY CODE: </b>"
+	html += code
+	html += "</div><br>"
+	text += "NWS web services"
+	html += "NWS web services"
+	if mode == "dev":
+		print(text)
+	else:
+		send_email(subject, sender, recipient, text, html)
+	recovery = newRecovery(user.email, code)
+
 def send_email(subject, sender, recipients, text_body, html_body):
 	msg = Message(subject, sender=sender, recipients=recipients)
 	msg.body = text_body
 	msg.html = html_body
 	mail.send(msg)
+
+def recoveryExist(email):
+	exist = False
+	r_list = Recovery.query.all()
+	for r in r_list:
+		if str(email) == str(r.target_email):
+			exist = True
+			break
+	return exist
+
+def newRecovery(email, code):
+	item = None
+	if recoveryExist(email) == False:
+		item = Recovery(email, code)
+		item.save()
+	else:
+		r_list = Recovery.query.all()
+		for r in r_list:
+			if str(email) == str(r.target_email):
+				r.setCode(code)
+				r.save()
+				break
+	return item
 
 def alterDb(user, action):
 	model 	= request.form['target_model']
@@ -996,6 +1046,85 @@ def alterDb(user, action):
 	data['model'] 	= model
 	return data
 
+def getSecurityContent():
+	data 			= {}
+	data['user'] 	= None
+	data['message'] = None
+	data['url'] 	= "admin/master/launchSecure.html"
+	data['located'] = False
+	email 			= request.form['sec_email']
+	if userExist(email) == True:
+		u_list = User.query.all()
+		for u in u_list:
+			if str(u.email) == str(email):
+				data['located'] = True
+				data['user'] = u
+				break
+	else:
+		data['message'] = "No account found for<b>"+ str(email)
+		data['url'] 	= "admin/master/noAccount.html"
+	return data
+
+def validateIdentityContent():
+	#REMEMBER TO SET SENDING EMAIL TO "PROD" IN PRODUCTION 
+	data 	= {}
+	u_id 	= request.form['u_id']
+	answer1 = request.form['answer1']
+	answer2 = request.form['answer2']
+	q 		= que("user", u_id)
+	if q["isQueued"] == True:
+		user 			= q["item"]
+		data['user'] 	= user
+		validated = user.securityCleared(answer1, answer2)
+		if validated == True:
+			data['url'] = "admin/master/loginReset.html"
+			sendPasswordReset(user, 'dev')
+		else:
+			data['url'] = "admin/master/identificalionFailed.html"
+	return data
+
+def fetchUserRecovery(email):
+	item 	= None
+	r_list 	= Recovery.query.all()
+	for r in r_list:
+		if str(email) == str(r.target_email):
+			item = r
+			break
+	return item
+
+def hasRecovery(email):
+	exist = False
+	r_list = Recovery.query.all()
+	for r in r_list:
+		if str(email) == str(r.target_email):
+			exist = True
+			break
+	return exist
+
+def recoverySuccessContent():
+	data 		= {}
+	message  	= ""
+	url 		= "admin/master/resetSuccess.html"
+	email 		= request.form['email']
+	password 	= request.form['password1']
+	code 		= request.form['code']
+	if hasRecovery(email) == True:
+		recovery = fetchUserRecovery(email)
+		validate = recovery.validate(code)
+		if validate == True:
+			user = fetch_user_by_email(email)
+			user.set_password(password)
+			recovery.delete()
+			message = "You have successfully updated your password"
+		else:
+			message = "The security code that you've entered is incorrect"
+			url 	= "admin/master/resetFailure.html"
+	else:
+		message = "The email that you entered is not queued for a password reset"
+		url 	= "admin/master/resetFailure.html"
+	data['url'] = url
+	data['message'] = message
+	return data
 
 
 

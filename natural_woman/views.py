@@ -34,6 +34,21 @@ def register():
 def admin():
 	return render_template("admin/master/login.html")
 
+@app.route('/launchSecure', methods=["POST"])
+def launchSecure():
+	content = getSecurityContent()
+	return render_template(content['url'], **content)
+
+@app.route('/validateIdentity', methods=["POST"])
+def validateIdentity():
+	content = validateIdentityContent()
+	return render_template(content['url'], **content)
+
+@app.route('/recoverySuccess', methods=["POST"])
+def recoverySuccess():
+	content = recoverySuccessContent()
+	return render_template(content['url'], **content)
+
 @app.route('/auth', methods=["POST"])
 def auth():
 	if request.method == "POST":

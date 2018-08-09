@@ -1,0 +1,140 @@
+{% extends "admin/master/emptyBase.html" %}
+
+{% block content %}
+<style type="text/css">
+	
+.get-s-question-wrap {
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.re-center {
+	margin-top:14%;
+}
+
+.sp15 {
+	margin-top:15px;
+}
+
+.su-general-btns-re {
+	width: 100%;
+	padding:0;
+	margin:0;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border:1px solid #666666;
+	border-radius: 6px;
+	background-color: #bbbbbb;
+	text-align: right;
+	margin-top: 10px;
+}
+
+.su-general-btns-re button {
+	width: 25%;
+}
+
+.re-ques {
+	font-weight: 600;
+	font-style: italic;
+	font-size: 12px;
+	color: #222222;
+	margin-bottom: 3px;
+}
+
+.height15 {
+	height: 15px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+function returnToLogin()
+{
+    window.location.href = "/admin";
+}
+
+function closeError()
+{
+    $("#su-editor-builder").fadeOut(600);
+}
+
+function generateErrorWindow(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header su-neg25'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Error</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[0] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[1] + "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+function validateRecovery2()
+{
+	var answer1 = $("#answer1").val();
+	var answer2 = $("#answer2").val();
+	var errors 	= false;
+	var m 		= [];
+	if (answer1.length === 0)
+	{
+		errors = true;
+		m.push("Empty Field Detected");
+		m.push("You must answer security question 1 to proceed");
+	}
+	else if (answer2.length === 0)
+	{
+		errors = true;
+		m.push("Empty Field Detected");
+		m.push("You must answer security question 2 to proceed");
+	}
+	if (errors === false) { $("#recovery_form").submit(); }
+	else { generateErrorWindow(m); }
+}
+
+</script>
+
+<div class='su-about-errors hidden' id='su-editor-builder'></div>
+
+<div class='get-s-question-wrap'>
+	<div class='su-width45 re-center'>
+		<div class='su-general'>
+			<form action="/validateIdentity" method="POST" id="recovery_form">
+				<input type="hidden" name="u_id" id="u_id" value="{{user.id}}">
+				<div class='su-closer'><a href="javascript: returnToLogin();"><i class='fas fa-window-close su-closerm'></i></a></div>
+				<h3><i class='fas fa-unlock-alt'></i> &nbspRecover Password</h3>
+				<div class="re-ques">{{user.question1}}</div>
+				<input type="text" name="answer1" id="answer1" placeholder="Enter Security Answer 1">
+				<div class="height15"></div>
+				<div class="re-ques">{{user.question2}}</div>
+				<input type="text" name="answer2" id="answer2" placeholder="Enter Security Answer 2">
+				<div class='su-general-btns-re'>
+					<button type="button" onClick="javascript: validateRecovery2();">Recover Password</button>
+					<button type="button" onClick="javascript: returnToLogin();">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
