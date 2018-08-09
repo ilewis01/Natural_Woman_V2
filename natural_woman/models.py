@@ -195,7 +195,7 @@ class Recovery(db.Model):
 		self.recovery_code = bcrypt.generate_password_hash(plaintext_code)
 
 	def validate(self, plaintext_code):
-		return bcrypt.check_password_hash(plaintext_code)
+		return bcrypt.check_password_hash(self.recovery_code, plaintext_code)
 
 
 
