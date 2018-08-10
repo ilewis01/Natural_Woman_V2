@@ -77,6 +77,23 @@
     padding-bottom: 1px;
 }
 
+.su-dbl-buttons {
+    width: 100%;
+    border: 1px solid #777777;
+    border-radius: 6px;
+    padding: 0;
+    margin: 0;
+    padding-top:1px;
+    padding-bottom: 5px;
+    background-color: #bbbbbb;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.su-dbl-buttons button {
+    width: 48%;
+}
+
 /*////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -238,28 +255,34 @@ function confirmAndValidateNewPassword()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-function loadRecoveryErrors5(message)
+function loadRecoveryErrors5()
 {
-    m = [];
-    m.push("Password Recovery Failure");
-    m.push(message);
+    var error_msg = $("#errors").val();
+    var m = [];
+    m.push(error_msg);
+    m.push("Please correct the error to proceed");
     generateErrorWindow(m);
 }
 
 
 </script>
-<body onLoad="javascript: loadRecoveryErrors5('{{message}}');">
+<body onLoad="javascript: loadRecoveryErrors5();">
+    <input type="hidden" id="errors" value="{{message}}">
     <div class='su-pop-container hidden' id='recover-space'></div>
     <div class='su-about-errors hidden' id='su-editor-builder'></div>
     <div class='su-content-wrap'>
         <div class='su-login-wrap center_v_mode'>
             <h6>Password Reset</h6>
+
             <form action='/recoverySuccess' method="POST" id='su_login_form'>
                 <input type="email" name="email" id='email' placeholder="Confirm your email address...">
                 <input type="password" name="password1" id='password1' placeholder="Enter your new password">
                 <input type="password" name="password2" id='password2' placeholder="Confirm your new password">
                 <input type="text" name="code" id="code" placeholder="Security Code">
-                <button type="button" onClick="javascript: confirmAndValidateNewPassword();">Submit</button>
+                <div class="su-dbl-buttons">
+                    <button type="button" onClick="javascript: confirmAndValidateNewPassword();">Submit</button>
+                    <button type="button" onClick="javascript: returnToLogin();">Cancel</button>
+                </div>
             </form>
         </div>
     </div>

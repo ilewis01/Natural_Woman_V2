@@ -144,6 +144,7 @@ function initValidateIdenity()
 	<div class='get-s-question-wrap'>
 		<div class='su-width45 re-center'>
 			<div class='su-general'>
+				{{user.id}}
 				<form action="/validateIdentity" method="POST" id="recovery_form">
 					<input type="hidden" name="u_id" id="u_id" value="{{user.id}}">
 					<div class='su-closer'><a href="javascript: returnToLogin();"><i class='fas fa-window-close su-closerm'></i></a></div>

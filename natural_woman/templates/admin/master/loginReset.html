@@ -83,6 +83,23 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////*/
 
+.su-dbl-buttons {
+    width: 100%;
+    border: 1px solid #777777;
+    border-radius: 6px;
+    padding: 0;
+    margin: 0;
+    padding-top:1px;
+    padding-bottom: 5px;
+    background-color: #bbbbbb;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.su-dbl-buttons button {
+    width: 48%;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -251,7 +268,10 @@ function confirmAndValidateNewPassword()
                 <input type="password" name="password1" id='password1' placeholder="Enter your new password">
                 <input type="password" name="password2" id='password2' placeholder="Confirm your new password">
                 <input type="text" name="code" id="code" placeholder="Security Code">
-                <button type="button" onClick="javascript: confirmAndValidateNewPassword();">Submit</button>
+                <div class="su-dbl-buttons">
+                    <button type="button" onClick="javascript: confirmAndValidateNewPassword();">Submit</button>
+                    <button type="button" onClick="javascript: returnToLogin();">Cancel</button>
+                </div>
             </form>
         </div>
     </div>

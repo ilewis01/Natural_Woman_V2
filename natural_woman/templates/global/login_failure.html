@@ -1,2 +1,227 @@
-<h1>The email or password is incorrect</h1>
-<a href="/">Return to index page</a>
+
+
+{% extends "admin/master/emptyBase.html" %}
+
+{% block content %}
+<style type="text/css">
+
+/*////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////*/
+/*DO NOT COPY THESE STYLES*/
+
+.recoveryDiv {
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+.recoveryDiv a {
+    font-size: 11px;
+    color: #ffffff;
+    text-transform: capitalize;
+    font-style: italic;
+}
+
+.recoveryDiv a:hover {
+    text-decoration: none;
+    color: #e7ef9d;
+}
+
+
+
+.su-recover i {
+    color: #b4b799;
+    text-shadow: 1px 1px #222222;
+}
+
+.recover-st {
+    color: #3f4509;
+    text-shadow: none;
+    font-weight: 600;
+    font-family: Arial;
+    font-style: italic;
+}
+
+.su-closerm:hover {
+    color: #3f4509;
+    text-shadow: 1px 1px #cccccc;
+}
+
+.recover-email-label {
+    font-weight: 600;
+    font-style: italic;
+    margin-top: -5px;
+    margin-bottom: 7px;
+    padding-left: 8px;
+}
+
+.rec-email-btn {
+    padding:0;
+    margin:0;
+    padding-left:10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 6px;
+    border: 1px solid #666666;
+    background-color: #aaaaaa;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.rec-email-btn button {
+    width: 100%;
+    padding-top:1px;
+    padding-bottom: 1px;
+}
+
+/*////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////*/
+
+</style>
+
+<script type="text/javascript">
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+//DO NOT COPY THESE FUNCTIONS
+
+function validate_email(email)
+{
+    test1 = false;
+    test2 = false;
+    is_valid = false;
+    email = String(email);
+    for (var i = 0; i < email.length; i++)
+    {
+        if (email[i] === "@") { test1 = true; }
+        if (email[i] === ".") { test2 = true; }
+    }
+    if (test1 === true && test2 === true) { is_valid = true; }
+    return is_valid;
+}
+
+function closeError()
+{
+    $("#su-editor-builder").fadeOut(600);
+}
+
+function generateErrorWindow(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header su-neg25'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Error</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[0] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[1] + "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+function loadRecoveryWindow()
+{
+    var html = "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeRecover();\"><i class='fas fa-window-close su-closerm'></i></a></div>";
+    html += "<h3><i class='fas fa-unlock-alt'> &nbsp<span class='recover-st'>Password Recovery</span></i></h3>";
+    html += "<div class='recover-email-label'>Enter the email assicuated with your account:</div>";
+    html += "<form action='/launchSecure' method='POST' id='recovery_form'>";
+    html += "<input type='email' name='sec_email' id='sec_email' placeholder='Email'>";
+    html += "</form>";
+    html += "<div class='rec-email-btn'>";
+    html += "<button type='button' onClick=\"javascript: validateRecoveryEmail();\">Continue</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#recover-space").html(html);
+    $("#recover-space").hide();
+    $("#recover-space").removeClass("hidden");
+    $("#recover-space").fadeIn(500);
+}
+
+function validateRecoveryEmail()
+{
+    var has_error   = false;
+    var email       = $("#sec_email").val();
+    var m           = [];
+    if (email.length === 0)
+    {
+        has_error = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter the password associated with your account to proceed");
+    }
+    else if (validate_email(email) === false)
+    {
+        has_error = true;
+        m.push("Invalid Email");
+        m.push("You must enter a valid email address to proceed");
+    }
+    if (has_error === false)
+    {
+        $("#recovery_form").submit();
+    }
+    else
+    {
+        generateErrorWindow(m);
+    }
+}
+
+function closeRecover()
+{
+    $("#recover-space").fadeOut(500);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function displayLoginError()
+{
+	m = [];
+	m.push("Invalid Login Credentials");
+	m.push("The username and/or password that you've entered is incorrect");
+	generateErrorWindow(m);
+}
+
+</script>
+<body onLoad="javascript: displayLoginError();">
+    <div class='su-pop-container hidden' id='recover-space'></div>
+    <div class='su-about-errors hidden' id='su-editor-builder'></div>
+    <div class='su-content-wrap'>
+        <div class='su-login-wrap center_v_mode'>
+            <h6>Login</h6>
+            <form action='/auth' method="POST" id='su_login_form'>
+                <input type="email" name="email" id='email' placeholder="Enter your email">
+                <input type="password" name="password" id='password' placeholder="Enter your password">
+                <div class='recoveryDiv'>
+                    <a href="javascript: loadRecoveryWindow();">Forgot password?</a>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
+
+
+
+
+
+
+
