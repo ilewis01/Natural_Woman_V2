@@ -1,3 +1,55 @@
-<h1>Validation Failure</h1>
-<h4>{{message}}</h4>
-<h5>{{url}}</h5>
+{% extends "admin/master/emptyBase.html" %}
+{% block content %}
+<body onLoad="javascript: loadRegistrationErrors('{{message}}');">
+	<div class='su-about-errors hidden' id='su-editor-builder'></div>
+<div class='sign-up-container'>
+	<h3><i class="fas fa-user-circle"></i> &nbspUser Registration</h3>
+	<form action="/validateRegistration" method="POST" id="registration_form">
+		<div class='code_in_mst'>
+			<label>Authorization Code: </label>
+			<input type="text" name="security_code" id="security_code">
+		</div>
+		<input type="email" name="email" id="email" placeholder="Please confirm your email address">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6" style="padding: 0; margin: 0;">
+					<input type="text" name="fname" id="fname" placeholder="First Name">
+				</div>
+				<div class="col-sm-6" style="padding: 0; margin: 0;">
+					<input type="text" name="lname" id="lname" placeholder="Last Name">
+				</div>
+			</div>
+		</div>
+		<div class="sec-hd1">Security Questions</div>
+		<select id="question1" name="question1">
+			{% for s in security %}
+			<option value="{{s.question}}">{{s.question}}</option>
+			{% endfor %}
+		</select>
+		<input type="text" name="answer1" id="answer1" placeholder="Security Answer 1">
+		<div class='height15'></div>
+		<select id="question2" name="question2">
+			{% for s in security %}
+			<option value="{{s.question}}">{{s.question}}</option>
+			{% endfor %}
+		</select>
+		<input type="text" name="answer2" id="answer2" placeholder="Security Answer 1">
+		<div class="sec-hd1">Password</div>
+		<input type="password" name="password1" id="password1" placeholder="Enter your password">
+		<input type="password" name="password2" id="password2" placeholder="Confirm your password">
+		<div class="code_in_mst">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6" style="padding:0; margin:0;">
+						<button type="button" onClick="javascript: validateReg1();">Register</button>
+					</div>
+					<div class="col-sm-6" style="padding:0; margin:0;">
+						<button type="button" onClick="javascript: returnToLogin();">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+</body>
+{% endblock %}

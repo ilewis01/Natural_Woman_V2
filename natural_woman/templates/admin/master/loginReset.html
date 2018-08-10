@@ -1,184 +1,23 @@
-
-
 {% extends "admin/master/emptyBase.html" %}
-
 {% block content %}
-
-
-<script type="text/javascript">
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-//DO NOT COPY THESE FUNCTIONS
-
-function validate_email(email)
-{
-    test1 = false;
-    test2 = false;
-    is_valid = false;
-    email = String(email);
-    for (var i = 0; i < email.length; i++)
-    {
-        if (email[i] === "@") { test1 = true; }
-        if (email[i] === ".") { test2 = true; }
-    }
-    if (test1 === true && test2 === true) { is_valid = true; }
-    return is_valid;
-}
-
-function closeError()
-{
-    $("#su-editor-builder").fadeOut(600);
-}
-
-function generateErrorWindow(messages)
-{
-    html = "";
-    html += "<div class='su-center su-width30'>";
-    html += "<div class='su-general'>";
-    html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
-    html += "<div class='su-error-header su-neg25'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Error</span></div>";
-    html += "<div class='err0' id='err0'>" + messages[0] + "</div>";
-    html += "<div class='err1' id='err1'>" + messages[1] + "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#su-editor-builder").html(html);
-    $("#su-editor-builder").hide();
-    $("#su-editor-builder").removeClass('hidden');
-    $("#su-editor-builder").fadeIn(600);
-}
-
-function loadRecoveryWindow()
-{
-    var html = "<div class='su-center su-width30'>";
-    html += "<div class='su-general'>";
-    html += "<div class='su-closer'><a href=\"javascript: closeRecover();\"><i class='fas fa-window-close su-closerm'></i></a></div>";
-    html += "<h3><i class='fas fa-unlock-alt'> &nbsp<span class='recover-st'>Password Recovery</span></i></h3>";
-    html += "<div class='recover-email-label'>Enter the email assicuated with your account:</div>";
-    html += "<form action='/launchSecure' method='POST' id='recovery_form'>";
-    html += "<input type='email' name='sec_email' id='sec_email' placeholder='Email'>";
-    html += "</form>";
-    html += "<div class='rec-email-btn'>";
-    html += "<button type='button' onClick=\"javascript: validateRecoveryEmail();\">Continue</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#recover-space").html(html);
-    $("#recover-space").hide();
-    $("#recover-space").removeClass("hidden");
-    $("#recover-space").fadeIn(500);
-}
-
-function validateRecoveryEmail()
-{
-    var has_error   = false;
-    var email       = $("#sec_email").val();
-    var m           = [];
-    if (email.length === 0)
-    {
-        has_error = true;
-        m.push("Empty Field Detected");
-        m.push("You must enter the password associated with your account to proceed");
-    }
-    else if (validate_email(email) === false)
-    {
-        has_error = true;
-        m.push("Invalid Email");
-        m.push("You must enter a valid email address to proceed");
-    }
-    if (has_error === false)
-    {
-        $("#recovery_form").submit();
-    }
-    else
-    {
-        generateErrorWindow(m);
-    }
-}
-
-function closeRecover()
-{
-    $("#recover-space").fadeOut(500);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-function confirmAndValidateNewPassword()
-{
-	var errors 	= false;
-	var m 		= [];
-	var email 	= $("#email").val();
-	var pw1 	= $("#password1").val();
-	var pw2 	= $("#password2").val();
-	var code 	= $("#code").val();
-	if (email.length === 0)
-	{
-		errors = true;
-		m.push("Empty Field Detected");
-		m.push("You must enter the email associated with your account");
-	}
-	else if (validate_email(email) === false)
-	{
-		errors = true;
-		m.push("Invalid Email");
-		m.push("You must enter a valid email to proceed");
-	}
-	else if (pw1.length === 0)
-	{
-		errors = true;
-		m.push("Empty Field Detected");
-		m.push("You must enter a new password to proceed");
-	}
-	else if (pw2.length === 0)
-	{
-		errors = true;
-		m.push("Empty Field Detected");
-		m.push("You must confirm your new password to proceed");
-	}
-	else if (pw1 !== pw2)
-	{
-		errors = true;
-		m.push("The Passwords Do Not Match!");
-		m.push(" ");
-	}
-	else if (code.length === 0)
-	{
-		errors = true;
-		m.push("Empty Field Detected");
-		m.push("You must enter the security code that was sent to the email that is associated with your Natural Woman Salon account");
-	}
-	if (errors === true) { generateErrorWindow(m); }
-	else { $("#su_login_form").submit(); }
-}
-
-</script>
-    <div class='su-pop-container hidden' id='recover-space'></div>
-    <div class='su-about-errors hidden' id='su-editor-builder'></div>
-    <div class='su-content-wrap'>
-        <div class='su-login-wrap su-center'>
-            <h6>Password Reset</h6>
-            <form action='/recoverySuccess' method="POST" id='su_login_form'>
-            	<input type="hidden" name="u_id" value="{{user.id}}">
-                <input type="email" name="email" id='email' placeholder="Confirm your email address...">
-                <input type="password" name="password1" id='password1' placeholder="Enter your new password">
-                <input type="password" name="password2" id='password2' placeholder="Confirm your new password">
-                <input type="text" name="code" id="code" placeholder="Security Code">
-                <div class="su-dbl-buttons">
-                    <button type="button" onClick="javascript: confirmAndValidateNewPassword();">Submit</button>
-                    <button type="button" onClick="javascript: returnToLogin();">Cancel</button>
+<div class='su-pop-container hidden' id='recover-space'></div>
+<div class='su-about-errors hidden' id='su-editor-builder'></div>
+<div class='su-content-wrap'>
+    <div class='su-login-wrap su-center'>
+        <h6>Password Reset</h6>
+        <form action='/recoverySuccess' method="POST" id='su_login_form'>
+            <input type="hidden" name="u_id" value="{{user.id}}">
+            <input type="email" name="email" id='email' placeholder="Confirm your email address...">
+            <input type="password" name="password1" id='password1' placeholder="Enter your new password">
+            <input type="password" name="password2" id='password2' placeholder="Confirm your new password">
+            <input type="text" name="code" id="code" placeholder="Security Code">
+            <div class="su-dbl-buttons">
+                <button type="button" onClick="javascript: confirmAndValidateNewPassword();">Submit</button>
+                <button type="button" onClick="javascript: returnToLogin();">Cancel</button>
                 </div>
-            </form>
-        </div>
+         </form>
     </div>
-
+</div>
 {% endblock %}
 
 

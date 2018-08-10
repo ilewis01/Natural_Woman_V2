@@ -1,3 +1,20 @@
-<h1>Validate Success</h1>
-<h4>{{message}}</h4>
-<h5>{{url}}</h5>
+{% extends "admin/master/emptyBase.html" %}
+{% block content %}
+<body onLoad="javascript: showRegistrationSuccessMessage();">
+	<div class='su-pop-container hidden' id='recover-space'></div>
+	<div class='su-about-errors hidden' id='su-editor-builder'></div>
+	<div class='su-content-wrap'>
+	    <div class='su-login-wrap su-center'>
+	        <h6>Login</h6>
+	        <form action='/auth' method="POST" id='su_login_form'>
+	            <input type="email" name="email" id='email' placeholder="Enter your email">
+	            <input type="password" name="password" id='password' placeholder="Enter your password">
+	            <div class='recoveryDiv'>
+	                <a href="javascript: loadRecoveryWindow();">Forgot password?</a>
+	            </div>
+	            <button type="submit">Submit</button>
+	        </form>
+	    </div>
+	</div>
+</body>
+{% endblock %}

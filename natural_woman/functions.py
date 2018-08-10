@@ -1159,7 +1159,6 @@ def getRegistrationContent():
 				url = "global/validationFailure.html"
 			else:
 				fname = request.form['fname']
-
 				lname = request.form['lname']
 				ans_1 = request.form['answer1']
 				ans_2 = request.form['answer2']
@@ -1176,6 +1175,7 @@ def getRegistrationContent():
 				message = "Registration Complete!"
 	data['url'] = url
 	data['message'] = message
+	data['security'] = SecurityQuestion.query.all()
 	return data
 
 

@@ -1,157 +1,3 @@
-// $( window ).on( "load", initialize);
-
-// function initialize(jQuery) {
-//     var btn_index = String(document.getElementById("btn_index").value);
-    
-//     if (Number(btn_index) > 5)
-//     {
-//         initialize_admin_forms();
-//     }
-//     else
-//     {
-//         $("#base1_fade_id").removeClass('hidden');
-//         if (btn_index === "-1")
-//         {
-//             initialize_index();
-//         }
-//         else if (btn_index === "0")
-//         {
-
-//         }
-//         else if (btn_index === "2")
-//         {
-            
-//         }
-//     }
-// }
-
-//PAGE INITIALIZATIONS
-function initialize_index(jQuery) {
-    $("#btn0").removeClass("nav-item");
-    $("#btn0").addClass("active-item");
-
-    $("#i1").hide();
-    $("#i2").hide();
-    $("#i3").hide();
-    $("#i4").hide();
-    $("#i5").hide();
-    $("#i6").hide();
-    $("#i7").hide();
-
-    $("#home_sliders").removeClass("hidden");
-    
-    $("#i1").delay(200).fadeIn(700);
-    $("#i2").delay(1000).fadeIn(700);
-    $("#i3").delay(1500).fadeIn(700);
-    $("#i4").delay(2000).fadeIn(700);
-    $("#i5").delay(2500).fadeIn(700);
-    $("#i6").delay(3000).fadeIn(700);
-    $("#i7").delay(3500).fadeIn(700);
-}
-
-function initialize_admin_forms()
-{
-    var btn_index = String(document.getElementById("btn_index").value);
-
-    if (btn_index !== "6")
-    {
-        $("#msg2").hide();
-        $("#msg2").removeClass("hidden");
-        $("#msg2").fadeIn(600);
-        $("#frame_active").val("1");
-
-        if (btn_index==="7" || btn_index==="8" || btn_index==="9" || btn_index==="12")
-        {
-            $("#selected_e").val("0")
-            $("#div_0").addClass("super_select");
-        }
-
-        // else if (btn_index === "10") //TEMPORARY GALLERY FRAME
-        // {
-        //     $("#msg2").hide();
-        //     $("#msg6").hide();
-        //     $("#msg6").removeClass("hidden");
-        //     $("#msg6").fadeIn(600);
-        // }
-    }
-    else
-    {
-        $("#master-body-fader").hide();
-        $("#master-body-fader").removeClass("hidden");
-        $("#master-body-fader").fadeIn(600);
-        $("#frame_active").val("0");
-        $("#blog_active").val("0");
-    }
-
-    if (Number(btn_index) === 20)
-    {
-        $("#btn1").addClass("active-item");
-        $("#master-body-fader").hide();
-        $("#master-body-fader").removeClass("hidden");
-        $("#master-body-fader").fadeIn(600);
-    }
-    else if (Number(btn_index) < 20)
-    {
-        $("#btn0").addClass("selected-item");
-    }
-    else
-    {
-        if (Number(btn_index) === 21)
-        {
-            $("#ddb1").addClass("drpSelected");
-        }
-        else if (Number(btn_index) > 22)
-        {
-            $("#ddb2").addClass("drpSelected");
-        }
-        else if (Number(btn_index) > 23)
-        {
-            $("#ddb3").addClass("drpSelected");
-        }
-        $("#add00").css({"text-shadow":"1px 1px #000000", "color":"#cadc23"});
-    }
-    if (Number(btn_index) === 40)
-    {
-        $("#base1_fade_id").hide();
-        $("#msg7").removeClass('hidden');
-        $("#base1_fade_id").removeClass('hidden');
-        $("#base1_fade_id").fadeIn(500);
-    }
-}
-
-function cleanTextInput(val)
-{
-    var result  = "";
-    val         = String(val);
-    for (var i = 0; i < val.length; i++)
-    {
-        var c = String(val[i]);
-        if (c === '"')
-        {
-            var t = c;
-            c = '\\"';
-        }
-        result += c;
-    }
-    return result;
-}
-
-function cleanTextInputHtml(val)
-{
-    var result  = "";
-    val         = String(val);
-    for (var i = 0; i < val.length; i++)
-    {
-        var c = String(val[i]);
-        if (c === '"')
-        {
-            c = "''";
-        }
-        result += c;
-    }
-    return result;
-}
-
 function fetchStates()
 {
     s = [];
@@ -213,1516 +59,30 @@ function fetchStates()
     return s;
 }
 
-function load_error_message(labl1, labl2, labl3, obj1, obj2, obj3)
+function stateInput(trigger)
 {
-    var entry1 = "<span>" + labl1 + "</span>&nbsp<em>" + obj1 + "</em>";
-    var entry2 = "<span>" + labl2 + "</span>&nbsp<em>" + obj2 + "</em>";
-    var entry3 = "<span>" + labl3 + "</span>&nbsp<em>" + obj3 + "</em>";
-
-    $("#label1").html(entry1);
-    $("#label2").html(entry2);
-    $("#label3").html(entry3);
-}
-
-function load_error_heads(head, msg1, msg2, button)
-{
-    $("#error_header").html(head);
-    $("#error_msg_m1").html(msg1);
-    $("#error_msg_m2").html(msg2);
-    $("#obj_action").html(button);
-}
-
-function build_blog_manager(data)
-{
-    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"blog_manager_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model2\" value=\"blog\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id2\" value=\"\">";
-    html += "</form>";
-    html += "<div class='pop_blog_wrap center_v_mode'>";
-    html += "<div class='frame_general_sm'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
-    html += "<div class='img-style-editor-left'>";
-    html += "<h3><i class='fas fa-edit'></i> manage blogs</h3>";
-    html += "<div class='master-list-edit-wrap'>";
-    html += "<ul>";
-
-    for (var i = 0; i < data.length; i++)
+    trigger     = String(trigger);
+    var state   = $(trigger).val();
+    state       = String(state);
+    var len     = state.length;
+    var pos     = len - 1;
+    var c       = state[pos];
+    var result  = "";
+    if (len < 3)
     {
-        subject = cleanTextInputHtml(data[i]['subject']);
-        content = cleanTextInputHtml(data[i]['content']);
-        html += "<div id='div_";
-        html += data[i]['index'];
-        html += "'>";
-        html += "<li>";
-        html += "<a href=\"javascript: about_selector('";
-        html += data[i]['index'];
-        html += "');\">";
-        html += "<input type='hidden' id='id_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['id'];
-        html += "'>";
-        html += "<input type='hidden' id='subject_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += subject;
-        html += "'>";
-        html += "<input type='hidden' id='content_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += content;
-        html += "'>";
-        html += "<input type='hidden' id='date_>";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['date'];
-        html += "'>";
-        html += "<input type='hidden' id='time_>";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['time'];
-        html += "'>";
-        html += "<div class='sub-li'>";
-        html += "<span>Subject: </span>";
-        html += data[i]['subject'];
-        html += "</div>";
-        html += "<div class='sub-li'>";
-        html += "<span>Posted On: </span>";
-        html += data[i]['date'];
-        html += " at <em>";
-        html += data[i]['time'];
-        html += "</em>";
-        html += "</div>";
-        html += "</a>";
-        html += "</li>";
-        html += "</div>";
-    }
-
-    html += "</ul>";
-    html += "</div>";
-    html += "<div class='img-style-editor-btns'>";
-    html += "<button id='launch_blog_editor'>Edit Blog Post</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('blog');\">Delete Selected Blog</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='master-img-editor-btn-wrap'>";
-    html += "<div class='master-img-editor-btn'>";
-    html += "<button onClick=\"javascript: closeIconBtn('2');\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-sm-1' style='padding:0; margin:0; margin-left: -6px;'>";
-    html += "<div class='img-style-editor-right'>";
-    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    build_blog_editor();
-    return html;
-}
-
-function build_blog_editor()
-{
-    var html = "<div class=\"blog-editor-container center_v_mode\">";
-    html += "<div class=\"frame_general_sm\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Edit Blog Post</h3>";
-    html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"\"><i class=\"fas fa-edit\"></i></h2>";
-    html += "<form action=\"/edit_success\" method=\"POST\" id=\"blog_editor_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"e_target_model\" value=\"blog\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"e_target_action\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"e_target_id\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"7\">";
-    html += "<div class=\"editme_label\">Subject:</div>";
-    html += "<input type=\"text\" name=\"editor_subject\" oninput=\"javascript: signalInputChange('blog');\" id=\"editor_subject\" placeholder=\"Type subject here\" style=\"font-size:11px;\">";
-    html += "<div class=\"blog_full_editor_content\">";
-    html += "<textarea id=\"super_blog_content\" name=\"content\" oninput=\"javascript: signalInputChange('blog');\"></textarea>";
-    html += "</div>";
-    html += "</form>";
-    html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateModel('blog');\">Save</button>";
-    html += "<button onClick=\"javascript: detectChanges('blog', 'exit');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#msg3").html(html);
-}
-
-function ultimateSoftClose()
-{
-    $("#msg4").fadeOut(500);
-}
-
-function ultimateHardClose()
-{
-    $("#msg4").fadeOut(500);
-    $("#msg2").fadeOut(500);
-}
-
-function ultimateHardClose1()
-{
-    $("#msg1").fadeOut(500);
-    $("#msg4").fadeOut(500);
-}
-
-function ultimateHardClose2()
-{
-    $("#msg4").fadeOut(500);
-    $("#msg3").fadeOut(500);
-}
-
-function build_product_manager(data)
-{
-    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
-    html += "</form>";
-    html += "<div class='pop_editor_wrap center_v_mode'>";
-    html += "<div class='frame_general_sm'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
-    html += "<div class='img-style-editor-left'>";
-    html += "<h3><i class='fas fa-spray-can'></i> manage products & pricing</h3>";
-    html += "<div class='master-list-edit-wrap'>";
-    html += "<ul>";
-
-    for (var i = 0; i < data.length; i++)
-    {
-        var name = cleanTextInputHtml(data[i]['name']);
-        var desc = cleanTextInputHtml(data[i]['description']);
-        html += "<div id='div_";
-        html += data[i]['index'];
-        html += "'>";
-        html += "<li>";
-        html += "<a href=\"javascript: about_selector('";
-        html += data[i]['index'];
-        html += "');\">";
-        html += "<input type='hidden' id='id_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['id'];
-        html += "'>";
-        html += "<input type='hidden' id='name_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += name;
-        html += "'>";
-        html += "<input type='hidden' id='description_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += desc;
-        html += "'>";
-        html += "<input type='hidden' id='price_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['price'];
-        html += "'>";
-        html += "<div class='sub-li'>";
-        html += "<span>Product Name: </span>";
-        html += data[i]['name'];
-        html += "</div>";
-        html += "<div class='sub-li'>";
-        html += "<span>Description: </span>";
-        html += data[i]['description'];
-        html += "</div>";
-        html += "<div class='sub-li'>";
-        html += "<span>Price: </span> $";
-        html += data[i]['price'];
-        html += "</div>";
-        html += "</a>";
-        html += "</li>";
-        html += "</div>";
-    }
-
-    html += "</ul>";
-    html += "</div>";
-    html += "<div class='img-style-editor-btns3'>";
-    html += "<button onClick=\"javascript: open_product_editor('0');\">New Product</button>";
-    html += "<button onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('product');\">Delete Selected</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='master-img-editor-btn-wrap'>";
-    html += "<div class='master-img-editor-btn'>";
-    html += "<button onClick=\"javascript: closeIconBtn('2');\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-sm-1' style='padding:0; margin:0'>";
-    html += "<div class='img-style-editor-right'>";
-    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-
-
-
-
-    // var html = "<form action=\"/edit_success\" method=\"POST\" id=\"product_delete_form\">";
-    // html += "<input type=\"hidden\" name=\"target_model\" id=\"target_modelproddel\" value=\"product\">";
-    // html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_proddel\" value=\"\">";
-    // html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_proddel\" value=\"\">";
-    // html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
-    // html += "</form>";
-    // html += "<div class=\"pop_editor_wrap center_v_mode\">";
-    // html += "<div class=\"frame_general_sm steel_back\">";
-    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    // html += "<h3>Product Management</h3>";
-    // html += "<div class=\"generalSteel\">";
-    // html += "<h2 class=\"\"><i class=\"fas fa-spray-can\"></i></h2>";
-    // html += "<h5>Select a product from the list below</h5>";
-    // html += "<div class=\"generalSteelListWrap\">";
-    // html += "<ul>";
-
-    // for(var i = 0; i < data.length; i++)
-    // {
-    //     var name = cleanTextInputHtml(data[i]['name']);
-    //     var desc = cleanTextInputHtml(data[i]['description']);
-    //     html += "<div id=\"div_" + data[i]['index'] + "\">";
-    //     html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\" id=\"at_" + data[i]['index'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"name_" + data[i]['index'] + "\" value=\"" + name + "\">";
-    //     html += "<input type=\"hidden\" id=\"description_" + data[i]['index'] + "\" value=\"" + desc + "\">";
-    //     html += "<input type=\"hidden\" id=\"price_" + data[i]['index'] + "\" value=\"" + data[i]['price'] + "\">";
-    //     html += "<li id=\"li_" + data[i]['index'] + "\"><div><span>Product: </span>" + data[i]['name'] + "</div>";
-    //     html += "<div><em><span>Description: </span>" + data[i]['description'] + "</em></div>";
-    //     html += "<div><span>Price: </span>$" + data[i]['price'] + "</em></div></li></a></div>";
-    // }
-
-    // html += "</ul>";
-    // html += "</div>";
-
-    // html += "<div class=\"ul_buttons3\">";
-    // html += "<button id=\"prod_btn1\" onClick=\"javascript: open_product_editor('0');\">New Product</button>";
-    // html += "<button id=\"prod_btn2\" onClick=\"javascript: open_product_editor('1');\">Edit Selected</button>";
-    // html += "<button onClick=\"javascript: ultimateWarningMessageOption('product');\">Delete Selected</button>";
-    // html += "</div>";
-    // html += "</div>";
-    // html += "<div class=\"generalSteel main_exit_btn\">";
-    // html += "<div class=\"general_steel_btn1\">";
-    // html += "<button id=\"close-this-2\">Exit</button>";
-    // html += "</div>";
-    // html += "</div>";
-    // html += "</div>";
-    // html += "</div>";
-    // build_product_editor();
-    // return html;
-}
-
-function open_product_editor(load_data)
-{
-    var html    = build_product_editor();
-    load_data   = String(load_data);
-    $("#msg3").html(html);
-
-    if (load_data === "0") 
-    {
-        $("#product_form_header").html("New Product");
-        $("#product_editor_btn").html("Save");
-        $("#target_action_prod").val("new");
-    }
-    else if (load_data === "1")
-    {
-        var selected_element        = $("#selected_e").val();
-        selected_element            = String(selected_element)
-        var selector_id             = "#id_" + selected_element;
-        var selector_name           = "#name_" + (selected_element);
-        var selector_description    = "#description_" + selected_element;
-        var selector_price          = "#price_" + selected_element;
-        var target_id               = $(selector_id).val();
-        var name                    = $(selector_name).val();
-        var description             = $(selector_description).val();
-        var price                   = $(selector_price).val();
-
-        $("#target_id_prod").val(target_id);
-        $("#product_name").val(name);
-        $("#product_price").val(price);
-        $("#product_description").val(description);
-        $("#product_form_header").html("Edit Product Details");
-        $("#product_editor_btn").html("Update");
-        $("#target_action_prod").val("update");
-    }
-
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(500);
-}
-
-function build_product_editor()
-{
-    var html = "<div class=\"about_editor_container center_v_mode\">";
-    html += "<div class=\"frame_general_sm\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3 id=\"product_form_header\">Edit Product Details</h3>";
-    html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"\"><i class=\"fas fa-spray-can\"></i></h2>";
-    html += "<form action=\"/edit_success\" method=\"POST\" id=\"product_edit_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_prod\" value=\"product\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_prod\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_prod\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"8\">";
-    html += "<div class=\"editme_label\">Product Name:</div>";
-    html += "<input type=\"text\" name=\"p_name\" id=\"product_name\" placeholder=\"Type product name here\" oninput=\"javascript: signalInputChange('product');\">";
-    html += "<div class=\"product_description_textarea\">";
-    html += "<div class=\"editme_label\">Product Description:</div>";
-    html += "<textarea name=\"p_description\" id=\"product_description\" oninput=\"javascript: signalInputChange('product');\"></textarea>";
-    html += "</div>";
-    html += "<div class=\"restore_frame\">";
-    html += "Price: ";
-    html += "<input type=\"number\" min=\"0\" max=\"9999\" name=\"p_price\" id=\"product_price\" value=\"0\" oninput=\"javascript: validatePricingInput(); signalInputChange('product');\">";
-    html += "</div>";
-    html += "</form>";
-    html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateModel('product');\">Save</button>";
-    html += "<button onClick=\"javascript: detectChanges('product', 'exit');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#msg3").html(html);
-}
-
-function requestProductDelete()
-{
-    var index = $("#selected_e").val();
-    index = String(index);
-    var loader_name         = "#name_" + index;
-    var loader_description  = "#description_" + index;
-    var loader_price        = "#price_" + index;
-    var loader_id           = "#id_" + index;
-    var name                = $(loader_name).val();
-    var description         = $(loader_description).val();
-    var price               = $(loader_price).val();
-    var e_id                = $(loader_id).val()
-
-    load_error_heads("Delete Product", "Are You Sure You Want To Proceed?", "This action is permanent and cannot be undone", "Delete");
-    load_error_message("PRODUCT:", "DESCRIPTION:", "PRICE: $", name, description, price);
-
-    $("#target_id_proddel").val(e_id);
-    $("#target_action_proddel").val("delete");
-    $("#obj_action").attr("onClick", "Javascript: submit_delpd();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function build_about_manager(inactive, current)
-{
-    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"about_delete_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutManager\" value=\"about\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutManager\" value=\"delete\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutManager\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"9\">";
-    html += "<input type=\"hidden\" name=\"current_id\" id=\"current_id\" value=\"" + current['id'] + "\">";
-    html += "<input type=\"hidden\" name=\"current_statement\" id=\"current_statement_v2\" value=\"" + current['statement'] + "\">";
-    html += "</form><div class=\"about_management_container center_v_mode\"><div class=\"frame_general_sm steel_back\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div><h3>About Us Statement</h3>";
-    html += "<div class=\"active_about_wrapper\"><div class=\"alone_icon2\">A</div><h4>Active <em>\"About Us\"</em> Statement";
-    html += "<a href=\"javascript: load_helper('about_active');\"> <i class=\"far fa-question-circle\"></i></a></h4> ";
-    html += "<em>" + current['statement'] + "</em><div class=\"s_edit_btn\">";
-    html += "<button id=\"new_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('0', 'active');\">New</button>";
-    html += "<button id=\"edit_active_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('1', 'active');\">Edit</button>";
-    html += "</div></div><div class=\"inactive_abouts\"><h4> Inactive Statements";
-    html += "<a href=\"javascript: load_helper('about_inactive');\"> <i class=\"far fa-question-circle\"></i></a></h4>";
-    html += "<div class=\"inactive_list_wrapper\"><div class=\"inactive_list\"><ul>";
-    for (var i = 0; i < inactive.length; i++)
-    {
-        var statement = cleanTextInputHtml(inactive[i]['statement']);
-        html += "<div class=\"\" id=\"div_" + inactive[i]['index'] + "\"><a href=\"javascript: about_selector('" + inactive[i]['index'] + "');\"><li>";
-        html += "<input type=\"hidden\" id=\"id_" + inactive[i]['index'] + "\" value=\"" + inactive[i]['id'] + "\">";
-        html += "<input type=\"hidden\" id=\"statement_" + inactive[i]['index'] + "\" value=\"" + statement + "\">";
-        html += "<span>Statement: </span><em>" + inactive[i]['statement'] + "</em></li></a></div>";
-    }
-    html += "</ul></div></div>";
-    html += "<div class=\"s_edit_btn\">";
-    html += "<button id=\"set_about_active\" onClick=\"javascript: ultimateWarningMessageOption('about_active');\">Set Active</button>";
-    html += "<button id=\"edit_inactive_about\" onClick=\"javascript: activate_about_editor(); display_about_editor('1', 'inactive');\">Edit</button>";
-    html += "<button id=\"delete_about\" onClick=\"javascript: ultimateWarningMessageOption('delete_about_object_m');\">Delete</button></div></div>";
-
-    html += "<div class=\"generalSteel main_exit_btn\" style=\"width: 100%; margin-top:1%;\">";
-    html += "<div class=\"general_steel_btn1\" style=\"width: 100%;\">";
-    html += "<button id=\"close-this-2\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    build_about_editor();
-    return html;
-}
-
-function build_about_editor()
-{
-    var html = "<div class=\"about_editor_container center_v_mode\">";
-    html += "<div class=\"frame_general_sm\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>\"About Us\" Editor</h3>";
-    html += "<div class=\"generalSteel-in\">";
-    html += "<div class=\"alone_icon\">A</div>";
-    html += "<h5>Type or edit the \"About Us\" statement in the space provided below</h5>";
-    html += "<form action=\"/edit_success\" method=\"POST\" id=\"about_us_editor\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_model_aboutEditor\" value=\"about\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action_aboutEditor\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"target_id_aboutEditor\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"9\">";
-    html += "<input type=\"hidden\" name=\"active_loaded\" id=\"active_loaded\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"m_is_active\" id=\"m_is_active\" value=\"1\">";
-
-    html += "<div class=\"about_editor_textarea\">";
-    html += "<textarea name=\"master_a_statement\" id=\"editor_statement\" placeholder=\"Write about us statement here...\" oninput=\"javascript: signalInputChange('about');\"></textarea>";
-    html += "</div>";
-    html += "<div class=\"active_setter\">";
-    html += "<input type=\"checkbox\" name=\"is_active\" id=\"active_check\" value=\"0\" onClick=\"mod_checkbox('#m_is_active'); signalInputChange('about');\" checked>";
-    html += "<label>&nbspSet As Current Statement</label>";
-    html += "</div>";
-
-
-    html += "</form>";
-    html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateModel('about');\">Save Changes</button>";
-    html += "<button onClick=\"javascript: detectChanges('about', 'exit');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-
-    $("#msg3").html(html);
-}
-
-function build_company_manager(pay, data)
-{
-    var cash        = "";
-    var check       = "";
-    var visa        = "";
-    var mc          = "";
-    var amex        = "";
-    var has_cash    = "";
-    var has_check   = "";
-    var has_visa    = "";
-    var has_mc      = "";
-    var has_amex    = "";
-    var twitter     = String(data['show_twitter']);
-    var facebook    = String(data['show_facebook']);
-    var instagram   = String(data['show_instagram']);
-
-    for (var i = 0; i < pay.length; i++)
-    {
-        var method      = String(pay[i]['method']);
-        var accepted    = String(pay[i]['is_accepted']);
-        if (method === "cash")
-        {
-            has_cash = accepted;
-            if (accepted === "False") { cash = "<td><input type='checkbox' id='m_cash' onClick=\"javascript: commit_checkbox_value('master_cash')\"></td>"; }
-            else { cash = "<td><input type='checkbox' id='m_cash' checked onClick=\"javascript: commit_checkbox_value('master_cash')\"></td>"; }
-        }
-        else if (method === "visa")
-        {
-            has_visa = accepted;
-            if (accepted === "False") { visa = "<td><input type='checkbox' id='m_visa' onClick=\"javascript: commit_checkbox_value('master_visa')\"></td>"; }
-            else { visa = "<td><input type='checkbox' id='m_visa' checked onClick=\"javascript: commit_checkbox_value('master_visa')\"></td>"; }
-        }
-        else if (method === "mastercard")
-        {
-            has_mc = accepted;
-            if (accepted === "False") { mc = "<td><input type='checkbox' id='m_mastercard' onClick=\"javascript: commit_checkbox_value('master_mc')\"></td>"; }
-            else { mc = "<td><input type='checkbox' id='m_mastercard' checked onClick=\"javascript: commit_checkbox_value('master_mc')\"></td>"; }
-        }
-        else if (method === "amex")
-        {
-            has_amex = accepted;
-            if (accepted === "False") { amex = "<td><input type='checkbox' id='m_amex' onClick=\"javascript: commit_checkbox_value('master_amex')\"></td>"; }
-            else { amex = "<td><input type='checkbox' id='m_amex' checked onClick=\"javascript: commit_checkbox_value('master_amex')\"></td>"; }
-        }
-        else if (method === "check")
-        {
-            has_check = accepted;
-            if (accepted === "False") { check = "<td><input type='checkbox' id='m_check' onClick=\"javascript: commit_checkbox_value('master_check')\"></td>"; }
-            else { check = "<td><input type='checkbox' id='m_check' checked onClick=\"javascript: commit_checkbox_value('master_check')\"></td>"; }
-        }
-    }
-
-    var html = "<div class='pfile2_wrap center_v_mode'>";
-    html += "<form action='/edit_success' method='POST' id='master_company_management_form'>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='company'>";
-    html += "<input type='hidden' name='target_action' id='target_action' value=''>";
-    html += "<input type='hidden' name='master_address1' id='master_address1' value='";
-    html += data["address1"];
-    html += "'>";
-    html += "<input type='hidden' name='master_address2' id='master_address2' value='";
-    html += data["address2"];
-    html += "'>";
-    html += "<input type='hidden' name='master_address3' id='master_address3' value='";
-    html += data["address3"];
-    html += "'>";
-    html += "<input type='hidden' name='master_city' id='master_city' value='";
-    html += data["city"];
-    html += "'>";
-    html += "<input type='hidden' name='master_state' id='master_state' value='";
-    html += data["state"];
-    html += "'>";
-    html += "<input type='hidden' name='master_zip_code' id='master_zip_code' value='";
-    html += data["zip_code"];
-    html += "'>";
-    html += "<input type='hidden' name='master_phone' id='master_phone' value='";
-    html += data["phone"];
-    html += "'>";
-    html += "<input type='hidden' name='master_email' id='master_email' value='";
-    html += data["email"];
-    html += "'>";
-    html += "<input type='hidden' name='master_facebook_url' id='master_facebook_url' value='";
-    html += data["facebook_url"];
-    html += "'>";
-    html += "<input type='hidden' name='master_twitter_url' id='master_twitter_url' value='";
-    html += data["twitter_url"];
-    html += "'>";
-    html += "<input type='hidden' name='master_instagram_url' id='master_instagram_url' value='";
-    html += data["instagram_url"];
-    html += "'>";
-    html += "<input type='hidden' name='master_hours_title' id='master_hours_title' value='";
-    html += data["hours_title"];
-    html += "'>";
-    html += "<input type='hidden' name='master_show_facebook' id='master_show_facebook' value='";
-    html += data["show_facebook"];
-    html += "'>";
-    html += "<input type='hidden' name='master_show_instagram' id='master_show_instagram' value='";
-    html += data["show_instagram"];
-    html += "'>";
-    html += "<input type='hidden' name='master_show_twitter' id='master_show_twitter' value='";
-    html += data["show_twitter"];
-    html += "'>";
-    html += "<input type='hidden' name='master_special_hours' id='master_special_hours' value='";
-    html += data["special_hours"];
-    html += "'>";
-    html += "<input type='hidden' name='master_monday' id='master_monday' value='";
-    html += data["monday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_tuesday' id='master_tuesday' value='";
-    html += data["tuesday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_wednesday' id='master_wednesday' value='";
-    html += data["wednesday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_thursday' id='master_thursday' value='";
-    html += data["thursday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_friday' id='master_friday' value='";
-    html += data["friday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_saturday' id='master_saturday' value='";
-    html += data["saturday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_sunday' id='master_sunday' value='";
-    html += data["sunday"];
-    html += "'>";
-    html += "<input type='hidden' name='master_group_weekdays' id='master_group_weekdays' value='";
-    html += data["group_weekdays"];
-    html += "'>";
-    html += "<input type='hidden' name='master_group_weekends' id='master_group_weekends' value='";
-    html += data["group_weekends"];
-    html += "'>";
-    html += "<input type='hidden' name='master_cash' id='master_cash' value='";
-    html += has_cash;
-    html += "'>";
-    html += "<input type='hidden' name='master_check' id='master_check' value='";
-    html += has_check;
-    html += "'>";
-    html += "<input type='hidden' name='master_visa' id='master_visa' value='";
-    html += has_visa;
-    html += "'>";
-    html += "<input type='hidden' name='master_mc' id='master_mc' value='";
-    html += has_mc;
-    html += "'>";
-    html += "<input type='hidden' name='master_amex' id='master_amex' value='";
-    html += has_amex;
-    html += "'>";
-
-    html += "</form>";
-    html += "<div class='frame_general_sm'>";
-    html += "<div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>";
-    html += "<h3>Contact Info | company Profile</h3>";
-    html += "<div class='generalSteel-in'>";
-    html += "<h2 class=''><i class='fas fa-mobile-alt'></i></h2>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
-    html += "<div class='company_psection'>";
-    html += "<h4>Contact Information <a href=\"javascript: load_helper('contact_info');\"><i class='far fa-question-circle'></i></a></h4>";
-    html += "<div class='display_hours1'>";
-    html += "<h1>Address &nbsp<a href=\"javascript: multi_company_editor('address');\">[Edit]</a></h1>";
-    html += "<div class='ultraAddy'>" + data['address1'] + "</div>";
-    if (String(data['address2']) !== "empty") { html += "<div class='ultraAddy'>" + data['address2'] + "</div>" }
-    if (String(data['address3']) !== "empty") { html += "<div class='ultraAddy'>" + data['address3'] + "</div>" }
-    html += "<div class='ultraAddy'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
-    html += "<div class='superSocial_l'></div>";
-    html += "<h1>Phone &nbsp<a href=\"javascript: multi_company_editor('phone');\">[Edit]</a></h1>";
-    html += "<div class='ultraAddy'>" + data['phone'] + "</div>";
-    html += "<div class='superSocial_l'></div>";
-    html += "<h1>Email &nbsp<a href=\"javascript: multi_company_editor('email');\">[Edit]</a></h1>";
-    html += "<div class='ultraAddy'>" + data['email'] + "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
-    html += "<div class='company_psection'>";
-    html += "<h4>Business Hours <a href=\"javascript: load_helper('hours');\"><i class='far fa-question-circle'></i></a></h4>";
-    html += "<div class='display_hours1'>";
-    html += "<h1>" + data['hours_title'] + ": &nbsp<a href=\"javascript: multi_company_editor('hours');\">[Edit]</a></h1>";
-    html += "<table>";
-    html += "<tr>";
-    if (String(data['group_weekdays']) === "True")
-    {
-        html += "<td><h2><span>Weekdays: </span></h2></td>";
-        html += "<td><h2>" + data['monday'] + "</h2></td>";
-    }
-    else
-    {
-        html += "<td><h2><span>Monday: </span></h2></td>";
-        html += "<td><h2>" + data['monday'] + "</h2></td>";
-
-        html += "<td><h2><span>Tuesday: </span></h2></td>";
-        html += "<td><h2>" + data['tuesday'] + "</h2></td>";
-
-        html += "<td><h2><span>Wednesday: </span></h2></td>";
-        html += "<td><h2>" + data['wednesday'] + "</h2></td>";
-
-        html += "<td><h2><span>Thursday: </span></h2></td>";
-        html += "<td><h2>" + data['thursday'] + "</h2></td>";
-
-        html += "<td><h2><span>Frid: </span></h2></td>";
-        html += "<td><h2>" + data['friday'] + "</h2></td>";
-    }
-    html += "</tr>";
-    html += "<tr>";
-    if (String(data['group_weekends']) === "True")
-    {
-        html += "<td><h2><span>Weekends: </span></h2></td>";
-        html += "<td><h2>" + data['monday'] + "</h2></td>";
-    }
-    else
-    {
-        html += "<td><h2><span>Saturdays: </span></h2></td>";
-        html += "<td><h2>" + data['saturday'] + "</h2></td>";
-        html += "</tr>";
-        html += "<tr>";
-        html += "<td><h2><span>Sundays: </span></h2></td>";
-        html += "<td><h2>" + data['sunday'] + "</h2></td>";
-    }   
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
-    html += "<div class='company_psection'>";
-    html += "<h4>Payment Methods <a href=\"javascript: load_helper('payments');\"><i class='far fa-question-circle'></i></a></h4>";
-    html += "<p style='padding-right: 40px;'><i class='fas fa-info-circle'></i> Select from the options below to set the payment methods that are accepted at Natural Woman Salon.</p>";
-    html += "<div>";
-    html += "<table>";
-    html += "<tr>";
-    
-    html += cash;
-    html += "<td class='cep_label'>Cash</td>";
-    html += "</tr>";
-    html += "<tr>";
-    html += check;
-    html += "<td class='cep_label'>Check</td>";
-    html += "</tr>";
-    html += "<tr>";
-    html += visa;
-    html += "<td class='cep_label'>Visa</td>";
-    html += "</tr>";
-    html += "<tr>";
-    html += mc;
-    html += "<td class='cep_label'>MasterCard</td>";
-    html += "</tr>";
-    html += "<tr>";
-    html += amex;
-    html += "<td class='cep_label'>American Express</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-md-3' style='padding:0; margin:0;'>";
-    html += "<div class='company_psection'>";
-    html += "<h4>Social Media Links <a href=\"javascript: load_helper('social_media');\"><i class='far fa-question-circle'></i></a></h4>";
-    html += "<p><i class='fas fa-info-circle'></i> Click social media icons to view link</p>";
-    html += "<h6>Facebook</h6>";
-    html += "<div class=\"sm_decorator\">";
-    html += "<div class='container'>";
-    html += "<div class='row superSocialStyle'>";
-    html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<a id='facebook_site_loader' href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
-    html += "</div>";
-    html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Facebook');\">Update Link</button></div>";
-    html += "</div>";
-    html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
-    html += "<table>";
-    html += "<tr>";
-    if (facebook === "True") {
-        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1' checked onClick=\"javascript: commit_radio_value('master_show_facebook', '1');\"></td>";
-        html += "<td><label for='fb_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0' onClick=\"javascript: commit_radio_value('master_show_facebook', '0');\"></td>";
-    }
-    else
-    {
-        html += "<td><input type='radio' name='show_facebook' id='fb_on' value='1' onClick=\"javascript: commit_radio_value('master_show_facebook', '1');\"></td>";
-        html += "<td><label for='fb_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_facebook' id='fb_off' value='0' checked> onClick=\"javascript: commit_radio_value('master_show_facebook', '0');\"</td>";
-    }      
-    html += "<td><label for='fb_off'>Off</label></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='superSocial_s'></div>";
-    html += "<h6>Twitter</h6>";
-    html += "<div class=\"sm_decorator\">";
-    html += "<div class='container'>";
-    html += "<div class='row superSocialStyle'>";
-    html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<a id='twitter_site_loader' href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
-    html += "</div>";
-    html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Twitter');\">Update Link</button></div>";
-    html += "</div>";
-    html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
-    html += "<table>";
-    html += "<tr>";
-    if (twitter === "True")
-    {
-        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1' checked onClick=\"javascript: commit_radio_value('master_show_twitter', '1');\"></td>";
-        html += "<td><label for='twitter_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0' onClick=\"javascript: commit_radio_value('master_show_twitter', '0');\"></td>";
-    }
-    else
-    {
-        html += "<td><input type='radio' name='show_twitter' id='twitter_on' value='1' onClick=\"javascript: commit_radio_value('master_show_twitter', '1');\"></td>";
-        html += "<td><label for='twitter_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_twitter' id='twitter_off' value='0' checked onClick=\"javascript: commit_radio_value('master_show_twitter', '0');\"></td>";
-    }
-    html += "<td><label for='twitter_off'>Off</label></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='superSocial_s'></div>";
-    html += "<h6>Instagram</h6>";
-    html += "<div class=\"sm_decorator\">";
-    html += "<div class='container'>";
-    html += "<div class='row superSocialStyle'>";
-    html += "<div class='col-sm-2 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<a id='instagram_site_loader' href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
-    html += "</div>";
-    html += "<div class='col-sm-6 superSocial_h' style='padding:0; margin:0;'>";
-    html += "<div class='canter_b_mode'><button onClick=\"javascript: multi_company_editor('Instagram');\">Update Link</button></div>";
-    html += "</div>";
-    html += "<div class='col-sm-4' style='padding:0; margin:0; padding-left: 10px;'>";
-    html += "<table>";
-    html += "<tr>";
-    if (instagram === "True")
-    {
-        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1' checked onClick=\"javascript: commit_radio_value('master_show_instagram', '1');\"></td>";
-        html += "<td><label for='instagram_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0' onClick=\"javascript: commit_radio_value('master_show_instagram', '0');\"></td>";
-    }
-    else
-    {
-        html += "<td><input type='radio' name='show_instagram' id='instagram_on' value='1' onClick=\"javascript: commit_radio_value('master_show_instagram', '1');\"></td>";
-        html += "<td><label for='instagram_on'>On</label></td>";
-        html += "<td><input type='radio' name='show_instagram' id='instagram_off' value='0' checked onClick=\"javascript: commit_radio_value('master_show_instagram', '0');\"></td>";
-    }
-    html += "<td><label for='instagram_off'>Off</label></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='generalSteelBtn-co'>";
-    html += "<div class='company_btn_container'>";
-    html += "<button class='flash_reg' id='updateCompanyBtn' onClick=\"javascript: detectChanges('company', 'update');\">Update</button>";
-    html += "<button class='flash_reg' id='' onClick=\"javascript: detectChanges('company', 'exit');\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function flashBtn()
-{
-    $("#updateCompanyBtn").addClass('flash-button');
-}
-
-function commit_radio_value(target, mode)
-{
-    target  = "#" + String(target);
-    mode    = Number(mode);
-    if (mode === 1) { $(target).val("True"); }
-    else if (mode === 0) { $(target).val("False"); }
-    $("#changes_detected").val("1");
-    flashBtn();
-}
-
-function commit_checkbox_value(target)
-{
-    target = "#" + String(target);
-    current = $(target).val();
-    current = String(current);
-    if (current === "True") { current = "False"; }
-    else if (current === "False") { current = "True"; }
-    $(target).val(current);
-    $("#changes_detected").val("1");
-    flashBtn();
-}
-
-function build_address_setter()
-{
-    var address1    = $("#master_address1").val();
-    var address2    = $("#master_address2").val();
-    var address3    = $("#master_address3").val();
-    var city        = $("#master_city").val();
-    var state       = $("#master_state").val();
-    var zip_code    = $("#master_zip_code").val();
-    var tag         = "'>";
-    var html        = "<div class='company_contact_set_frame center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<h3 class='drop_pad_co'>Edit Company Address</h3>";
-    html += "<input type='text' placeholder='Address lIne 1' id='pop_address1' value='";
-    html += String(address1)
-    html += "'>"
-    if (String(address2) === "empty") { html += "<input type='text' placeholder='Address lIne 2' id='pop_address2'>"; }
-    else {
-        html += "<input type='text' placeholder='Address lIne 2' id='pop_address2' value='";
-        html += String(address2);
-        html += tag;
-    }
-    if (String(address2) === "empty") { html += "<input type='text' placeholder='Address lIne 3' id='pop_address3'>"; }
-    else {
-        html += "<input type='text' placeholder='Address lIne 3' id='pop_address3' value='";
-        html += String(address3);
-        html += tag;
-    }
-    html += "<div class='space_10'></div>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-7' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='City' id='pop_city' value='";
-    html += String(city);
-    html += tag;
-    html += "</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0;'>";
-    html += "<div class='minify_input'><input type='text' placeholder='MI' id='pop_state' value='";
-    html += String(state);
-    html += "' oninput=\"javascript: format_state();\"></div>";
-    html += "</div>";
-    html += "<div class='col-sm-3' style='padding:0; margin:0;'>";
-    html += "<input type='text' placeholder='Zip Code' id='pop_zip' oninput=\"javascript: format_zip();\" value='";
-    html += String(zip_code);
-    html += tag;
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
-    html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('address');\">Apply Changes</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function encode_phone(phone)
-{
-    phone       = String(phone);
-    encoded     = {};
-    var area    = phone[1];
-    var perf    = phone[6];
-    var post    = phone[10];
-    area += phone[2];
-    area += phone[3];
-    perf += phone[7];
-    perf += phone[8];
-    post += phone[11];
-    post += phone[12];
-    post += phone[13];
-    encoded['area_code']    = area;
-    encoded['prefix']       = perf;
-    encoded['postfix']      = post;
-    return encoded;
-}
-
-function build_phone_setter ()
-{
-    var phone   = $("#master_phone").val();
-    phone       = encode_phone(phone)
-    var html    = "<div class='company_contact_set_frame center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<h3 class=\"drop_pad_co\">Edit Company Phone</h3>";
-    html += "<div class='single_line_entry'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-12 general_label' >Enter new phone number below: (Numbers Only)</div>";
-    html += "<div class='col-sm-2' style='padding:0; margin:0; margin-left:12px;'><input type='text' id='area_code' value='";
-    html += phone["area_code"];
-    html += "' oninput=\"javascript: setPhoneInput('";
-    html += "area_code";
-    html += "', '3');\"></div>";
-    html += "<div class='col-sm-2' style='padding:0; margin: 0;'><input type='text' id='prefix' value='";
-    html += phone["prefix"];
-    html += "' oninput=\"javascript: setPhoneInput('";
-    html += "prefix";
-    html += "', '3');\"></div>";
-    html += "<div class='col-sm-3' style='padding:0; margin: 0;'><input type='text' id='postfix' value='";
-    html += phone["postfix"];
-    html += "' oninput=\"javascript: setPhoneInput('";
-    html += "postfix";
-    html += "', '4');\"></div>";
-    html += "<div class='col-sm-5'></div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
-    html += "</div>";
-    html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('phone');\">Apply Changes</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function build_email_setter_co()
-{
-    var html = "<div class='company_contact_set_frame center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<h3 class='drop_pad_co'>Edit Company Email</h3>";
-    html += "<div class='single_line_entry'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-12'>";
-    html += "<input type='email' id='pop_email1' placeholder='Enter the new email here'>";
-    html += "</div>";
-    html += "<div class='col-sm-12'>";
-    html += "<input type='email' id='pop_email2' placeholder='Confirm the new email address'>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
-    html += "</div>";
-    html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('email');\">Apply Changes</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function decode_python_bool(value)
-{
-    var result = null;
-    value = String(value);
-    if (value === "True") { result = "1"; }
-    if (value === "False") { result = "0"; }
-    return result;
-}
-
-function init_hour_table()
-{
-    var weekday_status  = $("#master_group_weekdays").val();
-    var weekend_status  = $("#master_group_weekends").val();
-    var monday          = decode_hours($("#master_monday").val());
-    var saturday        = decode_hours($("#master_saturday").val());
-    var special_hours   = decode_python_bool($("#special_hours").val());
-    weekday_status      = decode_python_bool(weekday_status);
-    weekend_status      = decode_python_bool(weekend_status);
-
-    $("#weekday_on").val(weekday_status);
-    $("#weekend_on").val(weekend_status);
-    if(special_hours === "1") 
-    { 
-        var special_title = $("#hours_title").val()
-        $("#sp_on").prop('checked', true); 
-        $("#pop_special_hours_title").removeClass('hidden');
-        $("#pop_special_hours_title").val(special_title);
-    }
-    if(weekday_status === "1") 
-    {
-        $("#pop_group_weekday").prop( "checked", true );
-        $("#mon_open").val(monday['open']);
-        $("#mon_close").val(monday['close']);
-        if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
-        if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
-    }
-    else {
-        var tuesday = decode_hours($("#master_tuesday").val());
-        var wednesday = decode_hours($("#master_wednesday").val());
-        var thursday = decode_hours($("#master_thursday").val());
-        var friday = decode_hours($("#master_friday").val());
-
-        $("#mon_open").val(monday['open']);
-        $("#mon_close").val(monday['close']);
-        if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
-        if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
-
-        $("#tue_open").val(tuesday['open']);
-        $("#tue_close").val(tuesday['close']);
-        if (tuesday['open_am'] === false) { $("#tue_open_s").prop('selectedIndex', 1); }
-        if (tuesday['close_am'] === false) { $("#tue_close_s").prop('selectedIndex', 1); }
-
-        $("#wed_open").val(wednesday['open']);
-        $("#wed_close").val(wednesday['close']);
-        if (wednesday['open_am'] === false) { $("#wed_open_s").prop('selectedIndex', 1); }
-        if (wednesday['close_am'] === false) { $("#wed_close_s").prop('selectedIndex', 1); }
-
-        $("#thu_open").val(thursday['open']);
-        $("#thu_close").val(thursday['close']);
-        if (thursday['open_am'] === false) { $("#thu_open_s").prop('selectedIndex', 1); }
-        if (thursday['close_am'] === false) { $("#thu_close_s").prop('selectedIndex', 1); }
-
-        $("#fri_open").val(friday['open']);
-        $("#fri_close").val(friday['close']);
-        if (friday['open_am'] === false) { $("#fri_open_s").prop('selectedIndex', 1); }
-        if (friday['close_am'] === false) { $("#fri_close_s").prop('selectedIndex', 1); }
-    }
-    if(weekend_status === "1") 
-    {
-        $("#pop_group_weekends").prop( "checked", true );
-        $("#sat_open").val(saturday['open']);
-        $("#sat_close").val(saturday['close']);
-        if (saturday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
-        if (saturday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
-    }
-    else
-    {
-        var sunday = decode_hours($("#master_sunday").val());
-        $("#sat_open").val(saturday['open']);
-        $("#sat_close").val(saturday['close']);
-        if (saturday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
-        if (saturday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
-        $("#sun_open").val(sunday['open']);
-        $("#sun_close").val(sunday['close']);
-        if (sunday['open_am'] === false) { $("#sun_open_s").prop('selectedIndex', 1); }
-        if (sunday['close_am'] === false) { $("#sun_close_s").prop('selectedIndex', 1); }
-    }
-
-    $("#msg3").hide();
-    $("#msg3").removeClass('hidden');
-    $("#msg3").fadeIn(500);
-}
-
-function load_hour_values()
-{
-    var monday      = decode_hours($("#master_monday").val());
-    var tuesday     = decode_hours($("#master_tuesday").val());
-    var saturday    = decode_hours($("#master_saturday").val());
-    var sunday      = decode_hours($("#master_sunday").val());
-
-    $("#mon_open").val(monday['open']);
-    $("#mon_close").val(monday['close']);
-    if (monday['open_am'] === false) { $("#mon_open_s").prop('selectedIndex', 1); }
-    if (monday['close_am'] === false) { $("#mon_close_s").prop('selectedIndex', 1); }
-    $("#sat_open").val(saturday['open']);
-    $("#sat_close").val(saturday['close']);
-    if (saturday['open_am'] === false) { $("#sat_open_s").prop('selectedIndex', 1); }
-    if (saturday['close_am'] === false) { $("#sat_close_s").prop('selectedIndex', 1); }
-
-    if (tuesday['open'] !== "em")
-    {
-        $("#tue_open").val(tuesday['open']);
-        $("#tue_close").val(tuesday['close']);
-        if (tuesday['open_am'] === false) { $("#tue_open_s").prop('selectedIndex', 1); }
-        if (tuesday['close_am'] === false) { $("#tue_close_s").prop('selectedIndex', 1); }
-
-        $("#wed_open").val(wednesday['open']);
-        $("#wed_close").val(wednesday['close']);
-        if (wednesday['open_am'] === false) { $("#wed_open_s").prop('selectedIndex', 1); }
-        if (wednesday['close_am'] === false) { $("#wed_close_s").prop('selectedIndex', 1); }
-
-        $("#thu_open").val(thursday['open']);
-        $("#thu_close").val(thursday['close']);
-        if (thursday['open_am'] === false) { $("#thu_open_s").prop('selectedIndex', 1); }
-        if (thursday['close_am'] === false) { $("#thu_close_s").prop('selectedIndex', 1); }
-
-        $("#fri_open").val(friday['open']);
-        $("#fri_close").val(friday['close']);
-        if (friday['open_am'] === false) { $("#fri_open_s").prop('selectedIndex', 1); }
-        if (friday['close_am'] === false) { $("#fri_close_s").prop('selectedIndex', 1); }
-    }
-    if (sunday['open'] !== "em")
-    {
-        $("#sun_open").val(sunday['open']);
-        $("#sun_close").val(sunday['close']);
-        if (sunday['open_am'] === false) { $("#sun_open_s").prop('selectedIndex', 1); }
-        if (sunday['close_am'] === false) { $("#sun_close_s").prop('selectedIndex', 1); }
-    }
-}
-
-function build_hours_setter()
-{
-    var weekday_status  = $("#master_group_weekdays").val();
-    var weekend_status  = $("#master_group_weekends").val();
-    weekday_status      = decode_python_bool(weekday_status);
-    weekend_status      = decode_python_bool(weekend_status);
-    var table           = getHoursTable(weekday_status, weekend_status);
-
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<input type='hidden' id='weekday_on' value='";
-    html += weekday_status;
-    html += "'>";
-    html += "<input type='hidden' id='weekend_on' value='";
-    html += weekend_status;
-    html += "'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<h3 class='drop_pad_co'>Edit Business Hours</h3>";
-    html += "<div class='hours_table_container'>";
-
-    html += "<section id='dynamic_week'>";
-    html += table;
-    html += "</section>";
-
-    html += "<div class='hours_message5'><i class='fas fa-asterisk'></i> Leave fields blank for days that the salon is closed.</div>";
-    html += "<div class='space_10'></div>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td><input type='checkbox' id='pop_group_weekday' onClick=\"javascript: setHoursTable('weekdays');\"></td>";
-    html += "<td>Group Weekdays</td>";
-    html += "<td><a href=\"javascript: load_helper('group_weekdays');\"><i class='far fa-question-circle'></i></a></td>";
-    html += "</tr>";
-    html += "<tr>";
-    html += "<td><input type='checkbox' id='pop_group_weekends' onClick=\"javascript: setHoursTable('weekends');\"></td>";
-    html += "<td>Group Weekends</td>";
-    html += "<td><a href=\"javascript: load_helper('group_weekends');\"><i class='far fa-question-circle'></i></a></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<div class='special_hr_label'>Special Hours: <a href=\"javascript: load_helper('special_hours');\"><i class='far fa-question-circle'></i></a></div>";
-    html += "<div class='sp_hr_input_wrap'>"
-    html += "<div class='sp_hr_radio_input'>"
-    html += "<table>"
-    html += "<tr>"
-    html += "<td><input type='radio' name='pop_special_hours' id='sp_on' onClick=\"javascript: special_input('show');\"></td>"
-    html += "<td><label for='sp_on'>On</label></td>"
-    html += "<td><input type='radio' name='pop_special_hours' id='sp_off' onClick=\"javascript: special_input('hide');\" checked></td>"
-    html += "<td><label for='sp_off'>Off</label></td>"
-    html += "</tr>"
-    html += "</table>"
-    html += "</div>"
-    html += "<div class='sp_hr_title_input'>"
-    html += "<table><tr><td><input type='text' id='pop_special_hours_title' placeholder='Enter title [ex: \"Holiday Hours\"]' class='hidden'></td></tr></table>";
-    html += "</div>"
-    html += "</div>"
-    html += "</div>";
-    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
-    html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('hours');\">Apply Changes</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function build_link_setter(target)
-{
-    target = String(target);
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='super_closer_inverse' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<h3 class='drop_pad_co'>Edit ";
-    html += target;
-    html += " Link</h3>";
-    html += "<div class='single_line_entry'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-12 general_label' >Enter the new ";
-    html += target;
-    html += " link below:</div>"
-    html += "<div class='col-sm-12'>";
-    html += "<input type='email' id='pop_";
-    html += target;
-    html += "_link' placeholder='Enter or paste the new link here...'>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<p>*Note: These changes will not be permanently stored until you update the company profile.</p>";
-    html += "</div>";
-    html += "<div class='company_address_btns'>";
-    html += "<button onClick=\"javascript: soft_save('";
-    html += target;
-    html += "');\">Apply Changes</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function special_input(visibility)
-{
-    visibility = String(visibility);
-    if (visibility === "show")
-    {
-        $("#pop_special_hours_title").hide();
-        $("#pop_special_hours_title").removeClass("hidden");
-        $("#pop_special_hours_title").fadeIn(300);
-    }
-    if (visibility === "hide")
-    {
-        $("#pop_special_hours_title").fadeOut(300);
-        $("#pop_special_hours_title").val("");
-    }
-}
-
-function getHoursTable(weekday_status, weekend_status)
-{
-    var html = getWeekdayHTML(weekday_status);
-    html += getWeekendHTML(weekend_status);
-    return html
-}
-
-function decode_hours(val)
-{
-    val = String(val);
-    var set1 = false;
-    var record = false;
-    var open = "";
-    var close = "";
-    var open_am = true;
-    var close_am = true;
-    var data = {};
-    for (var i = 0; i < val.length; i++)
-    {
-        var c = val[i];
-        if (c !== "empty")
-            if (set1 === false)
-            {
-                if (c !== " " && open.length < 2)
-                {
-                    open += c;
-                }
-                else
-                {
-                    set1 = true;
-                }
-                if (c === "p") { open_am = false; }
-            }
-            else 
-            {
-                if (c === " ")
-                {
-                    record = true;
-                    continue;
-                }
-                if (record === true && close.length < 2 && c !== "-" && c !== "a" && c !== "p" && c !== "m")
-                {
-                    close += c;
-                }
-                if (c === "p") { close_am = false; }
-            }
-        else { open = "no_value_set"; }
-    }
-
-    data['open'] = open;
-    data['open_am'] = open_am;
-    data['close'] = close;
-    data['close_am'] = close_am;
-    return data;
-}
-
-function getWeekdayHTML(status)
-{
-    var html    = "";
-    var monday  = decode_hours($("#master_monday").val());
-    if (status === "0")
-    {
-        html += "<table>";
-        html += "<tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top'>Monday</th>";
-        html += "<td class='top_left2px'><input type='text' id='mon_open' oninput=\"javascript: validate_time('mon_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='mon_close' oninput=\"javascript: validate_time('mon_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top'>Tuesday</th>";
-        html += "<td class='top_left2px'><input type='text' id='tue_open' oninput=\"javascript: validate_time('tue_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='tue_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='tue_close' oninput=\"javascript: validate_time('tue_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='tue_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top'>Wednesday</th>";
-        html += "<td class='top_left2px'><input type='text' id='wed_open' oninput=\"javascript: validate_time('wed_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='wed_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='wed_close' oninput=\"javascript: validate_time('wed_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='wed_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top'>Thursday</th>";
-        html += "<td class='top_left2px'><input type='text' id='thu_open' oninput=\"javascript: validate_time('thu_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='thu_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='thu_close' oninput=\"javascript: validate_time('thu_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='thu_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top'>Friday</th>";
-        html += "<td class='top_left2px'><input type='text' id='fri_open' oninput=\"javascript: validate_time('fri_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='fri_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='fri_close' oninput=\"javascript: validate_time('fri_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='fri_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-    }
-    else if (status === "1")
-    {
-        html += "<table>";
-        html += "<tr><th></th><th>Open</th><th></th><th>Close</th><th></th> </tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top red_ask'>Weekdays</th>";
-        html += "<td class='top_left2px'><input type='text' id='mon_open' oninput=\"javascript: validate_time('mon_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='mon_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='mon_close' oninput=\"javascript: validate_time('mon_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='mon_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-    }
-    return html;
-}
-
-function getWeekendHTML(status)
-{
-    var html = "";
-    if (status === "0")
-    {
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top'>Saturday</th>";
-        html += "<td class='top_left2px'><input type='text' id='sat_open' oninput=\"javascript: validate_time('sat_open', '2');\"></td>";
-        html += "<td class='border_top'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px'><input type='text' id='sat_close' oninput=\"javascript: validate_time('sat_close', '2');\"></td>";
-        html += "<td class='top_right'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top border_bottom'>Sunday</th>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_open' oninput=\"javascript: validate_time('sun_open', '2');\"></td>";
-        html += "<td class='border_top border_bottom'><select id='sun_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sun_close' oninput=\"javascript: validate_time('sun_close', '2');\"></td>";
-        html += "<td class='top_right border_bottom'><select id='sun_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "</table>";
-    }
-    else if (status === "1")
-    {
-        html += "<tr>";
-        html += "<th class='hours_label border_left_top border_bottom red_ask'>Weekends</th>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_open' oninput=\"javascript: validate_time('sat_open', '2');\"></td>";
-        html += "<td class='border_top border_bottom'><select id='sat_open_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "<td class='top_left2px border_bottom'><input type='text' id='sat_close' oninput=\"javascript: validate_time('sat_close', '2');\"></td>";
-        html += "<td class='top_right border_bottom'><select id='sat_close_s'><option value='am'>AM</option><option value='pm'>PM</option></select></td>";
-        html += "</tr>";
-        html += "</table>";
-    }
-    return html;
-}
-
-function setHoursTable(mode)
-{
-    var html            = null;
-    var weekday_html    = null;
-    var weekend_html    = null;
-    var weekday_status  = $("#weekday_on").val();
-    var weekend_status  = $("#weekend_on").val();
-    mode                = String(mode)
-    weekday_status      = String(weekday_status);
-    weekend_status      = String(weekend_status);
-    if (mode === "weekdays")
-    {
-        if (weekday_status === "0") { weekday_status = "1"; }
-        else if (weekday_status === "1") { weekday_status = "0"; }
-        $("#weekday_on").val(weekday_status);
-    }
-    else if (mode === "weekends")
-    {
-        if (weekend_status === "0") { weekend_status = "1"; }
-        else if (weekend_status === "1") { weekend_status = "0"; }
-        $("#weekend_on").val(weekend_status);
-    }
-    weekday_html = getWeekdayHTML(weekday_status);
-    weekend_html = getWeekendHTML(weekend_status);
-    html = weekday_html + weekend_html;
-
-    $("#dynamic_week").fadeOut(400, "linear",function() {
-        $("#dynamic_week").html(html)
-        load_hour_values();
-    });
-
-    $("#dynamic_week").fadeIn(600, "linear");
-}
-
-function numbers(value, max)
-{
-    var len     = value.length;
-    var result  = null;
-    var c       = null;
-    if (len <= max)
-    {
-        c = value[len - 1];
-        if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
-        {
-            result = value;
+        if (isLetter(c) === true) 
+        { 
+            result = state.toUpperCase(); 
         }
     }
     else
     {
-        result = value[0];
-        result += value[1];
+        for (var i = 0; i < pos; i++)
+        {
+            result += state[i].toUpperCase();
+        }
     }
-
-    if (len === 2)
-    {
-        if (Number(value[0]) > 1) { result = value[0]; }
-        if (Number(value[0]) === 1 && Number(value[1]) > 2) { result = value[0]; }
-        if (value[0] === "0") { result = value[1]; }
-    }
-    return result
-}
-
-function validate_time(element, max) 
-{
-    var target  = "#" + String(element);
-    var value   = $(target).val()
-    max         = Number(max);
-    var result  = numbers(value, max);
-    $(target).val(result);
+    $(trigger).val(result);
 }
 
 function stateValid(val)
@@ -1738,178 +98,3863 @@ function stateValid(val)
         }
     }
     return isValid;
+}    
+
+function isLetter(c) {
+  return c.toLowerCase() != c.toUpperCase();
 }
 
-function soft_save(target)
+function isInt(c) {
+    c = String(c);
+    is_integer = false;
+    if (c==="1"||c==="2"||c==="3"||c==="4"||c==="5"||c==="6"||c==="7"||c==="8"||c==="9"||c==="0")
+    {
+        is_integer = true;
+    }
+    return is_integer;
+}
+
+function inputInteger(max, target)
+{
+    var result  = "";
+    max         = Number(max);
+    target      = String(target);
+    var value   = $(target).val();
+    value       = String(value);
+    var len     = value.length;
+    var pos     = len - 1;
+    var c       = value[pos];
+    if (isInt(c) === true && len <= max)
+    {
+        result = value;
+    }
+    else
+    {
+        for (var i = 0; i < pos; i++)
+        {
+            result += value[i];
+        }
+    }
+    $(target).val(result);
+}
+
+function inputhour(max, target)
+{
+    var result  = "";
+    max         = Number(max);
+    target      = String(target);
+    var value   = $(target).val();
+    value       = String(value);
+    var len     = value.length;
+    var pos     = len - 1;
+    var c       = value[pos];
+    if (isInt(c) === true && len <= max)
+    {
+        result = value;
+    }
+    else
+    {
+        for (var i = 0; i < pos; i++)
+        {
+            result += value[i];
+        }
+    }
+    if (result.length === 2)
+    {
+        if (result[0] === "0")
+        {
+            result = result[1];
+        }
+        else if (Number(result) > 12)
+        {
+            result = result[1];
+        }
+        else if(result[0] === "1" && (c === "0" || c === "1" || c === "2"))
+        {
+            result = "1" + c;
+        }
+    }
+    if (result === "0")
+    {
+        result = "1";
+    }
+    $(target).val(result);
+}
+
+function validate_email(email)
+{
+    test1 = false;
+    test2 = false;
+    is_valid = false;
+    email = String(email);
+    for (var i = 0; i < email.length; i++)
+    {
+        if (email[i] === "@") { test1 = true; }
+        if (email[i] === ".") { test2 = true; }
+    }
+    if (test1 === true && test2 === true) { is_valid = true; }
+    return is_valid;
+}
+
+function suSpecial()
+{
+    if ($("#k_special_hours").prop("checked") === true)
+    {
+        $("#special_su_input").hide();
+        $("#special_su_input").removeClass("hidden");
+        $("#special_su_input").fadeIn(400);
+        $("#special_check").val("True");
+    }
+    else
+    {
+        $("#special_su_input").fadeOut(400);
+        $("#special_check").val("False");
+    }
+}
+
+function superAdminLaunch(model, data, data2)
+{
+    var html = null;
+    model = String(model);
+    if (model === "contact") { html = buildContact(data); }
+    else if (model === "method") { html = buildPayments(data); }
+    else if (model === "links") { html = buildLinks(data); }
+    $("#administration-builder").html(html);
+    $("#selected-payment").val("");
+    if (model === "contact" || model === "links")
+    {
+        $("#adminAddBtn").prop("disabled", true);
+        $("#adminAddBtn").hide();
+        $("#adminDelBtn").prop("disabled", true);
+        $("#adminDelBtn").hide();
+    }
+    else
+    {
+        $("#adminAddBtn").prop("disabled", false);
+        $("#adminAddBtn").show();
+        $("#adminDelBtn").prop("disabled", true);
+        $("#adminDelBtn").show();
+        $("#admin-del1").addClass("su-btn-disabled");
+        $("#payment-count").val(data.length);
+    }
+}
+
+function superLaunchBuilder(model, data)
+{
+    var html = null;
+    model = String(model);
+    if (model === "blog") { html = buildBlogs(data, action_url); }
+    else if (model === "product") { html = buildProducts(data, action_url); }
+    else if (model === "image") { html = buildImages(data, action_url); }
+    $("#db-builder").html(html);
+    $("#selected-db").val("");
+    $("#modelDelBtn").prop("disabled", true);
+    $("#model-del1").addClass("su-btn-disabled");
+    $("#model-count").val(data.length);
+}
+
+function superUserLaunch(model, data, action_url)
+{
+    var html = null;
+    model = String(model);
+    if (model === "user") { html = buildPermissions(data); }
+    if (model === "auth") { html = buildAuths(data); }
+    if (model === "question") { html = buildSecurity(data); }
+    $("#usr-builder").html(html);
+    $("#selected-usr").val("");
+    $("#ursDelBtn").prop("disabled", true);
+    $("#user-del1").addClass("su-btn-disabled");
+    $("#user-count").val(data.length);
+}
+
+function buildContact(data)
+{
+    var html = "";
+    var address1 = data['address1'];
+    var address2 = data['address2'];
+    var address3 = data['address3'];
+    var group_weekdays = data['group_weekdays'];
+    var group_weekends = data['group_weekends'];
+    var about_permission = $("#qabout").val();
+    var admin_permission = $("#qcompany").val();
+
+    if (address1 === "empty") { address1 = "" ;}
+    if (address2 === "empty") { address2 = "" ;}
+    if (address3 === "empty") { address3 = "" ;}
+    html += "<input type='hidden' id='m_address1' value='" + address1 + "'>";
+    html += "<input type='hidden' id='m_address2' value='" + address2 + "'>";
+    html += "<input type='hidden' id='m_address3' value='" + address3 + "'>";
+    html += "<input type='hidden' id='m_city' value='" + data['city'] + "'>";
+    html += "<input type='hidden' id='m_state' value='" + data['state'] + "'>";
+    html += "<input type='hidden' id='m_zipcode' value='" + data['zip_code'] + "'>";
+    html += "<input type='hidden' id='m_phone' value='" + data['phone'] + "'>";
+    html += "<input type='hidden' id='m_email' value='" + data['email'] + "'>";
+    html += "<input type='hidden' id='m_weekdays' value='" + group_weekdays + "'>";
+    html += "<input type='hidden' id='m_weekends' value='" + group_weekends + "'>";
+    html += "<input type='hidden' id='m_sunday' value='" + data['sunday'] + "'>";
+    html += "<input type='hidden' id='m_monday' value='" + data['monday'] + "'>";
+    html += "<input type='hidden' id='m_tuesday' value='" + data['tuesday'] + "'>";
+    html += "<input type='hidden' id='m_wednesday' value='" + data['wednesday'] + "'>";
+    html += "<input type='hidden' id='m_thursday' value='" + data['thursday'] + "'>";
+    html += "<input type='hidden' id='m_friday' value='" + data['friday'] + "'>";
+    html += "<input type='hidden' id='m_saturday' value='" + data['saturday'] + "'>";
+    html += "<input type='hidden' id='m_title' value='" + data['hours_title'] + "'>";
+    html += "<input type='hidden' id='m_special_hours' value='" + data['special_hours'] + "'>";
+    html += "<div class='su-admin-content-wrapper'>";
+    if (Number(admin_permission) === 0)
+    {
+        html += "<div class='su-admin-header su-topper' id='mas_ult_1'>Address:</div>";
+        html += "<div class='su-ad-item'>" + address1 + "</div>";
+        html += "<div class='su-ad-item'>" + address2 + "</div>";
+        html += "<div class='su-ad-item'>" + address3 + "</div>";
+        html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_2'>Phone:</div>";
+        html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_3'>Email:</div>";
+        html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_4'>" + data['hours_title'] + ":</div>";
+        if (group_weekdays === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Monday: </span>" + data["monday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Tuesday: </span>" + data["tuesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Wednesday: </span>" + data["wednesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Thursday: </span>" + data["thursday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Friday: </span>" + data["friday"] + "</div>";
+        }
+        if (group_weekends === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekends: </span>" + data["saturday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
+        }
+        html += "</div>";
+    }
+    else
+    {
+        html += "<div class='su-admin-header su-topper' id='mas_ult_1'>Address: &nbsp<a href=\"javascript: launchAdminEditors('address', '1');\">[Edit]</a></div>";
+        html += "<div class='su-ad-item'>" + address1 + "</div>";
+        html += "<div class='su-ad-item'>" + address2 + "</div>";
+        html += "<div class='su-ad-item'>" + address3 + "</div>";
+        html += "<div class='su-ad-item'>" + data['city'] + ", " + data['state'] + " " + data['zip_code'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_2'>Phone: &nbsp<a href=\"javascript: launchAdminEditors('phone', '1');\">[Edit]</a></div>";
+        html += "<div class='su-ad-item'>" + data['phone'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_3'>Email: &nbsp<a href=\"javascript: launchAdminEditors('email', '1');\">[Edit]</a></div>";
+        html += "<div class='su-ad-item-email'>" + data['email'] + "</div>";
+        html += "<div class='su-admin-header su-topper2' id='mas_ult_4'>" + data['hours_title'] + ": &nbsp<a href=\"javascript: launchAdminEditors('hours', '1');\">[Edit]</a></div>";
+        if (group_weekdays === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekdays: </span>" + data["monday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Monday: </span>" + data["monday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Tuesday: </span>" + data["tuesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Wednesday: </span>" + data["wednesday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Thursday: </span>" + data["thursday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Friday: </span>" + data["friday"] + "</div>";
+        }
+        if (group_weekends === "True")
+        {
+            html += "<div class='su-ad-item'><span>Weekends: </span>" + data["saturday"] + "</div>";
+        }
+        else
+        {
+            html += "<div class='su-ad-item'><span>Saturday: </span>" + data["saturday"] + "</div>";
+            html += "<div class='su-ad-item'><span>Sunday: </span>" + data["sunday"] + "</div>";
+        }
+        html += "</div>";
+    }    
+    if (Number(about_permission) === 0)
+    {
+        html += "<div class='su-abt-style su-btn-disabled'><button disabled id='master_ultra_about_button' onClick=\"javascript: buildAboutEditor({{company.abouts}});\">Update <em>\"About Us\"</em> Statement</button></div>";
+    }
+    else
+    {
+        html += "<div class='su-abt-style'><button id='master_ultra_about_button' onClick=\"javascript: buildAboutEditor({{company.abouts}});\">Update <em>\"About Us\"</em> Statement</button></div>";
+
+    }
+    return html;
+}
+
+function setPaymentButton(mode, index)
+{
+    var method  = $("#k_pmt_method_" + index).val();
+    var m_id    = $("#k_pmt_id_" + index).val();
+    var message = null;
+    var details = null;
+    if (Number(mode) === 0)
+    {
+        $("#pmt_target_action").val("disable");
+        message = "This action will disable the " + method + " payment method";
+        details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " is <em><b>NOT</b></em> accepted as a viable payment method at Natural Woman Salon.";
+    }
+    else if (Number(mode) === 1)
+    {
+        $("#pmt_target_action").val("enable");
+        message = "This action will enable the " + method + " payment method";
+        details = "If you proceed, you will alter the information that is available to your clients on the NWS website. This action will indicate that " + method + " <em><b>IS</b></em> accepted as a viable payment method at Natural Woman Salon.";
+    }
+    $("#pop-up-builder").html("");
+    launchSiteAdminWarning("payment");
+    $('#su-payment-sub-message').html(message);
+    $('#su-payment-sub-details').html(details);
+    $('#pmt_target_id').val(m_id);
+}
+
+function preparePaymentDelete(index)
+{
+    var m_id = $("#k_pmt_id_" + index).val();
+    $("#pmt_target_action").val("delete");
+    $("#pmt_target_id").val(m_id);
+    launchDeleteConfirmation('payment');
+}
+
+function updatePaymentIcno(index)
+{
+    var t           = "#";
+    var html        = "";
+    var m_id        = $("#k_pmt_id_" + index).val();
+    var method      = $("#k_pmt_method_" + index).val();
+    var icon        = $("#k_pmt_icon_" + index).val();
+    var is_super    = $("#qmax").val();
+    is_super        = Number(is_super);
+    $("#pmt_target_action").val("icon");
+    $("#pmt_target_id").val(m_id);
+    $("#selected-payment").val(index);
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<h3><i class='fas fa-money-bill-alt'></i> &nbspUpdate Payment Method</h3>";
+    html += "<input type='text' id='f_payment_method' placeholder='Enter Payment Method Name' oninput=\"javascript: mirrorInput('#f_payment_method', '#m_payment_method');\" value='" + method + "'>";
+    html += "<div class='su-payment-types'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12 sel-pmt-msg' style='padding:0; margin: 0;'>Select an icon from the list below</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-visa' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-visa');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-cc-visa'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-apple-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-apple-pay');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-apple-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-amazon-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-amazon-pay');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-amazon-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-bitcoin' onClick=\"javascript: load_pmt_radio_data('fab fa-bitcoin');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-bitcoin'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fasfa-money-check' onClick=\"javascript: load_pmt_radio_data('fas fa-money-check');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-check'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' id='fasfa-shopping-bag' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-bag');\"></td>";
+    html += "<td><i class='fas fa-shopping-bag'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-mastercard' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-mastercard');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-cc-mastercard'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-discover' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-discover');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-discover'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-paypal' onClick=\"javascript: load_pmt_radio_data('fab fa-paypal');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-paypal'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='farfa-credit-card' onClick=\"javascript: load_pmt_radio_data('far fa-credit-card');\"></td>";
+    html += "<td class='su-sp-icon'><i class='far fa-credit-card'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fasfa-dollar-sign' onClick=\"javascript: load_pmt_radio_data('fas fa-dollar-sign');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-dollar-sign'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' id='fasfa-shopping-cart' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-cart');\"></td>";
+    html += "<td><i class='fas fa-shopping-cart'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-amex' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-amex');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-amex'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-cc-diners-club' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-diners-club');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-diners-club'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fabfa-google-wallet' onClick=\"javascript: load_pmt_radio_data('fab fa-google-wallet');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-google-wallet'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' id='fasfa-money-bill-alt' onClick=\"javascript: load_pmt_radio_data('fas fa-money-bill-alt');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-bill-alt'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' id='fasfa-gift' onClick=\"javascript: load_pmt_radio_data('fas fa-gift');\"></td>";
+    html += "<td><i class='fas fa-gift'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button onClick=\"javascript: validatingPaymentFields();\">Submit</button>";
+    if (is_super === 1)
+    {
+        html += "<button onClick=\"javascript: preparePaymentDelete('" + index + "');\">Delete</button>";
+    }
+    html += "<button onClick=\"javascript: checkPaymentFields();\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    for (var i = 0; i < icon.length; i++)
+    {
+        var c = icon[i];
+        if (c !== " ")
+        {
+            t += c;
+        }
+    }
+    $("#m_payment_icon").val(icon);
+    $("#m_payment_method").val(method);
+    $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass("hidden");
+    $("#pop-up-builder").fadeIn(500);
+    $(t).prop("checked", true);
+}
+
+function buildPayments(data)
+{
+    var action_url = $("#action_url").val();
+    var html = "";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='pmt_target_model' value='payment'>";
+    html += "<input type='hidden' name='target_action' id='pmt_target_action' value=''>";
+    html += "<input type='hidden' name='target_id' id='pmt_target_id' value=''>";
+    html += "<input type='hidden' name='m_payment_method' id='m_payment_method'>";
+    html += "<input type='hidden' name='m_payment_icon' id='m_payment_icon'>";
+    html += "</form>";
+    html += "<ul>";
+ 
+    for (var i = 0; i < data.length; i++)
+    {
+        var index   = String(data[i]['index']);
+        var method  = String(data[i]['method']);
+        var icon    = String(data[i]['icon']);
+        var active  = String(data[i]['is_accepted']);
+        var m_id    = String(data[i]['id']);
+        var check   = "<i class='fas fa-check-square'></i>";
+        var no_ch   = "<i class='far fa-square'></i>";
+        var button  = null;
+        html += "<input type='hidden' id='k_pmt_method_" + index + "' value='" + method + "'>";
+        html += "<input type='hidden' id='k_pmt_id_" + index + "' value='" + m_id + "'>";
+        html += "<input type='hidden' id='k_pmt_icon_" + index + "' value='" + icon + "'>";
+        html += "<input type='hidden' id='k_pmt_accepted_" + index + "' value='" + active + "'>";
+        html += "<div id='div2_" + index + "' class='" + data[i]['class'] + "'>";
+        html += "<li onClick=\"javascript: updatePaymentIcno('" + index + "');\">";
+        html += "<table>";
+        html += "<tr>";
+        if (active === "True")
+        {
+            html += "<td class='mst-fa-check'>" + check + "</td>";
+            button = "<td class='mst-fa-button'><button onClick=\"javascript: setPaymentButton('0', " + index + ");\">Disable</button></td>";
+        }
+        else if (active === "False")
+        {
+            html += "<td class='mst-fa-check'>" + no_ch + "</td>";
+            button = "<td class='mst-fa-button'><button onClick=\"javascript: setPaymentButton('1', " + index + ");\">Set Active</button></td>";
+        }
+        html += "<td class='su-border-left lg-ico'><i id='pmt_icon_" + index + "' class='" + icon + "'></i></td>";
+        html += "<td class='su-sp-top su-sp-bottom su-sp-even'><em>" + method + "</em></td>";
+        html += button;
+        html += "</tr>";
+        html += "</table>";
+        html += "</li>";
+        html += "</div>";
+    }
+
+    html += "</ul>";
+    return html;
+}
+
+function buildLinks(data)
+{
+    var html            = "";
+    var show_facebook   = data['show_facebook'];
+    var show_twitter    = data['show_twitter'];
+    var show_instagram  = data['show_instagram'];
+    var max_permission  = $("#qmax").val();
+    var max_button      = null;
+    if (Number(max_permission) === 0)
+    {
+        max_button = "<div class='su-admin-header su-topper' id='mst_ult_admin_5'>Images</div>";
+    }
+    else
+    {
+        max_button = "<div class='su-admin-header su-topper' id='mst_ult_admin_5'>Images &nbsp<a href=\"javascript: launchAdminEditors('max_images', '1');\">[Edit]</a></div>";
+    }
+    html += "<input type='hidden' id='m_facebook_url' value='" + data['facebook_url'] + "'>";
+    html += "<input type='hidden' id='m_twitter_url' value='" + data['twitter_url'] + "'>";
+    html += "<input type='hidden' id='m_instagram_url' value='" + data['instagram_url'] + "'>";
+    html += "<input type='hidden' id='m_show_facebook' value='" + show_facebook + "'>";
+    html += "<input type='hidden' id='m_show_twitter' value='" + show_twitter+ "'>";
+    html += "<input type='hidden' id='m_show_instagram' value='" + show_instagram + "'>";
+    html += "<input type='hidden' id='m_max_images' value='" + data['max_images'] + "'>";
+    html += "<input type='hidden' id='m_num_uploads' value='" + data['num_uploads'] + "'>";
+    html += max_button;
+    html += "<div class='su-ad-item su-red'><span>Maximum No. Images Allowed: </span'><b class='su-black'>" + data['max_images'] + "</b></div>";
+    html += "<div class='su-ad-item su-black'><span>No. Images Uploaded: </span>" + data['num_uploads'] + "</div>";
+    html += "<div class='su-admin-header su-topper2'>Social Media Management</div>";
+    html += "<div class='su-sm-header'>Facebook</div>";
+    html += "<div class='su-sm-manager'>";
+    html += "<a href='" + data['facebook_url'] + "' target='_blank'><img src='/static/images/fb.png'></a>";
+    html += "<button onClick=\"javascript: launchAdminEditors('facebook', '1', '0');\" id='mst_ult_admin_6'>Update Link</button>";
+    if (show_facebook === "True")
+    {
+        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' checked value='True' disabled>";
+        html += "<label for='fb-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_facebook' id='fb-off' value='False' disabled>";
+        html += "<label for='fb-off'>Off</label>";
+        html += "</div>";
+    }
+    else
+    {
+        html += "<input type='radio' name='show_facebook' id='fb-on' class='rad-left' value='True' disabled>";
+        html += "<label for='fb-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_facebook' id='fb-off' checked value='False' disabled>";
+        html += "<label for='fb-off'>Off</label>";
+        html += "</div>";
+    }
+    html += "<div class='su-sm-header su-topper3'>Twitter</div>";
+    html += "<div class='su-sm-manager'>";
+    html += "<a href='" + data['twitter_url'] + "' target='_blank'><img src='/static/images/twitter.png'></a>";
+    html += "<button onClick=\"javascript: launchAdminEditors('twitter', '1', '0');\" id='mst_ult_admin_7'>Update Link</button>";
+    if (show_twitter === "True")
+    {
+        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' checked value='True' disabled>";
+        html += "<label for='twitter-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_twitter' id='twitter-off' value='False' disabled>";
+        html += "<label for='twitter-off'>Off</label>";
+        html += "</div>";
+    }
+    else
+    {
+        html += "<input type='radio' name='show_twitter' id='twitter-on' class='rad-left' value='True' disabled>";
+        html += "<label for='twitter-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_twitter' id='twitter-off' checked value='False' disabled>";
+        html += "<label for='twitter-off'>Off</label>";
+        html += "</div>";
+    }
+    html += "<div class='su-sm-header su-topper3'>Instagram</div>";
+    html += "<div class='su-sm-manager'>";
+    html += "<a href='" + data['instagram_url'] + "' target='_blank'><img src='/static/images/instagram.png'></a>";
+    html += "<button onClick=\"javascript: launchAdminEditors('instagram', '1', '0');\" id='mst_ult_admin_8'>Update Link</button>";
+    if (show_instagram === "True")
+    {
+        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' checked value='True' disabled>";
+        html += "<label for='instagram-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_instagram' id='instagram-off' value='False' disabled>";
+        html += "<label for='instagram-off'>Off</label>";
+        html += "</div>";
+    }
+    else
+    {
+        html += "<input type='radio' name='show_instagram' id='instagram-on' class='rad-left' value='True' disabled>";
+        html += "<label for='instagram-on' class='su-sm-label-editor'>On</label>";
+        html += "<input type='radio' name='show_instagram' id='instagram-off' checked value='False' disabled>";
+        html += "<label for='instagram-off'>Off</label>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildPermissions(data)
+{
+    var html    = "";
+    var fname   = "";
+    var lname   = "";
+    var email   = "";
+    var admin   = "";
+    var locked  = "";
+    var s_user  = "";
+    var admin   = "";
+    var gallery = "";
+    var product = "";
+    var about   = "";
+    var blog    = "";
+    var index   = "";
+    var m_class = "";
+    var u_id    = "";
+    var granted = "<i class='far fa-check-square'></i>"
+    var denied  = "<i class='far fa-square'></i>"
+
+    for (var i = 0; i < data.length; i++)
+    {
+        index   = String(data[i]['index']);
+        fname   = String(data[i]['fname']);
+        lname   = String(data[i]['lname']);
+        email   = String(data[i]['email']);
+        m_clsas = String(data[i]['class']);
+        u_id    = String(data[i]['id']);
+        admin   = String(data[i]['is_admin']);
+        product = String(data[i]['product_permission']);
+        about   = String(data[i]['about_permission']);
+        blog    = String(data[i]['blog_permission']);
+        gallery = String(data[i]['gallery_permission']);
+        s_user  = String(data[i]['isSuper']);
+        locked  = String(data[i]['isLocked']);
+
+        html += "<div id='div1_" + index + "' class='" + m_clsas + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: launchAdminEditors('permission', '1', '" + index + "');\">";
+        html += "<input type='hidden' id='u_id_" + index + "' value='" + u_id + "'>";
+        html += "<input type='hidden' id='m_fname_" + index + "' value='" + fname + "'>";
+        html += "<input type='hidden' id='m_lname_" + index + "' value='" + lname + "'>";
+        html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
+        html += "<input type='hidden' id='m_admin_" + index + "' value='" + admin + "'>";
+        html += "<input type='hidden' id='m_blog_" + index + "' value='" + blog + "'>";
+        html += "<input type='hidden' id='m_product_" + index + "' value='" + product + "'>";
+        html += "<input type='hidden' id='m_image_" + index + "' value='" + gallery + "'>";
+        html += "<input type='hidden' id='m_about_" + index + "' value='" + about + "'>";
+        html += "<input type='hidden' id='m_lock_" + index + "' value='" + locked + "'>";
+        html += "<input type='hidden' id='m_super_" + index + "' value='" + s_user + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectUserItem('" + index + "');\" id='usr_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Name: </span></td>";
+        html += "<td class='su-sp-top'>" + fname + " " + lname + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Email: </span></td>";
+        html += "<td>" + email + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Permissions: </span></td>";
+        html += "</tr>";
+        html += "</table>";
+        if (blog === "True") { blog = granted; } else { blog = denied; }
+        if (gallery === "True") { gallery = granted; } else { gallery = denied; }
+        if (about === "True") { about = granted; } else { about = denied; }
+        if (product === "True") { product = granted; } else { product = denied; }
+        if (admin === "True") { admin = granted; } else { admin = denied; }
+        if (locked === "True") { locked = granted; } else { locked = denied; }
+        if (s_user === "True") { s_user = granted; } else { s_user = denied; } 
+        html += "<table>";
+        html += "<tr>";
+        html += "<td>" + product + "</td>";
+        html += "<td class='su-sp-right-pad'>Products</td>";
+        html += "<td>" + blog + "</td>";
+        html += "<td class='su-sp-right-pad'>Blogs</td>";
+        html += "<td>" + gallery + "</td>";
+        html += "<td>Images</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td>" + about + "</td>";
+        html += "<td class='su-sp-right-pad'>Statements</td>";
+        html += "<td>" + admin + "</td>";
+        html += "<td class='su-sp-right-pad'>Administration</td>";
+        html += "<td>" + locked + "</td>";
+        html += "<td>Locked</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td>" + s_user + "</td>";
+        html += "<td>Superuser</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildAuths(data)
+{
+    var html    = "";
+    var index   = "";
+    var m_class = "";
+    var a_id    = "";
+    var name    = "";
+    var email   = "";
+    var admin   = "";
+    var product = "";
+    var about   = "";
+    var blog    = "";
+    var image   = "";
+    var lock    = "";
+    var m_super = "";
+
+    for (var i = 0; i < data.length; i++)
+    {
+        index   = String(data[i]['index']);
+        m_class = String(data[i]['class']);
+        a_id    = String(data[i]['id']);
+        name    = String(data[i]['name']);
+        email   = String(data[i]['email']);
+        admin   = String(data[i]['admin']);
+        product = String(data[i]['product']);
+        about   = String(data[i]['about']);
+        blog    = String(data[i]['blog']);
+        image   = String(data[i]['image']);
+        lock    = String(data[i]['lock']);
+        m_super = String(data[i]['super']);
+
+        html += "<div id='div1_" + index + "' class='" + m_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: launchAdminEditors('auth', '1', '" + index + "');\">";
+        html += "<input type='hidden' id='u_id_" + index + "' value='" + a_id + "'>";
+        html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
+        html += "<input type='hidden' id='m_email_" + index + "' value='" + email + "'>";
+        html += "<input type='hidden' id='m_admin_" + index + "' value='" + admin + "'>";
+        html += "<input type='hidden' id='m_blog_" + index + "' value='" + blog + "'>";
+        html += "<input type='hidden' id='m_product_" + index + "' value='" + product + "'>";
+        html += "<input type='hidden' id='m_image_" + index + "' value='" +image + "'>";
+        html += "<input type='hidden' id='m_about_" + index + "' value='" + about + "'>";
+        html += "<input type='hidden' id='m_lock_" + index + "' value='" + lock + "'>";
+        html += "<input type='hidden' id='m_super_" + index + "' value='" + m_super + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectUserItem('" + index + "');\" id='usr_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Name: </span></td>";
+        html += "<td class='su-sp-top'>" + name + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-bottom'><span>Email: </span></td>";
+        html += "<td class='su-sp-bottom'>" + email + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildSecurity(data)
+{
+    var html        = "";
+    var index       = "";
+    var e_class     = "";
+    var q_id        = "";
+    var question    = "";
+
+    for (var i = 0; i < data.length; i++)
+    {
+        index       = String(data[i]['index']);
+        e_class     = String(data[i]['class']);
+        q_id        = String(data[i]['id']);
+        question    = String(data[i]['question']);
+        html += "<div id='div1_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: launchAdminEditors('security', '1', '" + index + "');\">";
+        html += "<input type='hidden' id='u_id_" + index + "' value='" + q_id + "'>";
+        html += "<input type='hidden' id='m_question_" + index + "' value='" + question + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectUserItem('" + index + "');\" id='usr_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='su-sp-top su-sp-bottom su-set-sec-width'><span>Security Question " + String(i+1) + ": </span></td>";
+        html += "<td>" + question + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += '</table>';
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    return html;
+}
+
+function buildBlogs(data)
+{
+    var html = "";
+    for (var i = 0; i < data.length; i++)
+    {
+        var index       = String(data[i]['index']);
+        var e_class     = String(data[i]['class']);
+        var b_id        = String(data[i]['id']);
+        var subject     = String(data[i]['subject']);
+        var date        = String(data[i]['date']);
+        var time        = String(data[i]['time']);
+        var content     = String(data[i]['content']);
+        html += "<div id='div_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: launchAdminEditors('blog', '1', '" + index + "');\">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + b_id + "'>";
+        html += "<input type='hidden' id='m_subject_" + index + "' value='" + subject + "'>";
+        html += "<input type='hidden' id='m_content_" + index + "' value='" + content + "'>";
+        html += "<input type='hidden' id='m_date_" + index + "' value='" + date + "'>";
+        html += "<input type='hidden' id='m_time_" + index + "' value='" + time + "'>";
+        html += "<input type='hidden' id='m_time_" + index + "' value='" + time + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Subject: </span></td>";
+        html += "<td class='su-sp-top'>" + subject + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Date: </span></td>";
+        html += "<td>" + date + " <b>@ </b>" + time + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-bottom'><span>Post: </span></td>";
+        html += "<td class='su-sp-bottom'>" + content + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }   
+    return html;
+}
+
+function buildProducts(data)
+{
+    var html = "";
+    for (var i = 0; i < data.length; i++)
+    {
+        var index       = String(data[i]['index']);
+        var e_class     = String(data[i]['class']);
+        var p_id        = String(data[i]['id'])
+        var name        = String(data[i]['name']);
+        var description = String(data[i]['description']);
+        var price       = String(data[i]['price']);
+        html += "<div id='div_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: launchAdminEditors('product', '1', '" + index + "');\">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + p_id + "'>";
+        html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
+        html += "<input type='hidden' id='m_description_" + index + "' value='" + description + "'>";
+        html += "<input type='hidden' id='m_price_" + index + "' value='" + price + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-top'><span>Product: </span></td>";
+        html += "<td class='su-sp-top'>" + name + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top'><span>Description: </span></td>";
+        html += "<td>" + description + "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<td class='td-top su-sp-bottom'><span>Price: </span></td>";
+        html += "<td class='su-sp-bottom'>$" + price + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }   
+    return html;
+}
+
+function buildImages(data)
+{
+    var html    = "";
+    var index   = "";
+    var url     = "";
+    var img_id  = "";
+    var e_class = "";
+    var max     = data[0]['max'];
+    var uploads = data[0]['uploads'];
+    html += "<input type='hidden' id='gal_max' value='" + max + "'>";
+    html += "<input type='hidden' id='file_index' value='" + uploads + "'>";
+    for (var i  = 0; i < data.length; i++)
+    {
+        index   = String(data[i]['index']);
+        e_class = String(data[i]['class']);
+        img_id  = String(data[i]['id']);
+        url     = String(data[i]['url']);
+        html += "<div id='div_" + index + "' class='" + e_class + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: expandImage('" + index + "');\">";
+        html += "<input type='hidden' id='m_id_" + index + "' value='" + img_id + "'>";
+        html += "<input type='hidden' id='m_url_" + index + "' value='" + url + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
+        html += "<td class='su-border-left'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td class='su-sp-top su-sp-bottom'><img src='" + url + "'></td>";
+        html += "<td><p>Click to expand image</p></td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</td>";
+        html += "</tr>";
+        html += '</table>';
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+   return html;     
+}
+
+function expandImage(index)
+{
+    var html = "";
+    index = String(index);
+    var url = $("#m_url_" + index).val();
+    html += "<div class='su-center su-width55'>";
+    html += "<div class='su-image'>";
+    html += "<h3>click image to close...</h3>";
+    html += "<img src='" + url + "' onClick=\"javascript: closeEditor();\">";
+    html += "</div>";
+    html += "</div>";
+    $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass("hidden");
+    $("#pop-up-builder").fadeIn(600);
+}
+
+function selectModelItem(index)
+{
+    index = String(index);
+    if ($("#db_box_" + index).prop("checked") === true)
+    {
+        $("#div_" + index).addClass("su_ultimate_selector");
+        addModelItem(index);
+    }
+    else
+    {
+        $("#div_" + index).removeClass("su_ultimate_selector");
+        removeModelItem(index);
+    }
+}
+
+function selectUserItem(index)
+{
+    index = String(index);
+    if ($("#usr_box_" + index).prop("checked") === true)
+    {
+        $("#div1_" + index).addClass("su_ultimate_selector");
+        addUserItem(index);
+    }
+    else
+    {
+        $("#div1_" + index).removeClass("su_ultimate_selector");
+        removeUserItem(index);
+    }
+}
+
+function selectPaymentItem(index)
+{
+    index = String(index);
+    if ($("#pay_box_" + index).prop("checked") === true)
+    {
+        $("#div2_" + index).addClass("su_ultimate_selector");
+        addPayItem(index);
+    }
+    else
+    {
+        $("#div2_" + index).removeClass("su_ultimate_selector");
+        removePayItem(index);
+    }
+}
+
+function selectAboutItem(index)
+{
+    index = String(index);
+    if ($("#ab_box_" + index).prop("checked") === true)
+    {
+        $("#div_a" + index).addClass("su_ultimate_selector");
+        $("#abt_selected").val("1");
+        addAboutItem(index);
+    }
+    else
+    {
+        $("#div_a" + index).removeClass("su_ultimate_selector");
+        $("#abt_selected").val("0");
+        removeAboutItem(index);
+    }
+}
+
+function addModelItem(index)
+{
+    var current = $("#selected-db").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-db").val(current);
+    setModelDeleteBtn();
+}
+
+function removeModelItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-db").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-db").val(new_list);
+    setModelDeleteBtn();
+}
+
+function addUserItem(index)
+{
+    var current = $("#selected-usr").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-usr").val(current);
+    setUserDeleteBtn();
+}
+
+function removeUserItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-usr").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-usr").val(new_list);
+    setUserDeleteBtn();
+}
+
+function addPayItem(index)
+{
+    var current = $("#selected-payment").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-payment").val(current);
+    setPaymentAbout();
+}
+
+function removePayItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-payment").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-payment").val(new_list);
+    setPaymentDeleteBtn();
+}
+
+function addAboutItem(index)
+{
+    var current = $("#selected-payment").val();
+    current     = String(current);
+    index       = String(index);
+    if (current.length === 0 || current.length === 1)
+    {
+        current = "~" + index + "~";
+    }
+    else if (current.length > 1)
+    {
+        current = current + index;
+        current += "~";
+    }
+    $("#selected-payment").val(current);
+}
+
+function removeAboutItem(index)
+{
+    var new_list = "";
+    var current = $("#selected-payment").val();
+    current = String(current).split("~");
+    for (var i = 0; i < current.length; i++)
+    {
+        if (current[i].length > 0 && current[i] !== String(index))
+        {
+            new_list += current[i];
+            new_list += "~";
+        }
+    }
+    if (new_list.length > 0)
+    {
+        new_list = "~" + new_list;
+    }
+    $("#selected-payment").val(new_list);
+}
+
+function setModelDeleteBtn()
+{
+    var val = $("#selected-db").val();
+    if (String(val).length > 0) 
+    { 
+        $("#modelDelBtn").prop("disabled", false); 
+        $("#model-del1").removeClass('su-btn-disabled');
+    }
+    else 
+    { 
+        $("#modelDelBtn").prop("disabled", true); 
+        $("#model-del1").addClass('su-btn-disabled');
+    }
+}
+
+function setUserDeleteBtn()
+{
+    var val = $("#selected-usr").val();
+    if (String(val).length > 0) 
+    { 
+        $("#ursDelBtn").prop("disabled", false);
+        $("#user-del1").removeClass('su-btn-disabled'); 
+    }
+    else 
+    { 
+        $("#ursDelBtn").prop("disabled", true);
+        $("#user-del1").addClass('su-btn-disabled'); 
+    }
+}
+
+function setPaymentDeleteBtn()
+{
+    var val = $("#selected-payment").val();
+    if (String(val).length > 0) 
+    { 
+        $("#adminDelBtn").prop("disabled", false); 
+        $("#admin-del1").removeClass('su-btn-disabled');
+    }
+    else 
+    { 
+        $("#adminDelBtn").prop("disabled", true); 
+        $("#admin-del1").addClass('su-btn-disabled');
+    }
+}
+
+function buildAddressEditor(index)
+{
+    var html        = "";
+    var address1    = $("#m_address1").val();
+    var address2    = $("#m_address2").val();
+    var address3    = $("#m_address3").val();
+    var city        = $("#m_city").val();
+    var state       = $("#m_state").val();
+    var zipcode     = $("#m_zipcode").val();
+    var action_url  = $("#action_url").val();
+    address1        = String(address1);
+    address2        = String(address2);
+    address3        = String(address3);
+    city            = String(city);
+    state           = String(state);
+    zipcode         = String(zipcode);
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='address'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-map-marker-alt'></i> Update Contact Information</h3>";
+    html += "<input type='text' name='address1' id='f_address1' placeholder='Address Line 1' value='" + address1 + "'>";
+    html += "<input type='text' name='address2' id='f_address2' placeholder='Address Line 2' value='" + address2 + "'>";
+    html += "<input type='text' name='address3' id='f_address3' placeholder='Address Line 3' value='" + address3 + "'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-7' style='padding:0; margin:0;'><input type='text' name='city' id='f_city' placeholder='City' value='" + city + "'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0; padding-left: 5px; padding-right: 4px;'><input type='text' name='state' id='f_state' placeholder='MI' value='" + state + "' oninput=\"javascript: stateInput('#f_state');\"></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin:0;'><input type='text' name='zip_code' id='f_zip' placeholder='Zip Code' value='" + zipcode + "' oninput=\"javascript: inputInteger('5', '#f_zip');\"></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('address');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('address', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildPhoneEditor()
+{
+    var html    = "";
+    var phone   = $("#m_phone").val();
+    var spl1    = String(phone).split(" ");
+    var area    = spl1[0][1];
+    var spl2    = spl1[1].split("-")
+    var pref    = spl2[0][0];
+    var post    = spl2[1][0];
+    var action_url = $("#action_url").val();
+    area += spl1[0][2];
+    area += spl1[0][3];
+    pref += spl2[0][1];
+    pref += spl2[0][2];
+    post += spl2[1][1];
+    post += spl2[1][2];
+    post += spl2[1][3];
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='phone'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-phone-square'></i> Update Phone</h3>";
+    html += "<div class='container su-input-center'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><input type='text' name='area' id='f_area' oninput=\"javascript: inputInteger('3', '#f_area');\" value='" + area + "'></div>";
+    html += "<div class='col-sm-2' style='padding:0; margin:0;'><input type='text' name='prefix' id='f_pre' oninput=\"javascript: inputInteger('3', '#f_pre');\" value='" + pref + "'></div>";
+    html += "<div class='col-sm-3' style='padding:0; margin:0;'><input type='text' name='postfix' id='f_post' oninput=\"javascript: inputInteger('4', '#f_post');\" value='" + post + "'></div>";
+    html += "<div class='col-sm-5'></div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns su-txt-left'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('phone');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('phone', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildEmailEditor()
+{
+    var html    = "";
+    var email   = $("#m_email").val();
+    var action_url = $("#action_url").val();
+    email       = String(email);
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='email'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-envelope'></i> Update Email</h3>";
+    html += "<input type='email' name='email' id='f_email1' placeholder='Enter New Email Address' value='" + email + "'>";
+    html += "<input type='email' name='email2' id='f_email2' placeholder='Confirm New Email Address'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('email');\">Update</button>";
+    html += "<button type='button' onClick=\" javascript: checkPopulatedFields('email');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildMediaEditor(model)
+{
+    var html = "";
+    var icon = "";
+    var lin1 = "";
+    var lin2 = "";
+    var btn_mode = false;
+    var url  = "";
+    var action_url = $("#action_url").val();
+    if (model === "facebook")
+    {
+        url  = $("#m_facebook_url").val();
+        icon = "<h3><i class='fab fa-facebook-square'></i> Update Facebook Link</h3>";
+        lin1 = "<input type='email' name='facebook_url' id='f_facebook_url' placeholder='Enter New Facebook Link' value='" + url + "'>";
+        lin2 = "<input type='email' name='facebook_url2' id='f_facebook_url2' placeholder='Confirm New Facebook Link' value=''>";
+        if ($("#fb-on").prop("checked") == true)
+        {
+            btn_mode = true;
+        }
+    }
+    else if (model === "twitter")
+    {
+        url  = $("#m_twitter_url").val();
+        icon = "<h3><i class='fab fa-twitter-square'></i> Update Twitter Link</h3>";
+        lin1 = "<input type='email' name='twitter_url' id='f_twitter_url' placeholder='Enter New Twitter Link' value='" + url + "'>";
+        lin2 = "<input type='email' name='twitter_url2' id='f_twitter_url2' placeholder='Confirm New Twitter Link' value=''>";
+        if ($("#twitter-on").prop("checked") == true)
+        {
+            btn_mode = true;
+        }
+    }
+    else if (model === "instagram")
+    {
+        url  = $("#m_instagram_url").val();
+        icon = "<h3><i class='fab fa-instagram'></i> Update Instagram Link</h3>";
+        lin1 = "<input type='email' name='instagram_url' id='f_instagram_url' placeholder='Enter New Instagram Link' value='" + url + "'>";
+        lin2 = "<input type='email' name='instagram_url2' id='f_instagram_url2' placeholder='Confirm New Instagram Link' value=''>";
+        if ($("#instagram-on").prop("checked") == true)
+        {
+            btn_mode = true;
+        }
+    }
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += icon;
+    html += lin1;
+    html += lin2;
+    if (btn_mode === true)
+    {
+        mo1 = "<input type='radio' name='link_on' value='True' id='turn_on' checked>";
+        mo2 = "<input type='radio' name='link_on' value='False' id='turn_off'>";
+    }
+    else
+    {
+        mo1 = "<input type='radio' name='link_on' value='True' id='turn_on'>";
+        mo2 = "<input type='radio' name='link_on' value='False' id='turn_off' checked>";
+    }
+    html += "<div class='su-ultimate-onOff'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td>";
+    html += mo1;
+    html += "</td>";
+    html += "<td class='su-utl-rd-item'>";
+    html += "On";
+    html += "</td>";
+    html += "<td>";
+    html += mo2
+    html += "</td>";
+    html += "<td class='su-utl-rd-item'>";
+    html += "Off";
+    html += "</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('" + model + "');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('" + model + "', '1', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += '</div>';
+    return html;
+}
+
+function buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, fri, sat, sun)
+{
+    var html    = "";
+    mon         = encodeSuTime(mon);
+    sat         = encodeSuTime(sat);
+    if (group_weekdays === "True")
+    {
+        html += "<tr>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Open</th>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Close</th>";
+        html += "<th></th>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left su-grouped-hours'>Weekdays</th>";
+        html += "<td class='su-table-in'><input type=text name='monday_open' id='open_mon' oninput=\"javascript: inputhour('2', '#open_mon');\" value='" + mon['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_mon' id='s_open_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='monday_close' id='close_mon' oninput=\"javascript: inputhour('2', '#close_mon');\" value='" + mon['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_mon' id='s_close_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    else
+    {
+        tue = encodeSuTime(tue);
+        wed = encodeSuTime(wed);
+        thu = encodeSuTime(thu);
+        fri = encodeSuTime(fri);
+        html += "<tr>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Open</th>";
+        html += "<th></th>";
+        html += "<th class='su-table-hd-center'>Close</th>";
+        html += "<th></th>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Monday</th>";
+        html += "<td class='su-table-in'><input type=text name='monday_open' id='open_mon' oninput=\"javascript: inputhour('2', '#open_mon');\" value='" + mon['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_mon' id='s_open_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='monday_close' id='close_mon' oninput=\"javascript: inputhour('2', '#close_mon');\" value='" + mon['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_mon' id='s_close_mon'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Tuesday</th>";
+        html += "<td class='su-table-in'><input type=text name='tuesday_open' id='open_tue' oninput=\"javascript: inputhour('2', '#open_tue');\" value='" + tue['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_tue' id='s_open_tue'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='tuesday_close' id='close_tue' oninput=\"javascript: inputhour('2', '#close_tue');\" value='" + tue['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_tue' id='s_close_tue'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Wednesday</th>";
+        html += "<td class='su-table-in'><input type=text name='wednesday_open' id='open_wed' oninput=\"javascript: inputhour('2', '#open_wed');\" value='" + wed['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_wed' id='s_open_wed'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='wednesday_close' id='close_wed' oninput=\"javascript: inputhour('2', '#close_wed');\" value='" + wed['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_wed' id='s_close_wed'>";
+        html += "<option value='am'>AM</option>";
+        html += "<option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<th class='su-table-hd-left'>Thursday</th>";
+        html += "<td class='su-table-in'><input type=text name='thursday_open' id='open_thu' oninput=\"javascript: inputhour('2', '#open_thu');\" value='" + thu['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_thu' id='s_open_thu'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='thursday_close' id='close_thu' oninput=\"javascript: inputhour('2', '#close_thu');\" value='" + thu['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_thu' id='s_close_thu'><option value='am'>AM</option><option value='pm'>PM</option>";
+        html += "</select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Friday</th>";
+        html += "<td class='su-table-in'><input type=text name='friday_open' id='open_fri' oninput=\"javascript: inputhour('2', '#open_fri');\" value='" + fri['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_fri' id='s_open_fri'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='friday_close' id='close_fri' oninput=\"javascript: inputhour('2', '#close_fri');\" value='" + fri['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_fri' id='s_close_fri'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    if (group_weekends === "True")
+    {
+        html += "<tr>";
+        html += "<th class='su-table-hd-left su-grouped-hours su-table-btm'>Weekends</th>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='saturday_open' id='open_sat' oninput=\"javascript: inputhour('2', '#open_sat');\" value='" + sat['open'] + "'></td>";
+        html += "<td class='su-sel-in su-table-btm'>";
+        html += "<select name='s_open_sat' id='s_open_sat'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sat' oninput=\"javascript: inputhour('2', '#close_sat');\" value='" + sat['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end su-table-btm'>";
+        html += "<select name='s_close_sat' id='s_close_sat'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    else
+    {
+        sun = encodeSuTime(sun);
+        html += "<tr>";
+        html += "<th class='su-table-hd-left'>Saturday</th>";
+        html += "<td class='su-table-in'><input type=text name='saturday_open' id='open_sat' oninput=\"javascript: inputhour('2', '#open_sat');\" value='" + sat['open'] + "'></td>";
+        html += "<td class='su-sel-in'>";
+        html += "<select name='s_open_sat' id='s_open_sat'><option value='am'>AM</option><option value='pm'>PM</option> </select>";
+        html += "</td>";
+        html += "<td class='su-table-in'><input type=text name='saturday_close' id='close_sat' oninput=\"javascript: inputhour('2', '#close_sat');\" value='" + sat['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end'>";
+        html += "<select name='s_close_sat' id='s_close_sat'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+        html += "<tr>";
+        html += "<th class='su-table-hd-left su-table-btm'>Sunday</th>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_open' id='open_sun' oninput=\"javascript: inputhour('2', '#open_sun');\" value='" + sun['open'] + "'></td>";
+        html += "<td class='su-sel-in su-table-btm'>";
+        html += "<select name='s_open_sun' id='s_open_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "<td class='su-table-in su-table-btm'><input type=text name='sunday_close' id='close_sun' oninput=\"javascript: inputhour('2', '#close_sun');\" value='" + sun['close'] + "'></td>";
+        html += "<td class='su-sel-in su-sel-end su-table-btm'>";
+        html += "<select name='s_close_sun' id='s_close_sun'><option value='am'>AM</option><option value='pm'>PM</option></select>";
+        html += "</td>";
+        html += "</tr>";
+    }
+    return html;
+}
+
+function buildHoursEditor()
+{
+    var html            = "";
+    var weekday_ck      = "";
+    var weekend_ck      = "";
+    var special_ck      = "";
+    var table           = "";
+    var group_weekdays  = $("#m_weekdays").val();
+    var group_weekends  = $("#m_weekends").val();
+    var monday          = $("#m_monday").val();
+    var tuesday         = $("#m_tuesday").val();
+    var wednesday       = $("#m_wednesday").val();
+    var thursday        = $("#m_thursday").val();
+    var friday          = $("#m_friday").val();
+    var saturday        = $("#m_saturday").val();
+    var sunday          = $("#m_sunday").val();
+    var special_hours   = $("#m_special_hours").val();
+    var hours_title     = $("#m_title").val();
+    var action_url      = $("#action_url").val();
+    group_weekdays      = String(group_weekdays);
+    group_weekends      = String(group_weekends);
+    special_hours       = String(special_hours);
+    table               = buildSuHoursTable(group_weekdays, group_weekends, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
+    if (group_weekdays === "True")
+    {
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_on' value='1' onClick=\"setHourTable();\" checked></td>";
+        weekday_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_off' value='0' onClick=\"setHourTable();\"></td>";
+        weekday_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    else 
+    {
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_on' value='1' onClick=\"setHourTable();\"></td>";
+        weekday_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekday_ck += "<td><input type=radio name='group_weekdays' id='f_group_weekdays_off' value='0' onClick=\"setHourTable();\" checked></td>";
+        weekday_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    if (group_weekends === "True")
+    {
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_on' value='1' onClick=\"setHourTable();\" checked></td>";
+        weekend_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_off' value='0' onClick=\"setHourTable();\"></td>";
+        weekend_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    else
+    {
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_on' value='1' onClick=\"setHourTable();\"></td>";
+        weekend_ck += "<td><div class='su-hour-label'>On</div></td>";
+        weekend_ck += "<td><input type=radio name='group_weekends' id='f_group_weekends_off' value='0' onClick=\"setHourTable();\" checked></td>";
+        weekend_ck += "<td><div class='su-hour-label'>Off</div></td>";
+    }
+    if (special_hours === "True")
+    {
+        special_ck += "<input type='checkbox' name='k_special_hours' id='k_special_hours' onClick=\"javascript: suSpecial();\" checked>";
+        special_ck += "Special Hours";
+        special_ck += "</div>";
+        special_ck += "<div class='su-mk-input100'><span id='special_su_input' class=''><input type='text' name='k_special_hours_input' id='k_special_hours_input' placeholder='Enter Special Hours Title' value='" + hours_title + "'></span></div>";
+    }
+    else
+    {
+        special_ck += "<input type='checkbox' name='k_special_hours' id='k_special_hours' onClick=\"javascript: suSpecial();\">";
+        special_ck += "Special Hours";
+        special_ck += "</div>";
+        special_ck += "<div class='su-mk-input100'><span id='special_su_input' class='hidden'><input type='text' name='special_hours' id='k_special_hours_input' placeholder='Enter Special Hours Title'></span></div>";
+    }
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='hours'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<input type='hidden' name='special_check' id='special_check' value='" + special_hours + "'>";
+    html += "<input type='hidden' name='group_weekdays' id='f_group_weekdays' value='" + group_weekdays + "'>";
+    html += "<input type='hidden' name='group_weekends' id='f_group_weekends' value='" + group_weekends + "'>";
+    html += "<input type='hidden' name='monday' id='f_monday' value='" + monday + "'>";
+    html += "<input type='hidden' name='tuesday' id='f_tuesday' value='" + tuesday + "'>";
+    html += "<input type='hidden' name='wednesday' id='f_wednesday' value='" + wednesday + "'>";
+    html += "<input type='hidden' name='thursday' id='f_thursday' value='" + thursday + "'>";
+    html += "<input type='hidden' name='friday' id='f_friday' value='" + friday + "'>";
+    html += "<input type='hidden' name='saturday' id='f_saturday' value='" + saturday + "'>";
+    html += "<input type='hidden' name='sunday' id='f_sunday' value='" + sunday + "'>";
+    html += "<input type='hidden' name='special_hours' id='f_special_hours' value='" + special_hours + "'>";
+    html += "<input type='hidden' name='hours_title' id='f_hours_title' value='" + hours_title + "'>";
+    html += "<h3><i class='fas fa-clock'></i> &nbspBusiness Hours</h3>";
+    html += "<div class='su-hours-container'>";
+    html += "<div class='su-table-height'>";
+    html += "<table id='su-hours-builder'>";
+    html += table;
+    html += "</table>";
+    html += "</div>";
+    html += "<table class='sp-su-hour-top'>";
+    html += "<tr>";
+    html += "<td class='su-m-h-lab'>Group Weekdays: </td>";
+    html += weekday_ck;
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-m-h-lab'>Group Weekends: </td>";
+    html += weekend_ck;
+    html += "</tr>";
+    html += "</table>";
+    html += "<div class='super-sp-check'>";
+    html += special_ck;
+    html += "</div>";
+    html += "<div class='su-confirm-buttons2'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('hours');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('hours', '1');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function setHourTable()
+{
+    var group_weekdays  = null;
+    var group_weekends  = null;
+    var mon             = $("#f_monday").val();
+    var tue             = $("#f_tuesday").val();
+    var wed             = $("#f_wednesday").val();
+    var thu             = $("#f_thursday").val();
+    var fri             = $("#f_friday").val();
+    var sat             = $("#f_saturday").val();
+    var sun             = $("#f_sunday").val();
+    if ($("#f_group_weekdays_on").prop("checked") === true) { $("#f_group_weekdays").val("True"); }
+    else { $("#f_group_weekdays").val("False"); }
+    if ($("#f_group_weekends_on").prop("checked") === true) { $("#f_group_weekends").val("True"); }
+    else { $("#f_group_weekends").val("False"); }
+    group_weekdays  = $("#f_group_weekdays").val();
+    group_weekends  = $("#f_group_weekends").val();
+    var table       = buildSuHoursTable(group_weekdays, group_weekends, mon, tue, wed, thu, fri, sat, sun);
+    $("#su-hours-builder").html(table);
+    setHourSelects();
+}
+
+function encodeSuTime(value)
+{
+    var hours           = {};
+    var clean           = "";
+    hours['open']       = "";
+    hours['open_s']     = "";
+    hours['close']      = "";
+    hours['close_s']    = "";
+    value               = String(value);
+    if (value !== "empty")
+    {
+        for (var i= 0; i < value.length; i++)
+        {
+            var c = value[i];
+            if (c === "a" || c === "p" || c ==="-") { clean += " " + c; }
+            else { clean += c; }
+        }
+        var elements    = clean.split(" ");
+        var close       = elements[2];
+        var f           = "";
+        for (var j = 0; j < close.length; j++)
+        {
+            var k = close[j];
+            if (isInt(k) === true)
+            {
+                f += k;
+            }
+        }
+        hours['open'] = elements[0];
+        hours['open_s'] = elements[1];
+        hours['close'] = f;
+        hours['close_s'] = elements[3];
+    }     
+    return hours;
+}
+
+function setHoursIndices(hours, day)
+{
+    var open            = 0;
+    var close           = 0;
+    var trigger_opn     = "#s_open_" + day;
+    var trigger_cls     = "#s_close_" + day; 
+    if (hours['open_s'] === "pm") { open = 1; }
+    if (hours['close_s'] === "pm") { close = 1; }
+    $(trigger_opn).prop("selectedIndex", open);
+    $(trigger_cls).prop("selectedIndex", close);
+}
+
+function decodeSuTime(trigger)
+{
+    var a = "#open_" + trigger;
+    var b = "#close_" + trigger;
+    var c = "#s_open_" + trigger;
+    var d = "#s_close_" + trigger;
+    var hours = $(a).val() + $(c).val() + " - " + $(b).val() + $(d).val();
+    return hours;
+}
+
+function setHourSelects()
+{
+    var group_weekdays  = $("#f_group_weekdays").val();
+    var group_weekends  = $("#f_group_weekends").val();
+    var monday          = $("#f_monday").val();
+    var saturday        = $("#f_saturday").val();
+    var indices         = null;
+    group_weekdays      = String(group_weekdays);
+    group_weekends      = String(group_weekends);
+    monday              = encodeSuTime(monday);
+    saturday            = encodeSuTime(saturday);
+    setHoursIndices(monday, 'mon');
+    setHoursIndices(saturday, 'sat');
+    if (group_weekdays === "False")
+    {
+        var tuesday     = $("#f_tuesday").val();
+        var wednesday   = $("#f_wednesday").val();
+        var thursday    = $("#f_thursday").val();
+        var friday      = $("#f_friday").val();
+    }
+    if (group_weekends === "False")
+    {
+        var sunday  = $("#f_sunday").val();
+        sunday      = encodeSuTime(sunday);
+        setHoursIndices(sunday, 'sun');
+    }
+}
+
+function buildPermissionEditor(mode, index)
+{
+    var html    = "";
+    var button  = null;
+    var header  = null;
+    var action  = null;
+    var m_id    = "";
+    var fname   = "";
+    var lname   = "";
+    var admin   = "False";
+    var product = "False";
+    var image   = "False";
+    var about   = "False";
+    var lock    = "False";
+    var blog    = "False";
+    var email   = "";
+    var s_user  = "False";
+    var action_url = $("#action_url").val();
+    mode        = Number(mode);
+    index       = String(index);
+
+    if (mode === 0)
+    {
+        action = "0";
+        header = "New User";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action  = "1";
+        header  = "Update User Permissions;"
+        button  = "Update";
+        m_id    = $("#u_id_" + index).val();
+        fname   = $("#m_fname_" + index).val();
+        lname   = $("#m_lname_" + index).val();
+        email   = $("#m_email_" + index).val();
+        admin   = $("#m_admin_" + index).val();
+        blog    = $("#m_blog_" + index).val();
+        product = $("#m_product_" + index).val();
+        image   = $("#m_image_" + index).val();
+        about   = $("#m_about_" + index).val();
+        lock    = $("#m_lock_" + index).val();
+        s_user  = $("#m_super_" + index).val();
+        m_id    = String(m_id);
+        fname   = String(fname);
+        lname   = String(lname);
+        email   = String(email);
+        admin   = String(admin);
+        blog    = String(blog);
+        product = String(product);
+        image   = String(image);
+        about   = String(about);
+        lock    = String(lock);
+        s_user  = String(s_user);
+    }
+    html += "<div class='su-center su-width35'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='permission'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<input type='hidden' name='is_admin' id='d_is_admin' value='" + admin + "'>";
+    html += "<input type='hidden' name='product_permission' id='d_product_permission' value='" + product + "'>";
+    html += "<input type='hidden' name='about_permission' id='d_about_permission' value='" + about + "'>";
+    html += "<input type='hidden' name='blog_permission' id='d_blog_permission' value='" + blog + "'>";
+    html += "<input type='hidden' name='gallery_permission' id='d_gallery_permission' value='" + image + "'>";
+    html += "<input type='hidden' name='is_locked' id='d_is_locked' value='" + lock + "'>";
+    html += "<input type='hidden' name='is_super' id='d_is_super' value='" + s_user + "'>";
+    html += "<input type='hidden' name='is_new_user' id='is_new_user' value='" + mode + "'>";
+    html += "<h3><i class='fas fa-user-cog'></i> " + header + "</h3>";
+    if(mode === 0)
+    {
+        html += "<div class='su-user-details'>";
+        html += "<input type='text' name='f_fname' id='f_fname' placeholder='Enter user first name'>";
+        html += "<input type='text' name='f_lname' id='f_lname' placeholder='Enter user last name'>";
+        html += "</div>";
+        html += "<input type='text' name='email1' id='email1' placeholder='Enter user email'>";
+        html += "<input type='text' name='email2' id='email2' placeholder='Confirm user email'>";
+    }
+    else
+    {
+        html += "<div class='su-user-details'>";
+        html += "<h4>" + fname + " " + lname + "</h4>";
+        html += "<span>" + email + "</span>";
+        html += "</div>";
+    }
+    html += "<div class='su-checkbox-editor'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (product === "True")
+    {
+        html += "<td><input type='checkbox' id='f_products' onClick=\"javascript: suCheckbox('#f_products', '#d_product_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_products' onClick=\"javascript: suCheckbox('#f_products', '#d_product_permission');\"></td>";
+    }
+    html += "<td>Products</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (blog === "True")
+    {
+        html += "<td><input type='checkbox' id='f_blogs' onClick=\"javascript: suCheckbox('#f_blogs', '#d_blog_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_blogs' onClick=\"javascript: suCheckbox('#f_blogs', '#d_blog_permission');\"></td>";
+    }
+    
+    html += "<td>Blogs</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (image === "True")
+    {
+        html += "<td><input type='checkbox' id='f_images' onClick=\"javascript: suCheckbox('#f_images', '#d_gallery_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_images' onClick=\"javascript: suCheckbox('#f_images', '#d_gallery_permission');\"></td>";
+    }
+    
+    html += "<td>Images</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (about === "True")
+    {
+        html += "<td><input type='checkbox' id='f_statements' onClick=\"javascript: suCheckbox('#f_statements', '#d_about_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_statements' onClick=\"javascript: suCheckbox('#f_statements', '#d_about_permission');\"></td>";
+    }
+    
+    html += "<td>About Statements</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (admin === "True")
+    {
+        html += "<td><input type='checkbox' id='f_admin' onClick=\"javascript: suCheckbox('#f_admin', '#d_is_admin');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_admin' onClick=\"javascript: suCheckbox('#f_admin', '#d_is_admin');\"></td>";
+    }
+    
+    html += "<td>Administration</td>";
+    html += " </tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (lock === "True")
+    {
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\" checked disabled></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\"></td>";
+    }
+    
+    html += "<td>Locked</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (s_user === "True")
+    {
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\" checked disabled></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\"></td>";
+    }
+    
+    html += "<td>Super User</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('permission');\">Save</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('permission', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildAuthEditor(mode, index)
+{
+    var html    = "";
+    var button  = null;
+    var header  = null;
+    var action  = null;
+    var m_id    = "";
+    var name    = "";
+    var email   = "";
+    var admin   = "False";
+    var product = "False";
+    var image   = "False";
+    var about   = "False";
+    var lock    = "False";
+    var blog    = "False";
+    var s_user  = "False";
+    var action_url = $("#action_url").val();
+    mode        = Number(mode);
+    index       = String(index);
+
+    if (mode === 0)
+    {
+        action = "0";
+        header = "User Authorization";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action  = "1";
+        header  = "Authorization Editor"
+        button  = "Update";
+        m_id    = $("#u_id_" + index).val();
+        name    = $("#m_name_" + index).val();
+        email   = $("#m_email_" + index).val();
+        admin   = $("#m_admin_" + index).val();
+        blog    = $("#m_blog_" + index).val();
+        product = $("#m_product_" + index).val();
+        image   = $("#m_image_" + index).val();
+        about   = $("#m_about_" + index).val();
+        lock    = $("#m_lock_" + index).val();
+        s_user  = $("#m_super_" + index).val();
+        m_id    = String(m_id);
+        name    = String(name);
+        email   = String(email);
+        admin   = String(admin);
+        blog    = String(blog);
+        product = String(product);
+        image   = String(image);
+        about   = String(about);
+        lock    = String(lock);
+        s_user  = String(s_user);
+    }
+    html += "<div class='su-center su-width35'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='auth'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<input type='hidden' name='is_admin' id='d_is_admin' value='" + admin + "'>";
+    html += "<input type='hidden' name='product_permission' id='d_product_permission' value='" + product + "'>";
+    html += "<input type='hidden' name='about_permission' id='d_about_permission' value='" + about + "'>";
+    html += "<input type='hidden' name='blog_permission' id='d_blog_permission' value='" + blog + "'>";
+    html += "<input type='hidden' name='gallery_permission' id='d_gallery_permission' value='" + image + "'>";
+    html += "<input type='hidden' name='is_locked' id='d_is_locked' value='" + lock + "'>";
+    html += "<input type='hidden' name='is_super' id='d_is_super' value='" + s_user + "'>";
+    html += "<input type='hidden' name='is_new_user' id='is_new_user' value='" + mode + "'>";
+    html += "<h3><i class='fas fa-user-plus''></i> " + header + "</h3>";
+    if(mode === 0)
+    {
+        html += "<div class='container'><div class='row'>";
+        html += "<div class='col-sm-6' style='padding: 0; margin:0;'>";
+        html += "<input type='text' name='f_fname' id='f_fname' placeholder='User First Name'>";
+        html += "</div>";
+        html += "<div class='col-sm-6' style='padding: 0; margin:0;'>";
+        html += "<input type='text' name='f_lname' id='f_lname' placeholder='User Last Name'>";
+        html += "</div>";
+        html += "</div></div>";
+        html += "<input type='text' name='email1' id='email1' placeholder='Enter user email'>";
+        html += "<input type='text' name='email2' id='email2' placeholder='Confirm user email'>";
+    }
+    else
+    {
+        html += "<div class='su-user-details'>";
+        html += "<h4>" + name + "</h4>";
+        html += "<span>" + email + "</span>";
+        html += "<div class='su-topper' onClick=\"javascript: suSendNewAuth('" + m_id + "');\"><button>Send New Authorization Code</button></div>";
+        html += "</div>";
+    }
+    html += "<div class='su-checkbox-editor'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (product === "True")
+    {
+        html += "<td><input type='checkbox' id='f_products' onClick=\"javascript: suCheckbox('#f_products', '#d_product_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_products' onClick=\"javascript: suCheckbox('#f_products', '#d_product_permission');\"></td>";
+    }
+    html += "<td>Products</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (blog === "True")
+    {
+        html += "<td><input type='checkbox' id='f_blogs' onClick=\"javascript: suCheckbox('#f_blogs', '#d_blog_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_blogs' onClick=\"javascript: suCheckbox('#f_blogs', '#d_blog_permission');\"></td>";
+    }
+    
+    html += "<td>Blogs</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (image === "True")
+    {
+        html += "<td><input type='checkbox' id='f_images' onClick=\"javascript: suCheckbox('#f_images', '#d_gallery_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_images' onClick=\"javascript: suCheckbox('#f_images', '#d_gallery_permission');\"></td>";
+    }
+    
+    html += "<td>Images</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (about === "True")
+    {
+        html += "<td><input type='checkbox' id='f_statements' onClick=\"javascript: suCheckbox('#f_statements', '#d_about_permission');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_statements' onClick=\"javascript: suCheckbox('#f_statements', '#d_about_permission');\"></td>";
+    }
+    
+    html += "<td>About Statements</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (admin === "True")
+    {
+        html += "<td><input type='checkbox' id='f_admin' onClick=\"javascript: suCheckbox('#f_admin', '#d_is_admin');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_admin' onClick=\"javascript: suCheckbox('#f_admin', '#d_is_admin');\"></td>";
+    }
+    
+    html += "<td>Administration</td>";
+    html += " </tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (lock === "True")
+    {
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_lock' onClick=\"javascript: suCheckbox('#f_lock', '#d_is_locked');\"></td>";
+    }
+    
+    html += "<td>Locked</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-md-4' style='padding:0; margin:0;'>";
+    html += "<table>";
+    html += "<tr>";
+    if (s_user === "True")
+    {
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\" checked></td>";
+    }
+    else
+    {
+        html += "<td><input type='checkbox' id='f_super' onClick=\"javascript: suCheckbox('#f_super', '#d_is_super');\"></td>";
+    }
+    
+    html += "<td>Super User</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('auth');\">Save</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('auth', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildSecurityEditor(mode, index)
+{
+    var html        = "";
+    var button      = null;
+    var header      = null;
+    var action      = null;
+    var question    = "";
+    var m_id        = "";
+    var action_url = $("#action_url").val();
+    mode        = Number(mode);
+    index       = String(index);
+    if (mode === 0)
+    {
+        action = "0";
+        header = "New Security Question";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action          = "1";
+        header          = "User Security";
+        button          = "Update";
+        question        = $("#m_question_" + index).val();
+        m_id            = $("#u_id_" + index).val();
+    }
+
+    html += "<div class='su-center su-width50'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='security'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<h3><i class='fas fa-user-lock'></i> " + header+ "</h3>";
+    html += "<input type='text' name='question' id='question' placeholder='Type security question here...' value='" + question + "'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('security');\">" + button + "</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('security', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildImageEditor()
+{
+    var html = "";
+    var action_url = $("#action_url").val();
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' enctype='multipart/form-data' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='0'>";
+    html += "<h3><i class='fas fa-camera'></i> Upload New Image</h3>";
+    html += "<input type='file' name='img_filename' id='img_filename' accept='.png, .jpg, .jpeg, .gif'>";
+    html += "<div class='su-sub-top'></div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('image');\">Upload</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('image', 'model', 'index');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildBlogEditor(mode, index)
+{
+    var html    = "";
+    var button  = null;
+    var header  = null;
+    var action  = null;
+    var subject = "";
+    var content = "";
+    var m_id    = "";
+    var action_url = $("#action_url").val();
+    mode        = Number(mode);
+    index       = String(index);
+    if (mode === 0)
+    {
+        action = "0";
+        header = "New Blog Post";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action          = "1";
+        header          = "Blog Editor";
+        button          = "Update";
+        subject         = $("#m_subject_" + index).val();
+        content         = $("#m_content_" + index).val();
+        m_id            = $("#m_id_" + index).val();
+    }
+
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='blog'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<h3><i class='fab fa-blogger'></i> <span id='su-pop-header'>" + header + "</span></h3>";
+    html += "<input type='text' name='subject' id='subject' placeholder='Subject' value='" + subject + "'>";
+    html += "<div class='su-textarea-lg'>";
+    html += "<textarea name='content' id='content' placeholder='Blog Body'>" + content + "</textarea>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('blog');\">" + button + "</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('blog', '" + String(mode) + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildProductEditor(mode, index)
+{
+    var html        = "";
+    var button      = null;
+    var header      = null;
+    var action      = null;
+    var name        = "";
+    var description = "";
+    var price       = "0";
+    var m_id        = "";
+    var action_url = $("#action_url").val();
+    mode            = Number(mode);
+    index           = String(index);
+    if (mode === 0)
+    {
+        action = "0";
+        header = "New Product";
+        button = "Save";
+    }
+    else if (mode === 1)
+    {
+        action      = "1";
+        header      = "Product Editor";
+        button      = "Update";
+        name        = $("#m_name_" + index).val();
+        description = $("#m_description_" + index).val();
+        price       = $("#m_price_" + index).val();
+        m_id        = $("#m_id_" + index).val();
+    }
+    html += "<div class='su-center su-width35'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='product'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<h3><i class='fas fa-spray-can'></i> <span id='su-pop-header'>" + header + "</span></h3>";
+    html += "<input type='text' name='name' id='name' placeholder='Product' value='" + name + "'>";
+    html += "<div class='su-textarea-sm'>";
+    html += "<textarea name='description' id='description' placeholder='Product Description'>" + description + "</textarea>";
+    html += "</div>";
+    html += "<div class='su-number-input'>";
+    html += "Price:  <input type='number' name='price' id='price' value='" + price + "' max='9999' min='0' oninput=\"javascript: inputInteger('4', '#price');\">";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('product');\">" + button + "</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('product', '" + mode + "', '" + index + "');\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
+    return html;
+}
+
+function buildMaxEditor()
+{
+    var html = "";
+    var max_images = $("#m_max_images").val();
+    var no_uploads = $("#m_num_uploads").val();
+    var action_url = $("#action_url").val();
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='max_images'>";
+    html += "<input type='hidden' name='target_action' id='target_action' value='update'>";
+    html += "<input type='hidden' name='target_id' id='target_id' value=''>";
+    html += "<h3><i class='fas fa-file-image'></i> Uploads</h3>";
+    html += "<div class='su-ul-item'>Current no. of uploads: <span>" + no_uploads + "</span></div>";
+    html += "<div class='su-ul-item'>Maximum no. of uploads: <input type='number' name='max_images' id='f_max_images' min='0' max='99' value='" + max_images + "' oninput=\"inputInteger(2, '#f_max_images');\"></div>";
+    html += "<div class='su-general-btns su-txt-left'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('max_images');\">Update</button>";
+    html += "<button type='button' onClick=\"javascript: checkPopulatedFields('max_images');\">Cancel</button>";
+    html += "<div class='su-sp-top'></div>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
+    return html;
+}
+
+function buildAboutEditor(data)
+{
+    var html        = "";
+    var active      = null;
+    var a_index     = 0;
+    var i           = 0;
+    var a_id        = null;
+    var inactive    = [];
+    var list_size   = 0;
+    var index       = null;
+    var statement   = null;
+    for(i = 0; i < data.length; i++)
+    {
+        if (String(data[i]['is_active']) === "False")
+        {
+            inactive.push(data[i]);
+        }
+        else
+        {
+            active = data[i]
+        }
+    }
+
+    list_size = inactive.length;
+    html += "<div class='su-center su-width38'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<input type='hidden' name='no_inactive' id='no_inactive' value='" + list_size + "'>";
+    html += "<input type='hidden' name='current_id' id='current_id' value='" + active['id'] + "'>";
+    html += "<input type='hidden' name='current_statement' id='current_statement' value='" + active['statement'] + "'>";
+    html += "<input type='hidden' id='abt_selected' value='0'>";
+    html += "<h3><i class='fas fa-id-card'></i> &nbspAbout Us</h3>";
+    html += "<div class='su-about-head'>Current Statement &nbsp<i class='fas fa-check-circle'></i><button type='button' onClick=\"javascript: showAboutEditors('1');\">Edit</button> <button type='button' onClick=\"javascript: showAboutEditors('0');\">New</button></div>";
+    html += "<div class='su-about1'>The statement below is currently being displayed on the live Natural Woman Salon site.</div>";
+    html += "<div class='su-about2'>" + active['statement'] + "</div>";
+    html += "<div class='su-about-head'>Archived Statements &nbsp<i class='fas fa-archive'></i></div>";
+    html += "<div class='su-about1'>The statements below can be activated as the current statement at any time.</div>";
+    html += "<div class='su-about-list-top'>";
+    html += "<button type='button' onClick=\"javascript: selectAllAbouts();\">Select All</button>";
+    html += "<button type='button' onClick=\"javascript: clearAllAbouts();\">Clear All</button>";
+    html += "</div>";
+    html += "<div class='su-about3'>";
+    html += "<ul>";
+    for (i = 0; i < list_size; i++)
+    {
+        index       = String(i);
+        statement   = String(inactive[i]['statement']);
+        a_id        = String(inactive[i]['id']);
+        html += "<div id='div_a" + index + "' class='" + inactive[i]['class'] + "'>";
+        html += "<li>";
+        html += "<a href=\"javascript: showAboutEditor2('" + index + "');\">";
+        html += "<input type='hidden' id='a_id" + index + "' value='" + a_id + "'>";
+        html += "<input type='hidden' id='a_statement_" + index + "' value='" + statement + "'>";
+        html += "<table>";
+        html += "<tr>";
+        html += "<td><input type='checkbox' onClick=\"javascript: selectAboutItem('" + index + "');\" id='ab_box_" + index + "'></td>";
+        html += "<td class='su-about-list'>" + statement + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "</a>";
+        html += "</li>";
+        html += "</div>";
+    }
+    html += "</ul>";
+    html += "</div>";
+    html += "<div class='su-about-list-buttons'>";
+    html += "<button type='button' onClick=\"javascript: showAboutEditors('2');\">Update</button>";
+    html += "<span id='su-abtDel-cont'><button onClick=\"javascript: launchDeleteConfirmation('about')\" id='su-delAboutBtn'>Delete Selected</button></span>";
+    html += "</div>";
+    html += "<div class='su-about-exit'><button type='button' onClick=\"javascript: closeEditor();\">Exit</button></div>";
+    html += "</div>";
+    html += "</div>";
+    $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass('hidden');
+    $("#pop-up-builder").fadeIn(600);
+}
+
+function showAboutEditors(mode)
+{
+    var html        = "";
+    var action      = null;
+    var header      = null;
+    var button      = null;
+    var checkb      = null;
+    var active      = null;
+    var m_id        = "";
+    var statement   = "";
+    var open        = true;
+    var url         = $("#action_url").val();
+    mode            = Number(mode);
+    if (mode === 0)
+    {
+        action = "new";
+        header = "New About Us Statement";
+        button = "Save";
+        checkb = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+        active = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
+    }
+    else if (mode === 1)
+    {
+        m_id        = $("#current_id").val();
+        statement   = $("#current_statement").val();
+        action      = "update";
+        header      = "Update Current About Us Statement";
+        button      = "Update";
+        checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\" checked disabled>";
+        active      = "<input type='hidden' name='is_active' id='f_is_active' value='True'>";
+        $("#selected-payment").val("~");
+    }
+    else if (mode === 2)
+    {
+        var indices         = $("#selected-payment").val();
+        indices             = String(indices);
+        var abt_selected    = $("#abt_selected").val();
+        abt_selected        = Number(abt_selected);
+        if (abt_selected === 0)
+        {
+            open = false;
+            var m = [];
+            m.push("Nothing Selected");
+            m.push("You must make a selection from the inactive list to proceed");
+            generateErrorWindow(m);
+        }
+        else if (indices.length > 1)
+        {
+            var no_inactive = $("#no_inactive").val();
+            var located_sel = 0;
+            var choose_i    = null;
+            no_inactive = Number(no_inactive);
+            for (var j = 0; j < no_inactive; j++)
+            {
+                if ($("#ab_box_" + j).prop("checked") === true)
+                {
+                    located_sel += 1;
+                    if (located_sel === 2)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        choose_i = j;
+                    }
+                }
+            }
+            if (located_sel > 1)
+            {
+                open = false;
+                var m = [];
+                m.push("Action Prohibited");
+                m.push("You can only select one statement to update");
+                generateErrorWindow(m);
+            }
+            else
+            {
+                m_id        = $("#a_id" + choose_i).val();
+                statement   = $("#a_statement_" + choose_i).val();
+                action      = "update";
+                header      = "Update Inactive About Us Statements";
+                button      = "Update";
+                checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+                active      = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
+            }   
+        }
+        else
+        {
+            var decoded     = decodeDeleteIndices(indices);
+            m_id            = $("#a_id" + decoded).val();
+            statement       = $("#a_statement_" + decoded).val();
+            action          = "update";
+            header          = "Update Inactive About Us Statements";
+            button          = "Update";
+            checkb          = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+            active          = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
+        }
+            
+    }
+
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
+    html += "<form action='" + url + "' method='POST' id='about_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='about'>";
+    html += "<input type='hidden' name='target_action' id='about_target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='about_target_id' value='" + m_id + "'>";
+    html += active;
+    html += "<div class='su-confirm-exit2 raise-closer'><i class='fas fa-window-close' onClick=\"javascript: closeAboutError();\"></i></div>";
+    html += " <h3><i class='fas fa-id-card'></i> &nbsp<span id='master-abt-header'>" + header + "</span></h3>";
+    html += "<div class='su-textarea-md'><textarea name='statement' id='f_about_area' placeholder='Enter About Us Statement Here...'>" + statement + "</textarea></div>";
+    html += "<div class='set-active-ck'>";
+    html += checkb;
+    html += "Set As Active";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingAboutFields()\">" + button + "</button></span>";
+    html += "<button type='button' onClick=\"javascript: checkAboutFields();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
+    if (open === true)
+    {
+        $("#about-editor-builder").html(html);
+        $("#about-editor-builder").hide();
+        $("#about-editor-builder").removeClass('hidden');
+        $("#about-editor-builder").fadeIn(600);
+    }
+}
+
+function submitAbout()
+{
+    $("#about_form").submit();
+}
+
+function showAboutEditor2(index)
+{
+    index           = String(index);
+    var m_id        = $("#a_id" + index).val(); 
+    var statement   = $("#a_statement_" + index).val();
+    var html        = "";
+    var action      = "update";
+    var header      = "Update Inactive About Us Statements";
+    var button      = "Update";
+    var checkb      = "<input type='checkbox' id='f_active_cb' onClick=\"javascript: suCheckbox('#f_active_cb', '#f_is_active')\">";
+    var active      = "<input type='hidden' name='is_active' id='f_is_active' value='False'>";
+    var url         = $("#action_url").val();
+    $("#selected-payment").val("~" + index + "~");
+
+    html += "<div class='su-center su-width45'>";
+    html += "<div class='su-general'>";
+    html += "<form action='" + url + "' method='POST' id='about_form'>";
+    html += "<input type='hidden' name='target_model' id='target_model' value='about'>";
+    html += "<input type='hidden' name='target_action' id='about_target_action' value='" + action + "'>";
+    html += "<input type='hidden' name='target_id' id='about_target_id' value='" + m_id + "'>";
+    html += active;
+    html += "<div class='su-confirm-exit2 raise-closer'><i class='fas fa-window-close' onClick=\"javascript: closeAboutError();\"></i></div>";
+    html += " <h3><i class='fas fa-id-card'></i> &nbsp<span id='master-abt-header'>" + header + "</span></h3>";
+    html += "<div class='su-textarea-md'><textarea name='statement' id='f_about_area' placeholder='Enter About Us Statement Here...'>" + statement + "</textarea></div>";
+    html += "<div class='set-active-ck'>";
+    html += checkb;
+    html += "Set As Active";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<span id='abtDelBtn'><button type='button' id='su-abt-btn-option' onClick=\"javascript: validatingAboutFields()\">" + button + "</button></span>";
+    html += "<button type='button' onClick=\"javascript: checkAboutFields();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+
+
+    $("#about-editor-builder").html(html);
+    $("#about-editor-builder").hide();
+    $("#about-editor-builder").removeClass('hidden');
+    $("#about-editor-builder").fadeIn(600);
+}
+
+function selectAllAbouts()
+{
+    var len = $("#no_inactive").val();
+    len     = Number(len);
+    for (var i = 0; i < len; i++)
+    {
+        index = String(i);
+        $("#ab_box_" + index).prop("checked", true);
+        selectAboutItem(index);
+    }
+}
+
+function clearAllAbouts()
+{
+    var len = $("#no_inactive").val();
+    len     = Number(len);
+    for (var i = 0; i < len; i++)
+    {
+        index = String(i);
+        $("#ab_box_" + index).prop("checked", false);
+        selectAboutItem(index);
+    }
+}
+
+function load_pmt_radio_data(m_class)
+{
+    m_class = String(m_class);
+    $("#m_payment_icon").val(m_class);
+}
+
+function buildPaymentEditor()
+{
+    $("#pmt_target_action").val("new");
+    var html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeEditor();\"></i></div>";
+    html += "<h3><i class='fas fa-money-bill-alt'></i> &nbspNew Payment Method</h3>";
+    html += "<input type='text' id='f_payment_method' placeholder='Enter Payment Method Name' oninput=\"javascript: mirrorInput('#f_payment_method', '#m_payment_method');\">";
+    html += "<div class='su-payment-types'>";
+    html += "<div class='container'>";
+    html += "<div class='row'>";
+    html += "<div class='col-sm-12 sel-pmt-msg' style='padding:0; margin: 0;'>Select an icon from the list below</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-apple-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-apple-pay');\"></td>";
+    html += "<td class='su-sp-icon''><i class='fab fa-apple-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-cc-amazon-pay' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-amazon-pay');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-amazon-pay'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-bitcoin' onClick=\"javascript: load_pmt_radio_data('fab fa-bitcoin');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-bitcoin'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fas fa-money-check' onClick=\"javascript: load_pmt_radio_data('fas fa-money-check');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-check'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' value='fas fa-shopping-bag' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-bag');\"></td>";
+    html += "<td><i class='fas fa-shopping-bag'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-cc-discover' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-discover');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-discover'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-paypal' onClick=\"javascript: load_pmt_radio_data('fab fa-paypal');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-paypal'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='far fa-credit-card' onClick=\"javascript: load_pmt_radio_data('far fa-credit-card');\"></td>";
+    html += "<td class='su-sp-icon'><i class='far fa-credit-card'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fas fa-dollar-sign' onClick=\"javascript: load_pmt_radio_data('fas fa-dollar-sign');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-dollar-sign'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' value='fas fa-shopping-cart' onClick=\"javascript: load_pmt_radio_data('fas fa-shopping-cart');\"></td>";
+    html += "<td><i class='fas fa-shopping-cart'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "<div class='col-sm-4' style='padding:0; margin: 0;'>";
+    html += "<table>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-cc-diners-club' onClick=\"javascript: load_pmt_radio_data('fab fa-cc-diners-club');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-cc-diners-club'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fab fa-google-wallet' onClick=\"javascript: load_pmt_radio_data('fab fa-google-wallet');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fab fa-google-wallet'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td class='su-sp-icon'><input type='radio' name='pmt_icon' value='fas fa-money-bill' onClick=\"javascript: load_pmt_radio_data('fas fa-money-bill');\"></td>";
+    html += "<td class='su-sp-icon'><i class='fas fa-money-bill'></i></td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><input type='radio' name='pmt_icon' value='fas fa-gift' onClick=\"javascript: load_pmt_radio_data('fas fa-gift');\"></td>";
+    html += "<td><i class='fas fa-gift'></i></td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div class='su-general-btns'>";
+    html += "<button onClick=\"javascript: validatingPaymentFields();\">Submit</button>";
+    html += "<button onClick=\"javascript: checkPaymentFields();\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+
+    return html;
+}
+
+function submitEditor()
+{
+    $("#pop_form").submit();
+}
+
+function submitDelete()
+{
+    $("#pop_delete_form").submit();
+}
+
+function validateSUModel(model)
+{
+    model = String(model);
+    if (model === 'blog') { validateSuBlog(); }
+    else if (model === 'product') { validateSubProduct(); }
+    else if (model === 'image') { validateSubImage(); }
+    else if (model === 'security') { validateSubSecurity(); }
+    else if (model === 'permission') { validateSubPermissions(); }
+    else if (model === 'auth') { validateSubAuth(); }
+    else if (model === 'address') { validatingSubAddress(); }
+    else if (model === 'phone') { validatingSubPhone(); }
+    else if (model === 'email') { validatingSubEmail(); }
+    else if (model === 'max_images') { validatingSubMax(); }
+    else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { validatingSubMedia(model); }
+    else if (model === 'hours') { validateHoursFields(); }
+    else if (model === 'about') { validatingAboutFields(); }
+    else if (model === 'payments') { validatingPaymentFields(); }
+    else if (model === 'change_name') { validatingChangeName(); }
+    else if (model === 'change_email') { validatingChangeEmail(); }
+    else if (model === 'change_password') { validatingChangePassword(); }
+}
+
+function validateHoursFields()
 {
     var proceed     = false;
     var messages    = [];
-    var data        = {};
-    target          = String(target);
-    if (target === "Facebook" || target === "Twitter" || target === "Instagram")
+    var weekdays    = $("#f_group_weekdays").val();
+    var weekends    = $("#f_group_weekends").val();
+    var isSpecial   = $("#special_check").val();
+    var mon_open    = $("#open_mon").val();
+    var mon_clos    = $("#close_mon").val();
+    var sat_open    = $("#open_sat").val();
+    var sat_clos    = $("#close_sat").val();
+    weekdays        = String(weekdays);
+    weekends        = String(weekends);
+    isSpecial       = String(isSpecial);
+    mon_open        = String(mon_open);
+    mon_clos        = String(mon_clos);
+    sat_open        = String(sat_open);
+    sat_clos        = String(sat_clos);
+    if (weekdays === "True" && weekends === "True" && isSpecial === "False")
     {
-        var target_id   = "#pop_" + target + "_link";
-        var lower       = target.toLowerCase();
-        var current_id  = "#master_" + lower + "_url";
-        var new_link    = $(target_id).val();
-        var old_link    = $(current_id).val();
-        new_link        = String(new_link);
-        old_link        = String(old_link);
-        var m2          = "";
-        var loader      = "";
-        if (new_link.length === 0) 
-        { 
-            m2 = "If you choose not to display a ";
-            m2 += target;
-            m2 += " link, you can simply deactivate it on the main Company Profile Editor in the ";
-            m2 += target;
-            m2 += " section of the page.";
-            messages.push("This value is required"); 
-            messages.push(m2);
-        }
-        else if (new_link === old_link) 
-        { 
-            m2 = "The link that you entered is identical to the current ";
-            m2 += target;
-            m2 += " link. No changes will be applied."
-            messages.push("Identical links detected");
-            messages.push(m2);
-        }
-        else 
+        if(mon_open.length === 0)
         {
-            proceed = true;
-            loader = "#" + lower + "_site_loader";
-            $(loader).attr("href", new_link);
-            $(current_id).val(new_link);
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "True" && weekends === "False" && isSpecial === "False")
+    {
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "True" && isSpecial === "False")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "False" && isSpecial === "False")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else { proceed = true; }
+    }
+    if (weekdays === "True" && weekends === "True" && isSpecial === "True")
+    {
+        var title = $("#k_special_hours_input").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "True" && weekends === "False" && isSpecial === "True")
+    {
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        var title = $("#k_special_hours_input").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekdays");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekdays");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "True" && isSpecial === "True")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        var title    = $("#k_special_hours_input").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Weekends");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Weekends");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    }
+    else if (weekdays === "False" && weekends === "False" && isSpecial === "True")
+    {
+        var tue_open = $("#open_tue").val();
+        var tue_clos = $("#close_tue").val();
+        var wed_open = $("#open_wed").val();
+        var wed_clos = $("#close_wed").val();
+        var thu_open = $("#open_thu").val();
+        var thu_clos = $("#close_thu").val();
+        var fri_open = $("#open_fri").val();
+        var fri_clos = $("#close_fri").val();
+        var sun_open = $("#open_sun").val();
+        var sun_clos = $("#close_sun").val();
+        var title    = $("#k_special_hours_input").val();
+        if(mon_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Monday");
+        }
+        else if(mon_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Monday");
+        }
+        else if(tue_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Tuesday");
+        }
+        else if(tue_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Tuesday");
+        }
+        else if(String(wed_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Wednesday");
+        }
+        else if(String(wed_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Wednesday");
+        }
+        else if(String(thu_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Thursday");
+        }
+        else if(String(thu_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Thursday");
+        }
+        else if(String(fri_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Friday");
+        }
+        else if(String(fri_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Friday");
+        }
+        else if(sat_open.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Saturday");
+        }
+        else if(sat_clos.length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Saturday");
+        }
+        else if(String(sun_open).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a opening time for Sunday");
+        }
+        else if(String(sun_clos).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a closing time for Sunday");
+        }
+        else if (String(title).length === 0)
+        {
+            messages.push("Empty Field Detected");
+            messages.push("You must enter a special hours title to proceed");
+        }
+        else { proceed = true; }
+    } 
+    if (proceed === true) { launchSiteAdminWarning("hours"); }
+    else { generateErrorWindow(messages)}; 
+}
+
+function validatingAboutFields()
+{
+    var statement = $("#f_about_area").val();
+    if (String(statement).length === 0)
+    {
+        m = [];
+        m.push("Empty Field Detected");
+        m.push("You must enter a new about statement to proceed");
+        generateErrorWindow(m);
+    }
+    else
+    {
+        launchSiteAdminWarning('about');
+    }
+}
+
+function validatingPaymentFields()
+{
+    var send_msg    = false;
+    var m           = [];
+    var method      = $("#m_payment_method").val();
+    var icon        = $("#m_payment_icon").val();
+    if (method.length === 0)
+    {
+        send_msg = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter a valid payment method name to proceed.");
+    }
+    else if (icon.length === 0)
+    {
+        send_msg = true;
+        m.push("No Icon Selected");
+        m.push("You must select a payment icon to proceed.");
+    }
+    if (send_msg === true)
+    {
+        generateErrorWindow(m);
+    }
+    else
+    {
+        submitEditor();
+    }
+}
+
+function validatingChangeName()
+{
+    var send_msg    = false;
+    var m           = [];
+    var password    = $("#password").val();
+    var fname       = $("#change_fname").val();
+    var lname       = $("#change_lname").val();
+    if (password.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter your current password to proceed");
+    }
+    else if (fname.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new first name to proceed");
+    }
+    else if (lname.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new last name to proceed");
+    }
+    if (send_msg === false) { launchSiteAdminWarning('change_name'); }
+    else { generateErrorWindow(m); }
+}
+
+function validatingChangeEmail()
+{
+    var send_msg    = false;
+    var m           = [];
+    var password    = $("#password").val();
+    var email1      = $("#email1").val();
+    var email2      = $("#email2").val();
+    if (password.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter your current password to proceed");
+    }
+    else if (email1.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new email address to proceed");
+    }
+    else if (validate_email(email1) === false)
+    {
+        send_msg = true;
+        m.push("Invalid Email Detected");
+        m.push("You must enter a valid new email address to proceed");
+    }
+    else if (email2.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must confirm your new email address to proceed");
+    }
+    else if (validate_email(email2) === false)
+    {
+        send_msg = true;
+        m.push("Invalid Email Detected");
+        m.push("You must enter a valid confirmation email address to proceed");
+    }
+    else if (email1 !== email2)
+    {
+        send_msg = true;
+        m.push("The Emails Do Not Match!");
+        m.push("");
+    }
+    if (send_msg === false) { launchSiteAdminWarning('change_email'); }
+    else { generateErrorWindow(m); }
+}
+
+function validatingChangePassword()
+{
+    var send_msg        = false;
+    var m               = [];
+    var curr_password   = $("#curr_password").val();
+    var password1       = $("#password1").val();
+    var password2       = $("#password2").val();
+    if (curr_password.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter your current password to proceed");
+    }
+    else if (password1.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter a new password to proceed");
+    }
+    else if (password2.length === 0)
+    {
+        send_msg = true;
+        m.push("Invalid Field Detected");
+        m.push("You must enter confirm your new password to proceed");
+    }
+    else if (password1 !== password2)
+    {
+        send_msg = true;
+        m.push("The Passwords Do Not Match!");
+        m.push("");
+    }
+    if (send_msg === false) { launchSiteAdminWarning('change_password'); }
+    else { generateErrorWindow(m); }
+}
+
+function validatingSubAddress()
+{
+    var proceed     = false;
+    var messages    = [];
+    var address1    = $("#f_address1").val();
+    var address2    = $("#f_address2").val();
+    var address3    = $("#f_address3").val();
+    var city        = $("#f_city").val();
+    var state       = $("#f_state").val();
+    var zipcode     = $("#f_zip").val();
+    address1        = String(address1);
+    address2        = String(address2);
+    address3        = String(address3);
+    city            = String(city);
+    state           = String(state);
+    zipcode         = String(zipcode);
+    if (address1.length === 0 && address2.length === 0 && address3.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid street name and street no. to proceed");
+    }
+    else if (city.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid city to proceed");
+    }
+    else if (state.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid state to proceed");
+    }
+    else if (stateValid(state) === false || state.length !== 2)
+    {
+        messages.push("Invalid State");
+        messages.push("You must enter a valid U.S. state to proceed");
+    }
+    else if (zipcode.length < 5)
+    {
+        messages.push("Invalid Zip Code");
+        messages.push("You must enter a valid zip code to proceed");
+    }
+    else { proceed = true; }
+    if (proceed === true) { launchSiteAdminWarning("address"); }
+    else { generateErrorWindow(messages); }
+}
+
+function validatingSubPhone()
+{
+    var proceed     = false;
+    var messages    = [];
+    var area        = $("#f_area").val();
+    var prefix      = $("#f_pre").val();
+    var postfix     = $("#f_post").val();
+    area            = String(area);
+    prefix          = String(prefix);
+    postfix         = String(postfix);
+    if (area.length < 3)
+    {
+        messages.push("Invalid Area Code Detected");
+        messages.push("You must enter a valid area code to proceed");
+    }
+    else if (prefix.length < 3 || postfix.length < 4)
+    {
+        messages.push("Invalid Phone Number Detected");
+        messages.push("You must enter a valid phone number to proceed");
+    }
+    else { proceed = true; }
+    if (proceed === true) { launchSiteAdminWarning("phone"); }
+    else { generateErrorWindow(messages); }
+}
+
+function validatingSubEmail()
+{
+    var proceed     = false;
+    var messages    = [];
+    var email1      = $("#f_email1").val();
+    var email2      = $("#f_email2").val();
+    email1          = String(email1);
+    email2          = String(email2);
+    if (email1.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid email address to proceed");
+    }
+    else if (validate_email(email1) === false)
+    {
+        messages.push("Invalid Email Detected");
+        messages.push("You must enter a valid email address in field 1 to proceed");
+    }
+    else if (email2.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must confirm the new email address to proceed");
+    }
+    else if (validate_email(email2) === false)
+    {
+        messages.push("Invalid Email Detected");
+        messages.push("You must enter a valid confirmation email address to proceed");
+    }
+    else if (email1 !== email2)
+    {
+        messages.push("The Emails Do Not Match!");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) { launchSiteAdminWarning("email"); }
+    else { generateErrorWindow(messages); }
+}
+
+function validatingSubMax()
+{
+    var max_images  = $("#f_max_images").val();
+    if (String(max_images).length === 0)
+    {
+        var messages    = [];
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid number between 0 and 99 to proceed.");
+        generateErrorWindow(messages);
+    }
+    else { launchSiteAdminWarning("max_images"); }
+}
+
+function isValidLink(value)
+{
+    var isValid = false;
+    value       = String(value);
+    for (var i = 0; i < value.length; i++)
+    {
+        if (value[i] === ".") 
+        {
+            isValid = true;
+            break;
         }
     }
-    else if (target === "hours")
+    return isValid;
+}
+
+function validatingSubMedia(media)
+{
+    var proceed     = false;
+    var messages    = [];
+    var url         = "";
+    var url2        = "";
+    if (media === "twitter")
     {
-        if($('#sp_on').is(':checked')) 
-        {
-            var special_title = $("#pop_special_hours_title").val();
-            special_title = String(special_title);
-            if (special_title.length === 0) {
-                messages.push("You must enter a title for special hours.")
-                m2 = "If you wish to post these hours as regular business hours, simply click \"Off\" for \"Special Hours\". Otherwise, you can choose a title like \"Holiday Hours\", etc."
-                messages.push(m2);
-            }
-            else { 
-                proceed = true; 
-                $("#master_hours_title").val(special_title);
-                $("#master_special_hours").val("True");
-            }
-        }
-        else
-        {
-            proceed = true;
-            $("#master_hours_title").val("Hours of Operation");
-            $("#master_special_hours").val("False");
-            var weekday_status  = $("#weekday_on").val();
-            var weekend_status  = $("#weekend_on").val();
-            weekday_status      = String(weekday_status);
-            weekend_status      = String(weekend_status);
-            $("#master_monday").val(encode_hours("mon"));
-            $("#master_saturday").val(encode_hours("sat"));
-            if (weekday_status === '0')
-            {
-                $("#master_tuesday").val(encode_hours("tue"));
-                $("#master_wednesday").val(encode_hours("wed"));
-                $("#master_thursday").val(encode_hours("thu"));
-                $("#master_friday").val(encode_hours("fri"));
-            }
-            else 
-            {
-                $("#master_tuesday").val("empty");
-                $("#master_wednesday").val("empty");
-                $("#master_thursday").val("empty");
-                $("#master_friday").val("empty");
-            }
-            if (weekend_status === "0")
-            {
-                $("#master_sunday").val(encode_hours("sun"));
-            }
-            else { $("#master_sunday").val("empty"); }
-        }
+        url = $("#f_twitter_url").val();
+        url2 = $("#f_twitter_url2").val();
     }
-    else if (target === "address")
+    else if (media === "instagram")
     {
-        var address1    = $("#pop_address1").val();
-        var address2    = $("#pop_address2").val();
-        var address3    = $("#pop_address3").val();
-        var city        = $("#pop_city").val();
-        var state       = $("#pop_state").val();
-        var zipcode     = $("#pop_zip").val();
-        address1        = String(address1);
-        address2        = String(address2);
-        address3        = String(address3);
-        city            = String(city);
-        state           = String(state);
-        zipcode         = String(zipcode);
-        if (address1.length === 0 && address2.length === 0 && address3.length === 0)
-        {
-            messages.push("Empty Fields");
-            messages.push("You must enter a valid street no. and street name to proceed.");
-        }
-        else if (city.length === 0)
-        {
-            messages.push("Empty Fields");
-            messages.push("You must enter a valid city to proceed.");
-        }
-        else if (state.length === 0)
-        {
-            messages.push("Empty Fields");
-            messages.push("You must enter a valid state to proceed.");
-        }
-        else if (stateValid(state) === false)
-        {
-            messages.push("State Does Not Exist");
-            messages.push("There is not a U.S. state with the abbreviation \"" + state + "\". Please enter a valid U.S. state.");
-        }
-        else if (zipcode.length < 5)
-        {
-            messages.push("Empty Fields");
-            messages.push("You must enter a valid zip code to proceed.");
-        }
-        else
-        {
-            proceed = true;
-            if (address1.length === 0) { $("#master_address1").val("empty"); }
-            else { $("#master_address1").val(address1); }
-            if (address2.length === 0) { $("#master_address2").val("empty"); }
-            else { $("#master_address2").val(address2); }
-            if (address3.length === 0) { $("#master_address3").val("empty"); }
-            else { $("#master_address3").val(address3); }
-            $("#master_city").val(city);
-            $("#master_state").val(state);
-            $("#master_zip_code").val(zipcode);
-        }
+        url = $("#f_instagram_url").val();
+        url2 = $("#f_instagram_url2").val();
     }
-    else if (target === "email")
+    else if (media === "facebook")
     {
-        var email1  = $("#pop_email1").val();
-        var email2  = $("#pop_email2").val();
+        url = $("#f_facebook_url").val();
+        url2 = $("#f_facebook_url2").val();
+    }
+    url = String(url);
+    url2 = String(url2);
+    if (url.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must enter a valid " + media + " link to proceed");
+    }
+    else if (isValidLink(url) === false)
+    {
+        messages.push("Invalid " + media + " link detected");
+        messages.push("You must enter a valid " + media + " link to proceed");
+    }
+    else if (url2.length === 0)
+    {
+        messages.push("Empty Field Detected");
+        messages.push("You must confirm the new " + media + " link to proceed");
+    }
+    else if (isValidLink(url2) === false)
+    {
+        messages.push("Invalid " + media + " link detected");
+        messages.push("You must enter a valid " + media + " link to proceed");
+    }
+    else if (url !== url2)
+    {
+        messages.push("The Links Do Not Match!");
+        messages.push(" ");
+    }
+    else { proceed = true; }
+    if (proceed === true) { launchSiteAdminWarning(media); }
+    else { generateErrorWindow(messages); }
+}
+
+function validateSuBlog()
+{
+    var proceed     = false;
+    var messages    = [];
+    var subject     = $("#subject").val();
+    var content     = $("#content").val();
+    if (String(subject).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a valid subject to proceed.");
+    }
+    else if (String(content).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter the blog body to proceed.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validateSubProduct()
+{
+    var proceed     = false;
+    var messages    = [];
+    var name        = $("#name").val();
+    var description = $("#description").val();
+    var price       = $("#price").val();
+    if (String(name).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a valid product name to proceed.");
+    }
+    else if (String(description).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a valid product description to proceed.");
+    }
+    else if (String(price).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a valid price to proceed.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validateSubImage()
+{
+    var proceed     = false;
+    var messages    = [];
+    var url         = $("#img_filename").val();
+    var parts       = String(url).split(".");
+    var last        = String(parts[parts.length - 1]).toLowerCase();
+    var no_imgs     = $("#file_index").val();
+    var max_imgs    = $("#gal_max").val();
+    no_imgs         = Number(no_imgs);
+    max_imgs        = Number(max_imgs);
+    if (String(url).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must select a valid image to proceed.");
+    }
+    else if (last!=="png" && last!=="jpg" && last!=="jpeg" && last!=="gif")
+    {
+        messages.push("Invalid File Type");
+        messages.push("Images must be of types: .png, .jpg, .jpeg, or .gif");
+    }
+    else if (no_imgs >= max_imgs)
+    {
+        messages.push("Maximum Number of Uploads Reached!");
+        messages.push("You must delete at least one image before you can upload a new image.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validateSubSecurity()
+{
+    var proceed     = false;
+    var messages    = [];
+    var question    = $("#question").val();
+    if (String(question).length === 0)
+    {
+        messages.push("Empty Field");
+        messages.push("You must enter a valid security question to proceed.");
+    }
+    else
+    {
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validateSubPermissions()
+{
+    var proceed     = false;
+    var messages    = [];
+    var amdin       = $("#d_is_admin").val();
+    var product     = $("#d_product_permission").val();
+    var about       = $("#d_about_permission").val();
+    var blog        = $("#d_blog_permission").val();
+    var image       = $("#d_gallery_permission").val();
+    var lock        = $("#d_is_locked").val();
+    var is_super    = $("#d_is_super").val();
+    var isOld       = $("#is_new_user").val();
+    amdin           = String(amdin);
+    product         = String(product);
+    about           = String(about);
+    blog            = String(blog);
+    image           = String(image);
+    lock            = String(lock);
+    is_super        = String(is_super);
+    isOld           = Number(isOld);
+    if (amdin==="False"&&product==="False"&&about==="False"&&blog==="False"&&image==="False"&&lock==="False"&&is_super==="False")
+    {
+        messages.push("No Permissions Indicated");
+        messages.push("You must select at least one permission to proceed.");
+    }
+    else if (isOld === 0)
+    {
+        var f_fname = $("#f_fname").val();
+        var f_lname = $("#f_lname").val();
+        var email1  = $("#email1").val();
+        var email2  = $("#email2").val();
+        f_fname     = String(f_fname);
+        f_lname     = String(f_lname);
         email1      = String(email1);
         email2      = String(email2);
-        if (email1.length === 0)
+        if (f_fname.length === 0)
         {
-            messages.push("Empty fields");
-            messages.push("You must enter a valid email address to proceed.");
+            messages.push("Empty Field");
+            messages.push("You must enter a valid first name to proceed.");
+        }
+        else if (f_lname.length === 0)
+        {
+            messages.push("Empty Field");
+            messages.push("You must enter a valid last name to proceed.");
+        }
+        else if (f_lname.length === 0)
+        {
+            messages.push("Empty Field");
+            messages.push("You must enter a valid last name to proceed.");
+        }
+        else if (email1.length === 0)
+        {
+            messages.push("Empty Field");
+            messages.push("You must enter a valid email to proceed.");
         }
         else if (validate_email(email1) === false)
         {
-            messages.push("The new email address is Invalid");
-            messages.push("Please enter a valid email address in the email 1 field.")
+            messages.push("Invalid Email");
+            messages.push("The email address that you've entered is invalid.");
         }
-        if (email2.length === 0)
+        else if (email2.length === 0)
         {
-            messages.push("Empty fields");
-            messages.push("You must confirm the new email address to proceed.");
+            messages.push("Empty Field");
+            messages.push("You must confirm the user email address to proceed.");
         }
         else if (validate_email(email2) === false)
         {
-            messages.push("Email 2 is Invalid");
-            messages.push("Please enter a valid email address in the email confirmation field.")
+            messages.push("Invalid Email");
+            messages.push("The confirmation email address that you've entered is invalid.");
         }
         else if (email1 !== email2)
         {
@@ -1919,2849 +3964,1983 @@ function soft_save(target)
         else
         {
             proceed = true;
-            $("#master_email").val(email1);
         }
     }
-    else if (target === "phone")
+    else
     {
-        var area    = $("#area_code").val();
-        var pref    = $("#prefix").val();
-        var post    = $("#postfix").val();
-        area        = String(area);
-        pref        = String(pref);
-        post        = String(post);
-        if (area.length === 0 || area.length < 3)
+        proceed = true;
+    }
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
+}
+
+function validateSubAuth()
+{
+    var proceed     = false;
+    var messages    = [];
+    var amdin       = $("#d_is_admin").val();
+    var product     = $("#d_product_permission").val();
+    var about       = $("#d_about_permission").val();
+    var blog        = $("#d_blog_permission").val();
+    var image       = $("#d_gallery_permission").val();
+    var lock        = $("#d_is_locked").val();
+    var is_super    = $("#d_is_super").val();
+    var isOld       = $("#is_new_user").val();
+    amdin           = String(amdin);
+    product         = String(product);
+    about           = String(about);
+    blog            = String(blog);
+    image           = String(image);
+    lock            = String(lock);
+    is_super        = String(is_super);
+    isOld           = Number(isOld);
+    if (amdin==="False"&&product==="False"&&about==="False"&&blog==="False"&&image==="False"&&lock==="False"&&is_super==="False")
+    {
+        messages.push("No Permissions Indicated");
+        messages.push("You must select at least one permission to proceed.");
+    }
+    else if (isOld === 0)
+    {
+        var fname   = $("#f_fname").val();
+        var lname   = $("#f_lname").val();
+        var email1  = $("#email1").val();
+        var email2  = $("#email2").val();
+        fname       = String(fname);
+        lname       = String(lname);
+        email1      = String(email1);
+        email2      = String(email2);
+        if (fname.length === 0)
         {
-            messages.push("Invalid area code");
-            messages.push("You have entered an invalid area code.");
+            messages.push("Empty Field");
+            messages.push("You must enter a valid first name to proceed.");
         }
-        else if (pref.length === 0 || post.length === 0 || pref.length < 3 || post.length < 4)
+        else if (lname.length === 0)
         {
-            messages.push("Invalid phone number");
-            messages.push("Please enter a valid phone number to proceed.");
+            messages.push("Empty Field");
+            messages.push("You must enter a valid last name to proceed.");
+        }
+        else if (email1.length === 0)
+        {
+            messages.push("Empty Field");
+            messages.push("You must enter a valid email to proceed.");
+        }
+        else if (validate_email(email1) === false)
+        {
+            messages.push("Invalid Email");
+            messages.push("The email address that you've entered is invalid.");
+        }
+        else if (email2.length === 0)
+        {
+            messages.push("Empty Field");
+            messages.push("You must confirm the user email address to proceed.");
+        }
+        else if (validate_email(email2) === false)
+        {
+            messages.push("Invalid Email");
+            messages.push("The confirmation email address that you've entered is invalid.");
+        }
+        else if (email1 !== email2)
+        {
+            messages.push("The Emails Do Not Match");
+            messages.push(" ");
         }
         else
         {
             proceed = true;
-            var phone = "(" + area + ") " + pref + " - " + post;
-            $("#master_phone").val(phone);
-        }
-    } 
-    if (proceed === true )
-    {
-        flashBtn();
-        $("#changes_detected").val("1");
-        $("#msg3").fadeOut(500);
-    }
-    else { ultimateErrorMessage(messages); }
-    data['proceed'] = proceed;
-    data['messages'] = messages;
-    return data;
-}
-
-function format_state()
-{
-    var state   = $("#pop_state").val();
-    state       = String(state);
-    var len     = state.length;
-    var pos     = len -1;
-    var c       = state[pos];
-    var result  = "";
-    if (len < 3)
-    {
-        if (isLetter(c) === true)
-        {
-            result = state.toUpperCase();
         }
     }
     else
     {
-        var t = "";
-        for (var i = 0; i < pos; i++)
-        {
-            t += state[i];
-        }
-        result = t.toUpperCase();
+        proceed = true;
     }
-    $("#pop_state").val(result);
+    if (proceed === true) { submitEditor(); }
+    else { generateErrorWindow(messages); }
 }
 
-function format_zip()
+function checkPopulatedFields(model, mode, index)
 {
-    var zip     = $("#pop_zip").val();
-    zip         = String(zip);
-    var len     = zip.length;
-    var pos     = len - 1;
-    var c       = zip[pos];
-    var result  = null;
-    if (len <= 5)
+    model   = String(model);
+    mode    = Number(mode);
+    if (model === 'blog') { checkBlogFields(mode, index); }
+    else if (model === 'product') { checkProductFields(mode, index); }
+    else if (model === 'image') { checkImageFields(); }
+    else if (model === 'security') { checkSecurityFields(mode, index); }
+    else if (model === 'permission') {checkPermissionsFields(mode, index); }
+    else if (model === 'auth') {checkAuthFields(mode, index); }
+    else if (model === 'address') { checkAddressFields(); }
+    else if (model === 'phone') { checkPhoneFields(); }
+    else if (model === 'email') { checkEmailFields(); }
+    else if (model === 'max_images') { checkMaxField(); }
+    else if (model === 'facebook' || model === 'twitter' || model === 'instagram') { checkMediaFields(model); }
+    else if (model === "hours") { checkHoursFields(); }
+    else if (model === "payments") { checkPaymentFields(); }
+}
+
+function checkAboutFields()
+{
+    var show    = false;
+    var action  = $("#about_target_action").val();
+    var st      = $("#f_about_area").val();
+    var act     = $("#f_is_active").val();
+    if (action === "update")
     {
-        if (isInt(c) === true)
+        var o_st    = null;
+        var o_at    = "True";
+        var i       = $("#selected-payment").val();
+        if (i === "~")
         {
-            result = zip;
+            //get current id
+            o_st    = $("#current_statement").val();
         }
         else
         {
-            var t = "";
-            for (var i = 0; i < pos; i++)
-            {
-                t += zip[i];
-            }
-            result = t;
+            //decode selected inactive index3
+            i       = decodeDeleteIndices(i);
+            o_st    = $("#a_statement_" + i).val();
+            o_at    = "False";
         }
+        if (o_st!==st || o_at!==act) { show = true; }
     }
-    else
+    else if (action === "new")
     {
-        var temp = "";
-        for (var i = 0; i < pos; i++)
-        {
-            temp += zip[i];
-        }
-        result = temp;
+        if (st.length > 0 || act !== "False") { show = true; } 
     }
-    $("#pop_zip").val(result);
-}
-
-function limitIntegerEntry(value, max)
-{
-    var result  = "";
-    value       = String(value);
-    max         = Number(max);
-    var len     = value.length;
-    var pos     = len - 1;
-    var c       = value[pos];
-    if (len <= max)
-    {
-        if (isInt(c) === true)
-        {
-            result = value;
-        }
-        else
-        {
-            for (var i = 0; i < pos; i++)
-            {
-                result += value[i];
-            }
-        }
-    }
-    else 
+    if (show === true) 
     { 
-        for (var i = 0; i < pos; i ++)
-        {  
-            result += value[i];
+        var m = [];
+        m.push("Warning");
+        m.push("Changes Detected");
+        m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError2(m); 
+    }
+    else { closeAboutError(); }
+}
+
+function checkPaymentFields()
+{
+    var action  = $("#pmt_target_action").val();
+    var method  = $("#m_payment_method").val();
+    var icon    = $("#m_payment_icon").val();
+    method      = method.toLowerCase();
+    if (action === "new")
+    {
+        if (method.length!==0 || icon.length!==0) 
+        {
+            var m = [];
+            m.push("Warning");
+            m.push("Changes Detected");
+            m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(m);
+        }
+        else { closeEditor(); }
+    }
+    else if (action === "update")
+    {
+        var index           = $("#selected-payment").val();
+        var k_pmt_id        = $("#k_pmt_id_" + index).val();
+        var k_pmt_method    = $("#k_pmt_method_" + index).val();
+        var k_pmt_icon      = $("#k_pmt_icon_" + index).val();
+        k_pmt_method        = k_pmt_method.toLowerCase();
+        $("#pmt_target_id").val(k_pmt_id);
+        if (k_pmt_method!==method || k_pmt_icon!==icon)
+        {
+            var m = [];
+            m.push("Warning");
+            m.push("Changes Detected");
+            m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(m);
+        }
+        else { closeEditor(); }
+    }
+    else { closeEditor(); }
+}
+
+function checkHoursFields()
+{
+    var proceed         = false;
+    var m               = [];
+    //Original Values
+    var m_mon           = $("#m_monday").val();
+    var m_tue           = $("#m_tuesday").val();
+    var m_wed           = $("#m_wednesday").val();
+    var m_thu           = $("#m_thursday").val();
+    var m_fri           = $("#m_friday").val();
+    var m_sat           = $("#m_saturday").val();
+    var m_sun           = $("#m_sunday").val();
+    var m_title         = $("#m_title").val();
+    var m_weekdays      = $("#m_weekdays").val();
+    var m_weekends      = $("#m_weekends").val();
+    var m_special       = $("#m_special_hours").val();
+    //New Values
+    var group_weekdays  = $("#f_group_weekdays").val();
+    var group_weekends  = $("#f_group_weekends").val();
+    var special         = $("#special_check").val();
+    var mon             = decodeSuTime("mon");
+    var sat             = decodeSuTime("sat");
+    var tue             = "empty";
+    var wed             = "empty";
+    var thu             = "empty";
+    var fri             = "empty";
+    var sun             = "empty";
+    var title           = "Hours of Operation";
+    if (group_weekdays === "False")
+    {
+        tue = decodeSuTime("tue");
+        wed = decodeSuTime("wed");
+        thu = decodeSuTime("thu");
+        fri = decodeSuTime("fri");
+    }
+    if (group_weekends === "False")
+    {
+        sun = decodeSuTime("sun")
+    }
+    if (special === "True")
+    {
+        title = $("#k_special_hours_input").val();
+    }
+    if (m_mon!==mon||m_tue!==tue||m_wed!==wed||m_thu!==thu||m_fri!==fri||m_sat!==sat||m_sun!=sun||m_title!==title||m_weekdays!==group_weekdays||m_weekends!==group_weekends)
+    {
+        m.push("Warning");
+        m.push("Changes Detected");
+        m.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(m);
+    }
+    else { closeEditor(); }
+}
+
+function checkBlogFields(mode, index)
+{
+    var messages    = [];
+    var subject     = $("#subject").val();
+    var content     = $("#content").val();
+    subject         = String(subject);
+    content         = String(content);
+    if (mode === 0)
+    {
+        if (subject.length > 0 || content.length > 0)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_subject = $("#m_subject_" + index).val();
+        var m_content = $("#m_content_" + index).val();
+        m_subject = String(m_subject);
+        m_content = String(m_content);
+        if (m_subject !== subject || m_content !== content)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
+function checkProductFields(mode, index)
+{
+    var messages    = [];
+    var name        = $("#name").val();
+    var description = $("#description").val();
+    var price       = $("#price").val();
+    name            = String(name);
+    description     = String(description);
+    price           = String(price);
+    if (mode === 0)
+    {
+        if (name.length > 0 || description.length > 0 || price !== "0")
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_name          = $("#m_name_" + index).val();
+        var m_description   = $("#m_description_" + index).val();
+        var m_price         = $("#m_price_" + index).val();
+        m_name              = String(m_name);
+        m_description       = String(m_description);
+        m_price             = String(m_price);
+        if (m_name !== name || m_description !== description || m_price !== price)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
+function checkImageFields(mode, index)
+{
+    var messages    = [];
+    var file        = $("#img_filename").val();
+    file            = String(file);
+    if(file.length > 0)
+    {
+        messages.push("Warning");
+        messages.push("Pending Upload Detected");
+        messages.push("Are you sure you want to close this window? The system has detected a file that has been queued for upload. Would you like to upload this image?");
+        buildWarningError(messages);
+    }
+    else
+    {
+        closeEditor();
+    }
+}
+
+function checkSecurityFields(mode, index)
+{
+    var messages    = [];
+    var question    = $("#question").val();
+    question        = String(question);
+    if (mode === 0)
+    {
+        if (question.length > 0)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_question  = $("#m_question_" + index).val();
+        m_question      = String(m_question);
+        if (m_question !== question)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
+function checkPermissionsFields(mode, index)
+{
+    var messages    = [];
+    var amdin       = $("#d_is_admin").val();
+    var product     = $("#d_product_permission").val();
+    var about       = $("#d_about_permission").val();
+    var blog        = $("#d_blog_permission").val();
+    var image       = $("#d_gallery_permission").val();
+    var lock        = $("#d_is_locked").val();
+    var is_super    = $("#d_is_super").val();
+    amdin           = String(amdin);
+    product         = String(product);
+    about           = String(about);
+    blog            = String(blog);
+    image           = String(image);
+    lock            = String(lock);
+    is_super        = String(is_super);
+    if (mode === 0)
+    {
+        var fname   = $("#f_fname").val();
+        var lname   = $("#f_lname").val();
+        var eml_1   = $("#email1").val();
+        var eml_2   = $("#email2").val();
+        fname = String(fname);
+        lname = String(lname);
+        eml_1 = String(eml_1);
+        eml_2 = String(eml_2);
+        if (amdin==="True"||product==="True"||about==="True"||blog==="True"||image==="True"||lock==="True"||is_super==="True")
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else if (fname.length>0||lname.length>0||eml_1.length>0||eml_2.length>0)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_admin     = $("#m_admin_" + index).val();
+        var m_product   = $("#m_product_" + index).val();
+        var m_about     = $("#m_about_" + index).val();
+        var m_blog      = $("#m_blog_" + index).val();
+        var m_image     = $("#m_image_" + index).val();
+        var m_lock      = $("#m_lock_" + index).val();
+        var m_super     = $("#m_super_" + index).val();
+        if (m_admin!==amdin||m_product!==product||m_about!==about||m_blog!==blog||m_image!==image||m_lock!==lock||m_super!==is_super)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
+function checkAuthFields(mode, index)
+{
+    var messages    = [];
+    var amdin       = $("#d_is_admin").val();
+    var product     = $("#d_product_permission").val();
+    var about       = $("#d_about_permission").val();
+    var blog        = $("#d_blog_permission").val();
+    var image       = $("#d_gallery_permission").val();
+    var lock        = $("#d_is_locked").val();
+    var is_super    = $("#d_is_super").val();
+    amdin           = String(amdin);
+    product         = String(product);
+    about           = String(about);
+    blog            = String(blog);
+    image           = String(image);
+    lock            = String(lock);
+    is_super        = String(is_super);
+    if (mode === 0)
+    {
+        var name    = $("#f_name").val();
+        var eml_1   = $("#email1").val();
+        var eml_2   = $("#email2").val();
+        name    = String(name);
+        eml_1   = String(eml_1);
+        eml_2   = String(eml_2);
+        if (amdin==="True"||product==="True"||about==="True"||blog==="True"||image==="True"||lock==="True"||is_super==="True")
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else if (name.length>0||eml_1.length>0||eml_2.length>0)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+    else if (mode === 1)
+    {
+        var m_admin     = $("#m_admin_" + index).val();
+        var m_product   = $("#m_product_" + index).val();
+        var m_about     = $("#m_about_" + index).val();
+        var m_blog      = $("#m_blog_" + index).val();
+        var m_image     = $("#m_image_" + index).val();
+        var m_lock      = $("#m_lock_" + index).val();
+        var m_super     = $("#m_super_" + index).val();
+        if (m_admin!==amdin||m_product!==product||m_about!==about||m_blog!==blog||m_image!==image||m_lock!==lock||m_super!==is_super)
+        {
+            messages.push("Warning");
+            messages.push("Changes Detected");
+            messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+            buildWarningError(messages);
+        }
+        else { closeEditor(); }
+    }
+}
+
+function checkAddressFields()
+{
+    var messages    = [];
+    var address1    = $("#f_address1").val();
+    var address2    = $("#f_address2").val();
+    var address3    = $("#f_address3").val();
+    var city        = $("#f_city").val();
+    var state       = $("#f_state").val();
+    var zipcode     = $("#f_zip").val();
+    var m_address1  = $("#m_address1").val();
+    var m_address2  = $("#m_address2").val();
+    var m_address3  = $("#m_address3").val();
+    var m_city      = $("#m_city").val();
+    var m_state     = $("#m_state").val();
+    var m_zipcode   = $("#m_zipcode").val();
+    address1        = String(address1);
+    address2        = String(address2);
+    address3        = String(address3);
+    city            = String(city);
+    state           = String(state);
+    zipcode         = String(zipcode);
+    m_address1      = String(m_address1);
+    m_address2      = String(m_address2);
+    m_address3      = String(m_address3);
+    m_city          = String(m_city);
+    m_state         = String(m_state);
+    m_zipcode       = String(m_zipcode);
+    if (address1!==m_address1 || address2!==m_address2 || address3!==m_address3 || city!==m_city || state!==m_state || zipcode!==m_zipcode)
+    {
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkPhoneFields()
+{
+    var messages    = [];
+    var area        = $("#f_area").val();
+    var prefix      = $("#f_pre").val();
+    var postfix     = $("#f_post").val();
+    var m_phone     = $("#m_phone").val();
+    area            = String(area);
+    prefix          = String(prefix);
+    postfix         = String(postfix);
+    m_phone         = String(m_phone);
+    old_phone = "(" + area + ")" + " " + prefix + "-" + postfix;
+    if (m_phone!==old_phone)
+    {
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkEmailFields()
+{
+    var messages    = [];
+    var m_email     = $("#m_email").val();
+    var f_email1    = $("#f_email1").val();
+    var f_email2    = $("#f_email2").val();
+    m_email         = String(m_email);
+    f_email1        = String(f_email1);
+    f_email2        = String(f_email2);
+    if (m_email!==f_email1 || f_email2.length > 0)
+    {
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkMaxField()
+{
+    var f_max_images = $("#f_max_images").val();
+    var m_max_images = $("#m_max_images").val();
+    if (String(f_max_images) !== String(m_max_images))
+    {
+        messages = [];
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function checkMediaFields(model)
+{
+    var url     = $("#f_facebook_url").val();
+    var url2    = $("#f_facebook_url2").val();
+    var m_url   = $("#m_facebook_url").val();
+    var on      = "False";
+    var link_on = "False";
+    if ($("#turn_on").prop("checked") === true) { link_on = "True"; }
+    if (model === "facebook")
+    {
+        if ($("#fb-on").prop("checked") === true) { on = "True"; }
+    }
+    if (model === "twitter")
+    {
+        url     = $("#f_twitter_url").val()
+        url2    = $("#f_twitter_url2").val()
+        m_url   = $("#m_twitter_url").val();
+        if ($("#twitter-on").prop("checked") === true) { on = "True"; }
+    }
+    else if (model === "instagram")
+    {
+        url     = $("#f_instagram_url").val()
+        url2    = $("#f_instagram_url2").val()
+        m_url   = $("#m_instagram_url").val();
+        if ($("#instagram-on").prop("checked") === true) { on = "True"; }
+    }
+    if (String(url)!==String(m_url) || String(url2).length > 0 || link_on !== on)
+    {
+        messages = [];
+        messages.push("Warning");
+        messages.push("Changes Detected");
+        messages.push("Are you sure you want to close this window? All changes will be discarded if you proceed.");
+        buildWarningError(messages);
+    }
+    else { closeEditor(); }
+}
+
+function buildWarningError(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    // html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>" + messages[0] + "</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[1] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[2] + "</div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button onClick=\"javascript: suHardClose();\">Leave Page</button>";
+    html += "<button onClick=\"javascript: suSoftClose();\">Stay On Page</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+function buildWarningError2(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    // html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>" + messages[0] + "</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[1] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[2] + "</div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button onClick=\"javascript: suHardClose2();\">Leave Page</button>";
+    html += "<button onClick=\"javascript: suSoftClose();\">Stay On Page</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+function generateErrorWindow(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header su-neg25'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Error</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[0] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[1] + "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+function launchAdminEditors(model, mode, index)
+{
+    var html    = "";
+    var header  = null;
+    model       = String(model);
+    mode        = String(mode);
+    if (model === "address") { html = buildAddressEditor(); }
+    else if (model === "phone") { html = buildPhoneEditor(); }
+    else if (model === "email") { html = buildEmailEditor(); }
+    else if (model === "hours") { html = buildHoursEditor(); }
+    else if (model === "permission") { html = buildPermissionEditor(mode, index); }
+    else if (model === "auth") { html = buildAuthEditor(mode, index); }
+    else if (model === "security") { html = buildSecurityEditor(mode, index); }
+    else if (model === "blog") { html = buildBlogEditor(mode, index); }
+    else if (model === "product") { html = buildProductEditor(mode, index); }
+    else if (model === "image") { html = buildImageEditor(); }
+    else if (model === "max_images") { html = buildMaxEditor(); }
+    else if (model === "payment") { html = buildPaymentEditor(); }
+    else if (model === "facebook") { html = buildMediaEditor(model); }
+    else if (model === "twitter") { html = buildMediaEditor(model); }
+    else if (model === "instagram") { html = buildMediaEditor(model); }
+    else if (model === "about") { html = buildAboutEditor(); }
+    else if (model === "change_email") { html = buildNewEmailEditor(); }
+    else if (model === "change_name") { html = buildNewNameEditor(); }
+    else if (model === "change_password") { html = buildNewPasswordEditor(); }
+    openEditor(html);
+    if (model === "hours") { setHourSelects(); }
+}
+
+function buildNewEmailEditor()
+{
+    var html = "";
+    var action_url = $("#action_url").val();
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeDropEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='user_target_model' value='change_email'>";
+    html += "<input type='hidden' name='target_action' id='user_target_action' value='change_email'>";
+    html += "<h3><i class='fas fa-user-cog'></i> &nbspChange Login Email</h3>";
+    html += "<input type='password' name='password' id='password' placeholder='Enter Password'>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<input type='email' name='email1' id='email1' placeholder='Enter New Email'>";
+    html += "<input type='email' name='email2' id='email2' placeholder='Confirm New Email'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('change_email');\">Submit</button>";
+    html += "<button type='button' onClick=\"javascript: closeDropEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildNewNameEditor()
+{
+    var html = "";
+    var action_url = $("#action_url").val();
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeDropEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='user_target_model' value='change_name'>";
+    html += "<input type='hidden' name='target_action' id='user_target_action' value='change_name'>";
+    html += "<h3><i class='fas fa-user-cog'></i> &nbspChange User Name</h3>";
+    html += "<input type='password' name='password' id='password' placeholder='Enter Password'>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<div class='su-sp-top'></div>";
+    html += "<input type='text' name='fname' id='change_fname' placeholder='First Name'>";
+    html += "<input type='text' name='lname' id='change_lname' placeholder='Last Name'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('change_name');\">Submit</button>";
+    html += "<button type='button' onClick=\"javascript: closeDropEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function buildNewPasswordEditor()
+{
+    var html = "";
+    var action_url = $("#action_url").val();
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeDropEditor();\"></i></div>";
+    html += "<form action='" + action_url + "' method='POST' id='pop_form'>";
+    html += "<input type='hidden' name='target_model' id='user_target_model' value='change_password'>";
+    html += "<input type='hidden' name='target_action' id='user_target_action' value='change_password'>";
+    html += "<h3><i class='fas fa-user-cog'></i> &nbspChange Password</h3>";
+    html += "<input type='password' name='curr_password' id='curr_password' placeholder='Enter Old Password'>";
+    html += "<input type='password' name='password1' id='password1' placeholder='Enter New Password'>";
+    html += "<input type='password' name='password2' id='password2' placeholder='Confirm New Password'>";
+    html += "<div class='su-general-btns'>";
+    html += "<button type='button' onClick=\"javascript: validateSUModel('change_password');\">Submit</button>";
+    html += "<button type='button' onClick=\"javascript: closeDropEditor();\">Cancel</button>";
+    html += "</div>";
+    html += "</form>";
+    html += "</div>";
+    html += "</div>";
+    return html;
+}
+
+function closeDropEditor()
+{
+    $("#pop-up-builder").fadeOut(600);
+    $("#su-drop-window ").delay(300).fadeOut(500);
+}
+
+function getSelectedModel()
+{
+    var model = null;
+    if ($("#s_blog").prop("checked") === true)
+    {
+        model = "blog";
+    }
+    else if ($("#s_product").prop("checked") === true)
+    {
+        model = "product";
+    }
+    else if ($("#s_image").prop("checked") === true)
+    {
+        model = "image";
+    }
+    return model;
+}
+
+function getSelectedUser()
+{
+    var model = null;
+    if ($("#s_user").prop("checked") === true)
+    {
+        model = "permission";
+    }
+    else if ($("#s_auth").prop("checked") === true)
+    {
+        model = "auth";
+    }
+    else if ($("#s_security").prop("checked") === true)
+    {
+        model = "security";
+    }
+    return model;
+}
+
+function fetchModelType(mode)
+{
+    var model = getSelectedModel();
+    if (Number(mode) === 0) { launchAdminEditors(model, 0); }
+    else { launchDeleteConfirmation(model); }
+}
+
+function fetchUserType(mode)
+{
+    var model = getSelectedUser();
+    if (Number(mode) === 0) { launchAdminEditors(model, 0); }
+    else { launchDeleteConfirmation(model); }
+}
+
+function decodeDeleteIndices(encoded)
+{
+    var result  = [];
+    var dlist   = String(encoded).split("~");
+    for (var i = 0; i < dlist.length; i++)
+    {
+        if (dlist[i].length !== 0)
+        {
+            result.push(dlist[i]);
         }
     }
     return result;
 }
 
-function setPhoneInput(element_name, max)
+function getDeleteIndices(model)
 {
-    var element_id  = "#" + String(element_name);
-    var value       = $(element_id).val();
-    var input       = limitIntegerEntry(value, max)
-    $(element_id).val(input);
+    var delete_list = null;
+    model = String(model);
+    if (model==="blog" || model==="product" || model==="image") { delete_list = $("#selected-db").val(); }
+    else if (model==="permission" || model==="auth" || model==="security") { delete_list = $("#selected-usr").val(); }
+    else if (model === "payment" || model==="about") { delete_list = $("#selected-payment").val(); }
+    return String(delete_list);
 }
 
-function encode_hours(target)
+function launchAlterMessage(message)
 {
-    var hours   = null;
-    var base    = "#" + String(target) + "_"
-    var n_o     = base + "open";
-    var n_c     = base + "close";
-    var n_o_s   = n_o + "_s";
-    var n_c_s   = n_c + "_s";
-    var open    = $(n_o).val();
-    var close   = $(n_c).val();
-    var open_s  = $(n_o_s).val();
-    var close_s = $(n_c_s).val();
-    open        = String(open);
-    open_s      = String(open_s);
-    close       = String(close);
-    close_s     = String(close_s);
-
-    if (open.length === 0) { hours = "Closed"; }
-    else { hours = open + open_s + " - " + close + close_s; }
-    return hours; 
+    var html = "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-confirm-exit2'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
+    html += "<h3><i class='fas fa-exclamation-circle'></i> &nbspMessage</h3>";
+    html += "<div class='alter-message'>" + message + "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass("hidden");
+    $("#su-editor-builder").fadeIn(600);
 }
 
-function build_user_manager(data)
+function launchDeleteConfirmation(model)
 {
-    var granted = "<i class=\"far fa-check-square\"></i> ";
-    var denied = "<i class=\"far fa-square\"></i> ";
-    var html = "<form action=\"/edit_success\" method=\"POST\" id=\"user_management_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelManager\" value=\"user\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionManager\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdManager\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
-    html += "</form>";
-
-
-
-    html += "<div class='user-manageer-wrap center_v_mode'>";
-    html += "<div class='frame_general_sm'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
-    html += "<div class='img-style-editor-left'>";
-    html += "<h3><i class='fas fa-user-cog'></i> user management</h3>";
-    html += "<div class='master-list-edit-wrap'>";
-    html += "<ul>";
-
-    for (var i = 0; i < data.length; i++)
+    var open            = true;
+    var html            = "";
+    var delete_indices  = getDeleteIndices(model);
+    var delete_list     = decodeDeleteIndices(delete_indices);
+    var header          = null;
+    var mdl_head        = null;
+    var details         = "";
+    var id_list         = "~";
+    var m               = [];
+    var action_url      = $("#action_url").val();
+    model               = String(model).toLowerCase();
+    if (model === "blog")
     {
-        var name = cleanTextInputHtml(data[i]['name']);
-        var desc = cleanTextInputHtml(data[i]['description']);
-        html += "<div id='div_";
-        html += data[i]['index'];
-        html += "'>";
-        html += "<li>";
-        html += "<a href=\"javascript: about_selector('";
-        html += data[i]['index'];
-        html += "');\">";
-        html += "<input type='hidden' id='id_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['id'];
-        html += "'>";
-        html += "<input type='hidden' id='fname_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['fname'];
-        html += "'>";
-        html += "<input type='hidden' id='lname_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['lname'];
-        html += "'>";
-        html += "<input type='hidden' id='email_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['email'];
-        html += "'>";
-        html += "<input type='hidden' id='admin_";
-        html += data[i]['is_admin'];
-        html += "' value='";
-        html += data[i]['email'];
-        html += "'>";
-        html += "<input type='hidden' id='product_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['product_permission'];
-        html += "'>";
-        html += "<input type='hidden' id='about_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['about_permission'];
-        html += "'>";
-        html += "<input type='hidden' id='blog_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['blog_permission'];
-        html += "'>";
-        html += "<input type='hidden' id='gallery_";
-        html += data[i]['index'];
-        html += "' value='";
-        html += data[i]['gallery_permission'];
-        html += "'>";
-
-
-        html += "<div class='sub-li'>";
-        html += "<span>User Name: </span>";
-        html += data[i]['fname'];
-        html += " ";
-        html += data[i]['lname'];
-        html += "</div>";
-        html += "<div class='sub-li'>";
-        html += "<span>Email: </span>";
-        html += data[i]['email'];
-        html += "</div>";
-        html += "<div class='sub-li access_drop'>";
-        html += "<span>Permissions: </span>";
-        html += "</div>";
-
-        html += "<div class=\"container\">";
-        html += "<div class=\"row\">";
-
-        html += "<div class=\"col-sm-6 clear_pm access_box\">";
-        if (String(data[i]['is_admin']) === "True") { html += granted; }
-        else { html += denied; }
-        html += "<p>Administrator</p>";
-        html += "</div>";
-
-        html += "<div class=\"col-sm-6 clear_pm access_box\">";
-        if (String(data[i]['blog_permission']) === "True") { html += granted; }
-        else { html += denied; }
-        html += "<p>Blog Access</p>";
-        html += "</div>";
-
-        html += "<div class=\"col-sm-6 clear_pm access_box\">";
-        if (String(data[i]['product_permission']) === "True") { html += granted; }
-        else { html += denied; }
-        html += "<p>Product Access</p>";
-        html += "</div>";
-
-        html += "<div class=\"col-sm-6 clear_pm access_box\">";
-        if (String(data[i]['gallery_permission']) === "True") { html += granted; }
-        else { html += denied; }
-        html += "<p>Gallery Access</p>";
-        html += "</div>";
-
-        html += "<div class=\"col-sm-12 clear_pm access_box\">";
-        if (String(data[i]['about_permission']) === "True") { html += granted; }
-        else { html += denied; }
-        html += "<p>About Us Statement</p>";
-        html += "</div>";
-
-        html += "</div>";
-        html += "</div>";
-
-
-
-        html += "</a>";
-        html += "</li>";
-        html += "</div>";
+        mdl_head        = "blog";
+        if (delete_list.length > 1) { mdl_head = "blogs"; }
+        header          = "<h3><i class='fab fa-blogger'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var subject     = $("#m_subject_" + String(delete_list[i])).val();
+            var m_date      = $("#m_date_" + String(delete_list[i])).val();
+            var m_id        = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>[" + m_date + "]</b> </td>";
+            details += "<td class='su-confirm-pull-right'>" + subject + "</td>";
+            details += "</tr>";
+        }
     }
-
-    html += "</ul>";
-    html += "</div>";
-    html += "<div class='img-style-editor-btns3'>";
-    html += "<button id='edit_user_access'>Update</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('block_user');\">Suspend</button>";
-    html += "<button onClick=\"javascript: ultimateWarningMessageOption('delete_user');\">Delete</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='master-img-editor-btn-wrap'>";
-    html += "<div class='master-img-editor-btn'>";
-    html += "<button onClick=\"javascript: closeIconBtn('2');\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-sm-1' style='padding:0; margin:0'>";
-    html += "<div class='img-style-editor-right'>";
-    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;    
-
-
-    // var granted = "<i class=\"far fa-check-square\"></i> ";
-    // var denied = "<i class=\"far fa-square\"></i> ";
-    // var html = "<form action=\"/edit_success\" method=\"POST\" id=\"user_management_form\">";
-    // html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelManager\" value=\"user\">";
-    // html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionManager\" value=\"\">";
-    // html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdManager\" value=\"\">";
-    // html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
-    // html += "</form>";
-    // html += "<div class=\"blog-manager-container center_v_mode\">";
-    // html += "<div class=\"frame_general_sm steel_back\">";
-    // html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    // html += "<h3>User Management</h3>";
-    // html += "<div class=\"generalSteel\">";
-    // html += "<h2 class=\"\"><i class=\"fas fa-user-cog\"></i></h2>";
-    // html += "<h5>Select a user from the list below</h5>";
-    // html += "<div class=\"generalSteelListWrap\">";
-    // html += "<ul>";
-
-    // for(var i = 0; i < data.length; i++)
-    // {
-    //     html += "<div id=\"div_" + data[i]['index'] + "\">";
-    //     html += "<a href=\"javascript: about_selector('" + data[i]['index'] + "');\">";
-    //     html += "<input type=\"hidden\" id=\"id_" + data[i]['index'] + "\" value=\"" + data[i]['id'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"fname_" + data[i]['index'] + "\" value=\"" + data[i]['fname'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"lname_" + data[i]['index'] + "\" value=\"" + data[i]['lname'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"email_" + data[i]['index'] + "\" value=\"" + data[i]['email'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"admin_" + data[i]['index'] + "\" value=\"" + data[i]['is_admin'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"product_" + data[i]['index'] + "\" value=\"" + data[i]['product_permission'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"about_" + data[i]['index'] + "\" value=\"" + data[i]['about_permission'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"blog_" + data[i]['index'] + "\" value=\"" + data[i]['blog_permission'] + "\">";
-    //     html += "<input type=\"hidden\" id=\"gallery_" + data[i]['index'] + "\" value=\"" + data[i]['gallery_permission'] + "\">";
-    //     html += "<li>";
-    //     html += "<div class=\"container\">";
-    //     html += "<div class=\"row\">";
-    //     html += "<div class=\"col-sm-12 clear_pm cap_it\">" + data[i]['fname'] + " " + data[i]['lname'] + "</div>";
-    //     html += "<div class=\"col-sm-12 clear_pm\"><em>" + data[i]['email'] + "</em></div>";
-    //     html += "<div class=\"col-sm-12 clear_pm access_drop\">Access Granted To User:</div>";
-
-    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
-    //     if (String(data[i]['is_admin']) === "True") { html += granted; }
-    //     else { html += denied; }
-    //     html += "<p>Administrator</p>";
-    //     html += "</div>";
-
-    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
-    //     if (String(data[i]['blog_permission']) === "True") { html += granted; }
-    //     else { html += denied; }
-    //     html += "<p>Blog Access</p>";
-    //     html += "</div>";
-
-    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
-    //     if (String(data[i]['product_permission']) === "True") { html += granted; }
-    //     else { html += denied; }
-    //     html += "<p>Product Access</p>";
-    //     html += "</div>";
-
-    //     html += "<div class=\"col-sm-6 clear_pm access_box\">";
-    //     if (String(data[i]['gallery_permission']) === "True") { html += granted; }
-    //     else { html += denied; }
-    //     html += "<p>Gallery Access</p>";
-    //     html += "</div>";
-
-    //     html += "<div class=\"col-sm-12 clear_pm access_box\">";
-    //     if (String(data[i]['about_permission']) === "True") { html += granted; }
-    //     else { html += denied; }
-    //     html += "<p>About Us Statement</p>";
-    //     html += "</div>";
-    //     html += "</div>";
-    //     html += "</div>";
-    //     html += "</li>";
-    //     html += "</a>";
-    //     html += "</div>";   
-    // }
-
-    // html += "</ul>";
-    // html += "</div>";
-
-    // html += "<div class=\"ul_buttons3\">";
-    // html += "<button id=\"edit_user_access\">Change Access</button>";
-    // html += "<button onClick=\"javascript: ultimateWarningMessageOption('block_user');\">Block All</button>";
-    // html += "<button onClick=\"javascript: ultimateWarningMessageOption('delete_user');\">Delete User</button>";
-    // html += "</div>";
-    // html += "</div>";
-    // html += "<div class=\"generalSteel main_exit_btn\">";
-    // html += "<div class=\"general_steel_btn1\">";
-    // html += "<button id=\"close-this-2\">Exit</button>";
-    // html += "</div>";
-    // html += "</div>";
-    // html += "</div>";
-    // html += "</div>";
-    // build_user_editor();
-    // return html;
-}
-
-function build_user_editor()
-{
-    var html = "<div class=\"userEdirContainer center_v_mode\">";
-    html += "<form action=\"edit_success\" method=\"POST\" id=\"user_editor_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"targetModelEditor\" value=\"user\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"targetActionEditor\" value=\"update\">";
-    html += "<input type=\"hidden\" name=\"target_id\" id=\"targetIdEditor\" value=\"\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"12\">";
-    html += "<input type=\"hidden\" name=\"m_admin\" id=\"m_admin\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"m_product\" id=\"m_product\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"m_about\" id=\"m_about\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"m_blog\" id=\"m_blog\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"m_gallery\" id=\"m_gallery\" value=\"0\">";
-    html += "</form>";
-    html += "<div class=\"frame_general_sm\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Change User Access</h3>";
-    html += "<div class=\"generalSteel-in\">";
-    html += "<h2><i class=\"fas fa-user-cog\"></i></h2>";
-    html += "<div class=\"um_name\" id=\"um_name\"></div>";
-    html += "<div class=\"um_email\" id=\"um_email\"></div>";
-    html += "<div class=\"access_overview\">";
-    html += "Select from the list below to change the type of content that this user is allowed to change or edit on the <em>\"Natural Woman Salon\"</em> website. Click on the <span><i class=\"far fa-question-circle\"></i></span> icon next to each item to learn more about the permission that is granted when selected.";
-    html += "</div>";
-    html += "<div class=\"access_checkbox_wrap\">";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_admin\" onClick=\"javascript: signalAccessChanges('#m_admin');\"></td>";
-    html += "<td><span>Administrative Privileges</span></td>";
-    html += "<td><a href=\"javascript: load_helper('admin_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_blog\" onClick=\"javascript: signalAccessChanges('#m_blog');\"></td>";
-    html += "<td><span>Blog Access</span></td>";
-    html += "<td><a href=\"javascript: load_helper('blog_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_product\" onClick=\"javascript: signalAccessChanges('#m_product');\"></td>";
-    html += "<td><span>Product Modification</span></td>";
-    html += "<td><a href=\"javascript: load_helper('product_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_gallery\" onClick=\"javascript: signalAccessChanges('#m_gallery');\"></td>";
-    html += "<td><span>Gallery Editing</span></td>";
-    html += "<td><a href=\"javascript: load_helper('gallery_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td><input type=\"checkbox\" id=\"cb_about\" onClick=\"javascript: signalAccessChanges('#m_about');\"></td>";
-    html += "<td><span>About Us Statements</span></td>";
-    html += "<td><a href=\"javascript: load_helper('about_access');\"><i class=\"far fa-question-circle\"></i></a></td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "<div class=\"s_edit_btn shrink_s_btn\">";
-    html += "<button onClick=\"javascript: validateModel('access');\">Submit</button>";
-    html += "<button onClick=\"javascript: detectChanges('access', 'exit');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#msg3").html(html);
-}
-
-function build_auth_user()
-{
-    var html = "<div class=\"ua_wrapper center_v_mode\">";
-    html += "<div class=\"frame_general_sm\">";
-    html += "<div class=\"login-leaf nature-green flip\"><i class=\"fab fa-envira\"></i></div>";
-    html += "<h3>Authorize New User</h3>";
-    html += "<div class=\"generalSteel-in\">";
-    html += "<h2 class=\"blogger_editor\"><i class=\"fas fa-user-plus\"></i></h2>";
-    html += "<form action=\"/edit_success\" method=\"POST\" id=\"user_authorize_form\">";
-    html += "<input type=\"hidden\" name=\"target_model\" id=\"target_action_prod\" value=\"authorize\">";
-    html += "<input type=\"hidden\" name=\"target_action\" id=\"target_action2\" value=\"authorize\">";
-    html += "<input type=\"hidden\" name=\"prev_index\" value=\"13\">";
-    html += "<input type=\"hidden\" name=\"is_admin\" id=\"is_admin\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"product_permission\" id=\"ua_product_permission\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"about_permission\" id=\"ua_about_permission\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"blog_permission\" id=\"ua_blog_permission\" value=\"0\">";
-    html += "<input type=\"hidden\" name=\"gallery_permission\" id=\"ua_gallery_permission\" value=\"0\">";
-    html += "<div class=\"ua_header\">New User Information</div>";
-    html += "<div class=\"container\">";
-    html += "<div class=\"row\">";
-    html += "<div class=\"col-sm-6\" style=\"margin:0; padding:0; padding-right:3%;\">";
-    html += "<input type=\"text\" name=\"fname\" id=\"ua_fname\" placeholder=\"First Name\" oninput=\"javascript: signalAuthChanges();\">";
-    html += "</div>";
-    html += "<div class=\"col-sm-6\" style=\"margin:0; padding:0;\">";
-    html += "<input type=\"text\" name=\"lname\" id=\"ua_lname\" placeholder=\"Last Name\" oninput=\"javascript: signalAuthChanges();\">";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class=\"ua_drop\"><input type=\"email\" name=\"email\" id=\"ua_email\" placeholder=\"Enter new user email\" oninput=\"javascript: signalAuthChanges();\">";
-    html += "<input type=\"email\" name=\"email2\" id=\"ua_email2\" placeholder=\"Confirm new user\" oninput=\"javascript: signalAuthChanges();\">";
-    html += "</div>";
-    html += "<div class=\"ua_header ua_drop4\">Permissions</div>";
-    html += "<div class=\"permission_slip\">";
-    html += "<p>";
-    html += "Select the permissions that you would like to grant this user below. Complete descriptions of the type of access that the new user will be granted can be viewed by clicking on the <span><i class=\"far fa-question-circle\"></i></span> icon.";
-    html += "</p>";
-    html += "<div class=\"ua_splitter\">";
-    html += "<div class=\"ua_half\">";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_admin\" onClick=\"javascript: loadCheckboxData('#is_admin');\"></td>";
-    html += "<td class=\"simple_label\">Administrator</td>";
-    html += "<td>";
-    html += "<a href=\"javascript: load_helper('admin_access');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_product\" onClick=\"javascript: loadCheckboxData('#ua_product_permission');\"></td>";
-    html += "<td class=\"simple_label\">Product Access</td>";
-    html += "<td>";
-    html += "<a href=\"javascript: load_helper('product_access');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_about\" onClick=\"javascript: loadCheckboxData('#ua_about_permission');\"></td>";
-    html += "<td class=\"simple_label\">About Statement</td>";
-    html += "<td>";
-    html += "<a href=\"javascript: load_helper('about_access');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>"
-    html += "<div class=\"ua_half\">";
-    html += "<table>";
-    html += "<tr> ";
-    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_blog\" onClick=\"javascript: loadCheckboxData('#ua_blog_permission');\"></td>";
-    html += "<td class=\"simple_label\">Blog Access</td>";
-    html += "<td>";
-    html += "<a href=\"javascript: load_helper('blog_access');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td class=\"ua_input\"><input type=\"checkbox\" id=\"ua_gallery\" onClick=\"javascript: loadCheckboxData('#ua_gallery_permission');\"></td>";
-    html += "<td class=\"simple_label\">Gallery Permissions</td>";
-    html += "<td>";
-    html += "<a href=\"javascript: load_helper('gallery_access');\"><i class=\"far fa-question-circle\"></i></a>";
-    html += "</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</form>";
-    html += "<div class=\"general_editor_btns\">";
-    html += "<button onClick=\"javascript: validateNewUser();\">Authorize</button>";
-    html += "<button onClick=\"javascript: alertAuthChanges();\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function resendAuthRequest()
-{
-    var auth_id = $("#resend_id").val();
-    alert("AUTH ID: " + String(auth_id));
-    $("#confirm_authorization_form").submit();
-}
-
-function editSucessOptionBuilder(active, index, header, message)
-{
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<form action='/edit_success' method='POST' id='confirm_authorization_form'>";
-    html += "<input type='hidden' name='target_model' id='resend_model' value='reAuth'>";
-    html += "<input type='hidden' name='target_action' id='resend_action' value='reAuth'>";
-    html += "<input type='hidden' name='target_id' id='resend_id' value='";
-    html += String(active);
-    html += "'>";
-    html += "</form>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='edit_success_closer' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<div class='es-options'>";
-    html += "<h3>";
-    html += "<i class='fas fa-user-plus'></i> Authorize New User</h3>";
-    html += "<div class='ultimate-error-content'>";
-    html += "<h1>";
-    html += String(header);
-    html += "</h1>";
-    html += "<h2>";
-    html += String(message);
-    html += "</h2>";
-    html += "<div class='ultimate-btn-holder'>";
-    html += "<button onClick=\"javascript: resendAuthRequest();\">Send New Authorization Code</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('3');\">Do Not Send Authorization</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function signalAuthChanges()
-{
-    var a = $("#ua_fname").val();
-    var b = $("#ua_lname").val();
-    var c = $("#ua_email").val();
-    var d = $("#ua_email2").val();
-    if(a.length===0&&b.length===0&&c.length===0&&d.length===0) { $("#changes_detected").val("0"); }
-    else { $("#changes_detected").val("1"); }
-}
-
-function alertAuthChanges()
-{
-    var changed = $("#changes_detected").val();
-    changed     = String(changed);
-    if(changed === "0") { closeIconBtn("2"); }
-    else if (changed === "1")
+    else if (model === "product")
     {
-        var messages = [];
-        messages.push("Changes Detected");
-        messages.push("Are you sure you want to leave this page? All changes will be discarded.");
-        ultimateErrorMessageOption(messages);
+        mdl_head        = "product";
+        if (delete_list.length > 1) { mdl_head = "products"; }
+        header          = "<h3><i class='fas fa-spray-can'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var p_name      = $("#m_name_" + String(delete_list[i])).val();
+            var p_price     = $("#m_price_" + String(delete_list[i])).val();
+            var m_id        = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b><em>" + p_name + " </em></b></td>";
+            details += "<td class='su-confirm-pull-right'>$" + p_price + "</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "image")
+    {
+        mdl_head        = "image";
+        if (delete_list.length > 1) { mdl_head = "images"; }
+        header          = "<h3><i class='fas fa-camera'></i> &nbsp Delete " + mdl_head + "</h3>";
+        details += "<div class='container'><div class='row'>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var url     = $("#m_url_" + String(delete_list[i])).val();
+            var m_id    = $("#m_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<div class='col-sm-3 su_del_image_table' style='padding:1px; margin:0;'><img src='" + url + "'></div>";
+        }
+        details += "</div></div>";
+    }
+    else if (model === "permission")
+    {
+        mdl_head        = "user";
+        details         = "";
+        if (delete_list.length > 1) { mdl_head = "users"; }
+        header          = "<h3><i class='fas fa-user-times'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var U_fname = $("#m_fname_" + String(delete_list[i])).val();
+            var U_lname = $("#m_lname_" + String(delete_list[i])).val();
+            var U_email = $("#m_email_" + String(delete_list[i])).val();
+            var m_id    = $("#u_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + U_fname + " " + U_lname + " </b></td>";
+            details += "<td class='su-confirm-pull-right'>[" + U_email + "]</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "auth")
+    {
+        mdl_head        = "authorization";
+        if (delete_list.length > 1) { mdl_head = "authorizations"; }
+        header          = "<h3><i class='fas fa-user-cog'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var a_name = $("#m_name_" + String(delete_list[i])).val();
+            var a_email = $("#m_email_" + String(delete_list[i])).val();
+            var m_id    = $("#u_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + a_name + " </b></td>";
+            details += "<td class='su-confirm-pull-right'>[" + a_email + "]</td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "security")
+    {
+        mdl_head        = "security question";
+        if (delete_list.length > 1) { mdl_head = "security questions"; }
+        header          = "<h3><i class='fas fa-user-lock'></i> &nbsp Delete " + mdl_head + "</h3>";
+        for (var i = 0; i < delete_list.length; i++)
+        {
+            var q_ques  = $("#m_question_" + String(delete_list[i])).val();
+            var m_id    = $("#u_id_" + String(delete_list[i])).val();
+            id_list += String(m_id);
+            id_list += "~";
+            details += "<tr>";
+            details += "<td><i class='fas fa-minus-circle'></i></td>";
+            details += "<td><b>" + q_ques + " </b></td>";
+            details += "</tr>";
+        }
+    }
+    else if (model === "payment")
+    {
+        mdl_head    = "payment method";
+        header      = "<h3><i class='fas fa-shopping-cart'></i> &nbsp Delete " + mdl_head + "</h3>";
+        method      = $("#m_payment_method").val() 
+        icon        = $("#m_payment_icon").val();
+        details += "<tr>"; 
+        details += "<td><i class='fas fa-minus-circle'></i></td>"; 
+        details += "<td><b>" + method + " </b></td>";
+        details += "</tr>"; 
+    }
+    else if (model === "about")
+    {
+        mdl_head        = "about us statement";
+        var no_items    = $("#no_inactive").val();
+        no_items        = Number(no_items);
+        header          = "<h3><i class='fas fa-edit'></i> &nbsp Delete " + mdl_head + "</h3>";
+        if (no_items !== 1) { mdl_head = "about us statements"}
+        if (no_items > 0)
+        {
+            for (var i = 0; i < no_items; i++)
+            {
+                var t_name  = "#ab_box_" + String(i);
+                var trigger = null;
+                if ($(t_name).prop("checked") === true)
+                {
+                    var this_id = $("#a_id" + String(i)).val();
+                    var s_nth   = null;
+                    id_list += String(this_id);
+                    id_list += "~";
+                    trigger = '#a_statement_' + String(i);
+                    s_nth   = $(trigger).val();
+                    details += "<tr>";
+                    details += "<td><i class='fas fa-minus-circle'></i></td>";
+                    details += "<td><b>" + s_nth + " </b></td>";
+                    details += "</tr>";
+                }
+            }
+        }
+        else
+        {
+            open = false;
+            m.push("Nothing Has Been Selected");
+            m.push("");
+            generateErrorWindow(m);
+
+        }  
+    }
+    
+    if (open === true)
+    {
+        html += "<div class='su-center su-width40'>";
+        html += "<div class='su-confirm'>";
+        html += "<form action='" + action_url + "' method='POST' id='pop_delete_form'>";
+        html += "<input type='hidden' name='target_model' id='target_model' value='" + model + "'>";
+        html += "<input type='hidden' name='target_action' id='target_action' value='2'>";
+        html += "<input type='hidden' name='target_id' id='target_id' value='" + id_list + "'>";
+        html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
+        html += header;
+        html += "<div class='su-confirm1'>Are you sure you want to proceed?</div>";
+        html += "<div class='su-confirm2'>The following " + mdl_head + " will be permanently deleted:</div>";
+        html += "<div class='su-confirm-wrapper'>";
+        html += "<table>";
+        html += details;
+        html += "</table>";
+        html += "</div>";
+        html += "<div class='su-confirm-buttons'>";
+        if (model === "payment")
+        {
+            html += "<button type='button' onClick=\"javascript: submitEditor();\">Delete</button>";
+        }
+        else
+        {
+            html += "<button type='button' onClick=\"javascript: submitDelete();\">Delete</button>";
+        }
+        html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
+        html += "</div>";
+        html += "</form>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+        $("#su-editor-builder").html(html);
+        $("#su-editor-builder").hide();
+        $("#su-editor-builder").removeClass("hidden");
+        $("#su-editor-builder").fadeIn(500);
     }
 }
 
-function validateNewUser()
+function launchSiteAdminWarning(model)
 {
-    var proceed     = false;
-    var messages    = [];
-    var fname       = $("#ua_fname").val();
-    var lname       = $("#ua_lname").val();
-    var email1      = $("#ua_email").val();
-    var email2      = $("#ua_email2").val();
-    var a           = $("#is_admin").val();
-    var b           = $("#ua_product_permission").val();
-    var c           = $("#ua_about_permission").val();
-    var d           = $("#ua_blog_permission").val();
-    var e           = $("#ua_gallery_permission").val();
-    a = String(a)
-    b = String(b)
-    c = String(c)
-    d = String(d)
-    e = String(e)
-    if (fname.length === 0)
+    //set parent form to update
+    var html    = "";
+    var header  = "";
+    var sub_msg = "";
+    var w_type  = "";
+    var details = "";
+    model = String(model);
+    if (model === "address")
     {
-        messages.push("Empty Field");
-        messages.push("You must enter a first name for the new user to proceed.")
+        header = "<h3><i class='fas fa-map-marker-alt'></i> &nbsp Update Address</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the address on the contact page</div>";
+        w_type = "New Address";
+        var a1 = $("#f_address1").val();
+        var a2 = $("#f_address2").val();
+        var a3 = $("#f_address3").val();
+        var ct = $("#f_city").val();
+        var st = $("#f_state").val();
+        var zc = $("#f_zip").val();
+
+        details += "<div class='su-admin-warning-i'>" + a1 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + a2 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + a3 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + ct + ", " + st + " " + zc + "</div>";
+    }
+    else if (model === "phone")
+    {
+        var p1 = $("#f_area").val();
+        var p2 = $("#f_pre").val();
+        var p3 = $("#f_post").val();
+        var ph = "(" + p1 + ") " + p2 + "-" + p3;
+        header = "<h3><i class='fas fa-phone-square'></i> &nbsp Update Phone</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the phone number on the contact page</div>";
+        w_type = "New Phone";
+        details += "<div class='su-admin-warning-c'>" + ph + "</div>";
+    }
+    else if (model === "email")
+    {
+        var em = $("#f_email1").val();
+        header = "<h3><i class='fas fa-envelope'></i> &nbsp Update Email</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the email address on the contact page</div>";
+        w_type = "New Email";
+        details += "<div class='su-admin-warning-c'>" + em + "</div>";
+    }
+    else if (model === "about")
+    {
+        var sa  = $("#f_is_active").val();
+        var st  = $("#f_about_area").val();
+        var ww  = "This will alter the current About Us Statement";
+        if (sa === "False") { ww = "This will change/add the following about us statement."; }
+        header  = "<h3><i class=\"fas fa-pen-square\"></i> &nbsp <em>\"About Us\"</em></h3>";
+        sub_msg = "<div class='su-confirm2'>" + ww + "</div>";
+        w_type  = "New <b><em>\"About Us\"</em></b> Statement";
+        details += "<div class='su-admin-warning-c'>" + st + "</div>";
+    }
+    else if (model === "max_images")
+    {
+        var mu = $("#f_max_images").val();
+        header = "<h3><i class='fas fa-images'></i> &nbsp Update Image Gallery</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the image gallery</div>";
+        w_type = "Maximum Number Of Uploads:";
+        details += "<div class='su-admin-warning-b'>" + mu + "</div>";
+    }
+    else if (model === "facebook")
+    {
+        var fl = $("#f_facebook_url").val();
+        header = "<h3><i class=\"fab fa-facebook-square\"></i> &nbsp Update Facebook</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the facebook link</div>";
+        w_type = "New Facebook Link";
+        details += "<div class='su-admin-warning-c'>" + fl + "</div>";
+    }
+    else if (model === "twitter")
+    {
+        var tw = $("#f_twitter_url").val();
+        header = "<h3><i class=\"fab fa-twitter-square\"></i> &nbsp Update Twitter</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the twitter link</div>";
+        w_type = "New Twitter Link";
+        details += "<div class='su-admin-warning-c'>" + tw + "</div>";
+    }
+    else if (model === "instagram")
+    {
+        var il = $("#f_instagram_url").val();
+        header = "<h3><i class=\"fab fa-instagram\"></i> &nbsp Update Instagram</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the instagram link</div>";
+        w_type = "New Instagram Link";
+        details += "<div class='su-admin-warning-c'>" + il + "</div>";
+    }
+    else if (model === "change_name")
+    {
+        var cf = $("#change_fname").val();
+        var cl = $("#change_lname").val();
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Update User Name</h3>";
+        sub_msg = "<div class='su-confirm2'>This will permanently alter your user name</div>";
+        w_type  = "New User Name";
+        details += "<div class='su-admin-warning-c'>" + cf + " " + cl + "</div>";
+    }
+    else if (model === "change_email")
+    {
+        var ce = $("#email1").val();
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Update User Email</h3>";
+        sub_msg = "<div class='su-confirm2'>This will permanently alter your user email</div>";
+        w_type  = "New Login Email";
+        details += "<div class='su-admin-warning-c'>" + ce + "</div>";
+    }
+    else if (model === "change_password")
+    {
+        header = "<h3><i class='fas fa-user-cog'></i> &nbsp Reset Password</h3>";
+        sub_msg = "<div class='su-confirm2'>This will permanently alter your password</div>";
+        w_type  = "Important Information";
+        details += "<div class='su-admin-warning-i'>" + "If you proceed, you will no longer be allowed to login with your current credentials. You must use your new password to login." + "</div>";
+    }
+    else if (model === "payment")
+    {
+        header = "<h3><i class='fas fa-money-bill-alt'></i> &nbsp Update Payment Method</h3>";
+        sub_msg = "<div class='su-confirm2' id='su-payment-sub-message'></div>";
+        w_type  = "Important Information";
+        details += "<div class='su-admin-warning-i' id='su-payment-sub-details'></div>";
+    }
+    else if (model === "hours")
+    {
+        var isSpecial   = $("#special_check").val();
+        var weekdays    = $("#f_group_weekdays").val();
+        var weekends    = $("#f_group_weekends").val();
+        var mon         = decodeSuTime("mon");
+        var sat         = decodeSuTime("sat");
+        var tue         = "";
+        var wed         = "";
+        var thu         = "";
+        var fri         = "";
+        var sun         = "";
+        var title       = "Hours of Operation";
+        var hours1      = "";
+        var hours2      = "";
+
+        if (String(isSpecial) === "True") { title = $("#k_special_hours_input").val(); }
+        if (String(weekdays) === "False")
+        {
+            tue = decodeSuTime("tue");
+            wed = decodeSuTime("wed");
+            thu = decodeSuTime("thu");
+            fri = decodeSuTime("fri");
+            hours1 += "<div class='su-admin-warning-i'><b>Monday: </b>" + mon + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Tuesday: </b>" + tue + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Wednesday: </b>" + wed + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Thursday: </b>" + thu + "</div>";
+            hours1 += "<div class='su-admin-warning-i'><b>Friday: </b>" + fri + "</div>";
+        }
+        else
+        {
+            hours1 += "<div class='su-admin-warning-i'><b>Weekdays: </b>" + mon + "</div>";
+        }
+        if (String(weekends) === "False")
+        {
+            sun = decodeSuTime('sun');
+            hours2 += "<div class='su-admin-warning-i'><b>Saturday: </b>" + sat + "</div>";
+            hours2 += "<div class='su-admin-warning-i'><b>Sunday: </b>" + sun + "</div>";
+        }
+        else
+        {
+            hours2 += "<div class='su-admin-warning-i'><b>Weekends: </b>" + sat + "</div>";
+        }
+
+        header = "<h3><i class='fas fa-clock'></i> &nbsp Update Business Hours</h3>";
+        sub_msg = "<div class='su-confirm2'>This will alter the hours of operation</div>";
+        w_type = "New Hours Of Operation";
+        details += "<div class='su-admin-warning-p'>" + title + ":</div>";
+        details += "<div class='su-admin-warning-i'>" + hours1 + "</div>";
+        details += "<div class='su-admin-warning-i'>" + hours2 + "</div>";
+    }
+
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-confirm'>";
+    html += "<div class='su-confirm-exit'><i class='fas fa-window-close' onClick=\"javascript: closeError();\"></i></div>";
+    html += header;
+    html += "<div class='su-confirm1'>Are you sure you want to proceed?</div>";
+    html += sub_msg;
+    html += "<div class='su-confirm-wrapper'>";
+    html += "<div class='su-admin-warning-h'>" + w_type + "</div>";
+    html += details;
+    html += "</div>";
+    html += "<div class='su-confirm-buttons'>";
+    if (model === "about")
+    {
+        html += "<button type='button' onClick=\"javascript: submitAbout();\">Update</button>";
+    }
+    else
+    {
+        html += "<button type='button' onClick=\"javascript: submitEditor();\">Update</button>";
+    }
+    
+    html += "<button type='button' onClick=\"javascript: closeError();\">Cancel</button>";
+    html += "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass("hidden");
+    $("#su-editor-builder").fadeIn(500);
+}
+
+function selectAllModels()
+{
+    var model   = getSelectedModel();
+    var count   = $("#model-count").val();
+    var sList   = "~";
+    count       = Number(count);
+    for (var i = 0; i < count; i++)
+    {
+        $("#div_" + String(i)).addClass('su_ultimate_selector');
+        $("#db_box_" + String(i)).prop("checked", true);
+        sList += String(i);
+        sList += "~";
+    }
+    $("#selected-db").val(sList);
+    $("#model-del1").removeClass("su-btn-disabled");
+    $("#modelDelBtn").prop("disabled", false);
+}
+
+function clearAllModels()
+{
+    var model   = getSelectedModel();
+    var count   = $("#model-count").val();
+    count       = Number(count);
+    for (var i = 0; i < count; i++)
+    {
+        $("#div_" + String(i)).removeClass('su_ultimate_selector');
+        $("#db_box_" + String(i)).prop("checked", false);
+    }
+    $("#selected-db").val("");
+    $("#model-del1").addClass("su-btn-disabled");
+    $("#modelDelBtn").prop("disabled", true);
+}
+
+function selectAllUsers()
+{
+    var model   = getSelectedUser();
+    var count   = $("#user-count").val();
+    var sList   = "~";
+    count       = Number(count);
+    for (var i = 0; i < count; i++)
+    {
+        $("#div1_" + String(i)).addClass('su_ultimate_selector');
+        $("#usr_box_" + String(i)).prop("checked", true);
+        sList += String(i);
+        sList += "~";
+    }
+    $("#selected-usr").val(sList);
+    $("#user-del1").removeClass("su-btn-disabled");
+    $("#ursDelBtn").prop("disabled", false);
+}
+
+function clearAllUsers()
+{
+    var model   = getSelectedUser();
+    var count   = $("#user-count").val();
+    count       = Number(count);
+    for (var i = 0; i < count; i++)
+    {
+        $("#div1_" + String(i)).removeClass('su_ultimate_selector');
+        $("#usr_box_" + String(i)).prop("checked", false);
+    }
+    $("#selected-usr").val("");
+    $("#user-del1").addClass("su-btn-disabled");
+    $("#ursDelBtn").prop("disabled", true);
+}
+
+function closeEditor()
+{
+    $("#pop-up-builder").fadeOut(600);
+}
+
+function closeError()
+{
+    $("#su-editor-builder").fadeOut(600);
+}
+
+function openEditor(html)
+{   $("#pop-up-builder").html(html);
+    $("#pop-up-builder").hide();
+    $("#pop-up-builder").removeClass('hidden');
+    $("#pop-up-builder").fadeIn(600);
+}
+
+function suSoftClose()
+{
+    $("#su-editor-builder").fadeOut(600);
+}
+
+function suHardClose()
+{
+    $("#pop-up-builder").fadeOut(600);
+    $("#su-editor-builder").fadeOut(600);
+}
+
+function suHardClose2()
+{
+    $("#about-editor-builder").fadeOut(500);
+    $("#su-editor-builder").fadeOut(500);
+}
+
+function suCheckbox(trigger, target)
+{
+    trigger = String(trigger);
+    target  = String(target);
+    if ($(trigger).prop("checked") === true) { $(target).val("True"); }
+    else { $(target).val("False"); }
+}
+
+function suSendNewAuth()
+{
+    $("#target_action").val("3");
+    submitEditor();
+}
+
+
+function closeAboutError()
+{
+    $("#about-editor-builder").fadeOut(500);
+}
+
+function openSuDropMenu()
+{
+    var current = $("#su-carat").html();
+    current = String(current);
+    if (current === "<i class=\"fas fa-caret-down\"></i>")
+    {
+        $("#su-carat").html("<i class=\"fas fa-caret-up\"></i>");
+        $("#su-drop-window").fadeOut(500);
+    }
+    else
+    {
+        $("#su-carat").html("<i class=\"fas fa-caret-down\"></i>");
+        $("#su-drop-window").hide();
+        $("#su-drop-window").removeClass('hidden');
+        $("#su-drop-window").fadeIn(500);
+    }
+}
+
+function renderEmailPage()
+{
+   window.location.href = "/email";
+}
+
+function returnToAdministrator()
+{
+    window.location.href = "/adminAlt";
+}
+
+function logout()
+{
+    window.location.href = "/logout";
+}
+
+function returnToLogin()
+{
+    window.location.href = "/admin";
+}
+
+function returnToIndex()
+{
+    window.location.href = "/";
+}
+
+function loadDBdata(blogs, products, images)
+{
+    var query_blogs     = $("#qblog").val();
+    var query_products  = $("#qproduct").val();
+    var query_images    = $("#qimage").val();
+    query_blogs         = Number(query_blogs);
+    query_products      = Number(query_products);
+    query_images        = Number(query_images);
+    if (query_blogs===0) { $("#s_blog").prop("disabled", true); $("#s_db_label_blog").addClass("low_opacity"); }
+    if (query_products===0) { $("#s_product").prop("disabled", true); $("#s_db_label_product").addClass("low_opacity"); }
+    if (query_images===0) { $("#s_image").prop("disabled", true); $("#s_db_label_image").addClass("low_opacity"); }
+    if (query_blogs===1) { superLaunchBuilder("blog", blogs); $("#s_blog").click(); }
+    else
+    {
+        if (query_products===1) { superLaunchBuilder("product", products); $("#s_product").click(); }
+        else
+        {
+            if (query_images===1) { superLaunchBuilder("image", images); $("#s_image").click(); }
+        }
+    }
+    if (query_blogs===0 && query_products===0 && query_images===0)
+    {
+        $("#modelPlusBtn").prop("disabled", true);
+        $("#model-del2").addClass("su-btn-disabled");
+        $("#mst_sel_btn_1").html("");
+    }
+}
+
+function loadUserData(users, auths, questions)
+{
+    var query_perm  = $("#quserInclusive").val();
+    var query_auth  = $("#qauth").val();
+    var query_secu  = $("#qsecurity").val();
+    query_perm      = Number(query_perm);
+    query_auth      = Number(query_auth);
+    query_secu      = Number(query_secu);
+    if (query_perm===0) { $("#s_user").prop("disabled", true); $("#s_usr_label_users").addClass("low_opacity"); }
+    if (query_auth===0) { $("#s_auth").prop("disabled", true); $("#s_usr_label_auths").addClass("low_opacity"); }
+    if (query_secu===0) { $("#s_security").prop("disabled", true); $("#s_usr_label_quest").addClass("low_opacity"); }
+    if (query_perm===1) { superUserLaunch("user", users); $("#s_user").click(); }
+    else
+    {
+        if (query_auth===1) { superUserLaunch("auth", auths); $("#s_auth").click(); }
+        else
+        {
+            if (query_secu===1) { superUserLaunch("question", questions); $("#s_security").click(); }
+        }
+    }
+    if (query_perm===0 && query_auth===0 && query_secu===0)
+    {
+        $("#userPlusBtn").prop("disabled", true);
+        $("#user-del2").addClass("su-btn-disabled");
+        $("#mst_sel_btn_2").html("");
+    }
+}
+
+function loadAdminData(company, payments)
+{
+    var query_comp  = $("#qcompany").val();
+    var query_paym  = $("#qpayment").val();
+    var query_abou  = $("#qabout").val();
+    var query_maxi  = $("#qmax").val();
+    var query_socm  = $("#qsocial").val();
+    query_comp      = Number(query_comp);
+    query_paym      = Number(query_paym);
+    query_abou      = Number(query_abou);
+    query_maxi      = Number(query_maxi);
+    query_socm      = Number(query_socm);
+    if (query_abou===0 && query_comp===0) { $("#s_admin_multi_1").prop("disabled", true); $("#s_admin_label_contact").addClass("low_opacity"); }
+    if (query_paym===0) { $("#s_payment").prop("disabled", true); $("#s_admin_label_payment").addClass("low_opacity"); }
+    if (query_maxi===0 && query_socm===0) { $("#s_admin_multi_2").prop("disabled", true); $("#s_admin_label_links").addClass("low_opacity"); }
+    if (query_comp===1) { superAdminLaunch("contact", company); $("#s_admin_multi_1").click(); }
+    if (query_abou===1 || query_comp===1)
+    {
+        superAdminLaunch('contact', company);
+        if (query_abou===0) { $("#master_ultra_about_button").prop("disabled", true); }
+        else if (query_comp===0)
+        {
+            $("#mas_ult_1").html("Address:");
+            $("#mas_ult_2").html("Phone:");
+            $("#mas_ult_3").html("Email:");
+            $("#mas_ult_4").html("Hours:");
+        }
+    }
+    else
+    {
+        if (query_paym===1) { superAdminLaunch("method", payments); $("#s_payment").click(); }
+        else
+        {
+            if(query_maxi===1 || query_socm===1) { superAdminLaunch("links", company); $("#s_admin_label_links").click(); }
+            if (query_maxi===0) { $("#mst_ult_admin_5").html("Images:"); }
+            else if (query_socm===0)
+            {
+                $("#mst_ult_admin_6").prop("disabled", true);
+                $("#mst_ult_admin_7").prop("disabled", true);
+                $("#mst_ult_admin_8").prop("disabled", true);
+            }
+        }
+    }
+    if (query_comp===0&&query_paym===0&&query_abou===0&&query_maxi===0&&query_socm===0)
+    {
+        $("#master_admin_lockout").html("");
+    }
+}
+
+function mirrorInput(trigger, target)
+{
+    var value = $(trigger).val();
+    $(target).val(value);
+}
+
+function initializeAdmin(blogs, users, company, images, products, payments, auths, questions)
+{
+    var altered = $("#altered").val();
+    altered = Number(altered);
+    if (altered === 0)
+    {
+        loadDBdata(blogs, products, images);
+        loadUserData(users, auths, questions);
+        loadAdminData(company, payments); 
+    }
+    else if (altered === 1)
+    {
+        var mdl = $("#mm_mdl").val();
+        var msg = $("#mm_msg").val();
+        launchAlterMessage(msg);
+        if (mdl === "blog") 
+        { 
+            $("#s_blog").click(); 
+            superLaunchBuilder('blog', blogs);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
+        }
+        else if (mdl === "product") 
+        { 
+            $("#s_product").click(); 
+            superLaunchBuilder('product', products);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
+        }
+        else if (mdl === "image") 
+        { 
+            $("#s_image").click(); 
+            superLaunchBuilder('image', images);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
+        }
+        else if (mdl === "permission")
+        {
+            $("#s_user").click();
+            superUserLaunch('user', users);
+            loadDBdata(blogs, products, images);
+            loadAdminData(company, payments); 
+        }
+        else if (mdl === "auth")
+        {
+            $("#s_auth").click();
+            superUserLaunch('auth', auths);
+            loadDBdata(blogs, products, images);
+            loadAdminData(company, payments); 
+        }
+        else if (mdl === "security")
+        {
+            $("#s_security").click();
+            superUserLaunch('question', questions);
+            loadDBdata(blogs, products, images);
+            loadAdminData(company, payments); 
+        }
+        else if (mdl === "payment")
+        {
+            $("#s_payment").click();
+            superAdminLaunch('method', payments);
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+        }
+        else if (mdl==="facebook" || mdl==="twitter" || mdl==="instagram" || mdl==="max_images")
+        {
+            $("#s_admin_multi_2").click();
+            superAdminLaunch('links', company);
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+        }
+        else if (mdl==="about" || mdl==='hours' || mdl==='address' || mdl==='phone' || mdl==="email")
+        {
+            $("#s_admin_multi_1").click();
+            superAdminLaunch('contact', company);
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+        }
+        else
+        {
+            loadDBdata(blogs, products, images);
+            loadUserData(users, auths, questions);
+            loadAdminData(company, payments); 
+        }
+    }   
+}
+
+function validateReg1()
+{
+    var errors  = false;
+    var m       = [];
+    var code    = $("#security_code").val();
+    var email   = $("#email").val();
+    var fname   = $("#fname").val();
+    var lname   = $("#lname").val();
+    var sq1     = $("#question1").val();
+    var sq2     = $("#question2").val();
+    var an1     = $("#answer1").val();
+    var an2     = $("#answer2").val();
+    var pw1     = $("#password1").val();
+    var pw2     = $("#password2").val();
+    if (code.length === 0)
+    {
+        m.push("Empty Field Detected");
+        m.push("You must enter the authorization code that was emailed to you to proceed")
+        errors = true;
+    }
+    else if (email.length === 0)
+    {
+        m.push("Empty Field Detected");
+        m.push("You must confirm your email to proceed")
+        errors = true;
+    }
+    else if (validate_email(email) === false)
+    {
+        m.push("Invalid Email");
+        m.push("You must enter a valid email address to proceed");
+        errors = true;
+    }
+    else if (fname.length === 0)
+    {
+        m.push("Empty Field Detected");
+        m.push("You must enter your first name to proceed")
+        errors = true;
     }
     else if (lname.length === 0)
     {
-        messages.push("Empty Field");
-        messages.push("You must enter a last name for the new user to proceed.")
+        m.push("Empty Field Detected");
+        m.push("You must enter your last name to proceed")
+        errors = true;
     }
-    else if (email1.length === 0)
+    else if (an1.length === 0)
     {
-        messages.push("Email 1 Is Blank");
-        messages.push("You must enter the email for the new user to proceed.")
+        m.push("Empty Field Detected");
+        m.push("You must provide an answer to security question 1 to proceed")
+        errors = true;
     }
-    else if (validate_email(email1) === false)
+    else if (an2.length === 0)
     {
-        messages.push("Invalid Email");
-        messages.push("The email address that you entered for email 1 is invalid.")
+        m.push("Empty Field Detected");
+        m.push("You must provide an answer to security question 2 to proceed")
+        errors = true;
     }
-    else if (email2.length === 0)
+    else if (sq1 === sq2)
     {
-        messages.push("Email 1 Is Blank");
-        messages.push("You must confirm the new user's email to proceed.")
+        m.push("Duplicate Security Questions");
+        m.push("You cannot select the same security questions. Please change question 1 or question 2");
+        errors = true;
     }
-    else if (validate_email(email2) === false)
+    else if (pw1.length === 0)
     {
-        messages.push("Invalid Email");
-        messages.push("The email address that you entered for email 2 is invalid.")
+        m.push("Empty Field Detected");
+        m.push("You must provide a valid password to proceed")
+        errors = true;
     }
-    else if (email1 !== email2)
+    else if (pw2.length === 0)
     {
-        messages.push("The Email Addresses Do Not Match");
-        messages.push(" ")
+        m.push("Empty Field Detected");
+        m.push("You must confirm your new password to proceed")
+        errors = true;
     }
-    else if(a==="0"&&b==="0"&&c==="0"&&d==="0"&&e==="0")
+    else if (pw1 !== pw2)
     {
-        messages.push("No Permissions Granted");
-        messages.push("You cannot authorize a new user without granting any access privileges. If you would like to authorize this user anyway, You must grant at least grant one privilege and when the user has registered, you can block all privileges in the \"User Management\" section of the administration page.");
+        errors = true;
+        m.push("Passwords Do Not Match!");
+        m.push("The passwwords must match to proceed");
     }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        $("#changes_detected").val("1");
-        ultimateWarningMessageOption("authorize");
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    }
+    if (errors === true) { generateErrorWindow(m); }
+    else { $("#registration_form").submit(); }
 }
 
-function build_password_setter()
+function loadRecoveryWindow()
 {
-    var index = $("#btn_index").val();
-    var html ="<div class=\"account_change_wrap center_v_mode\">";
-    html += "<div class=\"account_set_frame\">";
-    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
-    html += "<h3><i class=\"fas fa-cog\"></i> Reset Password</h3>";
-    html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
-    html += "<input type=\"hidden\" id=\"super_index\" value=\"" + String(index) + "\">";
-    html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_password'>";
-    html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"old\" id=\"old\" placeholder=\"Enter your current password\">";
-    html += "</div>";
-    html += "<input type=\"password\" name=\"password1\" id=\"password1\" placeholder=\"Enter your new password\">";
-    html += "<input type=\"password\" name=\"password2\" id=\"password2\" placeholder=\"Re-enter your new password\">";
-    html += "<div class=\"account-buttons\">";
-    html += "<button type=\"button\" onClick=\"javascript: pwordResetBtn();\">Save</button>";
-    html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
-    html += "</div>";
+    var html = "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeRecover();\"><i class='fas fa-window-close su-closerm'></i></a></div>";
+    html += "<h3><i class='fas fa-unlock-alt'> &nbsp<span class='recover-st'>Password Recovery</span></i></h3>";
+    html += "<div class='recover-email-label'>Enter the email associated with your account:</div>";
+    html += "<form action='/launchSecure' method='POST' id='recovery_form'>";
+    html += "<input type='email' name='sec_email' id='sec_email' placeholder='Email'>";
     html += "</form>";
+    html += "<div class='rec-email-btn'>";
+    html += "<button type='button' onClick=\"javascript: validateRecoveryEmail();\">Continue</button>";
     html += "</div>";
     html += "</div>";
-    return html;
+    html += "</div>";
+    $("#recover-space").html(html);
+    $("#recover-space").hide();
+    $("#recover-space").removeClass("hidden");
+    $("#recover-space").fadeIn(500);
 }
 
-function pwordResetBtn()
+function validateRecoveryEmail()
 {
-    var proceed = false;
-    var messages = [];
-    var currentPW = $("#old").val();
-    var password1 = $("#password1").val();
-    var password2 = $("#password2").val();
-    if (String(currentPW).length === 0)
+    var has_error   = false;
+    var email       = $("#sec_email").val();
+    var m           = [];
+    if (email.length === 0)
     {
-        messages.push("Empty Fields");
-        messages.push("You must enter your current password to proceed.");
+        has_error = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter the password associated with your account to proceed");
     }
-    else if (String(password1).length === 0)
+    else if (validate_email(email) === false)
     {
-        messages.push("Empty Fields");
-        messages.push("You must enter a new password to proceed.");
+        has_error = true;
+        m.push("Invalid Email");
+        m.push("You must enter a valid email address to proceed");
     }
-    else if (String(password2).length === 0)
+    if (has_error === false)
     {
-        messages.push("Empty Fields");
-        messages.push("You must confirm your new password to proceed.");
+        $("#recovery_form").submit();
     }
-    else if (String(password1) !== String(password2))
+    else
     {
-        messages.push("Passwords Do Not Match");
-        messages.push(" ");
+        generateErrorWindow(m);
     }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        ultimateWarningMessageOption('password');
+}
+
+function closeRecover()
+{
+    $("#recover-space").fadeOut(500);
+}
+
+function validateRegistration()
+{
+    var sq1         = $("#sq1").val();
+    var sq2         = $("#sq2").val();
+    var an1         = $("#answer1").val();
+    var an2         = $("#answer2").val();
+    var has_error   = false;
+    var m           = [];
+    if (sq1 === sq2)
+    {
+        has_error = true;
+        m.push("Duplicate Detected");
+        m.push("You cannot select the same question");
     }
+    else if (an1.length === 0)
+    {
+        has_error = true;
+        m.push("Empty Field Detected");
+        m.push("You must provide an answer to security question 1 to proceed");
+    }
+    else if (an2.length === 0)
+    {
+        has_error = true;
+        m.push("Empty Field Detected");
+        m.push("You must provide an answer to security question 2 to proceed");
+    }
+    if (has_error === true) { generateErrorWindow(m); }
     else 
     { 
-        ultimateErrorMessage(messages); 
-    } 
-}
-
-function build_email_setter()
-{
-    var index = $("#btn_index").val();
-    var html ="<div class=\"account_change_wrap center_v_mode\">";
-    html += "<div class=\"account_set_frame\">";
-    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
-    html += "<h3><i class=\"fas fa-cog\"></i> Change Email Address</h3>";
-    html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
-    html += "<input type=\"hidden\" name=\"super_index\" value=\"" + String(index) + "\">";
-    html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_email'>";
-    html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\">";
-    html += "</div>";
-    html += "<input type=\"email\" name=\"email1\" id=\"email1\" placeholder=\"Enter your new email address\">";
-    html += "<input type=\"email\" name=\"email2\" id=\"email2\" placeholder=\"Confirm your new email address\">";
-    html += "<div class=\"account-buttons\">";
-    html += "<button type=\"button\" onClick=\"javascript: emailResetBtn();\">Save</button>";
-    html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
-    html += "</div>";
-    html += "</form>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function emailResetBtn()
-{
-    var proceed     = false;
-    var messages    = [];
-    var password    = $("#password").val();
-    var email1      = $("#email1").val();
-    var email2      = $("#email2").val();
-    if (String(password).length === 0)
-    {
-        messages.push("Empty Fields");
-        messages.push("You must enter your current password to proceed.");
-    }
-    else if (String(email1).length === 0)
-    {
-        messages.push("Empty Fields");
-        messages.push("You must enter a new email address to proceed.");
-    }
-    else if (String(email2).length === 0)
-    {
-        messages.push("Empty Fields");
-        messages.push("You must confirm your new email to proceed.");
-    }
-    else if (validate_email(email1) === false)
-    {
-        messages.push("Invalid Email Entered");
-        messages.push("The entry for the new email is invalid");
-    }
-    else if (validate_email(email2) === false)
-    {
-        messages.push("Invalid Email Entered");
-        messages.push("The entry for the confirmation email is invalid");
-    }
-    else if (String(email1) !== String(email2))
-    {
-        messages.push("Emails Do Not Match");
-        messages.push(" ");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        ultimateWarningMessageOption('email');
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
+        var sq1 = $("#sq1").val();
+        var sq2 = $("#sq2").val();
+        $("#question1").val(sq1);
+        $("#question2").val(sq2);
+        $("#security_form").submit(); 
     }
 }
 
-function build_name_setter()
+function checkRegistrationFields()
 {
-    var index = $("#btn_index").val();
-    var html ="<div class=\"account_change_wrap center_v_mode\">";
-    html += "<div class=\"account_set_frame\">";
-    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
-    html += "<h3><i class=\"fas fa-cog\"></i> Change Name</h3>";
-    html += "<form action=\"/account_changed\" method=\"POST\" id=\"account_form\">";
-    html += "<input type=\"hidden\" name=\"super_index\" value=\"" + String(index) + "\">";
-    html += "<input type='hidden' name='target_action' id='cp_target_action' value='change_name'>";
-    html += "<div class=\"account-input-space\">";
-    html += "<input type=\"password\" name=\"password\" id=\"password\" placeholder=\"Enter your password\">";
-    html += "</div>";
-    html += "<input type=\"text\" name=\"fname\" id=\"fname\" placeholder=\"First Name\">";
-    html += "<input type=\"text\" name=\"lname\" id=\"lname\" placeholder=\"Last Name\">";
-    html += "<div class=\"account-buttons\">";
-    html += "<button type=\"button\" onClick=\"javascript: nameResetBtn();\">Save</button>";
-    html += "<button type=\"button\" id=\"close-this-2\">Cancel</button>";
-    html += "</div>";
-    html += "</form>";
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer-reg'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Message</span></div>";
+    html += "<div class='err0' id='err0'>Are You Sure You Want To Logout?</div>";
+    html += "<div class='err1' id='err1'>You have not completed registration and will be redirected to this page each time you login to the administration site</div>";
+    html += "<div class='su-error-btns'>";
+    html += "<button onClick=\"javascript: logout();\">Continue Logout</button>";
+    html += "<button onClick=\"javascript: closeError();\">Complete Registration</button>";
     html += "</div>";
     html += "</div>";
-    return html;
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
 }
 
-function nameResetBtn()
+function initValidateIdenity()
 {
-    var proceed     = false;
-    var messages    = [];
-    var password    = $("#password").val();
-    var fname       = $("#fname").val();
-    var lname       = $("#lname").val();
-    if (String(password).length === 0)
-    {
-        messages.push("Empty Fields");
-        messages.push("You must enter your current password to proceed.");
-    }
-    else if (String(fname).length === 0)
-    {
-        messages.push("Empty Fields");
-        messages.push("You must enter a new first name to proceed.");
-    }
-    else if (isLetter(fname) === false)
-    {
-        messages.push("Invalid First Name Entered");
-        messages.push("The first name can only contain letters");
-    }
-    else if (String(lname).length === 0)
-    {
-        messages.push("Empty Fields");
-        messages.push("You must enter a new last name to proceed");
-    }
-    else if (isLetter(lname) === false)
-    {
-        messages.push("Invalid Last Name Entered");
-        messages.push("The last name can only contain letters");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        ultimateWarningMessageOption('name');
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    }
+    m = [];
+    m.push("Identity Verification Failed");
+    m.push("You provided incorrect answers to the security questions")
+    generateErrorWindow(m);
 }
 
-function build_restrictor()
+function validateRecovery2()
 {
-    var html = "<div class=\"account_change_wrap center_v_mode\">";
-    html += "<div class=\"account_set_frame\">";
-    html += "<div class=\"super_closer\" onClick=\"javascript: closeIconBtn('2');\"><i class=\"far fa-window-close\"></i></div>";
-    html += "<h3><i class=\"fas fa-ban paintRed iShadow\"></i> <span class=\"paintRed\">This is a restricted page</span></h3>";
-    html += "<p>You do not have access to the information on this page. If you feel that this is an error, please contact the administrator of this site.</p>"; 
-    html += "<div class=\"account-buttons\">";
-    html += "<button type=\"button\" onClick=\"javascript: closeIconBtn('2');\">Close</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
+    var answer1 = $("#answer1").val();
+    var answer2 = $("#answer2").val();
+    var errors  = false;
+    var m       = [];
+    if (answer1.length === 0)
+    {
+        errors = true;
+        m.push("Empty Field Detected");
+        m.push("You must answer security question 1 to proceed");
+    }
+    else if (answer2.length === 0)
+    {
+        errors = true;
+        m.push("Empty Field Detected");
+        m.push("You must answer security question 2 to proceed");
+    }
+    if (errors === false) { $("#recovery_form").submit(); }
+    else { generateErrorWindow(m); }
 }
 
-function edit_success_builder(btn_index, header, message)
+function confirmAndValidateNewPassword()
 {
-    header      = String(header);
-    message     = String(message);
-    btn_index   = String(btn_index);
-    icon        = ""
-
-    if (btn_index === "6") { icon = "<i class=\"fab fa-blogger\"></i>"; }
-    else if (btn_index === "7") { icon = "<i class=\"fas fa-edit\"></i>"; }
-    else if (btn_index === "8") { icon = "<i class=\"fas fa-spray-can\"></i>"; }
-    else if (btn_index === "9") { icon = "<div class='alone_icon2'>A</div>"; }
-    else if (btn_index === "10") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
-    else if (btn_index === "11") { icon = "<i class=\"fas fa-mobile-alt\"></i>"; }
-    else if (btn_index === "12") { icon = "<i class=\"fas fa-user-cog\"></i>"; }
-    else if (btn_index === "13") { icon = "<i class=\"fas fa-user-plus\"></i>"; }
-    else if (btn_index === "21"|| btn_index === "22" || btn_index === "23") 
-    { icon = "<i class='fas fa-cog'></i>"; }
-
-    var html    = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='edit_success_closer' onClick=\"javascript: closeIconBtn('3');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<div class='edit_succes_style_container'>";
-    html += " <div id='edit_success_header' class='edit_success_header'>";
-    html += icon;
-    html += " ";
-    html += header;
-    html += "</div>";
-    html += "<div id='edit_success_message' class='edit_success_message'>";
-    html += message;
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html;
-}
-
-function multi_company_editor(mode)
-{
-    var html = ""
-    mode = String(mode);
-    if (mode === 'address') { html = build_address_setter(); }
-    else if (mode === 'phone') { html = build_phone_setter(); }
-    else if (mode === 'email') { html = build_email_setter_co(); }
-    else if (mode === 'hours') { html = build_hours_setter(); }
-    else { html = build_link_setter(mode); }
-    $("#msg3").html(html);
-
-    if (mode !== 'hours')
+    var errors  = false;
+    var m       = [];
+    var email   = $("#email").val();
+    var pw1     = $("#password1").val();
+    var pw2     = $("#password2").val();
+    var code    = $("#code").val();
+    if (email.length === 0)
     {
-        $("#msg3").hide();
-        $("#msg3").removeClass('hidden');
-        $("#msg3").fadeIn(500);
+        errors = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter the email associated with your account");
     }
-    else {
-        init_hour_table();
+    else if (validate_email(email) === false)
+    {
+        errors = true;
+        m.push("Invalid Email");
+        m.push("You must enter a valid email to proceed");
     }
-}
-
-function build_url_frame(active, inactive, index, is_edited, header, message)
-{
-    var hasElements     = true;
-    var m               = [];
-    var is_restricted   = $("#is_restricted").val();
-    var html            = "";
-    index               = String(index);
-    is_restricted       = Number(is_restricted);
-    if (index === "7" && is_restricted === 0)
+    else if (pw1.length === 0)
     {
-        html = build_blog_manager(inactive);
-        if (inactive.length === 0)
-        {
-            hasElements = false; 
-            m.push("There Are 0 Blog Posts");
-            m.push("You can post a new blog by going to the <b>\"New Blog Post\"</b> page.");
-        }
+        errors = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter a new password to proceed");
     }
-    else if (index === "8" && is_restricted === 0)
+    else if (pw2.length === 0)
     {
-        html = build_product_manager(inactive);
-        if (inactive.length === 0)
-        {
-            hasElements = false; 
-            m.push("There Are 0 Products Saved");
-            m.push("You can add a new product by clicking <b>\"New Product\"</b> on this page.");
-        }
+        errors = true;
+        m.push("Empty Field Detected");
+        m.push("You must confirm your new password to proceed");
     }
-    else if (index ==="9" && is_restricted === 0)
+    else if (pw1 !== pw2)
     {
-        html = build_about_manager(active, inactive);
-        if (String(active['statement']).length === 0)
-        {
-            hasElements = false; 
-            m.push("You have not written an <em>\"About Us\"</em> statement.");
-            m.push("You can add a new statement by clicking <b>\"New\"</b> on this page.");
-        }
-    }
-    else if (index ==="10" && is_restricted === 0)
-    {
-        html = buildImageManager(active, inactive)
-        if (active.length === 0) 
-        { 
-            hasElements = false; 
-            m.push("There Are 0 Images Uploaded");
-            m.push("You can upload new images by clicking the <b>\"Upload\"</b> button.");
-        }
-    }
-    else if (index ==="11" && is_restricted === 0)
-    {
-        html = build_company_manager(active, inactive);
-    }
-    else if (index ==="12" && is_restricted === 0)
-    {
-        html = build_user_manager(inactive);
-        if (inactive.length === 0) 
-        { 
-            hasElements = false; 
-            m.push("There Are 0 Authorized Users");
-            m.push("You can authorize new users by going to the  <b>\"Authorize New User\"</b> page.");
-        }
-    }
-    else if (index ==="13")
-    {
-        html = build_auth_user();
-    }
-    else if (index ==="21")
-    {
-        html = build_password_setter();
-    }
-    else if (index ==="22")
-    {
-        html = build_name_setter();
-    }
-    else if (index ==="23")
-    {
-        html = build_email_setter();
-    }
-    else
-    {
-        if (index !== "6" && index !== "20")
-        {
-            html = build_restrictor();
-            $("#msg2").html(html);
-            $("#msg2").hide();
-            $("#msg2").removeClass("hidden");
-            $("#msg2").fadeIn(500);
-            return;
-        }
-    }
-
-    $("#msg2").html(html);
-    if (String(is_edited) === "1")
-    {
-        var html2 = "";
-        if(String(message) === "You have already authorized this user. Would you like to send them another authorization code?")
-        {
-            html2 = editSucessOptionBuilder(active, index, header, message);
-        }
-        else
-        {
-            html2 = edit_success_builder(index, header, message);
-        }
-        loadHiddenFrame("msg3", html2);
-    }
-    if (hasElements === false)
-    {
-        ultimateErrorMessage(m);
-    }
-}
-
-function closeIconBtn(index)
-{
-    var trigger = "#msg" + String(index);
-    $(trigger).fadeOut(500);
-}
-
-function ultimateErrorMessage(messages)
-{
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<div class='ultimate-error-container'>";
-    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
-    html += "<div class='ultimate-error-content'>";
-    html += "<h1>";
-    html += String(messages[0]);
-    html += "<h1>";
-    html += "<h2>";
-    html += String(messages[1]);
-    html += "<h2>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    loadHiddenFrame("msg4", html);
-}
-
-function ultimateErrorMessageOption(messages)
-{
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<div class='ultimate-error-container'>";
-    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
-    html += "<div class='ultimate-error-content'>";
-    html += "<h1>";
-    html += String(messages[0]);
-    html += "<h1>";
-    html += "<h2>";
-    html += String(messages[1]);
-    html += "<h2>";
-    html += "<div class='ultimate-btn-holder'>";
-    html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
-    html += "<button onClick=\"javascript: ultimateHardClose();\">Leave Page</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    loadHiddenFrame("msg4", html);
-}
-
-function ultimateErrorMessageOption2(messages)
-{
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<div class='ultimate-error-container'>";
-    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
-    html += "<div class='ultimate-error-content'>";
-    html += "<h1>";
-    html += String(messages[0]);
-    html += "<h1>";
-    html += "<h2>";
-    html += String(messages[1]);
-    html += "<h2>";
-    html += "<div class='ultimate-btn-holder'>";
-    html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
-    html += "<button onClick=\"javascript: ultimateHardClose2();\">Leave Page</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    loadHiddenFrame("msg4", html);
-}
-
-function ultimateErrorMessageOption1(messages)
-{
-    var html = "<div class='company_contact_set_frame2 center_v_mode'>";
-    html += "<div class='company_contact_edit1'>";
-    html += "<div class='ultimate-error-closer' onClick=\"javascript: closeIconBtn('4');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</div>";
-    html += "<div class='ultimate-error-container'>";
-    html += "<h3><i class='fas fa-exclamation-circle'></i> Error Message</h3>";
-    html += "<div class='ultimate-error-content'>";
-    html += "<h1>";
-    html += String(messages[0]);
-    html += "<h1>";
-    html += "<h2>";
-    html += String(messages[1]);
-    html += "<h2>";
-    html += "<div class='ultimate-btn-holder'>";
-    html += "<button onClick=\"javascript: ultimateSoftClose();\">Stay On Page</button>";
-    html += "<button onClick=\"javascript: ultimateHardClose1();\">Leave Page</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    loadHiddenFrame("msg4", html);
-}
-
-function ultimateWarningMessageOption(action)
-{
-    var html = "";
-    action = String(action);
-    html += "<div class='error_style center_v_mode'>";
-    html += "<div class='warning_nav'>";
-    html +=  "<table>";
-    html +=  "<tr>";
-    html +=  "<td class='td_left'>";
-    html +=  "<i class='fas fa-exclamation-triangle'></i>";
-    html +=  "<span>warning</span>";
-    html +=  "</td>";
-    html +=  "<td class='td_right'>";
-    html +=  "<a href=\"javascript: closeIconBtn('4');\">";
-    html +=  " <i class='far fa-window-close'></i>";
-    html +=  "</a>";
-    html +=  "</td>";
-    html +=  "</tr>";
-    html +=  "</table>";
-    html +=  "<div class='warning_body'>";
-    html +=  "<h1 id='error_header'></h1>";
-    html +=  "<div class='warning_msg_1' id='error_msg_m1'></div>";
-    html +=  "<div class='warning_msg_2' id='error_msg_m2'></div>";
-    html +=  "<div class='warn_details'>Details:</div>";
-    html +=  "<div class='warning_items' id='label1'></div>";
-    html +=  "<div class='warning_items' id='label2'></div>";
-    html +=  "<div class='warning_items' id='label3'></div>";
-    html +=  "<div class='warning_buttons'>";
-    html +=  "<button id='obj_action'></button>";
-    html +=  "<button onClick=\"javascript: closeIconBtn('4');\">Cancel</button>";
-    html +=  "</div>";
-    html +=  "</div>";
-    html +=  "</div>";
-    html +=  "</div>";
-    $("#msg4").html(html);
-        
-    if (action === "blog")
-    {
-        request_blog_delete(); 
-    } 
-    else if (action === "product")
-    {
-        requestProductDelete();
-    } 
-    else if (action === "about_active")
-    {
-        set_about_active();
-    }
-    else if (action === "delete_about_object_m")
-    {
-        requestAboutDelete(delete_about);
-    }
-    else if (action === "block_user")
-    {
-        blockUserAccess();
-    }
-    else if (action === "delete_user")
-    {
-        deleteUserAccount();
-    }
-    else if (action === "authorize")
-    {
-        sendNewUserRequest()
-    } 
-    else if (action === "password")
-    {
-        requestPasswordUpdate()
-    }
-    else if (action === "email")
-    {
-        requestEmailUpdate();
-    }   
-    else if (action === "name")
-    {
-        requestNameUpdate();
-    }  
-}
-
-function detectChanges(model, mode)
-{
-    var messages            = [];
-    var changes_detected    = $("#changes_detected").val();
-    changes_detected        = String(changes_detected);
-    model                   = String(model);
-    mode                    = String(mode);
-    if (changes_detected === "1")
-    {
-        messages.push("Changes Detected")
-        if (model === "company")
-        {
-            if(mode==="exit") { messages.push("Are you sure you want to exit this page? All changes will be discarded."); ultimateErrorMessageOption(messages); }
-            else if (mode==="update") { $("#target_action").val(mode); $("#master_company_management_form").submit(); }
-        }
-        else
-        {
-            messages.push("Are you sure you want to leave this page? All changes will be discarded.");
-            ultimateErrorMessageOption2(messages);
-        }
-    }
-    else
-    {
-        if (model === "company")
-        {
-            if(mode==="exit") { closeIconBtn("2"); }
-            else if (mode==="update") { messages.push("No changes have been detected"); messages.push(' '); ultimateErrorMessage(messages); }
-        }
-        else { closeIconBtn("3"); }
-    }
-}
-
-function signalNewBlogChanges()
-{
-    var subject = $("#new_blog_subj").val();
-    var content = $("#new_blog_cont").val();
-    subject     = String(subject);
-    content     = String(content);
-    if(subject.length===0 && content.length===0)
-    {
-        $("#changes_detected").val("0");
-    }
-    else
-    {
-        $("#changes_detected").val("1");
-    }
-}
-
-function detectNewBlogChanges()
-{
-    var changed = $("#changes_detected").val();
-    changed = String(changed);
-    if (changed === "0")
-    {
-        closeIconBtn('1');
-    }
-    else if (changed === "1")
-    {
-        messages = [];
-        messages.push("You've Started A New Blog Post!");
-        messages.push("Are you sure you want to exit this page? All changes will be discarded.");
-        ultimateErrorMessageOption1(messages)
-    }
-}
-
-function getBlogChangeData()
-{
-    var compare     = [];
-    var compare_a   = [];
-    var compare_b   = [];
-    var selected_e  = $("#selected_e").val();
-    selected_e      = String(selected_e);
-    var a           = $("#subject_" + selected_e).val();
-    var b           = $("#content_" + selected_e).val();
-    var aa          = $("#editor_subject").val();
-    var bb          = $("#super_blog_content").val();
-    compare_a.push(a);
-    compare_a.push(aa);
-    compare_b.push(b);
-    compare_b.push(bb);
-    compare.push(compare_a);
-    compare.push(compare_b);
-    return compare;
-}
-
-function getAboutChangeData()
-{
-    var compare         = [];
-    var compare_a       = [];
-    var compare_b       = [];
-    var active_loaded   = $("#active_loaded").val();
-    var a = "";
-    var b = "";
-    var aa = "";
-    var bb = "";
-
-    if (String(active_loaded) === "0")
-    {
-        var selected_e  = $("#selected_e").val();
-        selected_e      = String(selected_e);
-        a               = $("#statement_" + selected_e).val();
-        b               = "0";
-        aa              = $("#editor_statement").val();
-        bb              = $("#m_is_active").val();
-    }
-    else
-    {
-        a               = $("#current_statement_v2").val();
-        b               = "1";
-        aa              = $("#editor_statement").val();
-        bb              = "1";
-    }
-    compare_a.push(a);
-    compare_a.push(aa);
-    compare_b.push(b);
-    compare_b.push(bb);
-    compare.push(compare_a);
-    compare.push(compare_b);
-    return compare;
-}
-
-function getProductChangeData()
-{
-    var compare     = [];
-    var compare_a   = [];
-    var compare_b   = [];
-    var compare_c   = [];
-    var selected_e  = $("#selected_e").val();
-    selected_e      = String(selected_e);
-    var a           = $("#name_" + selected_e).val();
-    var b           = $("#description_" + selected_e).val();
-    var c           = $("#price_" + selected_e).val();
-    var aa          = $("#product_name").val();
-    var bb          = $("#product_description").val();
-    var cc          = $("#product_price").val();
-    compare_a.push(a);
-    compare_a.push(aa);
-    compare_b.push(b);
-    compare_b.push(bb);
-    compare_c.push(c);
-    compare_c.push(cc);
-    compare.push(compare_a);
-    compare.push(compare_b);
-    compare.push(compare_c);
-    return compare;
-}
-
-function signalInputChange(target)
-{
-    var c_list  = null;
-    target      = String(target);
-
-    if (target === "blog") { c_list = getBlogChangeData(); }
-    if (target === "about") { c_list = getAboutChangeData(); }
-    if (target === "product") { c_list = getProductChangeData(); }
-
-    for (var i = 0; i < c_list.length; i++)
-    {
-        var c1 = String(c_list[i][0]);
-        var c2 = String(c_list[i][1]);
-        if (c1 !== c2)
-        {
-            $("#changes_detected").val("1");
-            break;
-        }
-        else
-        {
-            $("#changes_detected").val("0");
-        }
-    }
-}
-
-function signalAccessChanges(target)
-{
-    loadCheckboxData(target);
-    selected_e = $("#selected_e").val();
-    selected_e = String(selected_e);
-    aa  = $("#m_admin").val();
-    bb  = $("#m_blog").val();
-    cc  = $("#m_product").val();
-    dd  = $("#m_gallery").val();
-    ee  = $("#m_about").val();
-    a   = $("#admin_" + selected_e).val();
-    b   = $("#blog_" + selected_e).val();
-    c   = $("#product_" + selected_e).val();
-    d   = $("#gallery_" + selected_e).val();
-    e   = $("#about_" + selected_e).val();
-    aaa = isMatch_d(aa, a);
-    bbb = isMatch_d(bb, b);
-    ccc = isMatch_d(cc, c);
-    ddd = isMatch_d(dd, d);
-    eee = isMatch_d(ee, e);
-    if(aaa==false||bbb===false||ccc===false||ddd===false||eee===false) { $("#changes_detected").val("1"); }
-    else { $("#changes_detected").val("0"); }
-}
-
-function sendNewUserRequest()
-{
-    var permm = "";
-    var flagr = ", ";
-    var fname = $("#ua_fname").val();
-    var lname = $("#ua_lname").val();
-    var email = $("#ua_email").val();
-    var admin = $("#is_admin").val();
-    var blogg = $("#ua_blog_permission").val();
-    var about = $("#ua_about_permission").val();
-    var galle = $("#ua_gallery_permission").val();
-    var produ = $("#ua_product_permission").val();
-    var namef = String(fname) + " " + String(lname);
-
-    if (String(admin) === "1") { permm += "User Information, Company Contact Information, Social Media Links"; }
-    if (String(blogg) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Blog Entries"; }
-    if (String(produ) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Products and Pricing"; }
-    if (String(galle) === "1") { if (permm.length > 0) { permm += flagr; } permm += "Gallery Images"; }
-    if (String(about) === "1") { if (permm.length > 0) { permm += flagr; } permm += "\"About Us\" Statements"; }
-
-    load_error_heads("Authorize User", "Are You Sure You Want To Proceed?", "This action will allow this individual to create an account on the Natural Woman Salon Website. Once they have registered, they will have acces to the information shown below.", "Proceed");
-    load_error_message("USER NAME: ", "USER EMAIL: ", "GRANTED ACCESS TO: ", namef, email, permm);
-
-    $("#obj_action").attr("onClick", "Javascript: submit_auth_user();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function blockUserAccess()
-{
-    var index   = $("#selected_e").val();
-    index       = String(index);
-    var sel_id  = "#id_" + index;
-    var sel_fn  = "#fname_" + index;
-    var sel_ln  = "#lname_" + index;
-    var sel_em  = "#email_" + index;
-    var uid     = $(sel_id).val();
-    var fname   = $(sel_fn).val();
-    var lname   = $(sel_ln).val();
-    var email   = $(sel_em).val();
-    var name    = String(fname) + " " + String(lname);
-
-    load_error_heads("Suspend All Access", "Are You Sure You Want To Proceed?", "This will block the user from making any changes to the website.<br>This can be undone at any time", "Suspend");
-    load_error_message("USER:", "EMAIL:", "", name, email, "");
-
-    $("#targetActionManager").val("block");
-    $("#targetIdManager").val(uid);
-    $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function deleteUserAccount()
-{
-    var index   = $("#selected_e").val();
-    index       = String(index);
-    var sel_id  = "#id_" + index;
-    var sel_fn  = "#fname_" + index;
-    var sel_ln  = "#lname_" + index;
-    var sel_em  = "#email_" + index;
-    var uid     = $(sel_id).val();
-    var fname   = $(sel_fn).val();
-    var lname   = $(sel_ln).val();
-    var email   = $(sel_em).val();
-    var name    = String(fname) + " " + String(lname);
-
-    load_error_heads("Delete User", "Are You Sure You Want To Proceed?", "This action will permanently delete this users account.<br>This cannot be undone.", "Delete");
-    load_error_message("USER:", "EMAIL:", "", name, email, "");
-
-    $("#targetActionManager").val("delete");
-    $("#targetIdManager").val(uid);
-    $("#obj_action").attr("onClick", "Javascript: submit_errUser();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function request_blog_delete()
-{
-    var index   = $("#selected_e").val();
-    index       = String(index);
-    var subj_id = "#subject_" + index;
-    var cont_id = "#content_" + index;
-    var date_id = "#date_" + index;
-    var elem_id = "#id_" + index;
-    var subject = $(subj_id).val();
-    var content = $(cont_id).val();
-    var date    = $(date_id).val();
-    var e_id    = $(elem_id).val()
-
-    load_error_message("SUBJECT:", "POSTED ON:", "CONTENT:", subject, content, date);
-    load_error_heads("Delete Blog", "Are You Sure You Want To Proceed?", "This action is permanent and cannot be undone", "Delete");
-
-    $("#e_target_id").val(e_id);
-    $("#e_target_action").val("delete");
-    $("#obj_action").attr("onClick", "Javascript: submit_delbg();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function get_load_id()
-{
-
-}
-
-function imageSelector(index)
-{
-    index           = String(index);
-    var div_name    = "#div_" + index;
-    var chk_name    = "#box_" + index;
-    var img_name    = "#id_" + index;
-    var delete_list = $("#delete_list").val();
-    var image_id    = $(img_name).val();
-    var new_list    = null;
-    
-    if ($(chk_name).prop("checked") === true)
-    {
-        new_list = addImageID(delete_list, image_id, index);
-        $(div_name).addClass('super_select');
-    }
-    else
-    {
-        new_list = removeImageId(delete_list, image_id, index);
-        $(div_name).removeClass('super_select');
-    }
-    $("#delete_list").val(new_list);
-}
-
-function addImageID(current_list, image_id, index)
-{
-    var index_list  = $("#index_list").val();
-    var num_sel     = $("#no_imgs_selected").val();
-    num_sel         = Number(num_sel) + 1;
-    current_list    = String(current_list);
-    image_id        = String(image_id);
-    $("#index_list").val(String(index_list) + "~" + index);
-    $("#no_imgs_selected").val(num_sel);
-    return current_list + "~" + image_id;
-}
-
-function removeImageId(current_list, image_id, index)
-{
-    var new_list    = "";
-    var new_index   = "";
-    var index_list  = $("#index_list").val();
-    var num_sel     = $("#no_imgs_selected").val();
-    num_sel         = Number(num_sel) - 1;
-    image_id        = String(image_id);
-    current_list    = String(current_list).split("~");
-    split_index     = String(index_list).split("~");
-    for (var i = 0; i < current_list.length; i++)
-    {
-        if (current_list[i].length !== 0 && current_list[i] !== image_id)
-        {
-            new_list += "~";
-            new_list += current_list[i];
-        }
-        if (split_index[i].length !== 0 && split_index[i] !== index)
-        {
-            new_index += "~";
-            new_index += split_index[i];
-        }
-    }
-    $("#no_imgs_selected").val(num_sel);
-    $("#index_list").val(new_index);
-    return new_list;
-}
-
-function submitImageDelete()
-{
-    $("#image_delete_form").submit();
-}
-
-function submitImageUpload()
-{
-    $("#image_upload_form").submit();
-}
-
-function searchImageChanges()
-{
-    var delete_list = $("#delete_list").val();
-    if (String(delete_list).length === 0)
-    {
-        var m =[];
-        m.push("No Image Selected");
+        errors = true;
+        m.push("The Passwords Do Not Match!");
         m.push(" ");
-        ultimateErrorMessage(m);
     }
-    else
+    else if (code.length === 0)
     {
-        initiateDeleteVerification();
+        errors = true;
+        m.push("Empty Field Detected");
+        m.push("You must enter the security code that was sent to the email that is associated with your Natural Woman Salon account");
     }
+    if (errors === true) { generateErrorWindow(m); }
+    else { $("#su_login_form").submit(); }
 }
 
-function validPath(filepath)
+function initLaunchSecure()
 {
-    var isValid = true;
-    filepath = String(filepath);
-    if (filepath.length === 0) { isValid = false; }
-    else 
-    {
-        var breakup = filepath.split(".");
-        var len     = breakup.length;
-        var ext     = breakup[len - 1];
-        ext         = ext.toLowerCase();
-        if(ext!=="png" && ext!=="jpg" && ext!=="jpeg" && ext!=="gif")
-        {
-            isValid = false;
-        }
-    }
-    return isValid;
-}
-
-function validateUpload()
-{
-    var proceed     = false;
-    var messages    = [];
-    var filepath    = $("#img_file").val();
-    var max_imgs    = $("#max_index").val();
-    var no_uplds    = $("#file_index").val();
-    max_imgs        = Number(max_imgs);
-    no_uplds        = Number(no_uplds);
-    filepath        = String(filepath);
-    if (filepath.length === 0)
-    {
-        messages.push("NO IMAGE SELECTED");
-        messages.push("You must choose an image to proceed.");
-    }
-    else if (no_uplds >= max_imgs)
-    {
-        messages.push("Maximum Number Of Uploads Reached");
-        messages.push("If you wish to upload this images, you must delete at least one image in the gallery editor.");
-    }
-    else
-    {
-        var breakup = filepath.split(".");
-        var len     = breakup.length;
-        var ext     = breakup[len - 1];
-        ext         = ext.toLowerCase();
-        if(ext!=="png" && ext!=="jpg" && ext!=="jpeg" && ext!=="gif")
-        {
-            messages.push("INVALID FILE TYPE");
-            message.push("The image file must be of types: .PNG, .JPG, .JPEG or .GIF");
-        }
-        else
-        {
-            proceed = true;
-        }
-    }
-    if (proceed === true)
-    {
-        submitImageUpload();
-    }
-    else
-    {
-        ultimateErrorMessage(messages); 
-    }
-}
-
-function checkImageQue()
-{
-    var filepath    = $("#img_file").val();
-    if (validPath(filepath) === true)
-    {
-        var messages = [];
-        messages.push("File Queued For Upload Detected");
-        messages.push("Are you sure you want to exit this page? You have selected a file that has not yet been uploaded.");
-        ultimateErrorMessageOption2(messages);
-    }
-    else
-    {
-        closeIconBtn('3');
-    }
-}
-
-function buildExpandedImage(index)
-{
-    index = String(index);
-    var url = $("#url_" + index).val();
-    var html = "<div class='expanded-image center_v_mode'>";
-    html += "<div class='frame_general_sm'>";
-    html += "<h3>click image to close...</h3>";
-    html += "<a href=\"javascript: closeIconBtn('3');\">";
-    html += "<img src='"
-    html += url;
-    html += "'>"
-    html += "</a>";
-    html += "</div>";
-    html += "</div>";
-
-    $("#msg3").html(html);
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(500);
-}
-
-function verifyImageExit()
-{
-    var delete_list = $("#delete_list").val();
-    if (String(delete_list).length > 0)
-    {
-        var m = [];
-        m.push("Images Queued For Deletion");
-        m.push("Are you sure you want to exit this page? You have marked one or more images for deletion.");
-        ultimateErrorMessageOption(m);
-    }
-    else { closeIconBtn('2'); }
-}
-
-function buildImageUploader()
-{
-    var html = "<div class='image-upload-wrap center_v_mode'>";
-    html += "<div class='frame_general_sm'>";
-    html += "<div class='login-leaf nature-green flip'><i class='fab fa-envira'></i></div>";
-    html += "<h3>upload images</h3>";
-    html += "<div class='generalSteel-in uploader-style'>";
-    html += "<div class='uploader-style-head'>Select an image</div>";
-    html += "<form action='/edit_success' method='POST' enctype='multipart/form-data' id='image_upload_form'>";
-    html += "<input type='hidden' name='target_model' value='image'>";
-    html += "<input type='hidden' name='target_action' value='upload'>";
-    html += "<input type='file' name='img_file' id='img_file' accept='.png, .jpg, .jpeg, .gif'>";
+    var m = [];
+    var html = "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeRecover();\"><i class='fas fa-window-close su-closerm'></i></a></div>";
+    html += "<h3><i class='fas fa-unlock-alt'> &nbsp<span class='recover-st'>Password Recovery</span></i></h3>";
+    html += "<div class='recover-email-label'>Enter the email assicuated with your account:</div>";
+    html += "<form action='/launchSecure' method='POST' id='recovery_form'>";
+    html += "<input type='email' name='sec_email' id='sec_email' placeholder='Email'>";
     html += "</form>";
-    html += "<div class='uploader-btns'>";
-    html += "<button onClick=\"javascript: validateUpload();\">Upload</button>";
-    html += "<button onClick=\"javascript: checkImageQue();\">Exit</button>";
+    html += "<div class='rec-email-btn'>";
+    html += "<button type='button' onClick=\"javascript: validateRecoveryEmail();\">Continue</button>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
-    html += "</div>";
-    $("#msg3").html(html);
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(600);
+    $("#recover-space").html(html);
+    m.push("No Account Found");
+    m.push("Our records indicate that no account exist for the email address that you've entered");
+    generateErrorWindow(m);
 }
 
-function buildImageManager(data, file_data)
+function loadRecoveryErrors5()
 {
-    var html = "<form action='/edit_success' method='POST' id='image_delete_form'>";
-    html += "<input type='hidden' name='target_id' id='delete_list' value=''>";
-    html += "<input type='hidden' name='target_model' id='target_model' value='image'>";
-    html += "<input type='hidden' name='target_action' id='target_action' value='delete'>";
-    html += "<input type='hidden' name='no_imgs_selected' id='no_imgs_selected' value='0'>";
-    html += "<input type='hidden' id='index_list' value=''>";
-    html += "<input type='hidden' name='file_index' id='file_index' value='";
-    html += String(file_data['num_images']);
-    html += "'>";
-    html += "<input type='hidden' name='max_index' id='max_index' value='";
-    html += String(file_data['max_images']);
-    html += "'>";
-    html += "</form>";
-    html += "<div class='uimg_wrapper_wide center_v_mode'>";
-    html += "<div class='frame_general_sm'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    html += "<div class='col-sm-11' style='padding:0; margin:0; padding-left:1px;'>";
-    html += "<div class='img-style-editor-left'>";
-    html += "<h3><i class='fas fa-camera'></i> manage gallery images</h3>";
-    html += "<div class='img_sm_msg'>Click image to view</div>";
-    html += "<div class='master-list-image-wrap power-select'>";
-    html += "<ul>";
-    for (var i = 0; i < data.length; i++)
-    {
-        var index   = String(data[i]['index']);
-        var imd_id  = String(data[i]['id']);
-        var url     = String(data[i]['url']);
-        html += "<div id='div_";
-        html += index;
-        html += "'>";
-        html += "<li>";
-        html += "<a href='#'>";
-        html += "<input type='hidden' id='id_";
-        html += index;
-        html += "' value='";
-        html += imd_id;
-        html += "'>";
-        html += "<input type='hidden' id='url_";
-        html += index;
-        html += "' value='";
-        html += url;
-        html += "'>";
-        html += "<div class='container'>";
-        html += "<div class='row'>";
-        html += " <div class='col-sm-6 edit_img_content' style='padding:0; margin:0;'>";
-        html += "<img src='";
-        html += url;
-        html += "' onClick=\"javascript: buildExpandedImage('";
-        html += index;
-        html += "');\">";
-        html += "</div>";
-        html += "<div class='col-sm-6 edit_img_check' style='padding:0; margin:0;'>";
-        html += "<div class='bottom_v_mode'>";
-        html += "<input type='checkbox' id='box_";
-        html += index;
-        html += "' onClick=\"javascript: imageSelector('";
-        html += index;
-        html += "');\"> Select";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        html += "</div>";
-        html += "</a>";
-        html += "</li>";
-        html += "</div>";
-    }
-    html += "</ul>";
-    html += "</div>";
-    html += "<div class='img-style-editor-btns btn-right'>";
-    html += "<button onClick='javascript: buildImageUploader();'>Upload New Image</button>";
-    html += "<button onClick='javascript: searchImageChanges();''>Delete Selected</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='master-img-editor-btn-wrap'>";
-    html += "<div class='master-img-editor-btn'>";
-    html += "<button onClick=\"javascript: verifyImageExit();\">Exit</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='col-sm-1' style='padding:0; margin:0'>";
-    html += "<div class='img-style-editor-right'>";
-    html += "<div class='transparent-icon'><i class='fab fa-envira'></i></div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    return html
+    var error_msg = $("#errors").val();
+    var m = [];
+    m.push(error_msg);
+    m.push("Please correct the error to proceed");
+    generateErrorWindow(m);
 }
 
-function initiateDeleteVerification()
+function lauchRecoverySuccessWindow()
 {
-    var index_list  = $("#index_list").val();
-    var indices     = String(index_list).split("~");
-    var html = "<div class='error_style center_v_mode'>";
-    html += "<div class='warning_nav'>";
-    html += "<table>";
-    html += "<tr>";
-    html += "<td class='td_left'>";
-    html += "<i class='fas fa-exclamation-triangle'></i>";
-    html += "<span>warning</span>";
-    html += "</td>";
-    html += "<td class='td_right'>";
-    html += "<a href=\"javascript: closeIconBtn('4');\">";
-    html += "<i class='far fa-window-close'></i>";
-    html += "</a>";
-    html += "</td>";
-    html += "</tr>";
-    html += "</table>";
-    html += "<div class='warning_body'>";
-    html += "<h1 id='error_header'>Delete Image</h1>";
-    html += "<div class='warning_msg_1' id='error_msg_m1'>Are you sure you want to proceed?</div>";
-    html += "<div class='warning_msg_2' id='error_msg_m2'>This following image(s) will be deleted from the image gallery:</div>";
-    html += "<div class='del-img-lis-wrap'>";
-    html += "<div class='container'>";
-    html += "<div class='row'>";
-    //start a for loop here...use the modulus operator to determine when to start a new line. each row has 6 images
-    for (var i = 0; i < indices.length; i++)
-    {
-        var index   = indices[i];
-        var url     = $("#url_" + index).val();
-        url         = String(url);
-        if (indices[i].length > 0)
-        {
-            
-            html += "<div class='col-sm-2' style='padding:0; margin:0;'><img src='";
-            html += String(url);
-            html += "'></div>";
-        }         
-    }   
-    // end the for loop here    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "<div class='warning_buttons'>";
-    html += "<button onClick=\"javascript: submitImageDelete();\">Delete</button>";
-    html += "<button onClick=\"javascript: closeIconBtn('4');\">Cancel</button>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    html += "</div>";
-    $("#msg6").fadeOut(500);
-    $("#msg4").html(html);
-    $("#msg4").hide();
-    $("#msg4").removeClass("hidden");
-    $("#msg4").fadeIn(500);
+    $("#recover-space").hide();
+    $("#recover-space").removeClass("hidden");
+    $("#recover-space").fadeIn(500);
 }
 
-function loadHiddenFrame(name, html)
+function loadRegistrationErrors(message)
 {
-    var target = "#" + String(name);
-    $(target).html(html);
-    $(target).hide();
-    $(target).removeClass("hidden");
-    $(target).fadeIn(600);
+    var m = [];
+    m.push("Authorization Unsuccessful");
+    m.push(message);
+    generateErrorWindow(m);
 }
 
-function load_helper(subject)
+function showRegistrationSuccessMessage()
 {
-    var message = null;
-    var title = null;
-    subject = String(subject);
-    if (subject === "about_active")
-    {
-        title = "Active \"About Us\" Statement";
-        message = "This is the \"About Us\" statement that is currently displayed on the site. Active about ";
-        message += "statements cannot not be deleted. However, they can be edited. If you would like to delete this statement, ";
-        message += "You must select a statement from the inactive statements below and set it as active. Then select the desired statement ";
-        message += "from the inactive list and click the delete button."
-    }
-    else if (subject === "about_inactive")
-    {
-        title = "Inactive Statement";
-        message = "This statements can be saved and used any time as the \"About Us\" statement that is displayed on the site."
-    }
-    else if (subject == "contact_info")
-    {
-        title = "Contact Information";
-        message = "This is the content on the site that will provide users imformation to contact you.";
-        message += " When changing this information, make sure that it is accurate. There are three (3) address lines available. ";
-        message += "However, it is not necessary to use them all. Blank address lines will not be displayed on the live site."
-    }
-    else if (subject == "social_media")
-    {
-        title = "Social Media Links";
-        message = "This information controls the links in which users will be redirected to view your social media sites. ";
-        message += "Before changing this information, be certain that the link you provide is accurate. Otherwise, ";
-        message += "Your users will be directed to a site that does not belong to you and the content cannot be controlled.";
-        message += " In addition, you can either display the link or hide it on the live Natural Woman Salon site by ";
-        message += "turning setting the corresponding buttons to \"<b><em>Yes</em><b>\" or \"<b><em>No</em><b>\\ respectively.";
-    }
-
-    else if (subject === "admin_access")
-    {
-        title = "Administration Privileges";
-        message = "Users who have administration acces are allowed to change user acces, block their access to the site , or "
-        message += "remove their account from the database entirely. Users with these privileges can also change the pertinent infomation ";
-        message += "about your comapny such as: address, phone number, email address and social media links. You should be extremely careful when selecting ";
-        message += "individuals to grant administrative privileges.";
-    }
-    else if (subject === "product_access")
-    {
-        title = "Product Privileges";
-        message = "Users with product privileges are allowed to create new products (services that you offer), edit or write the descriptions of the products and set the prices.";
-        message += "These users also have the ability to delete existing products. Select these users with caution....it's your money.";
-    }   
-    else if (subject === "gallery_access")
-    {
-        title = "Gallery Access";
-        message = "Users with gallery access are allowed to add and delete photos from the picture gallery. There is only 5GB of space available. "
-        message += "The system will produce an error when you have used all of the space. If this occurs, you can simply delete old and unwanted images."
-    }
-    else if (subject === "blog_access")
-    {
-        title = "Blog Access";
-        message = "Users that have been granted blog access are allowed to edit and delete existing (previous) blog entries. These users "
-        message += "are also allowed to post new blogs."
-    }
-    else if (subject === "about_access")
-    {
-        title = "About Statement Editingt";
-        message = "Users that have been granted this type of access are allowed to edit and change the \"About Us\" statement that is displayed on the About Us Page on the Natural Woman Salon website."
-    }
-    else if (subject === "payments")
-    {
-        title = "Accepted Payment Methods";
-        message = "Select from the options to display what payment methods are accepted at Natural Woman Salon. This information will be displayed on the contact page."
-    }
-    else if (subject === "hours")
-    {
-        title = "Business Hours";
-        message = "Enter the hours of operation at Natural Woman Salon. If you select the <em>\"Group Weekdays\"</em> option, ";
-        message += "The weekday hours will be displayed as: <b><em>\"Weekdays:\"</em></b>. Choose this option only if all weekday business hours are the same. This is also the case with weekends"
-        message += " You can also set special hours. For example, for Christmas hours, you can set the title as <b><em>\"Holiday Hours.\"</em></b>"
-        message += " It is your responsibility to keep Natural Woman Salon's hours of operation up-to-date. This system does not provide date-checker service."
-    }
-    else if (subject === "group_weekdays")
-    {
-        title = "Group Weekdays";
-        message = "Select this option if the hours are the same Monday thru Friday."
-    }
-    else if (subject === "group_weekends")
-    {
-        title = "Group Weekends";
-        message = "Select this option if the hours are the same for both Saturday and Sunday."
-    }
-    else if (subject === "special_hours")
-    {
-        title = "Special Hours";
-        message = "Select \"<em><b>On</b></em>\" if these are special hours such as \"<em><b>Holiday Hours</b></em>\". You must also enter the name of the special hours."
-    }
-    $("#helper_title").html(title);
-    $("#content_message").html(message);
-    $("#helper_element").hide();
-    $("#helper_element").removeClass("hidden");
-    $("#helper_element").fadeIn(500);
+    var m = [];
+    m.push("Registration Success");
+    m.push("You have successfully completed registration. You can now login using your newly created credentials");
+    generateErrorWindow(m);
 }
-
-function close_helper_frame()
-{
-    $("#helper_element").fadeOut(500);
-}
-
-function activate_about_editor()
-{
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(500);
-}
-
-function launch_company_editor(mode)
-{
-    mode = String(mode);
-    build_company_editor(mode);
-
-    if (mode === "contact")
-    {
-        var address1    = $("#co1").val();
-        var address2    = $("#co2").val();
-        var address3    = $("#co3").val();
-        var city        = $("#co4").val();
-        var state       = $("#co5").val();
-        var zip_code    = $("#co6").val();
-        var phone       = $("#co7").val();
-        var email       = $("#co8").val();
-        var weekdays    = $("#co9").val();
-        var saturday    = $("#co10").val();
-        var sunday      = $("#co11").val();
-
-        if (String(address2) === "empty") { address2 = ""; }
-        if (String(address3) === "empty") { address3 = ""; }
-        phone = String(phone);
-        var area_code = phone[1];
-        area_code += phone[2];
-        area_code += phone[3];
-        var prefix = phone[6];
-        prefix += phone[7];
-        prefix += phone[8];
-        var postfix = phone[10];
-        postfix += phone[11];
-        postfix += phone[12];
-        postfix += phone[13];
-
-        $("#social_media_header_id").html("Edit Contact Information");
-        $("#target_member_company").val("contact");
-        $("#address1").val(address1);
-        $("#address2").val(address2);
-        $("#address3").val(address3);
-        $("#city").val(city);
-        $("#state").val(state);
-        $("#zip_code").val(zip_code);
-        $("#email").val(email);
-        $("#area_code").val(area_code);
-        $("#prefix").val(prefix);
-        $("#postfix").val(postfix);
-        $("#hours_m_f").val(weekdays);
-        $("#hours_sat").val(saturday);
-        $("#hours_sun").val(sunday);
-    }
-    else if (mode === "facebook")
-    {
-        $("#social_media_header_id").html("Change Facebook Link");
-        $("#target_member_company").val("facebook");
-    }
-    else if (mode === "twitter")
-    {
-        $("#social_media_header_id").html("Change Twitter Link");
-        $("#target_member_company").val("twitter");
-    }
-    else if (mode === "instagram")
-    {
-        $("#social_media_header_id").html("Change Instagram Link");
-        $("#target_member_company").val("instagram");
-    }
-    $("#msg3").hide();
-    $("#msg3").removeClass("hidden");
-    $("#msg3").fadeIn(500);
-}
-
-function close_company_editor(mode)
-{
-    mode = String(mode);
-    if (mode === "media")
-    {
-        $("#sm_link").val("");
-    }
-    $("#msg3").fadeOut(500);
-}
-
-function submit_company_edits()
-{
-    $("#company_manager_form").submit();
-}
-
-function submit_delbg()
-{
-    $("#blog_editor_form").submit();
-}
-
-function submit_delpd()
-{
-    $("#product_delete_form").submit();
-}
-
-function submit_delabt()
-{
-    $("#about_delete_form").submit();
-}
-
-function submit_errUser()
-{
-    $("#user_management_form").submit();
-}
-
-function about_selector(index)
-{
-    index           = String(index);
-    var prev_index  = $("#selected_e").val();
-    prev_index      = String(prev_index);
-    var pre_id          = "#div_" + prev_index;
-    var new_id          = "#div_" + index;
-    $(pre_id).removeClass("super_select");
-    $(new_id).addClass("super_select");
-    $("#selected_e").val(index);
-}
-
-function set_about_active()
-{
-    var index               = $("#selected_e").val();
-    index                   = String(index);
-    var selector_statement  = "#statement_" + index;
-    var selector_id         = "#id_" + index;
-    var statement           = $(selector_statement).val();
-    var a_id                = $(selector_id).val();
-
-    load_error_heads("Change About Statement", "Are You Sure You Want To Proceed?", "This action  will set the statement below as active", "Proceed");
-    load_error_message("\"About Us\" Statement: ", "", "", statement, "", "");
-    
-    $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
-    $("#target_action_aboutManager").val('swap');
-    $("#target_id_aboutManager").val(a_id);
-    $("#msg4").hide();
-    $("#msg4").removeClass("hidden");
-    $("#msg4").fadeIn(500);
-}
-
-function requestAboutDelete()
-{
-    var selected_element    = $("#selected_e").val();
-    selected_element        = String(selected_element);
-    var selector_id         = "#id_" + selected_element;
-    var selector_statement  = "#statement_" + selected_element;
-    var a_id                = $(selector_id).val();
-    var statement           = $(selector_statement).val();
-
-    load_error_heads("Delete About Statement", "Are You Sure You Want To Proceed?", "This action cannot be undone!", "Delete");
-    load_error_message("\"About Us\" Statement: ", "", "", statement, "", "");
-    $("#obj_action").attr("onClick", "Javascript: submit_delabt();")
-    $("#target_action_aboutManager").val('delete');
-    $("#target_id_aboutManager").val(a_id);
-    $("#msg4").hide();
-    $("#msg4").removeClass("hidden");
-    $("#msg4").fadeIn(500);
-}
-
-function display_about_editor(load_data, query)
-{
-    var html = build_about_editor();
-    $("#msg3").html(html);
-    var statement = null;
-    var a_id = null;
-    load_data = String(load_data);
-    query = String(query);
-    if (load_data === "0")
-    {
-        $("#active_loaded").val("0");
-        $("#target_action_aboutEditor").val("new");
-    }
-    else if (load_data === "1")
-    {
-        $("#target_action_aboutEditor").val("update");
-        if (query === "active")
-        {
-            a_id        = $("#current_id").val();
-            statement   = $("#current_statement_v2").val();
-            a_id        = String(a_id);
-            statement   = String(statement);
-            $("#active_loaded").val("1");
-            $("#active_check").prop('checked', true);
-            $("#active_check").prop("disabled", true);
-        }
-        else if (query === "inactive")
-        {
-            $("#active_loaded").val("0");
-            var selected_element    = $("#selected_e").val();
-            selected_element        = String(selected_element);
-            var selector_id         = "#id_" + selected_element;
-            var selector_statement  = "#statement_" + selected_element;
-            var a_id                = $(selector_id).val();
-            var statement           = $(selector_statement).val();
-            a_id                    = String(a_id);
-            statement               = String(statement);
-        }
-    }
-    $("#target_id_aboutEditor").val(a_id);
-    $("#editor_statement").val(statement);
-    $("#editor_builder").hide();
-    $("#editor_builder").removeClass("hidden");
-    $("#editor_builder").fadeIn(500);
-}
-
-function mod_checkbox(check_id)
-{
-    check_id = String(check_id);
-    var value = $(check_id).val();
-    value = String(value);
-    if (value === "0") { $(check_id).val("1"); }
-    else if (value === "1") { $(check_id).val("0"); }
-}
-
-function loadCheckboxData(target)
-{
-    var value = $(target).val();
-    value = String(value);
-    if (value === "0") { $(target).val("1"); }
-    if (value === "1") { $(target).val("0"); }
-}
-
-function requestPasswordUpdate()
-{
-    var name    = $("#first_name").val() + " " + $("#last_name").val();
-    var email   = $("#master_user_email").val();
-
-    load_error_heads("Reset Password", "Are You Sure You Want To Proceed?", "Clicking Reset Will Permanently Change your password. Your password can be updated as many times as you like", "Reset");
-    load_error_message("USER NAME: ", "USER EMAIL: ", "", name, email, "");
-
-    $("#obj_action").attr("onClick", "Javascript: submitAccountChangeAuthorize();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function requestEmailUpdate()
-{
-    var name    = $("#first_name").val() + " " + $("#last_name").val();
-    var email   = $("#master_user_email").val();
-
-    load_error_heads("Reset Email", "Are You Sure You Want To Proceed?", "Clicking Reset Will Change the email associated with your account. Your email address can be updated as amany times as you like. The new email will be used in the future to login to your account", "Reset");
-    load_error_message("USER NAME: ", "USER EMAIL: ", "", name, email, "");
-
-    $("#obj_action").attr("onClick", "Javascript: submitAccountChangeAuthorize();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function requestNameUpdate()
-{
-    var name    = $("#first_name").val() + " " + $("#last_name").val();
-    var email   = $("#master_user_email").val();
-
-    load_error_heads("Reset Password", "Are You Sure You Want To Proceed?", "Clicking Reset Will Change ther name associated with your account. Your name can be updated as many times as you like.", "Reset");
-    load_error_message("USER NAME: ", "USER EMAIL: ", "", name, email, "");
-
-    $("#obj_action").attr("onClick", "Javascript: submitAccountChangeAuthorize();")
-    $("#msg4" ).hide();
-    $("#msg4" ).removeClass("hidden");
-    $("#msg4" ).fadeIn(500);
-}
-
-function submitAccountChangeAuthorize()
-{
-    $("#account_form").submit();
-}
-
-function validateModel(model)
-{
-    model = String(model);
-    if (model === "blog") { validateBlogEdit(); }
-    else if (model === "new_blog") { validateNewBlog(); }
-    else if (model === "product") { validateProduct(); }
-    else if (model === "about") { validateAboutModel(); }
-    else if (model === "access") { validateAccess(); }
-}
-
-function validateAboutModel()
-{
-    var messages        = [];
-    var proceed         = false;
-    var active_loaded   = $("#active_loaded").val();
-    var statement       = $("#editor_statement").val();
-    var prev_state      = null;
-
-    if (String(active_loaded) === "0")
-    {
-        var selected_e  = $("#selected_e").val();
-        prev_state  = $("#statement_" + selected_e).val();
-    }
-    else if (String(active_loaded === "1"))
-    {
-        prev_state = $("#current_statement_v2").val();
-    }
-    if (statement.length === 0)
-    {
-        messages.push("Empty Field Detected");
-        messages.push("You must enter a valid about us statement to proceed.")
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        $("#changes_detected").val("1");
-        $("#about_us_editor").submit();
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    }
-}
-
-function isMatch_d(intval, boolval)
-{
-    var isEqual = false;
-    intval = String(intval);
-    boolval = String(boolval);
-    if ((intval === "1" && boolval === "True") || (intval === "0" && boolval === "False")) { isEqual = true; }
-    return isEqual;
-}
-
-function validateAccess()
-{
-    var proceed     = false;
-    var messages    = [];
-    var selected_e  = $("#selected_e").val();
-    var p_admin     = $("#admin_" + selected_e).val(); 
-    var p_product   = $("#product_" + selected_e).val(); 
-    var p_about     = $("#about_" + selected_e).val(); 
-    var p_blog      = $("#blog_" + selected_e).val(); 
-    var p_gallery   = $("#gallery_" + selected_e).val();
-    var c_admin     = $("#m_admin").val(); 
-    var c_product   = $("#m_product").val(); 
-    var c_about     = $("#m_about").val(); 
-    var c_blog      = $("#m_blog").val(); 
-    var c_gallery   = $("#m_gallery").val();
-    var a           = isMatch_d(c_admin, p_admin);
-    var b           = isMatch_d(c_product, p_product);
-    var c           = isMatch_d(c_about, p_about);
-    var d           = isMatch_d(c_blog, p_blog);
-    var e           = isMatch_d(c_gallery, p_gallery);
-    if(a===true&&b===true&&c===true&&d===true&e===true)
-    { messages.push("No Changes Detected"); messages.push(" "); }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        $("#changes_detected").val("1");
-        $("#user_editor_form").submit();
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
-
-function validateNewBlog()
-{
-    var messages    = [];
-    var proceed     = false;
-    var subject     = $("#new_blog_subj").val();
-    var content     = $("#new_blog_cont").val();
-    if (subject.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You cannot leave the subject blank.");
-    }
-    else if (content.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You cannot leave the content body of the blog blank.");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        subject = cleanTextInput(subject);
-        content = cleanTextInput(content);
-        $("#changes_detected").val("1");
-        $("#new_blog_form").submit();
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
-
-function validateBlogEdit()
-{
-    var subject     = $("#editor_subject").val();
-    var content     = $("#super_blog_content").val();
-    var selected_e  = $("#selected_e").val();
-    var prev_sub    = $("#" + "subject_" + selected_e).val();
-    var prev_con    = $("#" + "content_" + selected_e).val();
-    var proceed     = false;
-    var messages    = [];
-
-    if (subject.length === 0 || content.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You cannot leave any fields blank.");
-    }
-    else if (prev_sub === subject && prev_con === content)
-    {
-        messages.push("No Changes Detected");
-        messages.push("No further action will be taken.");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        $("#changes_detected").val("1");
-        $("#blog_editor_form").submit();
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
-
-function validateProduct()
-{
-    var messages        = [];
-    var proceed         = false;
-    var action          = $("#target_action_prod").val();
-    var name            = $("#product_name").val();
-    var description     = $("#product_description").val();
-    var price           = $("#product_price").val();
-    var index           = $("#selected_e").val();
-    var c_name          = $("#name_" + index).val();
-    var c_description   = $("#description_" + index).val();
-    var c_price         = $("#price_" + index).val();
-
-    if (action === "new")
-    {
-        name = cleanTextInput(name);
-        description = cleanTextInput(description);
-    }
-    
-    if (name.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You cannot leave the product name field blank.");
-    }
-    else if (description.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You cannot leave the product description field blank.");
-    }
-    else if (price.length === 0)
-    {
-        messages.push("Empty Field");
-        messages.push("You cannot leave the price field blank.");
-    }
-    else if (name === c_name && description === c_description && price === c_price)
-    {
-        messages.push("No Changes Detected");
-        messages.push(" ");
-    }
-    else { proceed = true; }
-    if (proceed === true) 
-    { 
-        $("#changes_detected").val("1");
-        $("#product_edit_form").submit();
-    }
-    else 
-    { 
-        ultimateErrorMessage(messages); 
-    } 
-}
-
-function validatePricingInput()
-{
-    var result  = "";
-    var price   = $("#product_price").val();
-    var len     = price.length;
-    var pos     = len - 1;
-    var c       = price[pos];
-    if (len < 5)
-    {
-        if (isInt(c) === true) { result = price; }
-    }
-    else
-    {
-        for (var i = 0; i < pos; i++)
-        {
-            result += price[i];
-        }
-    }
-    if (result.length > 1 && String(result[0]) === "0")
-    {
-        var t = "";
-        for (var i = 1; i < result.length; i++)
-        {
-            t += result[i];
-        }
-        result = t;
-    }
-    $("#product_price").val(result);
-}
-
-function submit_auth_user()
-{
-    $("#user_authorize_form").submit();
-}
-
-$(document).ready(function() {
-    $("#login-btn").click(function() {
-        $("#login_form").submit();
-    });
-
-    $("#close_error_window").click(function() {
-        $("#err").fadeOut(500);
-    });
-
-    $("#motto").click(function() {
-        $("#msg1").hide();
-        $("#msg1").removeClass('hidden');
-        $("#msg1").fadeIn(500);
-    });
-
-    $("#ab1").click(function() {
-        var launchBlogger   = $("#launchBlogger").val();
-        if (String(launchBlogger) === "True")
-        {
-            var frame_active    = String(document.getElementById("frame_active").value);
-            if (frame_active === "1")
-            {
-                var btn_index   = String(document.getElementById("btn_index").value);
-                var loader      = get_load_id(btn_index);
-                var trigger     = "#msg" + loader;
-
-                $(trigger).fadeOut(600);
-            }
-
-            $("#msg1").hide();
-            $("#msg1").removeClass("hidden");
-            $("#msg1").fadeIn(600);
-            $("#blog_active").val("1");
-        }
-        else
-        {
-            html = build_restrictor();
-            $("#msg2").html(html);
-            $("#msg2").hide();
-            $("#msg2").removeClass("hidden");
-            $("#msg2").fadeIn(500);
-        }       
-    });
-
-
-    //ADMIN BUTTON LOADERS
-    $("#ab2").click(function() {
-        window.location.href = "/blog_editor";
-    });
-    $("#ab3").click(function() {
-        window.location.href = "/product_editor"; 
-    });
-    $("#ab4").click(function() {
-        window.location.href = "/gallery_editor";
-    });
-    $("#ab5").click(function() {
-        window.location.href = "/about_editor";
-    });
-    $("#ab6").click(function() {
-        window.location.href = "/company_editor";
-    });
-    $("#ab7").click(function() {
-        window.location.href = "/user_editor";
-    });
-    $("#ab8").click(function() {
-        window.location.href = "/user_access";
-    });
-
-
-
-    $("#btn0").click(function() {
-        $("#master-body-fader").fadeOut(600, function() {
-            window.location.href = "/admin_home"; 
-        });
-    });
-    $("#btn1").click(function() {
-        $("#master-body-fader").fadeOut(600, function() {
-            window.location.href = "/email"; 
-        });
-    });
-    $("#ddb4").click(function() {
-        $("#master-body-fader").fadeOut(600, function() {
-            window.location.href = "/logout"; 
-        });
-    });
-
-
-
-
-
-    //ADMIN FRAME CLOSERS
-    $("#close-this-1").click(function() {
-        $("#subject").val("");
-        $("#blog_content").val("");
-        $("#msg1").fadeOut(500);
-        $("#blog_active").val("0");
-    });
-    $("#close-this-2").click(function() {
-        $("#msg2").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-3").click(function() {
-        $("#msg3").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-4").click(function() {
-        $("#msg4").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-5").click(function() {
-        $("#msg5").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-    $("#close-this-6").click(function() {
-        $("#msg6").fadeOut(500);
-        $("#frame_active").val("0");
-    });
-
-    //ADMIN FORM SUBMISSION
-
-    $("#launch_blog_editor").click(function() {
-        var index = $("#selected_e").val();
-        index = String(index);
-        var html    = build_blog_editor();
-        $("#msg3").html(html);
-        var subj_id = "#subject_" + index;
-        var cont_id = "#content_" + index;
-        var elem_id = "#id_" + index;
-        var subject = $(subj_id).val();
-        var content = $(cont_id).val();
-        var e_id    = $(elem_id).val();
-        
-        $("#e_target_action").val("update");
-        $("#e_target_id").val(e_id);
-        $("#editor_subject").val(subject);
-        $("#super_blog_content").val(content);
-        $("#msg3" ).hide();
-        $("#msg3" ).removeClass("hidden");
-        $("#msg3" ).fadeIn(500);
-    });
-    $("#edit_user_access").click(function() {
-        var html    = build_user_editor();
-        $("#msg3").html(html); 
-        var index   = $("#selected_e").val();
-        index       = String(index);
-        var sel_id  = "#id_" + index;
-        var sel_fn  = "#fname_" + index;
-        var sel_ln  = "#lname_" + index;
-        var sel_em  = "#email_" + index;
-        var sel_ad  = "#admin_" + index;
-        var sel_pd  = "#product_" + index;
-        var sel_ab  = "#about_" + index;
-        var sel_bg  = "#blog_" + index;
-        var sel_gy  = "#gallery_" + index;
-        var uid     = $(sel_id).val();
-        var fname   = $(sel_fn).val();
-        var lname   = $(sel_ln).val();
-        var email   = $(sel_em).val();
-        var admin   = $(sel_ad).val();
-        var product = $(sel_pd).val();
-        var about   = $(sel_ab).val();
-        var blog    = $(sel_bg).val();
-        var gallery = $(sel_gy).val();
-        var name = String(fname) + " " + String(lname);
-
-        if (String(admin) === "True")
-        {
-            $("#m_admin").val("1");
-            $("#cb_admin").prop('checked', true);
-        }
-        else
-        {
-            $("#m_admin").val("0");
-            $("#cb_admin").prop('checked', false);
-        }
-        if (String(blog) === "True")
-        {
-            $("#m_blog").val("1");
-            $("#cb_blog").prop('checked', true);
-        }
-        else
-        {
-            $("#m_blog").val("0");
-            $("#cb_blog").prop('checked', false);
-        }
-        if (String(product) === "True")
-        {
-            $("#m_product").val("1");
-            $("#cb_product").prop('checked', true);
-        }
-        else
-        {
-            $("#m_product").val("0");
-            $("#cb_product").prop('checked', false);
-        }
-        if (String(gallery) === "True")
-        {
-            $("#m_gallery").val("1");
-            $("#cb_gallery").prop('checked', true);
-        }
-        else
-        {
-            $("#m_gallery").val("0");
-            $("#cb_gallery").prop('checked', false);
-        }
-        if (String(about) === "True")
-        {
-            $("#m_about").val("1");
-            $("#cb_about").prop('checked', true);
-        }
-        else
-        {
-            $("#m_about").val("0");
-            $("#cb_about").prop('checked', false);
-        }
-
-        $("#targetIdEditor").val(uid);
-        $("#um_name").html(name);
-        $("#um_email").html(email);
-        $("#msg3" ).hide();
-        $("#msg3" ).removeClass("hidden");
-        $("#msg3" ).fadeIn(500);
-    });
-});
-
-
-
-
-
-
-
-
