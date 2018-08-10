@@ -3,104 +3,7 @@
 {% extends "admin/master/emptyBase.html" %}
 
 {% block content %}
-<style type="text/css">
 
-/*////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////*/
-/*DO NOT COPY THESE STYLES*/
-
-.recoveryDiv {
-    text-align: center;
-    margin-bottom: 3px;
-}
-
-.recoveryDiv a {
-    font-size: 11px;
-    color: #ffffff;
-    text-transform: capitalize;
-    font-style: italic;
-}
-
-.recoveryDiv a:hover {
-    text-decoration: none;
-    color: #e7ef9d;
-}
-
-
-
-.su-recover i {
-    color: #b4b799;
-    text-shadow: 1px 1px #222222;
-}
-
-.recover-st {
-    color: #3f4509;
-    text-shadow: none;
-    font-weight: 600;
-    font-family: Arial;
-    font-style: italic;
-}
-
-.su-closerm:hover {
-    color: #3f4509;
-    text-shadow: 1px 1px #cccccc;
-}
-
-.recover-email-label {
-    font-weight: 600;
-    font-style: italic;
-    margin-top: -5px;
-    margin-bottom: 7px;
-    padding-left: 8px;
-}
-
-.rec-email-btn {
-    padding:0;
-    margin:0;
-    padding-left:10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 6px;
-    border: 1px solid #666666;
-    background-color: #aaaaaa;
-    margin-top: 8px;
-    margin-bottom: 10px;
-}
-
-.rec-email-btn button {
-    width: 100%;
-    padding-top:1px;
-    padding-bottom: 1px;
-}
-
-/*////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////*/
-
-.su-dbl-buttons {
-    width: 100%;
-    border: 1px solid #777777;
-    border-radius: 6px;
-    padding: 0;
-    margin: 0;
-    padding-top:1px;
-    padding-bottom: 5px;
-    background-color: #bbbbbb;
-    text-align: center;
-    margin-top: 15px;
-}
-
-.su-dbl-buttons button {
-    width: 48%;
-}
-
-</style>
 
 <script type="text/javascript">
 
@@ -260,7 +163,7 @@ function confirmAndValidateNewPassword()
     <div class='su-pop-container hidden' id='recover-space'></div>
     <div class='su-about-errors hidden' id='su-editor-builder'></div>
     <div class='su-content-wrap'>
-        <div class='su-login-wrap center_v_mode'>
+        <div class='su-login-wrap su-center'>
             <h6>Password Reset</h6>
             <form action='/recoverySuccess' method="POST" id='su_login_form'>
             	<input type="hidden" name="u_id" value="{{user.id}}">

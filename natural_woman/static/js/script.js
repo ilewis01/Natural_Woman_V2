@@ -1,29 +1,29 @@
-$( window ).on( "load", initialize);
+// $( window ).on( "load", initialize);
 
-function initialize(jQuery) {
-    var btn_index = String(document.getElementById("btn_index").value);
+// function initialize(jQuery) {
+//     var btn_index = String(document.getElementById("btn_index").value);
     
-    if (Number(btn_index) > 5)
-    {
-        initialize_admin_forms();
-    }
-    else
-    {
-        $("#base1_fade_id").removeClass('hidden');
-        if (btn_index === "-1")
-        {
-            initialize_index();
-        }
-        else if (btn_index === "0")
-        {
+//     if (Number(btn_index) > 5)
+//     {
+//         initialize_admin_forms();
+//     }
+//     else
+//     {
+//         $("#base1_fade_id").removeClass('hidden');
+//         if (btn_index === "-1")
+//         {
+//             initialize_index();
+//         }
+//         else if (btn_index === "0")
+//         {
 
-        }
-        else if (btn_index === "2")
-        {
+//         }
+//         else if (btn_index === "2")
+//         {
             
-        }
-    }
-}
+//         }
+//     }
+// }
 
 //PAGE INITIALIZATIONS
 function initialize_index(jQuery) {

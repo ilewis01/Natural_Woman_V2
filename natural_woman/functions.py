@@ -444,6 +444,16 @@ def authExist(email):
 			break
 	return exist
 
+def locateAuth(email):
+	a_list 	= Authorization.query.all()
+	auth 	= None
+	email 	= str(email)
+	for a in a_list:
+		if str(a.auth_email) == email:
+			auth = a
+			break
+	return auth
+
 def fetchSecurityById(s_id):
 	sec = None
 	s_list = SecurityQuestion.query.all()
@@ -1126,6 +1136,47 @@ def recoverySuccessContent():
 	data['message'] = message
 	return data
 
+def getRegistrationContent():
+	data = {}
+	message = None
+	url = "global/validateRegistration.html"
+	email = request.form['email']
+	exist = authExist(email)
+	if exist == False:
+		url = "global/validationFailure.html"
+		message = "No Authorization Exist For Email: " + email
+	else:
+		auth  = locateAuth(email)
+		code  = request.form['security_code']
+		valid = auth.validate(code)
+		if valid == False:
+			message = "The Authorization Code You Entered Is Invalid"
+			url = "global/validationFailure.html"
+		else:
+			exist = userExist(email)
+			if exist == True:
+				message = "An Account Already Exists For This User"
+				url = "global/validationFailure.html"
+			else:
+				fname = request.form['fname']
+
+				lname = request.form['lname']
+				ans_1 = request.form['answer1']
+				ans_2 = request.form['answer2']
+				ques1 = request.form['question1']
+				ques2 = request.form['question2']
+				passw = request.form['password1']
+				user  = User(fname, lname, email, passw)
+				user.setPermissions(auth.auth_admin, auth.auth_product, auth.auth_about, auth.auth_blog, auth.auth_gallery)
+				user.is_locked 	= auth.auth_locked
+				user.is_super 	= auth.auth_super
+				user.setSecurity(ques1, ques2, ans_1, ans_2)
+				user.save()
+				auth.delete()
+				message = "Registration Complete!"
+	data['url'] = url
+	data['message'] = message
+	return data
 
 
 

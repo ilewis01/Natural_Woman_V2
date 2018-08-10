@@ -13,10 +13,15 @@ def home():
 	content = {}
 	return render_template("global/index.html", **content)
 
-@app.route('/sign_up')
+@app.route('/register')
 def sign_up():
-	title = "Natural Woman Salon | Registration"
-	return render_template("global/signup.html", title=title)
+	security = SecurityQuestion.query.all()
+	return render_template("global/signup.html", security=security)
+
+@app.route('/validateRegistration', methods=["POST"])
+def validateRegistration():
+	content = getRegistrationContent()
+	return render_template(content['url'], **content)
 
 @app.route('/register', methods=["POST"])
 def register():

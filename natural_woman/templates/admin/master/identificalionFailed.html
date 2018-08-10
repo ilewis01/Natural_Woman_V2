@@ -1,67 +1,6 @@
 {% extends "admin/master/emptyBase.html" %}
 
 {% block content %}
-<style type="text/css">
-
-/*//////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////*/
-/*DO NOT COPY THESE STYLES*/
-	
-.get-s-question-wrap {
-	-webkit-transform-style: preserve-3d;
-	-moz-transform-style: preserve-3d;
-	transform-style: preserve-3d;
-}
-
-.re-center {
-	margin-top:14%;
-}
-
-.sp15 {
-	margin-top:15px;
-}
-
-.su-general-btns-re {
-	width: 100%;
-	padding:0;
-	margin:0;
-	padding-left:10px;
-	padding-right:10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	border:1px solid #666666;
-	border-radius: 6px;
-	background-color: #bbbbbb;
-	text-align: right;
-	margin-top: 10px;
-}
-
-.su-general-btns-re button {
-	width: 25%;
-}
-
-.re-ques {
-	font-weight: 600;
-	font-style: italic;
-	font-size: 12px;
-	color: #222222;
-	margin-bottom: 3px;
-}
-
-.height15 {
-	height: 15px;
-}
-
-/*//////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////*/
-
-</style>
 
 <script type="text/javascript">
 
@@ -144,7 +83,6 @@ function initValidateIdenity()
 	<div class='get-s-question-wrap'>
 		<div class='su-width45 re-center'>
 			<div class='su-general'>
-				{{user.id}}
 				<form action="/validateIdentity" method="POST" id="recovery_form">
 					<input type="hidden" name="u_id" id="u_id" value="{{user.id}}">
 					<div class='su-closer'><a href="javascript: returnToLogin();"><i class='fas fa-window-close su-closerm'></i></a></div>

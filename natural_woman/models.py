@@ -137,7 +137,7 @@ class Authorization(db.Model):
 	auth_gallery 	= db.Column('gallery_access', db.Boolean, default=False)
 	auth_locked		= db.Column('islocked', db.Boolean, default=False)
 	auth_super 		= db.Column('isSuper', db.Boolean, default=False)
-	auth_code		= db.Column('auth_code', db.String)
+	auth_code		= db.Column('auth_code', db.Binary(60), nullable=True)
 	sent 			= db.Column('date', db.TIMESTAMP)
 
 	def __init__(self, name, email, admin, blog, product, about, gallery):
@@ -157,8 +157,8 @@ class Authorization(db.Model):
 		db.session.add(self)
 		db.session.commit()
 
-	def codeValid(self, plaintext_code):
-		return bcrypt.check_password_hash(plaintext_code)
+	def validate(self, plaintext_code):
+		return bcrypt.check_password_hash(self.auth_code, plaintext_code)
 
 	def save(self):
 		db.session.add(self)

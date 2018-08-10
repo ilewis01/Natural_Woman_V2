@@ -41,9 +41,9 @@ c0.show_twitter = False
 c0.num_uploads = 5
 
 code = generateRandomCode(8)
+print(code)
 auth = Authorization("johnny Walker", "johnny@drink.com", True, True, True, False, False)
-auth.auth_code = code
-auth.save()
+auth.setCode(code)
 
 u1 = User("Deez", "Nutz", "mynutz@gmail.com", "1234" )
 u2 = User("Nasty", "Whore", "hotmess@gmail.com", "password")

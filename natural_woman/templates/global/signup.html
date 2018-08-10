@@ -1,17 +1,198 @@
-<body style="text-align:center; font-family:Arial;">
-	<h1>{{title}}</h1>
 
-	<br><br>
 
-	<form action="/register" method="POST" id="reg_form">
-		<h3>Sign Up</h3>
-		<input type="text" name="fname" id="fname" placeholder="First Name" required> <br>
-		<input type="text" name="lname" id="lname" placeholder="Last Name" required> <br>
-		<input type="email" name="email" id="email" placeholder="Email" required> <br>
-		<input type="password" name="password" id="password" placeholder="Password" required> <br>
-		<input type="submit" value="subnit">
+
+{% extends "admin/master/emptyBase.html" %}
+
+{% block content %}
+
+<script type="text/javascript">
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//DO NOT COPY THIS SCRIPT
+
+function validate_email(email)
+{
+    test1 = false;
+    test2 = false;
+    is_valid = false;
+    email = String(email);
+    for (var i = 0; i < email.length; i++)
+    {
+        if (email[i] === "@") { test1 = true; }
+        if (email[i] === ".") { test2 = true; }
+    }
+    if (test1 === true && test2 === true) { is_valid = true; }
+    return is_valid;
+}
+
+function closeError()
+{
+    $("#su-editor-builder").fadeOut(600);
+}
+
+function generateErrorWindow(messages)
+{
+    html = "";
+    html += "<div class='su-center su-width30'>";
+    html += "<div class='su-general'>";
+    html += "<div class='su-closer'><a href=\"javascript: closeError();\"><i class='fas fa-window-close su-err'></i></a></div>";
+    html += "<div class='su-error-header su-neg25'><i class='fas fa-exclamation-triangle'></i> <span id='su-error-header'>Error</span></div>";
+    html += "<div class='err0' id='err0'>" + messages[0] + "</div>";
+    html += "<div class='err1' id='err1'>" + messages[1] + "</div>";
+    html += "</div>";
+    html += "</div>";
+    $("#su-editor-builder").html(html);
+    $("#su-editor-builder").hide();
+    $("#su-editor-builder").removeClass('hidden');
+    $("#su-editor-builder").fadeIn(600);
+}
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
+
+
+function validateReg1()
+{
+	var errors 	= false;
+	var m 		= [];
+	var code 	= $("#security_code").val();
+	var email 	= $("#email").val();
+	var fname 	= $("#fname").val();
+	var lname 	= $("#lname").val();
+	var sq1 	= $("#question1").val();
+	var sq2 	= $("#question2").val();
+	var an1 	= $("#answer1").val();
+	var an2 	= $("#answer2").val();
+	var pw1 	= $("#password1").val();
+	var pw2 	= $("#password2").val();
+	if (code.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must enter the authorization code that was emailed to you to proceed")
+		errors = true;
+	}
+	else if (email.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must confirm your email to proceed")
+		errors = true;
+	}
+	else if (validate_email(email) === false)
+	{
+		m.push("Invalid Email");
+		m.push("You must enter a valid email address to proceed");
+		errors = true;
+	}
+	else if (fname.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must enter your first name to proceed")
+		errors = true;
+	}
+	else if (lname.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must enter your last name to proceed")
+		errors = true;
+	}
+	else if (an1.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must provide an answer to security question 1 to proceed")
+		errors = true;
+	}
+	else if (an2.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must provide an answer to security question 2 to proceed")
+		errors = true;
+	}
+	else if (sq1 === sq2)
+	{
+		m.push("Duplicate Security Questions");
+		m.push("You cannot select the same security questions. Please change question 1 or question 2");
+		errors = true;
+	}
+	else if (pw1.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must provide a valid password to proceed")
+		errors = true;
+	}
+	else if (pw2.length === 0)
+	{
+		m.push("Empty Field Detected");
+		m.push("You must confirm your new password to proceed")
+		errors = true;
+	}
+	else if (pw1 !== pw2)
+	{
+		errors = true;
+		m.push("Passwords Do Not Match!");
+		m.push("The passwwords must match to proceed");
+	}
+	if (errors === true) { generateErrorWindow(m); }
+	else { $("#registration_form").submit(); }
+}
+</script>
+
+<div class='su-about-errors hidden' id='su-editor-builder'></div>
+
+<div class='sign-up-container'>
+	<h3><i class="fas fa-user-circle"></i> &nbspUser Registration</h3>
+	<form action="/validateRegistration" method="POST" id="registration_form">
+		<div class='code_in_mst'>
+			<label>Authorization Code: </label>
+			<input type="text" name="security_code" id="security_code">
+		</div>
+		<input type="email" name="email" id="email" placeholder="Please confirm your email address">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6" style="padding: 0; margin: 0;">
+					<input type="text" name="fname" id="fname" placeholder="First Name">
+				</div>
+				<div class="col-sm-6" style="padding: 0; margin: 0;">
+					<input type="text" name="lname" id="lname" placeholder="Last Name">
+				</div>
+			</div>
+		</div>
+		<div class="sec-hd1">Security Questions</div>
+		<select id="question1" name="question1">
+			{% for s in security %}
+			<option value="{{s.question}}">{{s.question}}</option>
+			{% endfor %}
+		</select>
+		<input type="text" name="answer1" id="answer1" placeholder="Security Answer 1">
+		<div class='height15'></div>
+		<select id="question2" name="question2">
+			{% for s in security %}
+			<option value="{{s.question}}">{{s.question}}</option>
+			{% endfor %}
+		</select>
+		<input type="text" name="answer2" id="answer2" placeholder="Security Answer 1">
+		<div class="sec-hd1">Password</div>
+		<input type="password" name="password1" id="password1" placeholder="Enter your password">
+		<input type="password" name="password2" id="password2" placeholder="Confirm your password">
+		<div class="code_in_mst">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6" style="padding:0; margin:0;">
+						<button type="button" onClick="javascript: validateReg1();">Register</button>
+					</div>
+					<div class="col-sm-6" style="padding:0; margin:0;">
+						<button type="button" onClick="javascript: returnToLogin();">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</form>
+</div>
 
-	<br><br>
-	<a href="/">Canel</a>
-</body>
+{% endblock %}
