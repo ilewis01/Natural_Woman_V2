@@ -1,0 +1,12 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+<h1>Photo Gallery</h1>
+
+<ul>
+	{% for i in images %}
+	<img src="{{i.img_url}}">
+	{% endfor %}
+</ul>
+
+{% endblock %}

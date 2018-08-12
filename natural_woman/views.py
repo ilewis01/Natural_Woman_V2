@@ -5,13 +5,40 @@ from flask import render_template, redirect, request
 
 @app.route('/')
 def index():
-	content = index_content()
+	content = fetchNavigationContent()
+	content['title'] = "Natural Woman Salon"
 	return render_template("global/index.html", **content)
 
 @app.route('/home')
 def home():
-	content = {}
+	content = fetchNavigationContent()
+	content['title'] = "Natural Woman Salon"
 	return render_template("global/index.html", **content)
+
+@app.route('/about')
+def about():
+	content = getAboutContent()
+	return render_template(content['url'], **content)
+
+@app.route('/gallery')
+def gallery():
+	content = getGalleryContent()
+	return render_template(content['url'], **content)
+
+@app.route('/pricing')
+def pricing():
+	content = getProductContent()
+	return render_template(content['url'], **content)
+
+@app.route('/blog')
+def blog():
+	content = getBlogContent()
+	return render_template(content['url'], **content)
+
+@app.route('/contact')
+def contact():
+	content = getContactContent()
+	return render_template(content['url'], **content)
 
 @app.route('/register')
 def sign_up():

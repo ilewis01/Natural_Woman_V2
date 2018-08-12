@@ -1,0 +1,14 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+<h1>Products and Services</h1>
+
+<ul>
+	{% for p in products %}
+	<li>
+		{{p.name}} &nbsp${{p.price}}
+	</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}

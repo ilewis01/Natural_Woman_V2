@@ -1,0 +1,14 @@
+{% extends "global/base.html" %}
+
+{% block content %}
+<h1>Blog</h1>
+
+<ul>
+	{% for b in blogs %}
+	<li>
+		{{b.subject}} &nbsp[{{b.date}}]
+	</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}

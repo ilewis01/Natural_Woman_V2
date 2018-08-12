@@ -1178,6 +1178,53 @@ def getRegistrationContent():
 	data['security'] = SecurityQuestion.query.all()
 	return data
 
+def fetchNavigationContent():
+	data = {}
+	company = get_company_model()
+	data['show_facebook'] = company.show_facebook
+	data['show_twitter'] = company.show_twitter
+	data['show_instagram'] = company.show_instagram
+	return data
+
+def getAboutContent():
+	data = fetchNavigationContent()
+	a_list = About.query.all()
+	data['title'] = "Natural Woman Salon | About Us"
+	data['url'] = "global/about.html"
+	for a in a_list:
+		if a.is_active == True:
+			data['about'] = a
+			break
+	return data
+
+def getGalleryContent():
+	data = fetchNavigationContent()
+	data['title'] = "Natural Woman Salon | Photo Gallery"
+	data['url'] = "global/gallery.html"
+	data['images'] = Image.query.all()
+	return data
+
+def getProductContent():
+	data = fetchNavigationContent()
+	data['title'] = "Natural Woman Salon | Services"
+	data['url'] = "global/products.html"
+	data['products'] = Product.query.all()
+	return data
+
+def getBlogContent():
+	data = fetchNavigationContent()
+	data['title'] = "Natural Woman Salon | Lora's Blog"
+	data['url'] = "global/blog.html"
+	data['blogs'] = Blog.query.all()
+	return data
+
+def getContactContent():
+	data = fetchNavigationContent()
+	data['title'] = "Natural Woman Salon | Contact Us"
+	data['url'] = "global/contact.html"
+	data['company'] = get_company_model()
+	return data
+
 
 
 

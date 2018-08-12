@@ -32,33 +32,86 @@
         <![endif]-->
     </head>
 
-    <body class="global-style hidden" id="base1_fade_id">
-        <input type="hidden" id="btn_index" value="{{btn_index}}">
-        <div class="alert1 hidden" id="msg1">
-            <div class="login-wrapper">
-                <div class="login-leaf nature-green flip"><i class="fab fa-envira"></i></div>
-                <h3>Login</h3>
-                <form action="/auth" method="POST" id="login_form">
-                    <input type="email" name="email" id="email" placeholder="Email" required>
-                    <input type="password" name="password" id="password" placeholder="Password" required>
-                    <div class="space"><a href="#">Forgot Password?</a></div>
-                </form>
+<style type="text/css">
 
-                <button id="login-btn">Submit</button>
-                <button id="close-this-1">Cancel</button>
-            </div>
-        </div>
+a:hover {
+    text-decoration: none
+}
+    
+.global-style {
+    background-image: url('/static/images/background.jpg');
+    width:100%;
+    height:100vh;
+    overflow: hidden;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    text-align: center;
+    color:#f2f3e5;
+}
 
-        <div class="alert7 hidden" id="msg7">
-            <div class="logout_msg_wrap center_v_mode">
-                <div class="logout_stylish">
-                    <h3>You were successfully logged out</h3>
-                    <h5>See you soon</h5>
-                    <a href="#" onClick="javascript: closeIconBtn('7');">Click Here To Close</a>
-                </div>
-            </div>
-        </div>
+.navbar {
+    background: linear-gradient(to top, rgba(88, 85, 56, 0.6), rgba(193, 197, 157, 0.6));
+    padding-top:2%;
+    padding-bottom: 1%;
+    box-shadow: 3px 3px 3px #444444;
+}
 
+.nature-green {
+    color: #cadc23;
+}
+
+.icon-left {
+    position: relative;
+    float: left;
+}
+
+.icon-nav {
+    font-size: 20px;
+}
+
+.nws-brand {
+    font-family: 'Lovers Quarrel', cursive;
+    font-size: 50px;
+    line-height: 0;
+    padding-top: 12px;
+    text-align: left;
+    width: 300px;
+    padding-left: 20px;
+    color: #dfdbbc;
+    text-shadow:1px 1px #222222;
+}
+
+.nav-item a {
+    color: #eeeeee;
+    font-size: 12px;
+    padding-left: 15px;
+    font-family: 'Fira Sans Condensed', sans-serif;
+    letter-spacing: 1px;
+}
+
+.nav-item a:hover {
+    color: #cadc23;
+}
+
+.content-wrapper {
+    width: 100%;
+}
+
+.copyright {
+    font-size: 10px;
+    margin-bottom: 20%;
+    color: #dfdbbc;
+}
+
+.content-a {
+    height: 88vh;
+}
+
+
+</style>
+
+
+    <body class="global-style" id="base1_fade_id">
         <nav class="navbar navbar-expand-sm" role="navigation">
             <div class="navbar-header">
                 <div class="nav-head-wrap">
@@ -78,8 +131,8 @@
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" id="btn0"><a id="a0" href="#">HOME</a></li>
                     <li class="nav-item" id="btn1"><a id="a1" href="#">ABOUT</a></li>
-                    <li class="nav-item" id="btn2"><a id="a2" href="#">pricing</a></li>
-                    <li class="nav-item" id="btn3"><a id="a3" href="#">GALLERY</a></li>
+                    <li class="nav-item" id="btn2"><a id="a2" href="#">GALLERY</a></li>
+                    <li class="nav-item" id="btn3"><a id="a3" href="#">PRICING</a></li>
                     <li class="nav-item" id="btn4"><a id="a4" href="#">BLOG</a></li>
                     <li class="nav-item" id="btn5"><a id="a5" href="#">CONTACT</a></li>
                 </ul>
@@ -92,8 +145,14 @@
                 {% endblock %}
             </div>
 
-            <div class="copyright">
-                Copyright &copy; 2018 Natural Woman Salon Detroit. All Rights Reserved.
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="copyright">
+                            Copyright &copy; 2018 Natural Woman Salon Detroit. All Rights Reserved.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

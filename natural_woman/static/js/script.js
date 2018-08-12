@@ -5944,3 +5944,24 @@ function showRegistrationSuccessMessage()
     m.push("You have successfully completed registration. You can now login using your newly created credentials");
     generateErrorWindow(m);
 }
+
+$(document).ready(function() {
+    $("#a0").click(function() {
+        window.location.href = "/home"; 
+    });
+    $("#a1").click(function() {
+        window.location.href = "/about"; 
+    });
+    $("#a2").click(function() {
+        window.location.href = "/gallery"; 
+    });
+    $("#a3").click(function() {
+        window.location.href = "/pricing"; 
+    });
+    $("#a4").click(function() {
+        window.location.href = "/blog"; 
+    });
+    $("#a5").click(function() {
+        window.location.href = "/contact"; 
+    });
+});
