@@ -1,10 +1,7 @@
 {% extends "global/base.html" %}
-
 {% block content %}
-
 <div>
-
-	<div id="home_sliders" class="hidden">
+	<div id="master-content" class="hidden">
         <div>
             <div class="seperate-seven" id="i1"><img src="static/images/i1.png"></div>
 
@@ -20,32 +17,13 @@
 
             <div class="seperate-seven" id="i7"><img src="static/images/i7.png"></div>
         </div>
-
-        <div class='index-motto' id="motto">
+        <!-- <div class='index-motto' id="motto">
             <span>
                 <i class="fab fa-envira" style="margin-left:25px;"></i>
             </span>
             natural woman salon
             <div class="sub-motto">Specializing in natural hair care</div>
-        </div>
+        </div> -->
     </div>
-	<!--<h1>{{title}}</h1>
-
-	<br><br>
-
-	<div>
-		<h3>Login</h3>
-		<form action="/auth" method="POST" name="login_form">
-			<input type="email" name="email" id="email" placeholder="Email" required> <br>
-			<input type="password" name="password" id="password" placeholder="Password" required> <br>
-			<input type="submit" value="subnit">
-		</form>
-	</div>
-
-	<br><br>
-	<a href="/sign_up">Register</a>
-
-	<h4 style="color:red;">Button Index: {{btn_index}}</h4>-->
 </div>
-
 {% endblock %}

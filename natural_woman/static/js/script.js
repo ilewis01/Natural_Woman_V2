@@ -968,6 +968,13 @@ function buildProducts(data)
         var name        = String(data[i]['name']);
         var description = String(data[i]['description']);
         var price       = String(data[i]['price']);
+        var varies      = String(data[i]['varies']);
+        var v_class     = "far fa-square";
+        
+        if (varies === "True")
+        {
+            v_class = "far fa-check-square";
+        }
         html += "<div id='div_" + index + "' class='" + e_class + "'>";
         html += "<li>";
         html += "<a href=\"javascript: launchAdminEditors('product', '1', '" + index + "');\">";
@@ -975,6 +982,7 @@ function buildProducts(data)
         html += "<input type='hidden' id='m_name_" + index + "' value='" + name + "'>";
         html += "<input type='hidden' id='m_description_" + index + "' value='" + description + "'>";
         html += "<input type='hidden' id='m_price_" + index + "' value='" + price + "'>";
+        html += "<input type='hidden' id='m_varies_" + index + "' value='" + varies + "'>";
         html += "<table>";
         html += "<tr>";
         html += "<td><input type='checkbox' onClick=\"javascript: selectModelItem('" + index + "');\" id='db_box_" + index + "'></td>";
@@ -991,6 +999,14 @@ function buildProducts(data)
         html += "<tr>";
         html += "<td class='td-top su-sp-bottom'><span>Price: </span></td>";
         html += "<td class='su-sp-bottom'>$" + price + "</td>";
+        html += "</tr>";
+        html += "</table>";
+        html += "<table class='cum-up1'>";
+        html += "<tr class='cum-up1'>";
+        html += "<td class='cum-up1'><i class='";
+        html += v_class;
+        html += "'></i><td>";
+        html += "<td class='cum-up1'>Price Varies<td>";
         html += "</tr>";
         html += "</table>";
         html += "</td>";
@@ -2466,10 +2482,12 @@ function buildProductEditor(mode, index)
     var button      = null;
     var header      = null;
     var action      = null;
+    var varies      = "False";
     var name        = "";
     var description = "";
     var price       = "0";
     var m_id        = "";
+    var v_check     = "<input type='checkbox' id='vary_box' onClick=\"javascript: suCheckbox('#vary_box', '#m_varies');\">";
     var action_url = $("#action_url").val();
     mode            = Number(mode);
     index           = String(index);
@@ -2488,6 +2506,13 @@ function buildProductEditor(mode, index)
         description = $("#m_description_" + index).val();
         price       = $("#m_price_" + index).val();
         m_id        = $("#m_id_" + index).val();
+        m_varies    = $("#m_varies_" + index).val();
+
+        if (m_varies === "True")
+        {
+            varies = "True";
+            v_check = "<input type='checkbox' id='vary_box' onClick=\"javascript: suCheckbox('#vary_box', '#f_varies');\" checked>";
+        }
     }
     html += "<div class='su-center su-width35'>";
     html += "<div class='su-general'>";
@@ -2496,6 +2521,7 @@ function buildProductEditor(mode, index)
     html += "<input type='hidden' name='target_model' id='target_model' value='product'>";
     html += "<input type='hidden' name='target_action' id='target_action' value='" + action + "'>";
     html += "<input type='hidden' name='target_id' id='target_id' value='" + m_id + "'>";
+    html += "<input type='hidden' name='f_varies' id='f_varies' value='" + varies + "'>";
     html += "<h3><i class='fas fa-spray-can'></i> <span id='su-pop-header'>" + header + "</span></h3>";
     html += "<input type='text' name='name' id='name' placeholder='Product' value='" + name + "'>";
     html += "<div class='su-textarea-sm'>";
@@ -2503,6 +2529,10 @@ function buildProductEditor(mode, index)
     html += "</div>";
     html += "<div class='su-number-input'>";
     html += "Price:  <input type='number' name='price' id='price' value='" + price + "' max='9999' min='0' oninput=\"javascript: inputInteger('4', '#price');\">";
+    html += "</div>";
+    html += "<div class='vary_style'>";
+    html += v_check;
+    html += "<div class='vary_p'>Price Varies</div>";
     html += "</div>";
     html += "<div class='su-general-btns'>";
     html += "<button type='button' onClick=\"javascript: validateSUModel('product');\">" + button + "</button>";
@@ -5945,23 +5975,123 @@ function showRegistrationSuccessMessage()
     generateErrorWindow(m);
 }
 
+$( window ).on( "load", initialize);
+
 $(document).ready(function() {
     $("#a0").click(function() {
-        window.location.href = "/home"; 
+        $("#btn0").addClass("selected-nav-item");
+        $("#master-content").fadeOut(500, function() {
+            window.location.href = "/home"; 
+        });
     });
     $("#a1").click(function() {
-        window.location.href = "/about"; 
+        $("#btn1").addClass("selected-nav-item");
+        $("#master-content").fadeOut(500, function() {
+            window.location.href = "/about"; 
+        });
     });
     $("#a2").click(function() {
-        window.location.href = "/gallery"; 
+        $("#btn2").addClass("selected-nav-item");
+        $("#master-content").fadeOut(500, function() {
+            window.location.href = "/gallery"; 
+        });
     });
     $("#a3").click(function() {
-        window.location.href = "/pricing"; 
+        $("#btn3").addClass("selected-nav-item");
+        $("#master-content").fadeOut(500, function() {
+            window.location.href = "/pricing";
+        });
     });
     $("#a4").click(function() {
-        window.location.href = "/blog"; 
+        $("#btn4").addClass("selected-nav-item");
+        $("#master-content").fadeOut(500, function() {
+            window.location.href = "/blog";
+        });
     });
     $("#a5").click(function() {
-        window.location.href = "/contact"; 
+        $("#btn5").addClass("selected-nav-item");
+        $("#master-content").fadeOut(500, function() {
+            window.location.href = "/contact";
+        });
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var Conclave=(function(){
+    var buArr =[],arlen;
+    return {
+        init:function(){
+            this.addCN();this.clickReg();
+        },
+        addCN:function(){
+            var i = 0;
+            var len = $("#d_size").val();
+            var buarr=["holder_bu_awayL2","holder_bu_awayL1","holder_bu_center","holder_bu_awayR1","holder_bu_awayR2"]
+            var hide_len = len - 5;
+            if (hide_len > 0)
+            {
+                for (i = 0; i < hide_len; i++)
+                {
+                    buarr.push("holder_bu_hide");
+                }
+            }
+            for(i=1;i<=buarr.length;++i){
+                $("#bu"+i).removeClass().addClass(buarr[i-1]+" holder_bu");
+                if (i > 5)
+                {
+                    $("bu"+i).removeClass().addClass(buarr[i-1]);
+                }
+            }
+        },
+        clickReg:function(){
+            $(".holder_bu").each(function(){
+                buArr.push($(this).attr('class'))
+            });
+            arlen=buArr.length;
+            for(var i=0;i<arlen;++i){
+                buArr[i]=buArr[i].replace(" holder_bu","")
+            };
+            $(".holder_bu").click(function(buid){
+                var me=this,id=this.id||buid,joId=$("#"+id),joCN=joId.attr("class").replace(" holder_bu","");
+                var cpos=buArr.indexOf(joCN),mpos=buArr.indexOf("holder_bu_center");
+                if(cpos!=mpos){
+                    tomove=cpos>mpos?arlen-cpos+mpos:mpos-cpos;
+                    while(tomove){
+                        var t=buArr.shift();
+                        buArr.push(t);
+                        for(var i=1;i<=arlen;++i){
+                            $("#bu"+i).removeClass().addClass(buArr[i-1]+" holder_bu");
+                        }
+                        --tomove;
+                    }
+                }
+            })
+        },
+        auto:function(){
+            for(i=1;i<=1;++i){
+                $(".holder_bu").delay(4000).trigger('click',"bu"+i).delay(4000);
+                console.log("called");
+            }
+        }
+    };
+})();
+
+$(document).ready(function(){
+    window['conclave']=Conclave;
+    Conclave.init();
+})

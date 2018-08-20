@@ -247,16 +247,17 @@ class Payment(db.Model):
 class Product(db.Model):
 	__tablename__ 	= "products"
 	id 				= db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-	position 		= db.Column('position', db.Integer, nullable=False)
+	varies 			= db.Column('varies', db.Boolean, default=False, nullable=False)
 	name 			= db.Column('name', db.String, nullable=False)
 	description 	= db.Column('description', db.String, nullable=False)
 	price 			= db.Column('price', db.Integer, nullable=False)
 
-	def __init__(self, name, description, price):
+	def __init__(self, name, description, price, varies):
 		self.name 			= name
 		self.description 	= description
 		self.price 			= price
 		self.position 		= 0
+		self.varies 		= varies
 
 	def save(self):
 		db.session.add(self)

@@ -1,14 +1,13 @@
 {% extends "global/base.html" %}
-
 {% block content %}
-<h1>Blog</h1>
-
-<ul>
-	{% for b in blogs %}
-	<li>
-		{{b.subject}} &nbsp[{{b.date}}]
-	</li>
-	{% endfor %}
-</ul>
-
+<div id="master-content" class="extended-content hidden">
+	<h1><i class="fab fa-envira"></i> Lora's Blog</h1>
+	<ul>
+		{% for b in blogs %}
+		<li>
+			{{b.subject}} &nbsp[{{b.date}}]
+		</li>
+		{% endfor %}
+	</ul>
+</div>
 {% endblock %}

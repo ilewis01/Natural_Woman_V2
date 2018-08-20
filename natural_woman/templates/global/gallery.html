@@ -1,12 +1,40 @@
 {% extends "global/base.html" %}
-
 {% block content %}
-<h1>Photo Gallery</h1>
-
-<ul>
-	{% for i in images %}
-	<img src="{{i.img_url}}">
-	{% endfor %}
-</ul>
-
+	
+<div id="master-content" class="extended-content hidden">
+	<div class="z-pos-2" id="gal-fade">
+		<div class="gal-strip"><img src="/static/images/s1.png"></div>
+		<div class="gal-strip"><img src="/static/images/s2.png"></div>
+		<div class="gal-strip"><img src="/static/images/s3.png"></div>
+		<div class="gal-strip"><img src="/static/images/s4.png"></div>
+		<div class="gal-strip"><img src="/static/images/s5.png"></div>
+		<div class="gal-strip"><img src="/static/images/s1.png"></div>
+		<div class="gal-strip"><img src="/static/images/s2.png"></div>
+		<div class="gal-strip"><img src="/static/images/s3.png"></div>
+		<div class="gal-strip"><img src="/static/images/s4.png"></div>
+		<div class="gal-strip"><img src="/static/images/s5.png"></div>
+	</div>
+	<div class="z-pos-3">
+		<input type="hidden" id="d_size" value="{{d_size}}">
+		<div class="h3-dispatch"><h1><i class="fab fa-envira"></i> Photo Gallery</h1></div>
+		<div id="wrapper_bu">
+			{% for i in images %}
+			<div id="{{i.query}}" class="gallery-item">
+				<img src="{{i.url}}">
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-36251023-1']);
+	_gaq.push(['_setDomainName', 'jqueryscript.net']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</div>
 {% endblock %}

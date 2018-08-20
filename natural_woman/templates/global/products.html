@@ -1,14 +1,26 @@
 {% extends "global/base.html" %}
-
 {% block content %}
-<h1>Products and Services</h1>
-
-<ul>
-	{% for p in products %}
-	<li>
-		{{p.name}} &nbsp${{p.price}}
-	</li>
-	{% endfor %}
-</ul>
-
+<div id='master-content' class="extended-content hidden">
+	<input type="hidden" id="d_size" value="{{d_size}}">
+	<!--<div class="z-pos-3"><h1><i class="fab fa-envira"></i> Products and Services</h1></div>-->
+	<div class="description-wrapper hidden" id="description-loader"></div>
+	<div class="z-pos-2">
+		<div class="main-product-scroller">
+			<ul>
+				{% for p in products %}
+				<li class="{{p.class}}">
+					<input type="hidden" id="description_{{p.index}}" value="{{p.description}}">
+					<div class="product-item-main" id="product_{{p.index}}" onmouseenter="javascript: productEnter('{{p.index}}');" onmouseleave="javascript: productExit('{{p.index}}');">
+						<h4 id="h4_{{p.index}}">{{p.name}}</h4>
+						<div class="wallet">
+							<div class="wp1 preserve-center"><div class="grad-price"></div></div>
+							<div class="wp2"><span>$ </span><label id="price_{{p.index}}" class="transall">{{p.price}}</label></div>
+						</div>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
 {% endblock %}

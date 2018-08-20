@@ -1,8 +1,23 @@
 {% extends "global/base.html" %}
-
 {% block content %}
-<h1>About Us</h1>
-
-<div>{{about.statement}}</div>
-
+<div id="master-content" class="extended-content hidden">
+	<div class="z-pos-2">
+		<div class="about-bkgnd"></div>
+	</div>
+	<div class='z-pos-3'>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8 preserve-skew">
+					<div class="parent-skew">
+						<h1><i class="fab fa-envira"></i> About Us</h1>
+						<div class="child-skew">{{about.statement}}</div>
+						<div class="we-love">we love the natural WOMAN in you...</div>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

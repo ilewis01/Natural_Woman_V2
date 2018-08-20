@@ -6,12 +6,14 @@ from flask import render_template, redirect, request
 @app.route('/')
 def index():
 	content = fetchNavigationContent()
+	content['index'] = -1
 	content['title'] = "Natural Woman Salon"
 	return render_template("global/index.html", **content)
 
 @app.route('/home')
 def home():
 	content = fetchNavigationContent()
+	content['index'] = 0
 	content['title'] = "Natural Woman Salon"
 	return render_template("global/index.html", **content)
 
