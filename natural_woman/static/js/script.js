@@ -970,7 +970,7 @@ function buildProducts(data)
         var price       = String(data[i]['price']);
         var varies      = String(data[i]['varies']);
         var v_class     = "far fa-square";
-        
+
         if (varies === "True")
         {
             v_class = "far fa-check-square";
@@ -2487,7 +2487,7 @@ function buildProductEditor(mode, index)
     var description = "";
     var price       = "0";
     var m_id        = "";
-    var v_check     = "<input type='checkbox' id='vary_box' onClick=\"javascript: suCheckbox('#vary_box', '#m_varies');\">";
+    var v_check     = "<input type='checkbox' id='vary_box' onClick=\"javascript: suCheckbox('#vary_box', '#f_varies');\">";
     var action_url = $("#action_url").val();
     mode            = Number(mode);
     index           = String(index);
